@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bitwarden-mariadb
+spec:
+  selector:
+    matchLabels:
+      app: bitwarden-mariadb
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 0
+  template:
+    metadata:
+      labels:
+        app: bitwarden-mariadb
+    spec:
+      volumes:
+      - name: mariadb-persistent-storage
+        persistentVolumeClaim:
+          claimName: mariadb-pv-claim
+      - name: mariadb-backup-persistent-storage
+        persistentVolumeClaim:
+          claimName: mariadb-backup-pv-claim
+      containers:
+        - name: mariadb
+          image: mariadb:10.11.2
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 82
+          env:
+            - name: MARIADB_AUTO_UPGRADE
+              value: "1"
+            - name: MARIADB_DATABASE
+              value: "vaultwarden"
+            - name: MARIADB_USER
+              value: "vaultwarden"
+            - name: MARIADB_PASSWORD
+              value: "UJb638D2PmzbHH"
+            - name: MYSQL_ROOT_PASSWORD
+              value: "GWmAeK52p78vQi"
+          ports:
+            - name: mariadb
+              containerPort: 3306
+              protocol: TCP
+          volumeMounts:
+          - name: mariadb-persistent-storage
+            mountPath: /var/lib/mysql
+          resources:
+            limits:
+              cpu: 256m
+              memory: 256Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+        - name: mariadb-backup
+          image: databack/mysql-backup:dbea4c6457a3df4e7246721757a24f5bea8d4a0c
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 82
+          env:
+            - name: DB_DUMP_FREQ
+              value: "1440"
+            - name: DB_SERVER
+              value: "test"
+          resources:
+            limits:
+              cpu: 200m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          volumeMounts:
+          - name: mariadb-backup-persistent-storage
+            mountPath: /backup

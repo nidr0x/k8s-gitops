@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: freshrss
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: freshrss
+  template:
+    metadata:
+      labels:
+        app: freshrss
+    spec:
+      containers:
+        - name: freshrss
+          image: freshrss/freshrss:1.21.0-alpine
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 50m
+              memory: 150Mi
+            limits:
+              cpu: 100m
+              memory: 256Mi
+          volumeMounts:
+            - name: freshrss-data
+              mountPath: /var/www/FreshRSS/data
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          env:
+          - name: TZ
+            value: "Europe/Madrid"
+          - name: CRON_MIN
+            value: "1,31"
+      restartPolicy: Always
+      volumes:
+        - name: freshrss-data
+          persistentVolumeClaim:
+            claimName: freshrss-data-pvc

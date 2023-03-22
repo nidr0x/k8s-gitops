@@ -1,0 +1,13 @@
+agent:
+  acquisition:
+    - namespace: test
+      podName: test-*
+      program: test
+  env:
+    - name: DISABLE_ONLINE_API
+      value: "true"
+
+lapi:
+  env:
+    - name: DISABLE_ONLINE_API
+      value: "true"

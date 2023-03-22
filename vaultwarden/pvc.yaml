@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bitwarden-data-pvc
+  annotations:
+    volumeType: local
+spec:
+  storageClassName: local-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  volumeName: bitwarden-data-pv
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mariadb-pv-claim
+  annotations:
+    volumeType: local
+spec:
+  storageClassName: local-path
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 512Mi
+  volumeName: mariadb-pv
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mariadb-backup-pv-claim
+  annotations:
+    volumeType: local
+spec:
+  storageClassName: local-path
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 512Mi
+  volumeName: mariadb-backup-pv

@@ -1,0 +1,379 @@
+---
+# Source: csi-driver-nfs/templates/rbac-csi-nfs.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: csi-nfs-controller-sa
+  namespace: default
+  labels:
+    app.kubernetes.io/instance: "release-name"
+    app.kubernetes.io/managed-by: "Helm"
+    app.kubernetes.io/name: "csi-driver-nfs"
+    app.kubernetes.io/version: "v4.2.0"
+    helm.sh/chart: "csi-driver-nfs-v4.2.0"
+---
+# Source: csi-driver-nfs/templates/rbac-csi-nfs.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: csi-nfs-node-sa
+  namespace: default
+  labels:
+    app.kubernetes.io/instance: "release-name"
+    app.kubernetes.io/managed-by: "Helm"
+    app.kubernetes.io/name: "csi-driver-nfs"
+    app.kubernetes.io/version: "v4.2.0"
+    helm.sh/chart: "csi-driver-nfs-v4.2.0"
+---
+# Source: csi-driver-nfs/templates/rbac-csi-nfs.yaml
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: nfs-external-provisioner-role
+  labels:
+    app.kubernetes.io/instance: "release-name"
+    app.kubernetes.io/managed-by: "Helm"
+    app.kubernetes.io/name: "csi-driver-nfs"
+    app.kubernetes.io/version: "v4.2.0"
+    helm.sh/chart: "csi-driver-nfs-v4.2.0"
+rules:
+  - apiGroups: [""]
+    resources: ["persistentvolumes"]
+    verbs: ["get", "list", "watch", "create", "delete"]
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["get", "list", "watch", "update"]
+  - apiGroups: ["storage.k8s.io"]
+    resources: ["storageclasses"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["get", "list", "watch", "create", "update", "patch"]
+  - apiGroups: ["storage.k8s.io"]
+    resources: ["csinodes"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["coordination.k8s.io"]
+    resources: ["leases"]
+    verbs: ["get", "list", "watch", "create", "update", "patch"]
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get"]
+---
+# Source: csi-driver-nfs/templates/rbac-csi-nfs.yaml
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: nfs-csi-provisioner-binding
+  labels:
+    app.kubernetes.io/instance: "release-name"
+    app.kubernetes.io/managed-by: "Helm"
+    app.kubernetes.io/name: "csi-driver-nfs"
+    app.kubernetes.io/version: "v4.2.0"
+    helm.sh/chart: "csi-driver-nfs-v4.2.0"
+subjects:
+  - kind: ServiceAccount
+    name: csi-nfs-controller-sa
+    namespace: default
+roleRef:
+  kind: ClusterRole
+  name: nfs-external-provisioner-role
+  apiGroup: rbac.authorization.k8s.io
+---
+# Source: csi-driver-nfs/templates/csi-nfs-node.yaml
+kind: DaemonSet
+apiVersion: apps/v1
+metadata:
+  name: csi-nfs-node
+  namespace: default
+  labels:
+    app.kubernetes.io/instance: "release-name"
+    app.kubernetes.io/managed-by: "Helm"
+    app.kubernetes.io/name: "csi-driver-nfs"
+    app.kubernetes.io/version: "v4.2.0"
+    helm.sh/chart: "csi-driver-nfs-v4.2.0"
+spec:
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: csi-nfs-node
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: "release-name"
+        app.kubernetes.io/managed-by: "Helm"
+        app.kubernetes.io/name: "csi-driver-nfs"
+        app.kubernetes.io/version: "v4.2.0"
+        helm.sh/chart: "csi-driver-nfs-v4.2.0"
+        app: csi-nfs-node
+    spec:
+      hostNetwork: true # original nfs connection would be broken without hostNetwork setting
+      dnsPolicy: Default
+      serviceAccountName: csi-nfs-node-sa
+      nodeSelector:
+        kubernetes.io/os: linux
+      tolerations:
+        - operator: Exists
+      containers:
+        - name: liveness-probe
+          image: "registry.k8s.io/sig-storage/livenessprobe:v2.7.0"
+          args:
+            - --csi-address=/csi/csi.sock
+            - --probe-timeout=3s
+            - --health-port=29653
+            - --v=2
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: socket-dir
+              mountPath: /csi
+          resources:
+            limits:
+              memory: 100Mi
+            requests:
+              cpu: 10m
+              memory: 20Mi
+        - name: node-driver-registrar
+          image: "registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.5.1"
+          livenessProbe:
+            exec:
+              command:
+                - /csi-node-driver-registrar
+                - --kubelet-registration-path=$(DRIVER_REG_SOCK_PATH)
+                - --mode=kubelet-registration-probe
+            initialDelaySeconds: 30
+            timeoutSeconds: 15
+          args:
+            - --v=2
+            - --csi-address=/csi/csi.sock
+            - --kubelet-registration-path=$(DRIVER_REG_SOCK_PATH)
+          env:
+            - name: DRIVER_REG_SOCK_PATH
+              value: /var/lib/kubelet/plugins/csi-nfsplugin/csi.sock
+            - name: KUBE_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: socket-dir
+              mountPath: /csi
+            - name: registration-dir
+              mountPath: /registration
+          resources:
+            limits:
+              memory: 100Mi
+            requests:
+              cpu: 10m
+              memory: 20Mi
+        - name: nfs
+          securityContext:
+            privileged: true
+            capabilities:
+              add: ["SYS_ADMIN"]
+            allowPrivilegeEscalation: true
+          image: "registry.k8s.io/sig-storage/nfsplugin:v4.1.0"
+          args :
+            - "--v=5"
+            - "--nodeid=$(NODE_ID)"
+            - "--endpoint=$(CSI_ENDPOINT)"
+            - "--drivername=nfs.csi.k8s.io"
+            - "--mount-permissions=511"
+          env:
+            - name: NODE_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: CSI_ENDPOINT
+              value: unix:///csi/csi.sock
+          ports:
+            - containerPort: 29653
+              name: healthz
+              protocol: TCP
+          livenessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /healthz
+              port: healthz
+            initialDelaySeconds: 30
+            timeoutSeconds: 10
+            periodSeconds: 30
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: socket-dir
+              mountPath: /csi
+            - name: pods-mount-dir
+              mountPath: /var/lib/kubelet/pods
+              mountPropagation: "Bidirectional"
+          resources:
+            limits:
+              memory: 300Mi
+            requests:
+              cpu: 10m
+              memory: 20Mi
+      volumes:
+        - name: socket-dir
+          hostPath:
+            path: /var/lib/kubelet/plugins/csi-nfsplugin
+            type: DirectoryOrCreate
+        - name: pods-mount-dir
+          hostPath:
+            path: /var/lib/kubelet/pods
+            type: Directory
+        - hostPath:
+            path: /var/lib/kubelet/plugins_registry
+            type: Directory
+          name: registration-dir
+---
+# Source: csi-driver-nfs/templates/csi-nfs-controller.yaml
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: csi-nfs-controller
+  namespace: default
+  labels:
+    app.kubernetes.io/instance: "release-name"
+    app.kubernetes.io/managed-by: "Helm"
+    app.kubernetes.io/name: "csi-driver-nfs"
+    app.kubernetes.io/version: "v4.2.0"
+    helm.sh/chart: "csi-driver-nfs-v4.2.0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: csi-nfs-controller
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: "release-name"
+        app.kubernetes.io/managed-by: "Helm"
+        app.kubernetes.io/name: "csi-driver-nfs"
+        app.kubernetes.io/version: "v4.2.0"
+        helm.sh/chart: "csi-driver-nfs-v4.2.0"
+        app: csi-nfs-controller
+    spec:
+      hostNetwork: true  # controller also needs to mount nfs to create dir
+      dnsPolicy: Default
+      serviceAccountName: csi-nfs-controller-sa
+      nodeSelector:
+        kubernetes.io/os: linux
+      priorityClassName: system-cluster-critical
+      tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/master
+          operator: Exists
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/controlplane
+          operator: Exists
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/control-plane
+          operator: Exists
+      containers:
+        - name: csi-provisioner
+          image: "registry.k8s.io/sig-storage/csi-provisioner:v3.2.0"
+          args:
+            - "-v=2"
+            - "--csi-address=$(ADDRESS)"
+            - "--leader-election"
+            - "--leader-election-namespace=default"
+            - "--extra-create-metadata=true"
+          env:
+            - name: ADDRESS
+              value: /csi/csi.sock
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - mountPath: /csi
+              name: socket-dir
+          resources:
+            limits:
+              memory: 400Mi
+            requests:
+              cpu: 10m
+              memory: 20Mi
+        - name: liveness-probe
+          image: "registry.k8s.io/sig-storage/livenessprobe:v2.7.0"
+          args:
+            - --csi-address=/csi/csi.sock
+            - --probe-timeout=3s
+            - --health-port=29652
+            - --v=2
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: socket-dir
+              mountPath: /csi
+          resources:
+            limits:
+              memory: 100Mi
+            requests:
+              cpu: 10m
+              memory: 20Mi
+        - name: nfs
+          image: "registry.k8s.io/sig-storage/nfsplugin:v4.1.0"
+          securityContext:
+            privileged: true
+            capabilities:
+              add: ["SYS_ADMIN"]
+            allowPrivilegeEscalation: true
+          imagePullPolicy: IfNotPresent
+          args:
+            - "--v=5"
+            - "--nodeid=$(NODE_ID)"
+            - "--endpoint=$(CSI_ENDPOINT)"
+            - "--drivername=nfs.csi.k8s.io"
+            - "--mount-permissions=511"
+            - "--working-mount-dir=/tmp"
+          env:
+            - name: NODE_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: CSI_ENDPOINT
+              value: unix:///csi/csi.sock
+          ports:
+            - containerPort: 29652
+              name: healthz
+              protocol: TCP
+          livenessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /healthz
+              port: healthz
+            initialDelaySeconds: 30
+            timeoutSeconds: 10
+            periodSeconds: 30
+          volumeMounts:
+            - name: pods-mount-dir
+              mountPath: /var/lib/kubelet/pods
+              mountPropagation: "Bidirectional"
+            - mountPath: /csi
+              name: socket-dir
+          resources:
+            limits:
+              memory: 200Mi
+            requests:
+              cpu: 10m
+              memory: 20Mi
+      volumes:
+        - name: pods-mount-dir
+          hostPath:
+            path: /var/lib/kubelet/pods
+            type: Directory
+        - name: socket-dir
+          emptyDir: {}
+---
+# Source: csi-driver-nfs/templates/csi-nfs-driverinfo.yaml
+apiVersion: storage.k8s.io/v1
+kind: CSIDriver
+metadata:
+  name: nfs.csi.k8s.io
+spec:
+  attachRequired: false
+  volumeLifecycleModes:
+    - Persistent
+  fsGroupPolicy: File

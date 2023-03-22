@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homeassistant
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: homeassistant
+  template:
+    metadata:
+      labels:
+        app: homeassistant
+    spec:
+      containers:
+        - name: homeassistant
+          image: homeassistant/home-assistant:2023.3
+          imagePullPolicy: Always
+          securityContext:
+            privileged: false
+            allowPrivilegeEscalation: false
+          resources:
+            requests:
+              cpu: 50m
+              memory: 250Mi
+          ports:
+            - name: http
+              protocol: TCP
+              containerPort: 8123
+          volumeMounts:
+            - name: homeassistant-config
+              mountPath: /config
+          startupProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 0
+            timeoutSeconds: 1
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 30
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 0
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 30
+          readinessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 0
+            timeoutSeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 30
+#          envFrom:
+#            - secretRef:
+#                name: homeassistant-secrets
+          env:
+            - name: TZ
+              value: Europe/Madrid
+      volumes:
+        - name: homeassistant-config
+          persistentVolumeClaim:
+            claimName: homeassistant-config-pvc

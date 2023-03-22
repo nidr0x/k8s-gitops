@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: bitwarden-data-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs
+  mountOptions:
+    - nfsvers=4.2
+  csi:
+    driver: nfs.csi.k8s.io
+    readOnly: false
+    volumeHandle: bitwarden-data # make sure it's a unique id in the cluster
+    volumeAttributes:
+      server: 192.168.1.10
+      share: /nfs/bitwarden

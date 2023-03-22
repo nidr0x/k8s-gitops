@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata:
+  name: bitwarden
+  labels:
+    app: bitwarden
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bitwarden
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: bitwarden
+    spec:
+      serviceAccountName: bitwarden
+      containers:
+      - name: vaultwarden-backup
+        image: bruceforce/vaultwarden-backup:1.1.0
+        env:
+         - name: TZ
+           value: ES
+         - name: DELETE_AFTER
+           value: "30"
+         - name: CRON_TIME
+           value: "5 * * * *"
+         - name: TIMESTAMP
+           value: "true"
+         - name: BACKUP_DIR
+           value: "/data/backup"
+         - name: ZIP_TYPE
+           value: "7z"
+         - name: BACKUP_KEEP_DAYS
+           value: "15"
+         - name: ZIP_PASSWORD
+           value: "UbJAjF9niCMM$8"
+         - name: BACKUP_DIR_PERMISSIONS
+           value: "770"
+         - name: PING_URL
+           valueFrom:
+            secretKeyRef:
+              name: bitwarden
+              key: PING_URL
+        volumeMounts:
+        - mountPath: /data
+          name: bitwarden-data
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 50m
+            memory: 64Mi
+      - name: bitwarden
+        image: vaultwarden/server:1.27.0-alpine
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: bitwarden
+        env:
+        - name: SMTP_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: bitwarden
+              key: emailUser
+        - name: SMTP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: bitwarden
+              key: emailPassword
+        - name: ADMIN_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: bitwarden
+              key: ADMIN_TOKEN
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 3012
+          name: ws
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /data
+          name: bitwarden-data
+        resources:
+          limits:
+            cpu: 300m
+            memory: 1Gi
+          requests:
+            cpu: 50m
+            memory: 256Mi
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 82
+      volumes:
+        - name: bitwarden-data
+          persistentVolumeClaim:
+            claimName: bitwarden-data-pvc

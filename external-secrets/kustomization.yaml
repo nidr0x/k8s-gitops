@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kube-system
+resources:
+- external-secrets.yaml
+- secretstore.yaml
+#- https://raw.githubusercontent.com/external-secrets/external-secrets/v0.7.2/deploy/crds/bundle.yaml
+- secret.yaml

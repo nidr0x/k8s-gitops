@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: uptime-kuma
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    external-dns.alpha.kubernetes.io/target: ipv4.nidr0x.win
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-oauth-auth-redirect@kubernetescrd
+spec:
+  rules:
+    - host: uptime.nidr0x.win 
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: uptime-kuma
+                port:
+                  name: http
+  tls:

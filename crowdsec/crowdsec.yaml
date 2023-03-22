@@ -1,0 +1,359 @@
+---
+# Source: crowdsec/templates/secrets.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: agent-credentials
+  labels:
+    k8s-app: crowdsec
+    type: lapi
+    version: v1
+type: Opaque
+data:
+  username: SzlReUM5YTE0T0V3dHJvY0NvMlJxRlpHaEp3b2xrWEFMUHJBNjZmSVI3Y25iWFl5
+  password: M3liY1IyZXhMSHlJM2I4SlAxdjNPRDdaNDB1eWd0UGFQVUxtemhZR0Q0UzRwSVFD
+---
+# Source: crowdsec/templates/acquis-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: acquis-configmap
+data:
+  acquis.yaml: |-
+    ---
+    filenames:
+      - /var/log/containers/traefik-*_kube-system_*.log
+    force_inotify: true
+    labels:
+      type: containerd
+      program: traefik
+---
+# Source: crowdsec/templates/lapi-persistentVolume.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: crowdsec-db-pvc
+  labels:
+    k8s-app: crowdsec
+    type: lapi
+    version: v1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: "1Gi"
+---
+# Source: crowdsec/templates/lapi-persistentVolume.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: crowdsec-config-pvc
+  labels:
+    k8s-app: crowdsec
+    type: lapi
+    version: v1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: "100Mi"
+---
+# Source: crowdsec/templates/lapi-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: crowdsec-service
+  labels:
+    app: crowdsec-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      name: lapi
+  selector:
+    k8s-app: crowdsec
+    type: lapi
+    version: v1
+---
+# Source: crowdsec/templates/agent-daemonSet.yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: crowdsec-agent
+  labels:
+    k8s-app: crowdsec
+    type: agent
+    version: v1
+spec:
+  selector:
+    matchLabels:
+      k8s-app: crowdsec
+      type: agent
+  template:
+    metadata:
+      labels:
+        k8s-app: crowdsec
+        type: agent
+        version: v1
+    spec:
+      initContainers:
+      - name: wait-for-lapi
+        image: "busybox:1.28"
+        imagePullPolicy: IfNotPresent
+        command: ['sh', '-c', "until nc crowdsec-service.crowdsec 8080; do echo waiting for lapi to start; sleep 5; done"]
+      containers:
+      - name: crowdsec-agent
+        image: "crowdsecurity/crowdsec:v1.4.5"
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: DISABLE_LOCAL_API
+            value: "true"
+          - name: DISABLE_ONLINE_API
+            value: "true"
+
+          # agent - lapi authentication, with TLS or password
+          - name: LOCAL_API_URL
+            value: http://crowdsec-service.crowdsec:8080
+          - name: AGENT_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: agent-credentials
+                key: username
+          - name: AGENT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: agent-credentials
+                key: password
+        resources:
+          limits:
+            memory: 100Mi
+          requests:
+            cpu: 150m
+            memory: 100Mi
+        
+        volumeMounts:
+          
+          
+          
+          - name: acquis-config-volume
+            mountPath: /etc/crowdsec/acquis.yaml
+            subPath: acquis.yaml
+          - name: varlog
+            mountPath: /var/log
+          - name: varlibdockercontainers
+            mountPath: /var/lib/docker/containers
+            readOnly: true
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: acquis-config-volume
+        configMap:
+          name: acquis-configmap
+      - name: varlog
+        hostPath:
+          path: /var/log
+      
+      
+      
+      - name: varlibdockercontainers
+        hostPath:
+          path: /var/lib/docker/containers
+---
+# Source: crowdsec/templates/lapi-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crowdsec-lapi
+  labels:
+    k8s-app: crowdsec
+    type: lapi
+    version: v1
+spec:
+  selector:
+    matchLabels:
+      k8s-app: crowdsec
+      type: lapi
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        k8s-app: crowdsec
+        type: lapi
+        version: v1
+    spec:
+      
+      containers:
+      - name: crowdsec-lapi
+        image: "crowdsecurity/crowdsec:v1.4.5"
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: LOCAL_API_URL
+            value: http://localhost:8080
+          - name: AGENT_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: agent-credentials
+                key: username
+          - name: AGENT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: agent-credentials
+                key: password
+          - name: DISABLE_AGENT
+            value: "true"
+          - name: INSECURE_SKIP_VERIFY
+            value: "false"
+        resources:
+          limits:
+            memory: 100Mi
+          requests:
+            cpu: 150m
+            memory: 100Mi
+        ports:
+          - name: lapi
+            containerPort: 8080
+            protocol: TCP
+        
+        command: ['sh', '-c', 'mv -n /staging/etc/crowdsec/* /etc/crowdsec_data/ && rm -rf /staging/etc/crowdsec && ln -s /etc/crowdsec_data /etc/crowdsec && ./docker_start.sh']
+        
+        volumeMounts:
+          
+          - name: crowdsec-db
+            mountPath: /var/lib/crowdsec/data
+          - name: crowdsec-config
+            mountPath: /etc/crowdsec_data
+          
+          
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: crowdsec-db
+        persistentVolumeClaim:
+          
+          claimName: crowdsec-db-pvc
+          
+      - name: crowdsec-config
+        persistentVolumeClaim:
+          
+          claimName: crowdsec-config-pvc
+---
+# Source: crowdsec/templates/acquis-configmap.yaml
+# vim: set ft=gotmpl:
+---
+# Source: crowdsec/templates/agent-configmap.yaml
+# vim: set ft=gotmpl:
+---
+# Source: crowdsec/templates/agent-configmap.yaml
+---
+---
+# Source: crowdsec/templates/agent-daemonSet.yaml
+# vim: set ft=gotmpl:
+---
+# Source: crowdsec/templates/agent-persistentVolume.yaml
+# vim: set ft=gotmpl:
+---
+# Source: crowdsec/templates/agent-service.yaml
+# vim: set ft=gotmpl:
+---
+# Source: crowdsec/templates/agent-serviceMonitor.yaml
+# vim: set ft=gotmpl:
+---
+# Source: crowdsec/templates/lapi-configmap.yaml
+# vim: set ft=gotmpl:
+---
+# Source: crowdsec/templates/lapi-configmap.yaml
+---
+---
+# Source: crowdsec/templates/lapi-deployment.yaml
+# vim: set ft=gotmpl:
+---
+# Source: crowdsec/templates/lapi-ingress.yaml
+# vim: set ft=gotmpl:
+---
+# Source: crowdsec/templates/lapi-persistentVolume.yaml
+# vim: set ft=gotmpl:
+---
+# Source: crowdsec/templates/lapi-service.yaml
+# vim: set ft=gotmpl:
+---
+# Source: crowdsec/templates/lapi-serviceMonitor.yaml
+# vim: set ft=gotmpl:
+---
+# Source: crowdsec/templates/metabase-ingress.yaml
+# vim: set ft=gotmpl:
+---
+# Source: crowdsec/templates/secrets.yaml
+# vim: set ft=gotmpl:
+---
+# Source: crowdsec/templates/tls/agent-certificate.yaml
+# vim: set ft=gotmpl:
+---
+# Source: crowdsec/templates/tls/bouncer-certificate.yaml
+# vim: set ft=gotmpl:
+---
+# Source: crowdsec/templates/tls/ca-certificate.yaml
+# vim: set ft=gotmpl:
+---
+# Source: crowdsec/templates/tls/ca-issuer.yaml
+# vim: set ft=gotmpl:
+---
+# Source: crowdsec/templates/tls/crowdsec-clusterIssuer.yaml
+# vim: set ft=gotmpl:
+---
+# Source: crowdsec/templates/tls/lapi-certificate.yaml
+# vim: set ft=gotmpl:
+---
+# Source: crowdsec/templates/tests/test_agent_up.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "crowdsec-test-agent"
+  annotations:
+    "helm.sh/hook": test
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  containers:
+  - name: "crowdsec-test-agent"
+    image: curlimages/curl
+    env:
+      - name: AGENT_USERNAME
+        valueFrom:
+          secretKeyRef:
+            name: agent-credentials
+            key: username
+      - name: AGENT_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: agent-credentials
+            key: password
+    command:
+      - /bin/sh
+      - -ec
+      - |
+        http_code=$(curl -s -o /dev/null -w "%{http_code}" http://crowdsec-service:8080/v1/watchers/login \
+        -H 'Content-Type: application/json' -d '{"machine_id": "'"$AGENT_USERNAME"'", "password":"'"$AGENT_PASSWORD"'"}'); \
+        if [ "$http_code" == "200" ]; then echo 'connection to lapi succeed' && exit 0; else echo 'failed connect to lapi' && exit 1; fi
+  restartPolicy: Never
+---
+# Source: crowdsec/templates/tests/test_lapi_up.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "crowdsec-test-lapi-up"
+  annotations:
+    "helm.sh/hook": test
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  containers:
+  - name: crowdsec-test-lapi-up
+    image: curlimages/curl
+    command:
+      - /bin/sh
+      - -ec
+      - |
+        curl -XGET http://crowdsec-service:8080/health
+  restartPolicy: Never
+

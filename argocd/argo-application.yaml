@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: adguard
+spec:
+  destination:
+    namespace: adguard
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    # Enabling Recursive Resource Detection
+    directory:
+      recurse: true
+    # Repo path
+    path: adguard/
+    # Repo URL
+    repoURL: https://github.com/nidr0x/homelab.git
+    # Branch, tag tracking
+    targetRevision: master
+  syncPolicy:
+    # Automatic sync options
+    automated:
+      prune: true
+      selfHeal: true

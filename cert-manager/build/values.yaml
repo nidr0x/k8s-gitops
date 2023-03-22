@@ -1,0 +1,26 @@
+fullnameOverride: cert-manager
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 32Mi
+
+ingressShim:
+  resources:
+    requests:
+      cpu: 10m
+      memory: 32Mi
+
+webhook:
+  enabled: true
+
+cainjector:
+  enabled: true
+  replicaCount: 1
+
+global:
+  logLevel: 2
+
+extraArgs:
+  - --dns01-recursive-nameservers-only
+  - --dns01-recursive-nameservers=8.8.8.8:53,1.1.1.1:53

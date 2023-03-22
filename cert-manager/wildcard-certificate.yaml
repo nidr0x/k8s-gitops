@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-nidr0x-win
+spec:
+  secretName: letsencrypt-prod
+  issuerRef: 
+    kind: ClusterIssuer
+    name: letsencrypt-prod
+  commonName: "*.nidr0x.win"
+  dnsNames:
+    - "nidr0x.win"
+    - "*.nidr0x.win"
