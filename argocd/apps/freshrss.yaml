@@ -8,8 +8,6 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    directory:
-      recurse: false
     path: freshrss/
     repoURL: https://github.com/nidr0x/homelab
     targetRevision: master

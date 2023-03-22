@@ -8,9 +8,6 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    # Enabling Recursive Resource Detection
-    directory:
-      recurse: false
     # Repo path
     path: gphotos-sync/
     # Repo URL
