@@ -10,8 +10,8 @@ spec:
   source:
     directory:
       recurse: false
-    path: adguardhome/
-    repoURL: https://github.com/nidr0x/homelab/argocd/apps
+    path: argocd/apps/
+    repoURL: https://github.com/nidr0x/homelab
     targetRevision: master
   syncPolicy:
     automated:
