@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gphotos-sync
+spec:
+  destination:
+    namespace: gphotos-sync
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    # Enabling Recursive Resource Detection
+    directory:
+      recurse: false
+    # Repo path
+    path: gphotos-sync/
+    # Repo URL
+    repoURL: https://github.com/nidr0x/homelab
+    # Branch, tag tracking
+    targetRevision: master
+  syncPolicy:
+    # Automatic sync options
+    automated:
+      prune: true
+      selfHeal: true

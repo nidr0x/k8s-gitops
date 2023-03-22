@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: snmp-exporter
+spec:
+  destination:
+    namespace: kube-monitoring
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    directory:
+      recurse: false
+    path: monitoring/snmp-exporter/
+    repoURL: https://github.com/nidr0x/homelab
+    targetRevision: master
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: transmission
+spec:
+  destination:
+    namespace: transmission
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    directory:
+      recurse: false
+    path: transmission/
+    repoURL: https://github.com/nidr0x/homelab
+    targetRevision: master
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
