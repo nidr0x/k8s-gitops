@@ -1,21 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: traefik-config
+  name: adguardhome
 spec:
   destination:
-    namespace: kube-system
+    namespace: adguardhome
     server: https://kubernetes.default.svc
   project: default
   source:
-    # Repo path
-    path: traefik/
-    # Repo URL
+    path: adguardhome/
     repoURL: https://github.com/nidr0x/homelab
-    # Branch, tag tracking
     targetRevision: master
   syncPolicy:
-    # Automatic sync options
     automated:
       prune: true
       selfHeal: true
