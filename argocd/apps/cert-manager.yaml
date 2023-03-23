@@ -13,6 +13,7 @@ spec:
       ref: nidr0x-homelab
     - repoURL: https://charts.jetstack.io
       targetRevision: 1.11.0
+      path: cert-manager
       helm:
         valueFiles:
           - $nidr0x-homelab/cert-manager/build/values.yaml
