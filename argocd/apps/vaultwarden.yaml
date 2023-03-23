@@ -8,7 +8,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: avaultwarden/
+    path: vaultwarden/
     repoURL: https://github.com/nidr0x/homelab
     targetRevision: master
   syncPolicy:
