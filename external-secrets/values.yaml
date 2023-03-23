@@ -5,9 +5,6 @@ resources:
     cpu: 10m
     memory: 32Mi
 
-#fullnameOverride: "external-secrets"
-#nameOverride: "external-secrets"
-
 securityContext:
   capabilities:
     drop:
