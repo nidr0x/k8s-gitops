@@ -13,7 +13,7 @@ spec:
       ref: nidr0x-homelab
     - repoURL: https://github.com/nidr0x/homelab
       targetRevision: master
-      path: kube-prometheus-stack/
+      path: monitoring/kube-prometheus-stack/
     - repoURL: https://prometheus-community.github.io/helm-charts
       targetRevision: 45.7.1
       chart: kube-prometheus-stack
