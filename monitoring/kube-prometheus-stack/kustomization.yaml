@@ -5,5 +5,4 @@ resources:
 - pv.yaml
 - ingress.yaml
 - traefik-servicemonitor.yaml
-- kube-prometheus-stack.yaml
 - namespace.yaml
