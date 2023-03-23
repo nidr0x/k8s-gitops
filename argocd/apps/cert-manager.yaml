@@ -11,6 +11,9 @@ spec:
     - repoURL: https://github.com/nidr0x/homelab
       targetRevision: master
       ref: nidr0x-homelab
+    - repoURL: https://github.com/nidr0x/homelab
+      targetRevision: master
+      path: cert-manager/
     - repoURL: https://charts.jetstack.io
       targetRevision: 1.11.0
       chart: cert-manager
