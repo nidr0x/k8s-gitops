@@ -4,6 +4,6 @@ namespace: oauth2-proxy
 
 resources:
   - oauth2-proxy.yaml 
-  - secret/secret.yaml
+  - secret.yaml
   - configmap.yaml
   - namespace.yaml
