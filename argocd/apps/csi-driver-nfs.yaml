@@ -21,7 +21,6 @@ spec:
         valueFiles:
           - $nidr0x-homelab/csi-driver-nfs/values.yaml
   syncPolicy:
-    # Automatic sync options
     syncOptions:
       - CreateNamespace=true
     automated:

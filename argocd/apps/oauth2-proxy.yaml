@@ -21,7 +21,6 @@ spec:
         valueFiles:
           - $nidr0x-homelab/oauth2-proxy/values.yaml
   syncPolicy:
-    # Automatic sync options
     syncOptions:
       - CreateNamespace=true
     automated:
