@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+spec:
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  project: default
+  sources:
+    - repoURL: https://github.com/nidr0x/homelab
+      targetRevision: master
+      ref: nidr0x-homelab
+    - repoURL: https://github.com/nidr0x/homelab
+      targetRevision: master
+      path: argocd/
+    - repoURL: https://argoproj.github.io/argo-helm
+      targetRevision: 5.27.1
+      chart: argo
+      helm:
+        valueFiles:
+          - $nidr0x-homelab/argocd/values.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
