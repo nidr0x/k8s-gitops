@@ -21,6 +21,8 @@ spec:
         valueFiles:
           - $nidr0x-homelab/cert-manager/values.yaml
   syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
     automated:
       prune: true
       selfHeal: true
