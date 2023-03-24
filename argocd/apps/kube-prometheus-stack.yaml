@@ -20,11 +20,9 @@ spec:
       targetRevision: 45.7.1
       chart: kube-prometheus-stack
       helm:
-        skipCrds: true
         valueFiles:
           - $nidr0x-homelab/monitoring/kube-prometheus-stack/values.yaml
   syncPolicy:
-    # Automatic sync options
     syncOptions:
       - CreateNamespace=true
       - Replace=true
