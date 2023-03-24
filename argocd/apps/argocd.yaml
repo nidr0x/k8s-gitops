@@ -16,7 +16,7 @@ spec:
       path: argocd/
     - repoURL: https://argoproj.github.io/argo-helm
       targetRevision: 5.27.1
-      chart: argo
+      chart: argo-cd
       helm:
         valueFiles:
           - $nidr0x-homelab/argocd/values.yaml
