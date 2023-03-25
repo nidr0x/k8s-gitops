@@ -7,10 +7,19 @@ spec:
     namespace: kube-system
     server: https://kubernetes.default.svc
   project: default
-  source:
-    path: external-dns/
-    repoURL: https://github.com/nidr0x/homelab
-    targetRevision: master
+  sources:
+    - repoURL: https://github.com/nidr0x/homelab
+      targetRevision: master
+      ref: nidr0x-homelab
+    - repoURL: https://github.com/nidr0x/homelab
+      targetRevision: master
+      path: external-dns/
+    - repoURL: https://kubernetes-sigs.github.io/external-dns/
+      targetRevision: 1.12.1
+      chart: external-dns
+      helm:
+        valueFiles:
+          - $nidr0x-homelab/external-dns/values.yaml
   syncPolicy:
     automated:
       prune: true
