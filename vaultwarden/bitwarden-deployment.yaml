@@ -21,42 +21,6 @@ spec:
     spec:
       serviceAccountName: bitwarden
       containers:
-      - name: vaultwarden-backup
-        image: bruceforce/vaultwarden-backup:1.1.0
-        env:
-         - name: TZ
-           value: ES
-         - name: DELETE_AFTER
-           value: "30"
-         - name: CRON_TIME
-           value: "5 * * * *"
-         - name: TIMESTAMP
-           value: "true"
-         - name: BACKUP_DIR
-           value: "/data/backup"
-         - name: ZIP_TYPE
-           value: "7z"
-         - name: BACKUP_KEEP_DAYS
-           value: "15"
-         - name: ZIP_PASSWORD
-           value: "UbJAjF9niCMM$8"
-         - name: BACKUP_DIR_PERMISSIONS
-           value: "770"
-         - name: PING_URL
-           valueFrom:
-            secretKeyRef:
-              name: bitwarden
-              key: PING_URL
-        volumeMounts:
-        - mountPath: /data
-          name: bitwarden-data
-        resources:
-          limits:
-            cpu: 100m
-            memory: 128Mi
-          requests:
-            cpu: 50m
-            memory: 64Mi
       - name: bitwarden
         image: vaultwarden/server:1.27.0-alpine
         imagePullPolicy: IfNotPresent
