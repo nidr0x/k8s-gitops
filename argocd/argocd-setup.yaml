@@ -14,6 +14,8 @@ spec:
     repoURL: https://github.com/nidr0x/homelab
     targetRevision: master
   syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
     automated:
       prune: true
       selfHeal: true
