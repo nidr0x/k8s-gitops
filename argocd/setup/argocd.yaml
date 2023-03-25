@@ -21,6 +21,8 @@ spec:
         valueFiles:
           - $nidr0x-homelab/argocd/values.yaml
   syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
     automated:
       prune: true
       selfHeal: true
