@@ -73,5 +73,5 @@ spec:
               cpu: 100m
               memory: 64Mi
           volumeMounts:
-          - name: mariadb-backup-persistent-storage
+          - name: bitwarden-mariadb-backup-persistent-storage
             mountPath: /backup
