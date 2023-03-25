@@ -8,6 +8,8 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
+    directory:
+      recurse: false
     path: argocd/setup/
     repoURL: https://github.com/nidr0x/homelab
     targetRevision: master

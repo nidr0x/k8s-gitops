@@ -11,8 +11,6 @@ spec:
     - repoURL: https://github.com/nidr0x/homelab
       targetRevision: master
       ref: nidr0x-homelab
-      directory:
-        recurse: false
     - repoURL: https://github.com/nidr0x/homelab
       targetRevision: master
       path: argocd/
