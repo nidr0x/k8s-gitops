@@ -9,10 +9,6 @@ configs:
     admin.enabled: 'true'
     url: https://argocd.nidr0x.win
     statusbadge.enabled: 'false'
-    dex.server:
-      admin:
-        users:
-          - nidr0x@gmail.com
     dex.config: |
       connectors:
         - config:
