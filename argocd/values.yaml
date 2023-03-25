@@ -9,6 +9,10 @@ configs:
     admin.enabled: 'true'
     url: https://argocd.nidr0x.win
     statusbadge.enabled: 'false'
+    policy.csv: |
+      g, nidr0x@gmail.com, role:admin
+    policy.default: role:none
+    scopes: '[email]'
     dex.config: |
       connectors:
         - config:
