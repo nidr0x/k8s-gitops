@@ -58,8 +58,8 @@ spec:
         - name: mariadb-backup
           image: tiredofit/db-backup:3.7.7
           securityContext:
-            runAsNonRoot: true
-            runAsUser: 82
+            #runAsNonRoot: true
+            #runAsUser: 82
           env:
             - name: DB_DUMP_FREQ
               value: "1440"
