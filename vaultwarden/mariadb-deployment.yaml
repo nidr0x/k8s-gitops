@@ -69,6 +69,12 @@ spec:
               value: "BZ"
             - name: TZ
               value: "Europe/Madrid"
+            - name: DB_TYPE
+              value: "mariadb"
+            - name: DB_USER
+              value: "vaultwarden"
+            - name: DB_PASSWORD
+              value: "UJb638D2PmzbHH"
           resources:
             limits:
               cpu: 200m
