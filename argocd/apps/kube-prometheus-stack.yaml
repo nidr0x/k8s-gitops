@@ -28,6 +28,7 @@ spec:
       - CreateNamespace=true
       - Replace=true
       - ServerSideApply=true
+      - Force=true
     automated:
       prune: true
       selfHeal: true
