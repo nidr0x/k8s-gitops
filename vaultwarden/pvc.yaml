@@ -16,7 +16,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mariadb-pv-claim
+  name: bitwarden-mariadb-pv-claim
   annotations:
     volumeType: local
 spec:
@@ -26,12 +26,12 @@ spec:
   resources:
     requests:
       storage: 512Mi
-  volumeName: mariadb-pv
+  volumeName: bitwarden-mariadb-pv
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mariadb-backup-pv-claim
+  name: bitwarden-mariadb-backup-pv-claim
   annotations:
     volumeType: local
 spec:
@@ -41,4 +41,4 @@ spec:
   resources:
     requests:
       storage: 512Mi
-  volumeName: mariadb-backup-pv
+  volumeName: bitwarden-mariadb-backup-pv

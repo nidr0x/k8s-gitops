@@ -18,12 +18,12 @@ spec:
         app: bitwarden-mariadb
     spec:
       volumes:
-      - name: mariadb-persistent-storage
+      - name: bitwarden-mariadb-persistent-storage
         persistentVolumeClaim:
-          claimName: mariadb-pv-claim
-      - name: mariadb-backup-persistent-storage
+          claimName: bitwarden-mariadb-pv-claim
+      - name: bitwarden-mariadb-backup-persistent-storage
         persistentVolumeClaim:
-          claimName: mariadb-backup-pv-claim
+          claimName: bitwarden-mariadb-backup-pv-claim
       containers:
         - name: mariadb
           image: mariadb:10.11.2
@@ -46,7 +46,7 @@ spec:
               containerPort: 3306
               protocol: TCP
           volumeMounts:
-          - name: mariadb-persistent-storage
+          - name: bitwarden-mariadb-persistent-storage
             mountPath: /var/lib/mysql
           resources:
             limits:

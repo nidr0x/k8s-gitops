@@ -19,7 +19,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mariadb-pv
+  name: bitwarden-mariadb-pv
   labels:
     type: local
 spec:
@@ -37,7 +37,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mariadb-backup-pv
+  name: bitwarden-mariadb-backup-pv
   labels:
     type: local
 spec:
