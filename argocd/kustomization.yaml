@@ -6,5 +6,4 @@ resources:
 - ingress.yaml
 - argocd-apps.yaml
 - argocd-setup.yaml
-#- argocd.yaml
 - secret.yaml
