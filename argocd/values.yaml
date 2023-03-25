@@ -11,8 +11,8 @@ configs:
     statusbadge.enabled: 'false'
     policy.csv: |
       g, nidr0x@gmail.com, role:admin
-    policy.default: role:none
-    scopes: '[email]'
+    policy.default: role:readonly
+    scopes: '[groups, email]'
     dex.config: |
       connectors:
         - config:
