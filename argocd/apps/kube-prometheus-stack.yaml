@@ -21,6 +21,7 @@ spec:
       targetRevision: 45.7.1
       chart: kube-prometheus-stack
       helm:
+        skipCrds: true
         valueFiles:
           - $nidr0x-homelab/monitoring/kube-prometheus-stack/values.yaml
   syncPolicy:
@@ -28,7 +29,6 @@ spec:
       - CreateNamespace=true
       - Replace=true
       - ServerSideApply=true
-      - Force=true
     automated:
       prune: true
       selfHeal: true
