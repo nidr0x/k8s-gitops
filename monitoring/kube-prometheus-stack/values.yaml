@@ -178,7 +178,7 @@ defaultRules:
     kubeScheduler: false
 
 namespaceOverride: kube-monitoring
-#nameOverride: ""
+nameOverride: ""
 fullnameOverride: "kubepromstack"
-#releaseOverride: ""
+releaseOverride: ""
 
