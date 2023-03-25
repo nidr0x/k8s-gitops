@@ -4,7 +4,7 @@ metadata:
   name: cloudflare-ddns
 spec:
   destination:
-    namespace: cloudflare-ddns
+    namespace: kube-system
     server: https://kubernetes.default.svc
   project: default
   source:
@@ -12,6 +12,8 @@ spec:
     repoURL: https://github.com/nidr0x/homelab
     targetRevision: master
   syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
     automated:
       prune: true
       selfHeal: true
