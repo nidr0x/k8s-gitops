@@ -64,7 +64,7 @@ spec:
             - name: DB_DUMP_FREQ
               value: "1440"
             - name: DB_SERVER
-              value: "test"
+              value: "mariadb"
             - name: COMPRESSION
               value: "BZ"
             - name: TZ
