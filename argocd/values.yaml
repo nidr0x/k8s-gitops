@@ -12,7 +12,7 @@ configs:
     admin.enabled: 'true'
     url: https://argocd.nidr0x.win
     statusbadge.enabled: 'false'
-     dex.config: |
+    dex.config: |
       connectors:
         - config:
             issuer: https://accounts.google.com
