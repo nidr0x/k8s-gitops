@@ -5,11 +5,14 @@ configs:
     # Run server without TLS
     # Traefik finishes TLS connections
     server.insecure: true
+  rbac:
+    create: true
+    policy.default: role:none
   cm:
     admin.enabled: 'true'
     url: https://argocd.nidr0x.win
     statusbadge.enabled: 'false'
-    dex.config: |
+     dex.config: |
       connectors:
         - config:
             issuer: https://accounts.google.com
