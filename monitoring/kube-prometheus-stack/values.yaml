@@ -111,7 +111,6 @@ grafana:
       disable_login_form: true
     auth.google:
       enabled: true
-      enabled: true
       allow_sign_up: true
       auto_login: false
       client_id: 672885211243-a9de98uqbpcuf0vbltap4s6qm68jcqtq.apps.googleusercontent.com
