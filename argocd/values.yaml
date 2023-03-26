@@ -18,7 +18,7 @@ configs:
       connectors:
         - config:
             issuer: https://accounts.google.com
-            clientID: $sso:dex.google.clientID
+            clientID: a9de98uqbpcuf0vbltap4s6qm68jcqtq.apps.googleusercontent.com
             clientSecret: $sso:dex.google.clientSecret
           type: oidc
           id: google
