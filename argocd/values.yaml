@@ -5,7 +5,7 @@ configs:
     # Run server without TLS
     # Traefik finishes TLS connections
     server.insecure: true
-  rbacConfig:
+  rbac:
     policy.default: ""
     scopes: '[email, group]'
     policy.csv: |
