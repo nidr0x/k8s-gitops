@@ -12,6 +12,9 @@ server:
     paths:
       - /
     tls:
+    - hosts:
+      - argocd.nidr0x.win
+      secretName: argocd-secret
 
   config:
     url: https://argocd.nidr0x.win
