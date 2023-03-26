@@ -249,7 +249,7 @@ extraObjects:
 extraVolumes:
 - name: html-template
   configMap:
-    name: oauth2-proxy-html-template
+    name: oauth2-proxy-templates
 
 extraVolumeMounts:
 - mountPath: /etc/oauth2-proxy-template
