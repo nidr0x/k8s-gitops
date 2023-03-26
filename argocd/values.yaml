@@ -9,7 +9,7 @@ configs:
     admin.enabled: 'true'
     url: https://argocd.nidr0x.win
     statusbadge.enabled: 'false'
-    policy.default: role:readonly
+    policy.default: ""
     scopes: '[email, group]'
     policy.csv: |
       g, nidr0x@gmail.com, role:admin
