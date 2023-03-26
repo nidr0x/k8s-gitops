@@ -18,8 +18,8 @@ configs:
       connectors:
         - config:
             issuer: https://accounts.google.com
-            clientID: $dex.google.clientID
-            clientSecret: $dex.google.clientSecret
+            clientID: $nidr0x-homelab-google-sso:dex.google.clientID
+            clientSecret: $nidr0x-homelab-google-sso:dex.google.clientSecret
           type: oidc
           id: google
           name: Google
