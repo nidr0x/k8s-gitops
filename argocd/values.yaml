@@ -17,6 +17,8 @@ server:
       secretName: argocd-secret
 
   config:
+    params:
+      server.insecure: true
     url: https://argocd.nidr0x.win
     admin.enabled: 'true'
     statusbadge.enabled: 'false'
