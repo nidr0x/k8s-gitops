@@ -19,6 +19,7 @@ configs:
             issuer: https://accounts.google.com
             clientID: 672885211243-a9de98uqbpcuf0vbltap4s6qm68jcqtq.apps.googleusercontent.com
             clientSecret: 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
+            adminEmail: nidr0x@gmail.com
           type: oidc
           id: google
           name: Google
