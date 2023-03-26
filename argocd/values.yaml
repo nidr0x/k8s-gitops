@@ -18,7 +18,8 @@ server:
 
   config:
     params:
-      server.insecure: true
+      server:
+        insecure: true
     url: https://argocd.nidr0x.win
     admin.enabled: 'true'
     statusbadge.enabled: 'false'
