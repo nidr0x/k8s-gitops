@@ -1,25 +1,7 @@
 fullnameOverride: argocd
 
 server:
-  ingress:
-    enabled: true
-    annotations:
-      kubernetes.io/ingress.class: traefik
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      external-dns.alpha.kubernetes.io/target: ipv4.nidr0x.win
-    hosts:
-      - argocd.nidr0x.win
-    paths:
-      - /
-    tls:
-    - hosts:
-      - argocd.nidr0x.win
-      secretName: argocd-secret
-
   config:
-    params:
-      server:
-        insecure: true
     url: https://argocd.nidr0x.win
     admin.enabled: 'true'
     statusbadge.enabled: 'false'
