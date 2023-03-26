@@ -10,14 +10,15 @@ configs:
     url: https://argocd.nidr0x.win
     statusbadge.enabled: 'false'
     policy.default: role:readonly
-    scopes: '[groups, email]'
+    scopes: '[email, group]'
+    policy.csv: |
+      g, nidr0x@gmail.com, role:admin
     dex.config: |
       connectors:
         - config:
             issuer: https://accounts.google.com
             clientID: 672885211243-a9de98uqbpcuf0vbltap4s6qm68jcqtq.apps.googleusercontent.com
             clientSecret: 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
-            adminEmail: nidr0x@gmail.com
           type: oidc
           id: google
           name: Google
