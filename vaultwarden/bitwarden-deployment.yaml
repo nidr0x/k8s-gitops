@@ -22,7 +22,7 @@ spec:
       serviceAccountName: bitwarden
       containers:
       - name: bitwarden
-        image: vaultwarden/server:1.27.0-alpine
+        image: vaultwarden/server:1.28.0-alpine
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
