@@ -1,31 +1,9 @@
 fullnameOverride: argocd
 
 server:
-  ingress:
-    enabled: true
-    annotations:
-      kubernetes.io/ingress.class: traefik
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      external-dns.alpha.kubernetes.io/target: ipv4.nidr0x.win
-    hosts:
-      - argocd.nidr0x.win
-    paths:
-      - /
-    tls:
-
-configs:
-  params:
-    # Run server without TLS
-    # Traefik finishes TLS connections
-    server.insecure: true
-  rbacConfig:
-    policy.default: ""
-    scopes: '[email, group]'
-    policy.csv: |
-      g, nidr0x@gmail.com, role:admin
-  cm:
-    admin.enabled: 'true'
+  config:
     url: https://argocd.nidr0x.win
+    admin.enabled: 'true'
     statusbadge.enabled: 'false'
     dex.config: |
       connectors:
@@ -36,6 +14,12 @@ configs:
           type: oidc
           id: google
           name: Google
+
+  rbacConfig:
+    policy.default: ""
+    scopes: '[email, group]'
+    policy.csv: |
+      g, nidr0x@gmail.com, role:admin
 
     # Adding Applications health check
     resource.customizations.health.argoproj.io_Application: |
