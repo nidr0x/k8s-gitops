@@ -26,7 +26,6 @@ configs:
 
     # Adding Applications health check
     resource.customizations.health.argoproj.io_Application: |
-      health.lua: |
         hs = {}
         hs.status = "Progressing"
         hs.message = ""
