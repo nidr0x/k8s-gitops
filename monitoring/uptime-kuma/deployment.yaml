@@ -20,7 +20,7 @@ spec:
       securityContext:
         #fsGroup: 2002
         #runAsGroup: 2002
-        runAsNonRoot: true
+        #runAsNonRoot: true
         #runAsUser: 1001
       containers:
         - name: uptime-kuma
