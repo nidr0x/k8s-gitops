@@ -3,8 +3,9 @@ fullnameOverride: argocd
 server:
   podLabels:
     app.kubernetes.io/instance: argocd
-
-
+  service:
+    annotations: # Agregar esta sección
+      prometheus.io/scrape: "true"
 
 configs:
   params:
