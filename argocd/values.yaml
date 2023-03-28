@@ -1,9 +1,5 @@
 fullnameOverride: argocd
 
-global:
-  podLabels:
-    app.kubernetes.io/instance: argocd
-
 configs:
   params:
     # Run server without TLS
