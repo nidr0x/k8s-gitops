@@ -20,8 +20,9 @@ spec:
       securityContext:
         #fsGroup: 2002
         #runAsGroup: 2002
-        #runAsNonRoot: true
-        #runAsUser: 1001
+        runAsNonRoot: true
+        allowPrivilegeEscalation: false
+          #runAsUser:
       containers:
         - name: uptime-kuma
           image: louislam/uptime-kuma:1.21.1-alpine
