@@ -1,7 +1,8 @@
 fullnameOverride: argocd
 
 server:
-  podLabels: app.kubernetes.io/instance=argocd
+  podLabels:
+    app.kubernetes.io/instance: argocd
 
 configs:
   params:
