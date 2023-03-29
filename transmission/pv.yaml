@@ -28,8 +28,6 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   storageClassName: nfs
-  mountOptions:
-    - nfsvers=4.2
   csi:
     driver: nfs.csi.k8s.io
     readOnly: false
