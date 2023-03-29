@@ -12,7 +12,7 @@ spec:
       targetRevision: master
       ref: nidr0x-homelab
     - repoURL: https://argoproj.github.io/argo-helm
-      targetRevision: 5.27.3
+      targetRevision: 5.27.4
       chart: argo-cd
       helm:
         valueFiles:
@@ -20,7 +20,6 @@ spec:
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
-      - Replace=true
     automated:
       prune: true
       selfHeal: true
