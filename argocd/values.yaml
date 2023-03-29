@@ -3,7 +3,7 @@ fullnameOverride: argocd
 server:
   ingress:
     enabled: true
-    https: true
+    https: false
 
     annotations:
       kubernetes.io/ingress.class: traefik
