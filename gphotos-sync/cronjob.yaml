@@ -16,7 +16,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: gphotos-sync
-              image: gilesknap/gphotos-sync:3.04
+              image: gilesknap/gphotos-sync:3.12
               args: ["/storage"]
               volumeMounts:
                 - name: gphotos-sync-data
