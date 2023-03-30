@@ -3,8 +3,15 @@ kind: Kustomization
 namespace: argocd
 resources:
 - namespace.yaml
-- https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-  #- ingress.yaml
+#- https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 - argocd-apps.yaml
 - argocd-setup.yaml
 - secret.yaml
+
+helmChartInflationGenerator:
+- chartName: argo-cd
+  chartRepoUrl: https://argoproj.github.io/argo-helm
+  chartVersion: 5.27.4
+  releaseName: argocd
+  releaseNamespace: argocd
+  values: values.yaml
