@@ -1,5 +1,9 @@
 fullnameOverride: argocd
 
+global:
+  additionalLabels:
+    app.kubernetes.io/instance: argocd
+
 server:
   ingress:
     enabled: true
