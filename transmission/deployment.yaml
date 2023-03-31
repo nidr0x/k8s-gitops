@@ -17,6 +17,13 @@ spec:
       labels:
         app: transmission
     spec:
+     volumes:
+      - name: transmission-config
+        persistentVolumeClaim:
+          claimName: transmission-config-pvc
+      - name: transmission-downloads
+        persistentVolumeClaim:
+          claimName: transmission-downloads-pvc
      containers:
         - name: transmission
           image: linuxserver/transmission:4.0.2
@@ -62,10 +69,4 @@ spec:
             value: "2002"
           restartPolicy: Always
           terminationGracePeriodSeconds: 30
-          volumes:
-          - name: transmission-config
-            persistentVolumeClaim:
-              claimName: transmission-config-pvc
-          - name: transmission-downloads
-            persistentVolumeClaim:
-              claimName: transmission-downloads-pvc
+
