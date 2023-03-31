@@ -17,9 +17,7 @@ spec:
       labels:
         app: transmission
     spec:
-      securityContext:
-        runAsUser: 1001
-      containers:
+     containers:
         - name: transmission
           image: linuxserver/transmission:4.0.2
           imagePullPolicy: Always
@@ -62,12 +60,12 @@ spec:
             value: "1001"
           - name: PGID
             value: "2002"
-      restartPolicy: Always
-      terminationGracePeriodSeconds: 30
-      volumes:
-        - name: transmission-config
-          persistentVolumeClaim:
-            claimName: transmission-config-pvc
-        - name: transmission-downloads
-          persistentVolumeClaim:
-            claimName: transmission-downloads-pvc
+          restartPolicy: Always
+          terminationGracePeriodSeconds: 30
+          volumes:
+          - name: transmission-config
+            persistentVolumeClaim:
+              claimName: transmission-config-pvc
+          - name: transmission-downloads
+            persistentVolumeClaim:
+              claimName: transmission-downloads-pvc
