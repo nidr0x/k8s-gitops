@@ -1,0 +1,4 @@
+reloader:
+  readOnlyRootFileSystem: true
+  
+fullnameOverride: "secret-reloader"
