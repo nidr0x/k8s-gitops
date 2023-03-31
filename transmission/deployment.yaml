@@ -67,6 +67,5 @@ spec:
             value: "1001"
           - name: PGID
             value: "2002"
-          restartPolicy: Always
           terminationGracePeriodSeconds: 30
 
