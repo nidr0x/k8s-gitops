@@ -67,5 +67,3 @@ spec:
             value: "1001"
           - name: PGID
             value: "2002"
-          terminationGracePeriodSeconds: 30
-
