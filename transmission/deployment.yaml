@@ -17,6 +17,8 @@ spec:
       labels:
         app: transmission
     spec:
+      securityContext:
+        runAsNonRoot: true
       containers:
         - name: transmission
           image: linuxserver/transmission:4.0.2
