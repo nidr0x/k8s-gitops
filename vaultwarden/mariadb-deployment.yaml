@@ -42,8 +42,11 @@ spec:
                 secretKeyRef:
                   name: bitwarden
                   key: MARIADB_DB_PASSWORD
-            - name: MYSQL_ROOT_PASSWORD
-              value: "GWmAeK52p78vQi"
+            - name: MARIADB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: bitwarden
+                  key: MARIADB_ROOT_PASSWORD
           ports:
             - name: mariadb
               containerPort: 3306
