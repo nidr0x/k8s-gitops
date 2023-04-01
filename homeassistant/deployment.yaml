@@ -65,6 +65,10 @@ spec:
           env:
             - name: TZ
               value: Europe/Madrid
+            - name: PUID
+              value: "1001"
+            - name: PGID
+              value: "2002"
       volumes:
         - name: homeassistant-config
           persistentVolumeClaim:
