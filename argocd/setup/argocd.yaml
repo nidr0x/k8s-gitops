@@ -23,4 +23,10 @@ spec:
     automated:
       prune: true
       selfHeal: true
-
+  patch: |-
+    - op: replace
+      path: /spec/generatorOptions/disableNameSuffixHash
+      value: true
+    - op: replace
+      path: /spec/generatorOptions/helmChartInflationGenerator
+      value: null
