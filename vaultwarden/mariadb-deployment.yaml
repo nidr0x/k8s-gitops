@@ -38,7 +38,10 @@ spec:
             - name: MARIADB_USER
               value: "vaultwarden"
             - name: MARIADB_PASSWORD
-              value: "UJb638D2PmzbHH"
+              valueFrom:
+                secretKeyRef:
+                  name: bitwarden
+                  key: MARIADB_DB_PASSWORD
             - name: MYSQL_ROOT_PASSWORD
               value: "GWmAeK52p78vQi"
           ports:
@@ -74,7 +77,10 @@ spec:
             - name: DB_USER
               value: "vaultwarden"
             - name: DB_PASSWORD
-              value: "UJb638D2PmzbHH"
+              valueFrom:
+                secretKeyRef:
+                  name: bitwarden
+                  key: MARIADB_DB_PASSWORD
           resources:
             limits:
               cpu: 200m
