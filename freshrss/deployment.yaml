@@ -18,7 +18,8 @@ spec:
         app: freshrss
     spec:
       securityContext:
-        runAsUser: 1001
+        runAsUser: 1000
+        runAsGroup: 1000
       containers:
         - name: freshrss
           image: linuxserver/freshrss:1.21.0
@@ -43,9 +44,9 @@ spec:
           - name: CRON_MIN
             value: "1,31"
           - name: PUID
-            value: "1001"
+            value: "1000"
           - name: PGID
-            value: "1001"
+            value: "1000"
       restartPolicy: Always
       volumes:
         - name: freshrss-data
