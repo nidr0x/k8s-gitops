@@ -17,9 +17,6 @@ spec:
       labels:
         app: freshrss
     spec:
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
       containers:
         - name: freshrss
           image: linuxserver/freshrss:1.21.0
