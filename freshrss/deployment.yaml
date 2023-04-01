@@ -43,7 +43,7 @@ spec:
           - name: PUID
             value: "1001"
           - name: PGID
-            value: "1001"
+            value: "2002"
       restartPolicy: Always
       volumes:
         - name: freshrss-data
