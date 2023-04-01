@@ -1,0 +1,8 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "username": "rosey-bot[bot]",
+  "repositories": ["nidr0x/homelab"],
+  "extends": [
+    "config:base"
+  ]
+}
