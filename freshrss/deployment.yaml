@@ -41,9 +41,9 @@ spec:
           - name: CRON_MIN
             value: "1,31"
           - name: PUID
-            value: "1000"
+            value: "1001"
           - name: PGID
-            value: "1000"
+            value: "1001"
       restartPolicy: Always
       volumes:
         - name: freshrss-data
