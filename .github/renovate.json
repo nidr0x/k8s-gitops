@@ -3,6 +3,14 @@
   "username": "rosey-bot[bot]",
   "repositories": ["nidr0x/homelab"],
   "extends": [
-    "config:base"
-  ]
+    "config:base",
+    "docker:enableMajor",
+    ":disableRateLimiting",
+    ":dependencyDashboard",
+    ":semanticCommits"
+  ],
+  "platform": "github",
+  "onboarding": false,
+  "requireConfig": "optional",
+  "dependencyDashboardTitle": "Renovate Dashboard 🤖"
 }
