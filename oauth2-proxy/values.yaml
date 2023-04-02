@@ -1,3 +1,7 @@
+securityContext:
+  enabled: true
+  runAsNonRoot: true
+
 config:
   existingSecret: oauth2-proxy
   configFile: |
@@ -302,12 +306,6 @@ readinessProbe:
   timeoutSeconds: 5
   periodSeconds: 10
   successThreshold: 1
-
-securityContext:
-  enabled: true
-  runAsNonRoot: true
-  allowPrivilegeEscalation: false
-  runAsUser: 2000
 
 httpScheme: http
 
