@@ -81,7 +81,7 @@ spec:
           securityContext:
             privileged: false
             allowPrivilegeEscalation: false
-              #runAsUser: 65534
+            runAsUser: 65534
               #runAsGroup: 1001
           ports:
               - name: dns-tcp
