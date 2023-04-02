@@ -60,11 +60,11 @@ spec:
             tcpSocket:
               port: 9091
             timeoutSeconds: 2
-          securityContext:
-            allowPrivilegeEscalation: false
-            privileged: false
-            readOnlyRootFilesystem: false
-            runAsNonRoot: true
+          #securityContext:
+           #allowPrivilegeEscalation: false
+           #privileged: false
+           #readOnlyRootFilesystem: false
+           #runAsNonRoot: true
           env:
           - name: TZ
             value: "Europe/Madrid"
