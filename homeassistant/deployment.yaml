@@ -59,12 +59,9 @@ spec:
             periodSeconds: 5
             successThreshold: 1
             failureThreshold: 30
-#          envFrom:
-#            - secretRef:
-#                name: homeassistant-secrets
           env:
             - name: TZ
-              value: Europe/Madrid
+              value: "Europe/Madrid"
             - name: PUID
               value: "1001"
             - name: PGID
