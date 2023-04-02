@@ -3,4 +3,3 @@ kind: Kustomization
 namespace: kube-system
 resources:
 - secretstore.yaml
-- secret.yaml
