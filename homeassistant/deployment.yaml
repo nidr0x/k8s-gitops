@@ -69,6 +69,10 @@ spec:
               value: "1001"
             - name: PGID
               value: "2002"
+            - name: UMASK
+              value: 007
+            - name: PACKAGES
+              value: iputils
       volumes:
         - name: homeassistant-config
           persistentVolumeClaim:
