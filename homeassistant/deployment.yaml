@@ -24,6 +24,7 @@ spec:
           securityContext:
             privileged: false
             allowPrivilegeEscalation: false
+            runAsUser: 65534
           resources:
             requests:
               cpu: 50m
