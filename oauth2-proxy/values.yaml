@@ -1,7 +1,3 @@
-securityContext:
-  enabled: true
-  runAsNonRoot: true
-
 config:
   existingSecret: oauth2-proxy
   configFile: |
@@ -258,6 +254,10 @@ extraVolumes:
 extraVolumeMounts:
 - mountPath: /etc/oauth2-proxy-template
   name: html-template
+
+securityContext:
+  enabled: true
+  runAsNonRoot: true
 
 authenticatedEmailsFile:
   enabled: false
