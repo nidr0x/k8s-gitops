@@ -1,0 +1,50 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cloudflare-ddns
+  namespace: kube-system
+spec:
+  schedule: "*/1 * * * *"
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 100
+  suspend: false
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 100
+      template:
+        spec:
+         containers:
+         - name: cloudflare-ddns
+           image: nidr0x/python-3.9-alpine-cloudflare:latest
+           imagePullPolicy: Always
+           command: ["python", "/app/cloudflare-ddns.py"]
+           securityContext:
+              runAsNonRoot: true
+              runAsUser: 82
+              allowPrivilegeEscalation: false
+              runAsGroup: 82
+           envFrom:
+           - configMapRef:
+              name: cloudflare-ddns-configmap
+           env:
+           - name: CLOUDFLARE_API_KEY
+             valueFrom:
+              secretKeyRef:
+                name: cloudflare-ddns
+                key: CLOUDFLARE_API_KEY
+           - name: CLOUDFLARE_EMAIL
+             valueFrom:
+               secretKeyRef:
+                name: cloudflare-ddns
+                key: CLOUDFLARE_EMAIL
+           volumeMounts:
+           - name: cloudflare-ddns-configmap
+             mountPath: /app
+             readOnly: true
+         volumes:
+          - name: cloudflare-ddns-configmap
+            configMap:
+              name: cloudflare-ddns-configmap
+         restartPolicy: OnFailure
