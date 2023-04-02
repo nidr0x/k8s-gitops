@@ -29,7 +29,7 @@ spec:
           image: mariadb:10.11.2
           securityContext:
             runAsNonRoot: true
-            runAsUser: 999
+            runAsUser: 82
             allowPrivilegeEscalation: false
             runAsGroup: 999
           env:
