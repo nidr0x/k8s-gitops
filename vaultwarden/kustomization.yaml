@@ -8,6 +8,6 @@ resources:
 - ingress.yaml
 - secret.yaml
 - mariadb-deployment.yaml
-- bitwarden-deployment.yaml
+- vaultwarden-deployment.yaml
 - pv.yaml
 - pvc.yaml
