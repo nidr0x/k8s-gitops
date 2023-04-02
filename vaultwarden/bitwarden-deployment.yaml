@@ -64,7 +64,6 @@ spec:
           runAsNonRoot: true
           runAsUser: 82
           allowPrivilegeEscalation: false
-          runAsNonRoot: true
       volumes:
         - name: bitwarden-data
           persistentVolumeClaim:
