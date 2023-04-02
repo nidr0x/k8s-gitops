@@ -24,6 +24,11 @@ spec:
         - name: tls-cert-secret
           secret:
             secretName: letsencrypt-prod
+      securityContext:
+        privileged: false
+        allowPrivilegeEscalation: false
+        runAsUser: 65534
+        runAsGroup: 65533
       containers:
         - name: adguardhome-sync
           imagePullPolicy: IfNotPresent
@@ -78,11 +83,6 @@ spec:
             initialDelaySeconds: 15
             failureThreshold: 10
             periodSeconds: 10
-          securityContext:
-            privileged: false
-            allowPrivilegeEscalation: false
-            runAsUser: 65534
-              #runAsGroup: 1001
           ports:
               - name: dns-tcp
                 containerPort: 53
