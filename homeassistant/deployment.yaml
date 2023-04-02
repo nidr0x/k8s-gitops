@@ -24,7 +24,6 @@ spec:
           securityContext:
             privileged: false
             allowPrivilegeEscalation: false
-            runAsUser: 65534
           resources:
             requests:
               cpu: 50m
@@ -69,8 +68,6 @@ spec:
               value: "2002"
             - name: UMASK
               value: "007"
-            - name: PACKAGES
-              value: "iputils"
       volumes:
         - name: homeassistant-config
           persistentVolumeClaim:
