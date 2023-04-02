@@ -29,9 +29,9 @@ spec:
           image: mariadb:10.11.2
           securityContext:
             runAsNonRoot: true
-            runAsUser: 82
+            runAsUser: 999
             allowPrivilegeEscalation: false
-            runAsGroup: 82
+            runAsGroup: 999
           env:
             - name: MARIADB_AUTO_UPGRADE
               value: "1"
