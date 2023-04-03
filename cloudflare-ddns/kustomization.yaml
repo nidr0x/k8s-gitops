@@ -4,9 +4,5 @@ namespace: kube-system
 resources:
   - cronjob.yaml
   - secret.yaml
-configMapGenerator:
-  - name: cloudflare-ddns-configmap
-    files:
-      - cloudflare-ddns.py
 generatorOptions:
   disableNameSuffixHash: true

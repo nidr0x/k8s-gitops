@@ -26,8 +26,6 @@ spec:
               allowPrivilegeEscalation: false
               runAsGroup: 82
            envFrom:
-           - configMapRef:
-              name: cloudflare-ddns-configmap
            env:
            - name: CLOUDFLARE_API_KEY
              valueFrom:
