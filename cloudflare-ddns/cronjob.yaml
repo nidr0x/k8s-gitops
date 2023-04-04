@@ -19,7 +19,7 @@ spec:
          - name: cloudflare-ddns
            image: nidr0x/python-3.9-alpine-cloudflare:latest
            imagePullPolicy: Always
-           command: ["python", "/app/cloudflare-ddns.py"]
+           #command: ["python", "/app/cloudflare-ddns.py"]
            securityContext:
               runAsNonRoot: true
               runAsUser: 82
