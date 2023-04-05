@@ -23,6 +23,13 @@
       ],
       "fileMatch": ["\\.yaml$", "\\.yml$"],
       "datasourceTemplate": "helm"
+    },
+    {
+      "matchStrings": [
+        "image:\\s*(?<registryUrl>[^\\/]+)\\/+(?<depName>[^:]+):(?<currentValue>[^\\s\\n\\r]*)"
+      ],
+      "fileMatch": ["\\.yaml$", "\\.yml$"],
+      "datasourceTemplate": "docker"
     }
   ]
 }
