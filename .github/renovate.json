@@ -26,10 +26,34 @@
     },
     {
       "matchStrings": [
-        "image:\\s*(?<registryUrl>[^\\/]+)\\/+(?<depName>[^:]+):(?<currentValue>[^\\s\\n\\r]*)"
+        "image:\\s*(?<registryUrl>docker.io)\\/+(?<depName>[^:]+):(?<currentValue>[^\\s\\n\\r]*)"
       ],
       "fileMatch": ["\\.yaml$", "\\.yml$"],
-      "datasourceTemplate": "docker"
+      "datasourceTemplate": "docker",
+      "docker": {
+        "hostRules": [
+          {
+            "hostName": "docker.io",
+            "allow": true
+          }
+        ]
+      }
+    }
+  ],
+  "docker": {
+    "allowDockerIo": true
+  },
+  "packageRules": [
+    {
+      "packagePatterns": ["**/*.yaml"],
+      "docker": {
+        "hostRules": [
+          {
+            "hostName": "docker.io",
+            "allow": true
+          }
+        ]
+      }
     }
   ]
 }
