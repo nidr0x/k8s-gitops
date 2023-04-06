@@ -17,6 +17,9 @@
   "argocd": {
     "fileMatch": ["\\.yaml$", "\\.yml$"]
   },
+  "kubernetes": {
+    "fileMatch": ["\\.ya?ml$"]
+  }
   "regexManagers": [
     {
       "matchStrings": [
@@ -24,13 +27,6 @@
       ],
       "fileMatch": ["\\.yaml$", "\\.yml$"],
       "datasourceTemplate": "helm"
-    },
-    {
-      "matchStrings": [
-        "image:\\s*(?<registryUrl>[^\\/]+)\\/+(?<depName>[^:]+):(?<currentValue>[^\\s\\n\\r]*)"
-      ],
-      "fileMatch": ["\\.yaml$", "\\.yml$"],
-      "datasourceTemplate": "docker"
     }
   ]
 }
