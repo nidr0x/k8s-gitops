@@ -16092,7 +16092,7 @@ spec:
       serviceAccountName: argocd-applicationset-controller
       containers:
         - name: applicationset-controller
-          image: quay.io/argoproj/argocd:v2.6.6
+          image: quay.io/argoproj/argocd:v2.6.7
           imagePullPolicy: IfNotPresent
           command:
             - entrypoint.sh
@@ -16256,7 +16256,7 @@ spec:
       serviceAccountName: argocd-notifications-controller
       containers:
         - name: notifications-controller
-          image: quay.io/argoproj/argocd:v2.6.6
+          image: quay.io/argoproj/argocd:v2.6.7
           imagePullPolicy: IfNotPresent
           command:
             - argocd-notifications
@@ -16346,7 +16346,7 @@ spec:
       serviceAccountName: argocd-repo-server
       containers:
       - name: repo-server
-        image: quay.io/argoproj/argocd:v2.6.6
+        image: quay.io/argoproj/argocd:v2.6.7
         imagePullPolicy: IfNotPresent
         command:
         - entrypoint.sh
@@ -16552,7 +16552,7 @@ spec:
         - -n
         - /usr/local/bin/argocd
         - /var/run/argocd/argocd-cmp-server
-        image: quay.io/argoproj/argocd:v2.6.6
+        image: quay.io/argoproj/argocd:v2.6.7
         imagePullPolicy: IfNotPresent
         name: copyutil
         securityContext:
@@ -16644,7 +16644,7 @@ spec:
       serviceAccountName: argocd-server
       containers:
       - name: server
-        image: quay.io/argoproj/argocd:v2.6.6
+        image: quay.io/argoproj/argocd:v2.6.7
         imagePullPolicy: IfNotPresent
         command:
         - argocd-server
@@ -17030,7 +17030,7 @@ spec:
           mountPath: /tls
       initContainers:
       - name: copyutil
-        image: quay.io/argoproj/argocd:v2.6.6
+        image: quay.io/argoproj/argocd:v2.6.7
         imagePullPolicy: IfNotPresent
         command:
         - cp
@@ -17183,7 +17183,7 @@ spec:
       - command:
         - argocd-application-controller
         - --metrics-port=8082
-        image: quay.io/argoproj/argocd:v2.6.6
+        image: quay.io/argoproj/argocd:v2.6.7
         imagePullPolicy: IfNotPresent
         name: application-controller
         env:
