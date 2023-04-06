@@ -16987,7 +16987,7 @@ spec:
       serviceAccountName: argocd-dex-server
       containers:
       - name: dex-server
-        image: ghcr.io/dexidp/dex:v2.35.3
+        image: ghcr.io/dexidp/dex:v2.36.0
         imagePullPolicy: IfNotPresent
         command:
         - /shared/argocd-dex
