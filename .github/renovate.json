@@ -40,20 +40,4 @@
       "fileMatch": ["\\.yaml$", "\\.yml$"],
       "datasourceTemplate": "docker"
     }
-  ],
-  "packageRules": [
-    {
-      "matchPackageNames": ["*"],
-      "matchFilePatterns": ["**/*.ya?ml"],
-      "docker": {
-        "hostRules": [
-          {
-            "hostName": "docker.io",
-            "allow": true
-          }
-        ]
-      }
-    }
   ]
-}
-
