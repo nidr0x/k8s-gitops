@@ -19,7 +19,7 @@
   },
   "kubernetes": {
     "fileMatch": ["\\.ya?ml$"]
-  }
+  },
   "regexManagers": [
     {
       "matchStrings": [
