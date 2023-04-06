@@ -7,21 +7,13 @@
     "docker:enableMajor",
     ":disableRateLimiting",
     ":dependencyDashboard",
-    ":semanticCommits"
+    ":semanticCommits",
+    "helpers:pinGitHubActionDigests"
   ],
   "platform": "github",
   "onboarding": false,
   "requireConfig": "optional",
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
-  "docker": {
-    "allowDockerIo": true,
-    "hostRules": [
-      {
-        "hostName": "docker.io",
-        "allow": true
-      }
-    ]
-  },
   "argocd": {
     "fileMatch": ["\\.yaml$", "\\.yml$"]
   },
@@ -35,9 +27,11 @@
     },
     {
       "matchStrings": [
-        "image:\\s*(?<registryUrl>docker.io)\\/+(?<depName>[^:]+):(?<currentValue>[^\\s\\n\\r]*)"
+        "image:\\s*(?<registryUrl>[^\\/]+)\\/+(?<depName>[^:]+):(?<currentValue>[^\\s\\n\\r]*)"
       ],
       "fileMatch": ["\\.yaml$", "\\.yml$"],
       "datasourceTemplate": "docker"
     }
   ]
+}
+
