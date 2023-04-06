@@ -18,7 +18,7 @@
     "fileMatch": ["\\.yaml$", "\\.yml$"]
   },
   "kubernetes": {
-    "fileMatch": ["\\.ya?ml$"]
+    "fileMatch": ["\\.yaml$", "\\.yml$"]
   },
   "regexManagers": [
     {
