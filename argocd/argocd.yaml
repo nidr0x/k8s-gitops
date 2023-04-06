@@ -17116,7 +17116,7 @@ spec:
       serviceAccountName: default
       containers:
       - name: redis
-        image: public.ecr.aws/docker/library/redis:7.0.7-alpine
+        image: public.ecr.aws/docker/library/redis:7.0.10-alpine
         imagePullPolicy: IfNotPresent
         args:
         - --save
