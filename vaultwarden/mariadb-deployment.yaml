@@ -64,7 +64,7 @@ spec:
               cpu: 50m
               memory: 64Mi
         - name: mariadb-backup
-          image: tiredofit/db-backup:3.8.3
+          image: tiredofit/db-backup:3.8.4
           securityContext:
             #runAsNonRoot: true
             #runAsUser: 82
