@@ -13,6 +13,13 @@ server:
     - "argocd.nidr0x.win"
     tls:
 
+dex:
+  dnsConfig:
+    nameservers:
+      - 1.1.1.1
+      - 1.0.0.1
+  dnsPolicy: None
+
 configs:
   params:
     # Run server without TLS
