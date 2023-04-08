@@ -13,7 +13,7 @@ spec:
       ref: nidr0x-homelab
     - repoURL: https://github.com/nidr0x/homelab
       targetRevision: master
-      path: node-problem-detector/
+      path: monitoring/node-problem-detector/
     - repoURL: https://charts.deliveryhero.io/
       targetRevision: 2.3.4
       chart: node-problem-detector
