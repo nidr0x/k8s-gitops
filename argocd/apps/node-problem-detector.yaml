@@ -21,6 +21,8 @@ spec:
         valueFiles:
           - $nidr0x-homelab/monitoring/node-problem-detector/values.yaml
   syncPolicy:
+    syncOptions:
+      - Replace=True
     automated:
       prune: true
       selfHeal: true
