@@ -7,6 +7,7 @@ spec:
     namespace: kube-system
     server: https://kubernetes.default.svc
   project: default
+  sources:
     - repoURL: https://github.com/nidr0x/homelab
       targetRevision: master
       ref: nidr0x-homelab
