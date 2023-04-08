@@ -7,10 +7,18 @@ spec:
     namespace: kube-system
     server: https://kubernetes.default.svc
   project: default
-  source:
-    path: monitoring/node-problem-detector
-    repoURL: https://github.com/nidr0x/homelab
-    targetRevision: master
+    - repoURL: https://github.com/nidr0x/homelab
+      targetRevision: master
+      ref: nidr0x-homelab
+    - repoURL: https://github.com/nidr0x/homelab
+      targetRevision: master
+      path: node-problem-detector/
+    - repoURL: https://charts.deliveryhero.io/
+      targetRevision: 2.3.4
+      chart: node-problem-detector
+      helm:
+        valueFiles:
+          - $nidr0x-homelab/monitoring/node-problem-detector/values.yaml
   syncPolicy:
     automated:
       prune: true
