@@ -8,7 +8,8 @@
     ":disableRateLimiting",
     ":dependencyDashboard",
     ":semanticCommits",
-    "helpers:pinGitHubActionDigests"
+    "helpers:pinGitHubActionDigests",
+    "github>nidr0x/homelab//.github/renovate/commitMessage.json"
   ],
   "platform": "github",
   "onboarding": false,
