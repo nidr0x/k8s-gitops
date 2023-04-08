@@ -8,8 +8,7 @@
     ":disableRateLimiting",
     ":dependencyDashboard",
     ":semanticCommits",
-    "helpers:pinGitHubActionDigests",
-    "github>nidr0x/homelab//.github/renovate/commitMessage.json"
+    "helpers:pinGitHubActionDigests"
   ],
   "platform": "github",
   "onboarding": false,
@@ -28,6 +27,21 @@
       ],
       "fileMatch": ["\\.yaml$", "\\.yml$"],
       "datasourceTemplate": "helm"
+    }
+  ],
+
+#Commit configuration
+  "commitMessageTopic": "{{depName}}",
+  "commitMessageExtra": "to {{newVersion}}",
+  "commitMessageSuffix": "",
+  "packageRules": [
+    {
+      "matchDatasources": ["helm"],
+      "commitMessageTopic": "chart {{depName}}"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "commitMessageTopic": "image {{depName}}"
     }
   ]
 }
