@@ -30,7 +30,6 @@
     }
   ],
 
-#Commit configuration
   "commitMessageTopic": "{{depName}}",
   "commitMessageExtra": "to {{newVersion}}",
   "commitMessageSuffix": "",
