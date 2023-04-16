@@ -17,9 +17,8 @@ spec:
         spec:
          containers:
          - name: cloudflare-ddns
-           image: ghcr.io/nidr0x/cloudflare-ddns-updater:latest 
+           image: ghcr.io/nidr0x/cloudflare-ddns-updater:latest
            imagePullPolicy: Always
-           #command: ["python", "/app/cloudflare-ddns.py"]
            securityContext:
               runAsNonRoot: true
               runAsUser: 82
