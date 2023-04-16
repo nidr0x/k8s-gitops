@@ -24,10 +24,7 @@ spec:
         - name: tls-cert-secret
           secret:
             secretName: letsencrypt-prod
-      securityContext:
-        runAsUser: 65534
-        runAsGroup: 65533
-      containers:
+    containers:
         - name: adguardhome-sync
           imagePullPolicy: IfNotPresent
           image: lscr.io/linuxserver/adguardhome-sync:0.4.14
@@ -58,6 +55,9 @@ spec:
             requests:
               cpu: 100m
               memory: 128Mi
+          securityContext:
+            runAsUser: 65534
+            runAsGroup: 65533
           livenessProbe:
             exec:
               command:
