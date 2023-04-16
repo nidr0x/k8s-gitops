@@ -24,7 +24,7 @@ spec:
         - name: tls-cert-secret
           secret:
             secretName: letsencrypt-prod
-    containers:
+      containers:
         - name: adguardhome-sync
           imagePullPolicy: IfNotPresent
           image: lscr.io/linuxserver/adguardhome-sync:0.4.14
