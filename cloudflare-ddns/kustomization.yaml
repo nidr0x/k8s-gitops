@@ -4,5 +4,3 @@ namespace: kube-system
 resources:
   - cronjob.yaml
   - secret.yaml
-generatorOptions:
-  disableNameSuffixHash: true

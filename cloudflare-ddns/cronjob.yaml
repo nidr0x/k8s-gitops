@@ -36,12 +36,4 @@ spec:
                secretKeyRef:
                 name: cloudflare-ddns
                 key: CLOUDFLARE_EMAIL
-           volumeMounts:
-           - name: cloudflare-ddns-configmap
-             mountPath: /app
-             readOnly: true
-         volumes:
-          - name: cloudflare-ddns-configmap
-            configMap:
-              name: cloudflare-ddns-configmap
          restartPolicy: OnFailure
