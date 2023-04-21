@@ -6,12 +6,12 @@ metadata:
     kubernetes.io/ingress.class: traefik
     kubernetes.io/ingress.allow-http: "false"
     cert-manager.io/cluster-issuer: letsencrypt-prod
-    external-dns.alpha.kubernetes.io/target: ipv4.nidr0x.win
+    external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
     traefik.ingress.kubernetes.io/router.middlewares: kube-system-bitwarden-buffer@kubernetescrd,kube-system-bitwarden-connection@kubernetescrd
 spec:
   rules:
-    - host: bitwarden.nidr0x.win 
+    - host: bitwarden.nidr0x.win
       http:
         paths:
           - path: /
