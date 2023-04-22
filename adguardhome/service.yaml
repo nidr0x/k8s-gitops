@@ -92,6 +92,7 @@ spec:
   externalIPs:
   - 192.168.1.11
   - 2a02:9140:9980:900:4e52:62ff:feba:f39d
+  - fe80::4e52:62ff:feba:f39
 ---
 apiVersion: v1
 kind: Service
