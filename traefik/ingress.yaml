@@ -13,12 +13,19 @@ spec:
     - host: traefik.nidr0x.win
       http:
         paths:
-          - path: /
+          - path: /dashboard
             pathType: Prefix
             backend:
               service:
-                name: traefik-dashboard
+                name: api
                 port:
-                  number: 9000
+                  name: http
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: api
+                port:
+                  name: http
   tls:
    - secretName: letsencrypt-prod
