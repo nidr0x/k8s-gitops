@@ -63,21 +63,18 @@ spec:
               command:
                 - nslookup
                 - 'google.com'
-                - '127.0.0.1'
             initialDelaySeconds: 15
           readinessProbe:
             exec:
               command:
                 - nslookup
                 - 'google.com'
-                - '127.0.0.1'
             initialDelaySeconds: 15
           startupProbe:
             exec:
               command:
                 - nslookup
                 - 'google.com'
-                - '127.0.0.1'
             initialDelaySeconds: 15
             failureThreshold: 10
             periodSeconds: 10
