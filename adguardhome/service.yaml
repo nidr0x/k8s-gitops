@@ -54,7 +54,8 @@ metadata:
     app: adguardhome
   name: dns-over-tls
 spec:
-  ipFamilyPolicy: PreferDualStack
+  #ipFamilyPolicy: PreferDualStack
+  ipFamilyPolicy: SingleStack
   type: NodePort
   ports:
   - name: dns-over-tls
@@ -77,7 +78,8 @@ metadata:
     app: adguardhome
   name: dns-tcp-udp
 spec:
-  ipFamilyPolicy: PreferDualStack
+  #ipFamilyPolicy: PreferDualStack
+  ipFamilyPolicy: SingleStack
   type: NodePort
   ports:
   - name: dns-tcp
