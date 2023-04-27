@@ -7,9 +7,7 @@ spec:
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt-prod
-  #commonName: "*.nidr0x.win"
+  commonName: "*.nidr0x.win"
   dnsNames:
+    - "nidr0x.win"
     - "*.nidr0x.win"
-  privateKey:
-    algorithm: RSA
-    size: 2048

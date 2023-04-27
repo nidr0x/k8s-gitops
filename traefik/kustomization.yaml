@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
 - middlewares.yaml
 - secret.yaml
+- traefik-tls.yaml
