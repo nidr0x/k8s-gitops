@@ -9,5 +9,5 @@ spec:
     name: letsencrypt-prod
   commonName: "*.nidr0x.win"
   dnsNames:
-    - "nidr0x.win"
-    - "*.nidr0x.win"
+  - "nidr0x.win"
+  - "*.nidr0x.win"

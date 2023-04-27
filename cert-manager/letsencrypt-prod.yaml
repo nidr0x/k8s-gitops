@@ -14,3 +14,6 @@ spec:
           apiKeySecretRef:
             name: cloudflare-api-token-secret
             key: CF_API_KEY
+      selector:
+        dnsZones:
+          - "nidr0x.win"
