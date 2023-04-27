@@ -19,7 +19,3 @@ spec:
             name: adguardhome-http
             port:
               name: http
-  tls:
-    - hosts:
-      - '*.nidr0x.win'
-      secretName: letsencrypt-prod
