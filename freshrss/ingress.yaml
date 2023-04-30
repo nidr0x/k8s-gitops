@@ -4,7 +4,8 @@ metadata:
   name: freshrss
   annotations:
     kubernetes.io/ingress.class: traefik
-    #cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/cluster-issuer-namespace: kube-system
     external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
     traefik.ingress.kubernetes.io/router.middlewares: kube-system-oauth-auth-redirect@kubernetescrd
 spec:
