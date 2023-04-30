@@ -21,6 +21,3 @@ spec:
                 port:
                   number: 80
   tls:
-    - hosts:
-      - '*.nidr0x.win'
-      secretName: letsencrypt-prod
