@@ -280,6 +280,10 @@ ingress:
     external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
   hosts:
    - sso.nidr0x.win
+  tls:
+   - secretName: letsencrypt-prod
+     hosts:
+       - '*.nidr0x.win'
 
 resources:
   limits:
