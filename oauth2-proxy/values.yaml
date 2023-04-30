@@ -281,9 +281,6 @@ ingress:
   hosts:
    - sso.nidr0x.win
   tls:
-   - secretName: letsencrypt-prod
-     hosts:
-       - '*.nidr0x.win'
 
 resources:
   limits:
