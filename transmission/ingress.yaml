@@ -20,6 +20,6 @@ spec:
                 port:
                   name: http
   tls:
-  - secretName: letsencrypt-prod
-    hosts:
-    - "*.nidr0x.win"
+    - hosts:
+      - '*.nidr0x.win'
+      secretName: letsencrypt-prod
