@@ -30,4 +30,4 @@ spec:
                   name: ws
   tls:
   - hosts:
-    - "*.nidr0x.win"
+    - "adguard.nidr0x.win"
