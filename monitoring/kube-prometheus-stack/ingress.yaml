@@ -28,6 +28,9 @@ spec:
                 port:
                   number: 9093
   tls:
+    - hosts:
+      - '*.nidr0x.win'
+      secretName: letsencrypt-prod
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -52,3 +55,6 @@ spec:
                 port:
                   number: 80
   tls:
+    - hosts:
+      - '*.nidr0x.win'
+      secretName: letsencrypt-prod
