@@ -21,5 +21,4 @@ spec:
                   name: http
   tls:
     - hosts:
-      - 'rss.nidr0x.win'
-      secretName: letsencrypt-prod
+      - '*.nidr0x.win'
