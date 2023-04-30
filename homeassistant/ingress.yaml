@@ -18,4 +18,3 @@ spec:
                 name: homeassistant
                 port:
                   name: http
-  tls:
