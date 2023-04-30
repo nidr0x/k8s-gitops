@@ -16,7 +16,7 @@ spec:
       path: kubernetes-reflector/
     - repoURL: https://emberstack.github.io/helm-charts
       targetRevision: 7.0.151
-      chart: my-reflector
+      chart: reflector
       helm:
         valueFiles:
           - $nidr0x-homelab/kubernetes-reflector/values.yaml
