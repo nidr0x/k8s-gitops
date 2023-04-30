@@ -11,3 +11,6 @@ spec:
   renewBefore: 720h # 30d before SSL will expire, renew it
   dnsNames:
   - "*.nidr0x.win"
+  secretTemplate:
+    annotations:
+      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
