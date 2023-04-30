@@ -54,7 +54,8 @@ metadata:
     app: adguardhome
   name: dns-over-tls
 spec:
-  ipFamilyPolicy: PreferDualStack
+  #ipFamilyPolicy: PreferDualStack
+  ipFamilyPolicy: SingleStack
   type: NodePort
   ports:
   - name: dns-over-tls
@@ -69,7 +70,7 @@ spec:
     app: adguardhome
   externalIPs:
   - 192.168.1.11
-  - 2a02:9140:9980:1100:4e52:62ff:feba:f39d
+  #- 2a02:9140:9980:1100:4e52:62ff:feba:f39d
 ---
 apiVersion: v1
 kind: Service
@@ -78,7 +79,7 @@ metadata:
     app: adguardhome
   name: dns-tcp-udp
 spec:
-  ipFamilyPolicy: PreferDualStack
+  ipFamilyPolicy: SingleStack
   type: NodePort
   ports:
   - name: dns-tcp
@@ -93,7 +94,7 @@ spec:
     app: adguardhome
   externalIPs:
   - 192.168.1.11
-  - 2a02:9140:9980:1100:4e52:62ff:feba:f39d
+  #- 2a02:9140:9980:1100:4e52:62ff:feba:f39d
 ---
 apiVersion: v1
 kind: Service
@@ -102,7 +103,7 @@ metadata:
     app: adguardhome
   name: dnscrypt
 spec:
-  ipFamilyPolicy: PreferDualStack
+  ipFamilyPolicy: SingleStack
   type: NodePort
   ports:
   - name: dnscrypt
@@ -117,4 +118,4 @@ spec:
     app: adguardhome
   externalIPs:
   - 192.168.1.11
-  - 2a02:9140:9980:1100:4e52:62ff:feba:f39d
+  #- 2a02:9140:9980:1100:4e52:62ff:feba:f39d
