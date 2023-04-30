@@ -20,3 +20,6 @@ spec:
                 name: argocd-server
                 port:
                   number: 80
+  tls:
+    - hosts:
+        - *.nidr0x.win
