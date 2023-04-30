@@ -17,4 +17,3 @@ spec:
       selector:
         dnsZones:
           - "*.nidr0x.win"
-          - "nidr0x.win"
