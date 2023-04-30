@@ -4,5 +4,7 @@ metadata:
   name: default
   namespace: kube-system
 spec:
+  certificates:
+    - secretName: letsencrypt-prod
   defaultCertificate:
     secretName: letsencrypt-prod
