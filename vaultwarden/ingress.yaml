@@ -29,3 +29,6 @@ spec:
                 port:
                   name: ws
   tls:
+  - secretName: letsencrypt-prod
+    hosts:
+    - "*.nidr0x.win"
