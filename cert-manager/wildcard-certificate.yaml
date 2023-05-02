@@ -7,8 +7,8 @@ spec:
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt-prod
-  duration: 2160h # 90d
-  renewBefore: 720h # 30d before SSL will expire, renew it
+  duration: 2160h0m0s # 90d
+  renewBefore: 720h0m0s # 30d before SSL will expire, renew it
   dnsNames:
   - "*.nidr0x.win"
   secretTemplate:
