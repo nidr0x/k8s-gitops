@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bitwarden-mariadb
+spec:
+  selector:
+    matchLabels:
+      app: bitwarden-mariadb
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 0
+  template:
+    metadata:
+      labels:
+        app: bitwarden-mariadb
+    spec:
+      volumes:
+      - name: bitwarden-mariadb-persistent-storage
+        persistentVolumeClaim:
+          claimName: bitwarden-mariadb-pv-claim
+      - name: bitwarden-mariadb-backup-persistent-storage
+        persistentVolumeClaim:
+          claimName: bitwarden-mariadb-backup-pv-claim
+      containers:
+        - name: mariadb
+          image: mariadb:10.11.2
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 82
+            allowPrivilegeEscalation: false
+            runAsGroup: 999
+          env:
+            - name: MARIADB_AUTO_UPGRADE
+              value: "1"
+            - name: MARIADB_DATABASE
+              value: "vaultwarden"
+            - name: MARIADB_USER
+              value: "vaultwarden"
+            - name: MARIADB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: bitwarden
+                  key: MARIADB_DB_PASSWORD
+            - name: MARIADB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: bitwarden
+                  key: MARIADB_ROOT_PASSWORD
+          ports:
+            - name: mariadb
+              containerPort: 3306
+              protocol: TCP
+          volumeMounts:
+          - name: bitwarden-mariadb-persistent-storage
+            mountPath: /var/lib/mysql
+          resources:
+            limits:
+              cpu: 256m
+              memory: 256Mi
+            requests:
+              cpu: 50m
+              memory: 64Mi
+        - name: mariadb-backup
+          image: tiredofit/db-backup:3.9.1
+          securityContext:
+            #runAsNonRoot: true
+            #runAsUser: 82
+          env:
+            - name: DB_DUMP_FREQ
+              value: "1440"
+            - name: DB_SERVER
+              value: "mariadb"
+            - name: COMPRESSION
+              value: "BZ"
+            - name: TZ
+              value: "Europe/Madrid"
+            - name: DB_TYPE
+              value: "mariadb"
+            - name: DB_USER
+              value: "vaultwarden"
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: bitwarden
+                  key: MARIADB_DB_PASSWORD
+          resources:
+            limits:
+              cpu: 200m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          volumeMounts:
+          - name: bitwarden-mariadb-backup-persistent-storage
+            mountPath: /backup

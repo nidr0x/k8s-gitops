@@ -1,0 +1,125 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adguardhome
+spec:
+  selector:
+    matchLabels:
+      app: adguardhome
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: adguardhome
+    spec:
+      volumes:
+        - name: adguardhome-data
+          persistentVolumeClaim:
+            claimName: adguardhome-pvc-data
+        - name: tls-cert-secret
+          secret:
+            secretName: letsencrypt-prod
+      containers:
+        - name: adguardhome-sync
+          imagePullPolicy: Always
+          image: lscr.io/linuxserver/adguardhome-sync:0.4.14
+          env:
+            - name: TZ
+              value: Europe/Madrid
+            - name: CONFIGFILE
+              value: /opt/adguardhome/conf/adguardhome-sync.yaml
+            - name: LOG_LEVEL
+              value: info
+          volumeMounts:
+            - name: adguardhome-data
+              mountPath: /opt/adguardhome/conf
+          resources:
+            requests:
+              memory: 32Mi
+              cpu: 30m
+            limits:
+              memory: 64Mi
+              cpu: 64m
+        - name: adguardhome
+          image: adguard/adguardhome:v0.107.29
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 200m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+          securityContext:
+            runAsUser: 65534
+            runAsGroup: 65533
+            allowPrivilegeEscalation: false
+          livenessProbe:
+            exec:
+              command:
+                - nslookup
+                - 'google.com'
+            initialDelaySeconds: 15
+          readinessProbe:
+            exec:
+              command:
+                - nslookup
+                - 'google.com'
+            initialDelaySeconds: 15
+          startupProbe:
+            exec:
+              command:
+                - nslookup
+                - 'google.com'
+            initialDelaySeconds: 15
+            failureThreshold: 10
+            periodSeconds: 10
+          ports:
+              - name: dns-tcp
+                containerPort: 53
+                protocol: TCP
+              - name: dns-udp
+                containerPort: 53
+                protocol: UDP
+              - name: http
+                containerPort: 80
+                protocol: TCP
+              - name: https
+                containerPort: 443
+                protocol: TCP
+              - name: https-udp
+                containerPort: 443
+                protocol: UDP
+              - name: admin
+                containerPort: 3000
+                protocol: TCP
+              - name: dns-over-tls
+                containerPort: 853
+                protocol: TCP
+              - name: dns-over-quic-1
+                containerPort: 784
+                protocol: UDP
+              - name: dns-over-quic-2
+                containerPort: 853
+                protocol: UDP
+              - name: dns-over-quic-3
+                containerPort: 8853
+                protocol: UDP
+              - name: dnscrypt
+                containerPort: 5443
+                protocol: TCP
+              - name: dnscrypt-udp
+                containerPort: 5443
+                protocol: UDP
+          volumeMounts:
+            - name: tls-cert-secret
+              mountPath: /certs
+            - name: adguardhome-data
+              mountPath: /opt/adguardhome/conf
+            - name: adguardhome-data
+              mountPath: /opt/adguardhome/work

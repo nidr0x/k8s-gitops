@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kubernetes-reflector
+spec:
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  project: default
+  sources:
+    - repoURL: https://github.com/nidr0x/homelab
+      targetRevision: master
+      ref: nidr0x-homelab
+    - repoURL: https://github.com/nidr0x/homelab
+      targetRevision: master
+      path: kubernetes-reflector/
+    - repoURL: https://emberstack.github.io/helm-charts
+      targetRevision: 7.0.151
+      chart: reflector
+      helm:
+        valueFiles:
+          - $nidr0x-homelab/kubernetes-reflector/values.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

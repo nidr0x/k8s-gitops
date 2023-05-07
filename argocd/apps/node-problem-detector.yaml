@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: node-problem-detector
+spec:
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  project: default
+  sources:
+    - repoURL: https://github.com/nidr0x/homelab
+      targetRevision: master
+      ref: nidr0x-homelab
+    - repoURL: https://github.com/nidr0x/homelab
+      targetRevision: master
+      path: monitoring/node-problem-detector/
+    - repoURL: https://charts.deliveryhero.io/
+      targetRevision: 2.3.4
+      chart: node-problem-detector
+      helm:
+        valueFiles:
+          - $nidr0x-homelab/monitoring/node-problem-detector/values.yaml
+  syncPolicy:
+    syncOptions:
+      - Replace=True
+    automated:
+      prune: true
+      selfHeal: true

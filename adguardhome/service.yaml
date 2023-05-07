@@ -1,0 +1,120 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: adguardhome
+  name: adguardhome-https
+spec:
+  ports:
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: https
+  - name: https-udp
+    port: 443
+    protocol: UDP
+    targetPort: https-udp
+  selector:
+    app: adguardhome
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: adguardhome
+  name: adguardhome-http
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: http
+  selector:
+    app: adguardhome
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: adguardhome
+  name: adguardhome-admin
+spec:
+  ports:
+  - name: admin
+    port: 3000
+    protocol: TCP
+    targetPort: admin
+  selector:
+    app: adguardhome
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: adguardhome
+  name: dns-over-tls
+spec:
+  ipFamilyPolicy: PreferDualStack
+  type: NodePort
+  ports:
+  - name: dns-over-tls
+    port: 853
+    protocol: TCP
+    targetPort: dns-over-tls
+  - name: dns-over-quic
+    port: 853
+    protocol: UDP
+    targetPort: dns-over-quic-2
+  selector:
+    app: adguardhome
+  externalIPs:
+  - 192.168.1.11
+  - fdce:bada::4e52:62ff:feba:f39d
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: adguardhome
+  name: dns-tcp-udp
+spec:
+  ipFamilyPolicy: PreferDualStack
+  type: NodePort
+  ports:
+  - name: dns-tcp
+    port: 53
+    protocol: TCP
+    targetPort: dns-tcp
+  - name: dns-udp
+    port: 53
+    protocol: UDP
+    targetPort: dns-udp
+  selector:
+    app: adguardhome
+  externalIPs:
+  - 192.168.1.11
+  - fdce:bada::4e52:62ff:feba:f39d
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: adguardhome
+  name: dnscrypt
+spec:
+  ipFamilyPolicy: PreferDualStack
+  type: NodePort
+  ports:
+  - name: dnscrypt
+    port: 5443
+    protocol: TCP
+    targetPort: dnscrypt
+  - name: dnscrypt-udp
+    port: 5443
+    protocol: UDP
+    targetPort: dnscrypt-udp
+  selector:
+    app: adguardhome
+  externalIPs:
+  - 192.168.1.11
+  - fdce:bada::4e52:62ff:feba:f39d

@@ -1,0 +1,18 @@
+fullnameOverride: external-secrets
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 32Mi
+
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1000
+
+extraArgs:
+  enable-configmaps-caching: true
+  enable-secrets-caching: true

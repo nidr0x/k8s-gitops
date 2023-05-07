@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snmp-exporter
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: snmp-exporter
+  template:
+    metadata:
+      labels:
+        app: snmp-exporter
+    spec:
+      securityContext:
+        #fsGroup: 2002
+        #runAsGroup: 2002
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+        - name: snmp-exporter
+          image: prom/snmp-exporter:v0.21.0
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+          ports:
+            - name: exporter
+              protocol: TCP
+              containerPort: 9116

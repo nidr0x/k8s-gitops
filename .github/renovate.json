@@ -1,0 +1,47 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "username": "rosey-bot[bot]",
+  "repositories": ["nidr0x/homelab"],
+  "extends": [
+    "config:base",
+    "docker:enableMajor",
+    ":disableRateLimiting",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "platform": "github",
+  "onboarding": false,
+  "requireConfig": "optional",
+  "dependencyDashboardTitle": "Renovate Dashboard 🤖",
+  "argocd": {
+    "fileMatch": ["\\.yaml$", "\\.yml$"]
+  },
+  "kubernetes": {
+    "fileMatch": ["\\.yaml$", "\\.yml$"]
+  },
+  "regexManagers": [
+    {
+      "matchStrings": [
+        "source:\\n.*chart: (?<depName>.*)\\n.*repoURL: (?<registryUrl>.*)\\n.*targetRevision: (?<currentValue>.*)"
+      ],
+      "fileMatch": ["\\.yaml$", "\\.yml$"],
+      "datasourceTemplate": "helm"
+    }
+  ],
+
+  "commitMessageTopic": "{{depName}}",
+  "commitMessageExtra": "to {{newVersion}}",
+  "commitMessageSuffix": "",
+  "packageRules": [
+    {
+      "matchDatasources": ["helm"],
+      "commitMessageTopic": "chart {{depName}}"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "commitMessageTopic": "image {{depName}}"
+    }
+  ]
+}
+

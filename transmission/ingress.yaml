@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: transmission
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-oauth-auth-redirect@kubernetescrd
+spec:
+  rules:
+    - host: transmission.nidr0x.win
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: transmission
+                port:
+                  name: http
+  tls:
+    - hosts:
+      - '*.nidr0x.win'
+      secretName: letsencrypt-prod
