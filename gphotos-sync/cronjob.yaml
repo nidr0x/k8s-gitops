@@ -20,7 +20,7 @@ spec:
               args: ["/storage"]
               securityContext:
                 allowPrivilegeEscalation: false
-                runAsNonRoot: true
+                #runAsNonRoot: true
               resources:
                 requests:
                   cpu: 50m
