@@ -55,6 +55,7 @@ metadata:
   name: dns-over-tls
 spec:
   ipFamilyPolicy: PreferDualStack
+  externalTrafficPolicy: Local
   type: NodePort
   ports:
   - name: dns-over-tls
@@ -79,6 +80,7 @@ metadata:
   name: dns-tcp-udp
 spec:
   ipFamilyPolicy: PreferDualStack
+  externalTrafficPolicy: Local
   type: NodePort
   ports:
   - name: dns-tcp
@@ -103,6 +105,7 @@ metadata:
   name: dnscrypt
 spec:
   ipFamilyPolicy: PreferDualStack
+  externalTrafficPolicy: Local
   type: NodePort
   ports:
   - name: dnscrypt
