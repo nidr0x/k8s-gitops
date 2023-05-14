@@ -1,0 +1,184 @@
+prometheusOperator:
+  # Relabeling job name for operator metrics
+  serviceMonitor:
+    relabelings:
+    # Replace job value
+    - sourceLabels:
+      - __address__
+      action: replace
+      targetLabel: job
+      replacement: prometheus-operator
+  # Disable creation of kubelet service
+  kubeletService:
+    enabled: false
+prometheus-node-exporter:
+  fullnameOverride: "kubepromstack-prometheus-node-exporter"
+kube-state-metrics:
+  fullnameOverride: "kubepromstack-kube-state-metrics"
+alertmanager:
+  alertmanagerSpec:
+    fullnameOverride: "kubepromstack-alertmanager"
+    # Subpath /alertmanager configuration
+    externalUrl: http://monitoring.nidr0x.win/alertmanager/
+    routePrefix: /
+    # PVC configuration
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: nfs
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 1Gi
+  # ServiceMonitor job relabel
+  serviceMonitor:
+    relabelings:
+      # Replace job value
+      - sourceLabels:
+        - __address__
+        action: replace
+        targetLabel: job
+        replacement: alertmanager
+prometheus:
+  prometheusSpec:
+    fullnameOverride: "kubepromstack-prometheus"
+    # Subpath /prometheus configuration
+    externalUrl: http://monitoring.nidr0x.win/prometheus/
+    routePrefix: /
+    # Resources request and limits
+    resources:
+      requests:
+        memory: 1Gi
+      limits:
+        memory: 1Gi
+    # PVC configuration
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: nfs
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 10Gi
+    additionalScrapeConfigs:
+      - job_name: MikroTik
+        static_configs:
+          - targets:
+            - 192.168.1.1 # mikrotik_ip
+        metrics_path: /snmp
+        params:
+          module: [mikrotik]
+        relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: snmp-exporter:9116  # The SNMP exporter's real hostname:port.
+  # ServiceMonitor job relabel
+  serviceMonitor:
+    relabelings:
+      # Replace job value
+      - sourceLabels:
+        - __address__
+        action: replace
+        targetLabel: job
+        replacement: prometheus
+grafana:
+  testFramework:
+    enabled: false
+  deploymentStrategy:
+    type: Recreate
+  persistence:
+    enabled: true
+    type: pvc
+    storageClassName: nfs
+    accessModes:
+    - ReadWriteOnce
+    size: 4Gi
+  fullnameOverride: "kubepromstack-grafana"
+  # Configuring /grafana subpath
+  grafana.ini:
+    server:
+      domain: monitoring.nidr0x.win
+      root_url: "%(protocol)s://%(domain)s:%(http_port)s/grafana/"
+      serve_from_sub_path: true
+    users:
+      allow_sign_up: false
+      auto_asign_org: true
+      auto_assign_or_role: Admin
+    auth:
+      disable_login_form: true
+    auth.google:
+      enabled: true
+      allow_sign_up: true
+      auto_login: false
+      client_id: 672885211243-a9de98uqbpcuf0vbltap4s6qm68jcqtq.apps.googleusercontent.com
+      client_secret: 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
+      scopes: https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email
+      auth_url: https://accounts.google.com/o/oauth2/auth
+      token_url: https://accounts.google.com/o/oauth2/token
+      allowed_domains: monitoring.nidr0x.win nidr0x.win
+  # Admin user password
+  #adminPassword: "inmainma"
+  # List of grafana plugins to be installed
+  plugins:
+    - grafana-piechart-panel
+  # ServiceMonitor label and job relabel
+  serviceMonitor:
+    labels:
+      release: kubepromstack
+    relabelings:
+      # Replace job value
+      - sourceLabels:
+        - __address__
+        action: replace
+        targetLabel: job
+        replacement: grafana
+  # Additional data source: Loki
+  #additionalDataSources:
+  #- name: Loki
+  #  type: loki
+  #  url: http://loki-gateway.logging.svc.cluster.local
+  sidecar:
+    dashboards:
+      searchNamespace: ALL
+# Disabling monitoring of K8s services.
+# Monitoring of K3S components will be configured out of kube-prometheus-stack
+kubelet:
+  enabled: false
+kubeApiServer:
+  enabled: false
+kubeControllerManager:
+  enabled: false
+kubeScheduler:
+  enabled: false
+kubeProxy:
+  enabled: false
+kubeEtcd:
+  enabled: false
+# Disable K8S Prometheus Rules
+# Rules for K3S components will be configured out of kube-prometheus-stack
+defaultRules:
+  create: true
+  rules:
+    etcd: false
+    k8s: false
+    kubeApiserverAvailability: false
+    kubeApiserverBurnrate: false
+    kubeApiserverHistogram: false
+    kubeApiserverSlos: false
+    kubeControllerManager: false
+    kubelet: false
+    kubeProxy: false
+    kubernetesApps: false
+    kubernetesResources: false
+    kubernetesStorage: false
+    kubernetesSystem: false
+    kubeScheduler: false
+
+namespaceOverride: kube-monitoring
+nameOverride: ""
+fullnameOverride: "kubepromstack"
+releaseOverride: ""
+

@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: bitwarden
+resources:
+- configmap.yaml
+- rbac.yaml
+- service.yaml
+- ingress.yaml
+- secret.yaml
+- mariadb-deployment.yaml
+- vaultwarden-deployment.yaml
+- pv.yaml
+- pvc.yaml

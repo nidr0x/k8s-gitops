@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: gphotos-sync
+spec:
+  schedule: "@daily"
+  concurrencyPolicy: "Forbid"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      backoffLimit: 3
+      ttlSecondsAfterFinished: 300
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: gphotos-sync
+              image: ghcr.io/gilesknap/gphotos-sync:3.1.2
+              args: ["/storage"]
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 32Mi
+                limits:
+                  cpu: 100m
+                  memory: 64Mi
+              volumeMounts:
+                - name: gphotos-sync-data
+                  mountPath: /storage
+                - name: gphotos-sync-secret
+                  mountPath: /config
+          volumes:
+            - name: gphotos-sync-data
+              persistentVolumeClaim:
+                claimName: gphotos-sync-data-pvc
+            - name: gphotos-sync-secret
+              persistentVolumeClaim:
+                claimName: gphotos-sync-secret-pvc
+

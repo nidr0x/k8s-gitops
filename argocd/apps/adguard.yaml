@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: adguardhome
+spec:
+  destination:
+    namespace: adguardhome
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: adguardhome/
+    repoURL: https://github.com/nidr0x/homelab
+    targetRevision: master
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

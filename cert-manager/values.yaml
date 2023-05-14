@@ -1,0 +1,34 @@
+fullnameOverride: cert-manager
+
+installCRDs: true
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 32Mi
+
+ingressShim:
+  resources:
+    requests:
+      cpu: 10m
+      memory: 32Mi
+
+webhook:
+  enabled: true
+
+cainjector:
+  enabled: true
+  replicaCount: 1
+
+global:
+  logLevel: 5
+
+extraArgs:
+  - --dns01-recursive-nameservers=1.1.1.1:53,9.9.9.9:53
+  - --dns01-recursive-nameservers-only
+
+podDnsPolicy: None
+podDnsConfig:
+  nameservers:
+    - 1.1.1.1
+    - 9.9.9.9
