@@ -10,7 +10,7 @@ server:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
     hosts:
-    - "argocd.nidr0x.win"
+    - "*.nidr0x.win"
     tls:
 
 dex:

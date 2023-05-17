@@ -119,8 +119,6 @@ grafana:
       auth_url: https://accounts.google.com/o/oauth2/auth
       token_url: https://accounts.google.com/o/oauth2/token
       allowed_domains: monitoring.nidr0x.win nidr0x.win
-  # Admin user password
-  #adminPassword: "inmainma"
   # List of grafana plugins to be installed
   plugins:
     - grafana-piechart-panel
