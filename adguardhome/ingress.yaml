@@ -16,9 +16,9 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: adguardhome-http
+            name: adguardhome-https
             port:
-              name: http
+              name: https
   tls:
     - hosts:
       - '*.nidr0x.win'
