@@ -5,6 +5,7 @@ metadata:
     app: adguardhome
   name: adguardhome-https
 spec:
+  ipFamilyPolicy: PreferDualStack
   ports:
   - name: https
     port: 443
@@ -24,6 +25,7 @@ metadata:
     app: adguardhome
   name: adguardhome-http
 spec:
+  ipFamilyPolicy: PreferDualStack
   ports:
   - name: http
     port: 80
@@ -39,6 +41,7 @@ metadata:
     app: adguardhome
   name: adguardhome-admin
 spec:
+  ipFamilyPolicy: PreferDualStack
   ports:
   - name: admin
     port: 3000
