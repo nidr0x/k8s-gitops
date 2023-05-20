@@ -5,6 +5,7 @@ metadata:
   labels:
     app: bitwarden
 spec:
+  ipFamilyPolicy: PreferDualStack
   ports:
   - name: http
     port: 80
@@ -25,6 +26,7 @@ metadata:
   labels:
     app: bitwarden-mariadb
 spec:
+  ipFamilyPolicy: PreferDualStack
   ports:
   - name: mariadb
     port: 3306
