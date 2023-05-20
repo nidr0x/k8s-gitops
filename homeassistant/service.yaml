@@ -5,6 +5,7 @@ metadata:
     app: homeassistant
   name: homeassistant
 spec:
+  ipFamilyPolicy: PreferDualStack
   type: ClusterIP
   ports:
     - name: http
@@ -13,4 +14,4 @@ spec:
       targetPort: http
   selector:
     app: homeassistant
- 
+
