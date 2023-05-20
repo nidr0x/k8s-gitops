@@ -6,3 +6,4 @@ resources:
 - ingress.yaml
 - traefik-servicemonitor.yaml
 - namespace.yaml
+  #- secret.yaml

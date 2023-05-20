@@ -28,14 +28,6 @@ spec:
             limits:
               cpu: 100m
               memory: 256Mi
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
           volumeMounts:
             - name: freshrss-data
               mountPath: /var/www/FreshRSS/data
