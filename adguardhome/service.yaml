@@ -6,6 +6,7 @@ metadata:
   name: adguardhome-https
 spec:
   ipFamilyPolicy: PreferDualStack
+  type: LoadBalancer
   ports:
   - name: https
     port: 443
@@ -26,6 +27,7 @@ metadata:
   name: adguardhome-http
 spec:
   ipFamilyPolicy: PreferDualStack
+  type: LoadBalancer
   ports:
   - name: http
     port: 80
