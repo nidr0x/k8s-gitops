@@ -59,7 +59,7 @@ metadata:
 spec:
   ipFamilyPolicy: PreferDualStack
   externalTrafficPolicy: Local
-  type: NodePort
+  type: LoadBalancer
   ports:
   - name: dns-over-tls
     port: 853
@@ -71,9 +71,6 @@ spec:
     targetPort: dns-over-quic-2
   selector:
     app: adguardhome
-  externalIPs:
-  - 192.168.1.11
-  - fdce:bada::4e52:62ff:feba:f39d
 ---
 apiVersion: v1
 kind: Service
@@ -84,7 +81,7 @@ metadata:
 spec:
   ipFamilyPolicy: PreferDualStack
   externalTrafficPolicy: Local
-  type: NodePort
+  type: LoadBalancer
   ports:
   - name: dns-tcp
     port: 53
@@ -96,9 +93,6 @@ spec:
     targetPort: dns-udp
   selector:
     app: adguardhome
-  externalIPs:
-  - 192.168.1.11
-  - fdce:bada::4e52:62ff:feba:f39d
 ---
 apiVersion: v1
 kind: Service
@@ -109,7 +103,7 @@ metadata:
 spec:
   ipFamilyPolicy: PreferDualStack
   externalTrafficPolicy: Local
-  type: NodePort
+  type: LoadBalancer
   ports:
   - name: dnscrypt
     port: 5443
@@ -121,6 +115,3 @@ spec:
     targetPort: dnscrypt-udp
   selector:
     app: adguardhome
-  externalIPs:
-  - 192.168.1.11
-  - fdce:bada::4e52:62ff:feba:f39d
