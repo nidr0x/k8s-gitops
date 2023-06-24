@@ -59,7 +59,7 @@ metadata:
 spec:
   ipFamilyPolicy: PreferDualStack
   externalTrafficPolicy: Local
-  type: LoadBalancer
+  #type: LoadBalancer
   ports:
   - name: dns-over-tls
     port: 853
@@ -81,7 +81,7 @@ metadata:
 spec:
   ipFamilyPolicy: PreferDualStack
   externalTrafficPolicy: Local
-  type: LoadBalancer
+  #type: LoadBalancer
   ports:
   - name: dns-tcp
     port: 53
@@ -103,7 +103,7 @@ metadata:
 spec:
   ipFamilyPolicy: PreferDualStack
   externalTrafficPolicy: Local
-  type: LoadBalancer
+  #type: LoadBalancer
   ports:
   - name: dnscrypt
     port: 5443
