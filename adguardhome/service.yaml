@@ -73,7 +73,7 @@ spec:
     app: adguardhome
   externalIPs:
   - 192.168.1.11
-  - fdce:bada::4e52:62ff:feba:f39d
+  - 2a02:9140:9980:3600:4e52:62ff:feba:f39d
 ---
 apiVersion: v1
 kind: Service
@@ -98,7 +98,7 @@ spec:
     app: adguardhome
   externalIPs:
   - 192.168.1.11
-  - fdce:bada::4e52:62ff:feba:f39d
+  - 2a02:9140:9980:3600:4e52:62ff:feba:f39d
 ---
 apiVersion: v1
 kind: Service
@@ -123,4 +123,4 @@ spec:
     app: adguardhome
   externalIPs:
   - 192.168.1.11
-  - fdce:bada::4e52:62ff:feba:f39d
+  - 2a02:9140:9980:3600:4e52:62ff:feba:f39d
