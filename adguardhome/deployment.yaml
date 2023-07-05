@@ -23,7 +23,7 @@ spec:
             claimName: adguardhome-pvc-data
         - name: tls-cert-secret
           secret:
-            secretName: letsencrypt-prod
+            secretName: zerossl-prod
       containers:
         - name: adguardhome-sync
           imagePullPolicy: Always
