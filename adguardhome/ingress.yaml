@@ -4,7 +4,7 @@ metadata:
   name: adguardhome
   annotations:
     kubernetes.io/ingress.class: traefik
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: "zerossl-prod"
     external-dns.alpha.kubernetes.io/target: ip-non-proxied.nidr0x.win
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
 spec:
