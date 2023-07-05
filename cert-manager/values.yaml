@@ -1,4 +1,5 @@
 fullnameOverride: cert-manager
+maxConcurrentChallenges: 1
 
 installCRDs: true
 

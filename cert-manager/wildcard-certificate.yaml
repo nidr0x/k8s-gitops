@@ -3,10 +3,10 @@ kind: Certificate
 metadata:
   name: wildcard-nidr0x-win
 spec:
-  secretName: letsencrypt-prod
+  secretName: zerossl-prod
   issuerRef:
     kind: ClusterIssuer
-    name: letsencrypt-prod
+    name: zerossl-prod
   duration: 2160h0m0s # 90d
   renewBefore: 720h0m0s # 30d before SSL will expire, renew it
   dnsNames:
