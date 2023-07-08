@@ -79,6 +79,8 @@ spec:
               value: "Europe/Madrid"
             - name: DB_TYPE
               value: "mariadb"
+            - name: DB_NAME
+              value: "vaultwarden"
             - name: DB_USER
               value: "vaultwarden"
             - name: DB_PASSWORD
