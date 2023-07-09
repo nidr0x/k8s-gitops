@@ -14,9 +14,6 @@ data:
   SMTP_SECURITY: "starttls"
   # nginx-ingress-controller has built in support for Websockets
   # Project: https://github.com/kubernetes/ingress-nginx
-  WEBSOCKET_ENABLED: 'true'
-  WEBSOCKET_ADDRESS: '0.0.0.0'
-  #  WEBSOCKET_PORT: '3012'
   # Where to store persistent data
   # make sure that this reflects the setting in StatefulSet, otherwise data might be lost
   DATA_FOLDER: '/data'
