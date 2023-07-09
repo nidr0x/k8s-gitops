@@ -59,7 +59,7 @@ spec:
           resources:
             limits:
               cpu: 128m
-              memory: 128Mi
+              memory: 256Mi
             requests:
               cpu: 50m
               memory: 64Mi
@@ -90,8 +90,8 @@ spec:
                   key: MARIADB_DB_PASSWORD
           resources:
             limits:
-              cpu: 250m
-              memory: 300Mi
+              cpu: 150m
+              memory: 128Mi
             requests:
               cpu: 100m
               memory: 64Mi
