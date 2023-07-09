@@ -40,4 +40,4 @@ data:
   IP_HEADER: 'CF-Connecting-IP'
   #Disable WALL due to NFS
   ENABLE_DB_WAL: 'false'
-  DATABASE_URL: 'mysql://vaultwarden:UJb638D2PmzbHH@bitwarden-mariadb/vaultwarden'
+  #DATABASE_URL: 'mysql://vaultwarden:UJb638D2PmzbHH@bitwarden-mariadb/vaultwarden'
