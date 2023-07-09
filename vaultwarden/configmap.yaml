@@ -5,7 +5,7 @@ metadata:
   name: bitwarden
   labels:
     app: bitwarden
-data: 
+data:
   # SMTP settings, see:
   # https://github.com/dani-garcia/bitwarden_rs/blob/master/README.md#smtp-configuration
   SMTP_HOST: 'smtp-relay.sendinblue.com'
@@ -16,7 +16,7 @@ data:
   # Project: https://github.com/kubernetes/ingress-nginx
   WEBSOCKET_ENABLED: 'true'
   WEBSOCKET_ADDRESS: '0.0.0.0'
-  WEBSOCKET_PORT: '3012'
+  #  WEBSOCKET_PORT: '3012'
   # Where to store persistent data
   # make sure that this reflects the setting in StatefulSet, otherwise data might be lost
   DATA_FOLDER: '/data'
