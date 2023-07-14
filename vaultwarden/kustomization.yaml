@@ -7,7 +7,6 @@ resources:
 - service.yaml
 - ingress.yaml
 - secret.yaml
-- mariadb-deployment.yaml
 - vaultwarden-deployment.yaml
 - pv.yaml
 - pvc.yaml
