@@ -15,39 +15,3 @@ spec:
   hostPath:
     path: /opt/bitwarden
     type: DirectoryOrCreate
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: bitwarden-mariadb-pv
-  labels:
-    type: local
-spec:
-  capacity:
-    storage: 512Mi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: /opt/bitwarden/mariadb
-    type: DirectoryOrCreate
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: local-path
-  volumeMode: Filesystem
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: bitwarden-mariadb-backup-pv
-  labels:
-    type: local
-spec:
-  capacity:
-    storage: 512Mi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: /opt/bitwarden/mariadb-backup
-    type: DirectoryOrCreate
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: local-path
-  volumeMode: Filesystem
