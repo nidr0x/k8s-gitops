@@ -12,33 +12,3 @@ spec:
     requests:
       storage: 1Gi
   volumeName: bitwarden-data-pv
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: bitwarden-mariadb-pv-claim
-  annotations:
-    volumeType: local
-spec:
-  storageClassName: local-path
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 512Mi
-  volumeName: bitwarden-mariadb-pv
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: bitwarden-mariadb-backup-pv-claim
-  annotations:
-    volumeType: local
-spec:
-  storageClassName: local-path
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 512Mi
-  volumeName: bitwarden-mariadb-backup-pv
