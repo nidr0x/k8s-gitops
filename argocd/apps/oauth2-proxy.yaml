@@ -15,7 +15,7 @@ spec:
       targetRevision: master
       path: oauth2-proxy/
     - repoURL: https://oauth2-proxy.github.io/manifests
-      targetRevision: 6.16.0
+      targetRevision: 6.16.1
       chart: oauth2-proxy
       helm:
         valueFiles:
