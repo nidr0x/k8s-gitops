@@ -48,6 +48,9 @@ spec:
         - name: adguardhome
           image: adguard/adguardhome:v0.107.34
           imagePullPolicy: Always
+          securityContext:
+            capabilities:
+              add: ["NET_ADMIN"]
           resources:
             limits:
               cpu: 200m
