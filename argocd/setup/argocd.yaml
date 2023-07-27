@@ -12,7 +12,7 @@ spec:
       targetRevision: master
       ref: nidr0x-homelab
     - repoURL: https://argoproj.github.io/argo-helm
-      targetRevision: 5.41.2
+      targetRevision: 5.42.0
       chart: argo-cd
       helm:
         valueFiles:
