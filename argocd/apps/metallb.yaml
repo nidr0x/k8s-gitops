@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-dns
+spec:
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  project: default
+  sources:
+    - repoURL: https://github.com/nidr0x/homelab
+      targetRevision: master
+      ref: nidr0x-homelab
+    - repoURL: https://github.com/nidr0x/homelab
+      targetRevision: master
+      path: external-dns/
+    - repoURL: https://metallb.github.io/metallb
+      targetRevision: 0.13.10
+      chart: metallb
+      helm:
+        valueFiles:
+          - $nidr0x-homelab/metallb/values.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
