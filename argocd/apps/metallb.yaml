@@ -13,7 +13,7 @@ spec:
       ref: nidr0x-homelab
     - repoURL: https://github.com/nidr0x/homelab
       targetRevision: master
-      path: external-dns/
+      path: metallb/
     - repoURL: https://metallb.github.io/metallb
       targetRevision: 0.13.10
       chart: metallb
