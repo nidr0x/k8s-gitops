@@ -46,7 +46,7 @@ spec:
               memory: 64Mi
               cpu: 64m
         - name: adguardhome
-          image: adguard/adguardhome:v0.107.35
+          image: adguard/adguardhome:v0.107.36
           imagePullPolicy: Always
           resources:
             limits:
