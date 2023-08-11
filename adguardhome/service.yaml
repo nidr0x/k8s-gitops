@@ -81,7 +81,7 @@ metadata:
 spec:
   ipFamilyPolicy: PreferDualStack
   externalTrafficPolicy: Local
-  type: NodePort
+  type: LoadBalancer
   ports:
   - name: dns-tcp
     port: 53
