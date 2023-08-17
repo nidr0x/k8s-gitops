@@ -25,7 +25,7 @@ spec:
           #runAsUser:
       containers:
         - name: uptime-kuma
-          image: louislam/uptime-kuma:1.22.1-alpine
+          image: louislam/uptime-kuma:1.23.0-alpine
           imagePullPolicy: Always
           resources:
             requests:
