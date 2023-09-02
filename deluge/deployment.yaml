@@ -27,7 +27,7 @@ spec:
      containers:
         - name: deluge
           #image: ghcr.io/linuxserver/transmission:4.0.4
-          image: ghcr.io/linuxserver/deluge:2.1.1
+          image: ghcr.io/linuxserver/deluge:18.04.1
           imagePullPolicy: Always
           resources:
             requests:
