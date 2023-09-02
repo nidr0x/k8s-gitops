@@ -38,7 +38,7 @@ spec:
           ports:
             - name: http
               protocol: TCP
-              containerPort: 9091
+              containerPort: 8112
           volumeMounts:
             - name: transmission-config
               mountPath: /config
@@ -50,7 +50,7 @@ spec:
             periodSeconds: 2
             successThreshold: 1
             tcpSocket:
-              port: 9091
+              port: 8112
             timeoutSeconds: 2
           readinessProbe:
             failureThreshold: 3
@@ -58,7 +58,7 @@ spec:
             periodSeconds: 2
             successThreshold: 2
             tcpSocket:
-              port: 9091
+              port: 8112
             timeoutSeconds: 2
           env:
           - name: TZ
