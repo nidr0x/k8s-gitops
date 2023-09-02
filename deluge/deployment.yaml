@@ -67,3 +67,5 @@ spec:
             value: "1001"
           - name: PGID
             value: "2002"
+          - name: DELUGE_LOGLEVEL
+            value: "error"
