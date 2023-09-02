@@ -68,4 +68,4 @@ spec:
           - name: PGID
             value: "2002"
           - name: DELUGE_LOGLEVEL
-            value: "error"
+            value: "debug"
