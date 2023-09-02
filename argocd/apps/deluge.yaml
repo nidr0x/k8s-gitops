@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: transmission
+  name: deluge
 spec:
   destination:
-    namespace: transmission
+    namespace: deluge
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: transmission/
+    path: deluge/
     repoURL: https://github.com/nidr0x/homelab
     targetRevision: master
   syncPolicy:
