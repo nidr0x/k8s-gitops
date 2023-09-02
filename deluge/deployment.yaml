@@ -40,9 +40,9 @@ spec:
               protocol: TCP
               containerPort: 8112
           volumeMounts:
-            - name: transmission-config
+            - name: deluge-config
               mountPath: /config
-            - name: transmission-downloads
+            - name: deluge-downloads
               mountPath: /downloads
           livenessProbe:
             failureThreshold: 3
