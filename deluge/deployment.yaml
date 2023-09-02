@@ -18,12 +18,12 @@ spec:
         app: deluge
     spec:
      volumes:
-      - name: transmission-config
+      - name: deluge-config
         persistentVolumeClaim:
-          claimName: transmission-config-pvc
-      - name: transmission-downloads
+          claimName: deluge-config-pvc
+      - name: deluge-downloads
         persistentVolumeClaim:
-          claimName: transmission-downloads-pvc
+          claimName: deluge-downloads-pvc
      containers:
         - name: deluge
           #image: ghcr.io/linuxserver/transmission:4.0.4
