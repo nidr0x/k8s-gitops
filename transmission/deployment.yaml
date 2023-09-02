@@ -26,7 +26,8 @@ spec:
           claimName: transmission-downloads-pvc
      containers:
         - name: transmission
-          image: ghcr.io/linuxserver/transmission:4.0.4
+          #image: ghcr.io/linuxserver/transmission:4.0.4
+          image: ghcr.io/linuxserver/transmission:2.1.1
           imagePullPolicy: Always
           resources:
             requests:
