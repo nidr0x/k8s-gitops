@@ -45,21 +45,13 @@ spec:
             - name: deluge-downloads
               mountPath: /downloads
           livenessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 10
-            periodSeconds: 2
-            successThreshold: 1
-            tcpSocket:
-              port: 8112
-            timeoutSeconds: 2
+            httpGet:
+              path: /
+              port: http
           readinessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 10
-            periodSeconds: 2
-            successThreshold: 2
-            tcpSocket:
-              port: 8112
-            timeoutSeconds: 2
+            httpGet:
+              path: /
+              port: http
           env:
           - name: TZ
             value: "Europe/Madrid"
