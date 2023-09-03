@@ -44,14 +44,6 @@ spec:
               mountPath: /config
             - name: deluge-downloads
               mountPath: /downloads
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
           env:
           - name: TZ
             value: "Europe/Madrid"
