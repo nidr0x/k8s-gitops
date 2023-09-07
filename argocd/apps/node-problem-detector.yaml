@@ -15,7 +15,7 @@ spec:
       targetRevision: master
       path: monitoring/node-problem-detector/
     - repoURL: https://charts.deliveryhero.io/
-      targetRevision: 2.3.8
+      targetRevision: 2.3.10
       chart: node-problem-detector
       helm:
         valueFiles:
