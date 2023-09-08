@@ -49,10 +49,9 @@ spec:
           imagePullPolicy: Always
           resources:
             limits:
-              cpu: 200m
               memory: 256Mi
             requests:
-              cpu: 100m
+              cpu: 80m
               memory: 64Mi
           securityContext:
             runAsUser: 65534
