@@ -284,7 +284,6 @@ ingress:
 
 resources:
   limits:
-    cpu: 256m
     memory: 128Mi
   requests:
     cpu: 128m

@@ -23,7 +23,6 @@ spec:
                   cpu: 50m
                   memory: 32Mi
                 limits:
-                  cpu: 100m
                   memory: 64Mi
               volumeMounts:
                 - name: gphotos-sync-data
