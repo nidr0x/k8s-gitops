@@ -85,6 +85,11 @@ prometheus:
         targetLabel: job
         replacement: prometheus
 grafana:
+  securityContext:
+    runAsGroup: 2002
+    runAsNonRoot: true
+    runAsUser: 1001
+    fsGroup: 2002
   testFramework:
     enabled: false
   deploymentStrategy:
@@ -182,8 +187,4 @@ nameOverride: ""
 fullnameOverride: "kubepromstack"
 releaseOverride: ""
 
-securityContext:
-  runAsGroup: 2002
-  runAsNonRoot: true
-  runAsUser: 1001
-  fsGroup: 2002
+
