@@ -21,6 +21,11 @@ alertmanager:
     # Subpath /alertmanager configuration
     externalUrl: http://monitoring.nidr0x.win/alertmanager/
     routePrefix: /
+    securityContext:
+      runAsGroup: 2002
+      runAsNonRoot: true
+      runAsUser: 1001
+      fsGroup: 2002
     # PVC configuration
     storage:
       volumeClaimTemplate:
@@ -45,6 +50,11 @@ prometheus:
     # Subpath /prometheus configuration
     externalUrl: http://monitoring.nidr0x.win/prometheus/
     routePrefix: /
+    securityContext:
+      runAsGroup: 2002
+      runAsNonRoot: true
+      runAsUser: 1001
+      fsGroup: 2002
     # Resources request and limits
     resources:
       requests:
