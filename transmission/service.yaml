@@ -10,7 +10,7 @@ spec:
   ports:
     - name: http
       protocol: TCP
-      port: 8112
+      port: 9091
       targetPort: http
   selector:
     app: transmission
