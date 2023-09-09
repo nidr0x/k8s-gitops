@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deluge
+  name: transmission
 spec:
   replicas: 1
   strategy:
@@ -11,23 +11,22 @@ spec:
         maxUnavailable: 1
   selector:
     matchLabels:
-      app: deluge
+      app: transmission
   template:
     metadata:
       labels:
-        app: deluge
+        app: transmission
     spec:
      volumes:
-      - name: deluge-config
+      - name: transmission-config
         persistentVolumeClaim:
-          claimName: deluge-config-pvc
-      - name: deluge-downloads
+          claimName: transmission-config-pvc
+      - name: transmission-downloads
         persistentVolumeClaim:
-          claimName: deluge-downloads-pvc
+          claimName: transmission-downloads-pvc
      containers:
-        - name: deluge
-          #image: ghcr.io/linuxserver/transmission:4.0.4
-          image: ghcr.io/linuxserver/deluge:2.1.1
+        - name: transmission
+          image: ghcr.io/linuxserver/transmission:4.0.4
           imagePullPolicy: Always
           resources:
             requests:
@@ -40,9 +39,9 @@ spec:
               protocol: TCP
               containerPort: 8112
           volumeMounts:
-            - name: deluge-config
+            - name: transmission-config
               mountPath: /config
-            - name: deluge-downloads
+            - name: transmission-downloads
               mountPath: /downloads
           env:
           - name: TZ
