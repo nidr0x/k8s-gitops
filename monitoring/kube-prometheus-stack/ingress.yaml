@@ -57,4 +57,4 @@ spec:
   tls:
     - hosts:
       - '*.nidr0x.win'
-      secretName: letsencrypt-prod
+      secretName: zerossl-prod

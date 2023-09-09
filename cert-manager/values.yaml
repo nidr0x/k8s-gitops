@@ -1,5 +1,5 @@
 fullnameOverride: cert-manager
-maxConcurrentChallenges: 1
+maxConcurrentChallenges: 2
 
 installCRDs: true
 
@@ -27,7 +27,6 @@ global:
 extraArgs:
   - --dns01-recursive-nameservers=1.1.1.1:53,9.9.9.9:53
   - --dns01-recursive-nameservers-only
-  - --max-concurrent-challenges=2
 
 podDnsPolicy: None
 podDnsConfig:
