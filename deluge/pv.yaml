@@ -15,7 +15,7 @@ spec:
     volumeHandle: deluge-config # make sure it's a unique id in the cluster
     volumeAttributes:
       server: 192.168.1.10
-      share: /nfs/transmission/config
+      share: /nfs/deluge/config
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -34,4 +34,4 @@ spec:
     volumeHandle: deluge-downloads # make sure it's a unique id in the cluster
     volumeAttributes:
       server: 192.168.1.10
-      share: /nfs/transmission/downloads
+      share: /nfs/deluge/downloads
