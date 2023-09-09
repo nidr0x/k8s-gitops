@@ -109,6 +109,8 @@ grafana:
       auto_assign_or_role: Admin
     auth:
       disable_login_form: true
+    database:
+      wal: false
     auth.google:
       enabled: true
       allow_sign_up: true
