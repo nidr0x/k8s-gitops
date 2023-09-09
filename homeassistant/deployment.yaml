@@ -24,6 +24,8 @@ spec:
           securityContext:
             privileged: false
             allowPrivilegeEscalation: false
+            runAsGroup: 2002
+            runAsuser: 1001
           resources:
             requests:
               cpu: 50m
@@ -61,15 +63,6 @@ spec:
             periodSeconds: 5
             successThreshold: 1
             failureThreshold: 30
-          env:
-            - name: TZ
-              value: "Europe/Madrid"
-            - name: PUID
-              value: "1001"
-            - name: PGID
-              value: "2002"
-            - name: UMASK
-              value: "007"
       volumes:
         - name: homeassistant-config
           persistentVolumeClaim:
