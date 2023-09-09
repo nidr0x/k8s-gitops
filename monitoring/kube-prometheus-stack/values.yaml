@@ -182,3 +182,8 @@ nameOverride: ""
 fullnameOverride: "kubepromstack"
 releaseOverride: ""
 
+securityContext:
+  runAsGroup: 2002
+  runAsNonRoot: true
+  runAsUser: 1001
+  fsGroup: 2002
