@@ -57,7 +57,7 @@ metadata:
     app: adguardhome
   name: dns-over-tls
 spec:
-  ipFamilyPolicy: PreferDualStack
+  #ipFamilyPolicy: PreferDualStack
   externalTrafficPolicy: Local
   type: LoadBalancer
   ports:
@@ -101,7 +101,7 @@ metadata:
     app: adguardhome
   name: dnscrypt
 spec:
-  ipFamilyPolicy: PreferDualStack
+  #ipFamilyPolicy: PreferDualStack
   externalTrafficPolicy: Local
   type: LoadBalancer
   ports:
