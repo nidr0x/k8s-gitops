@@ -58,6 +58,7 @@ metadata:
   name: dns-over-tls
 spec:
   #ipFamilyPolicy: PreferDualStack
+  ipFamilyPolicy: SingleStack
   externalTrafficPolicy: Local
   type: LoadBalancer
   ports:
@@ -102,6 +103,7 @@ metadata:
   name: dnscrypt
 spec:
   #ipFamilyPolicy: PreferDualStack
+  ipFamilyPolicy: SingleStack
   externalTrafficPolicy: Local
   type: LoadBalancer
   ports:
