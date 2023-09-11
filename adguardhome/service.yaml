@@ -69,9 +69,6 @@ spec:
     port: 853
     protocol: UDP
     targetPort: dns-over-quic-2
-  externalIPs:
-    - 192.168.1.11
-    - fe80::a7c6:f4e0:6618:106
   selector:
     app: adguardhome
 ---
