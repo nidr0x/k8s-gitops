@@ -59,6 +59,7 @@ metadata:
 spec:
   ipFamilyPolicy: PreferDualStack
   externalTrafficPolicy: Local
+  clusterIP: fe80::a7c6:f4e0:6618:106
   type: LoadBalancer
   ports:
   - name: dns-over-tls
