@@ -45,7 +45,7 @@ spec:
             limits:
               memory: 64Mi
         - name: adguardhome
-          image: adguard/adguardhome:v0.107.37
+          image: adguard/adguardhome:v0.107.38
           imagePullPolicy: Always
           resources:
             limits:
