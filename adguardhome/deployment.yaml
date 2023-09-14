@@ -18,7 +18,7 @@ spec:
         app: adguardhome
     spec:
       volumes:
-        - name: adguardhome-data
+        - name: adguardhome-data-local
           persistentVolumeClaim:
             claimName: adguardhome-pvc-data-local
         - name: tls-cert-secret
@@ -119,7 +119,7 @@ spec:
           volumeMounts:
             - name: tls-cert-secret
               mountPath: /certs
-            - name: adguardhome-data
+            - name: adguardhome-data-local
               mountPath: /opt/adguardhome/conf
-            - name: adguardhome-data
+            - name: adguardhome-data-local
               mountPath: /opt/adguardhome/work
