@@ -20,7 +20,7 @@ spec:
       volumes:
         - name: adguardhome-data
           persistentVolumeClaim:
-            claimName: adguardhome-pvc-data-local
+            claimName: adguardhome-pvc-data
         - name: tls-cert-secret
           secret:
             secretName: zerossl-prod
