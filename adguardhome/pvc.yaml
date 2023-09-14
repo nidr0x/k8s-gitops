@@ -1,26 +1,11 @@
-#apiVersion: v1
-#kind: PersistentVolumeClaim
-#metadata:
-#  name: adguardhome-pvc-data
-#spec:
-#  storageClassName: nfs
-#  accessModes:
-#    - ReadWriteMany
-#  resources:
-#    requests:
-#      storage: 100Mi
----
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: adguardhome-data-pvc-local
-  annotations:
-    volumeType: local
+  name: adguardhome-pvc-data
 spec:
-  storageClassName: local-storage
+  storageClassName: nfs
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 1Gi
-  volumeName: adguardhome-data-pvc-local
+      storage: 100Mi
