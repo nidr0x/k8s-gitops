@@ -16,3 +16,21 @@ spec:
     volumeAttributes:
       server: 192.168.1.10
       share: /nfs/adguard
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: adguardhome-pv-data-local
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  volumeMode: Filesystem
+  hostPath:
+    path: /opt/adguardhome
+    type: DirectoryOrCreate
