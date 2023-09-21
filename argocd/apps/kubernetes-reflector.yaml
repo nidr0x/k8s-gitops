@@ -15,7 +15,7 @@ spec:
       targetRevision: master
       path: kubernetes-reflector/
     - repoURL: https://emberstack.github.io/helm-charts
-      targetRevision: 7.0.199
+      targetRevision: 7.1.203
       chart: reflector
       helm:
         valueFiles:
