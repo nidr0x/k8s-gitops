@@ -15,7 +15,7 @@ spec:
     volumeHandle: transmission-config # make sure it's a unique id in the cluster
     volumeAttributes:
       server: 192.168.1.10
-      share: /nfs/transmission/config
+      share: /mnt/main/nfs/transmission/config
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -34,4 +34,4 @@ spec:
     volumeHandle: transmission-downloads # make sure it's a unique id in the cluster
     volumeAttributes:
       server: 192.168.1.10
-      share: /nfs/transmission/downloads
+      share: /mnt/main/nfs/transmission/downloads
