@@ -15,4 +15,4 @@ spec:
     volumeHandle: freshrss-data # make sure it's a unique id in the cluster
     volumeAttributes:
       server: 192.168.1.10
-      share: /nfs/freshrss
+      share: /mnt/main/nfs/freshrss
