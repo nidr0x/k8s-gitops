@@ -15,4 +15,4 @@ spec:
     volumeHandle: homeassistant-config # make sure it's a unique id in the cluster
     volumeAttributes:
       server: 192.168.1.10
-      share: /nfs/homeassistant/config
+      share: /mnt/main/nfs/homeassistant/config
