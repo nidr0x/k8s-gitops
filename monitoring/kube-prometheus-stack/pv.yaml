@@ -15,7 +15,7 @@ spec:
     volumeHandle: alertmanager # make sure it's a unique id in the cluster
     volumeAttributes:
       server: 192.168.1.10
-      share: /nfs/alertmanager
+      share: /mnt/main/nfs/alertmanager
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -34,7 +34,7 @@ spec:
     volumeHandle: prometheus # make sure it's a unique id in the cluster
     volumeAttributes:
       server: 192.168.1.10
-      share: /nfs/prometheus
+      share: /mnt/main/nfs/prometheus
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -53,4 +53,4 @@ spec:
     volumeHandle: grafana # make sure it's a unique id in the cluster
     volumeAttributes:
       server: 192.168.1.10
-      share: /nfs/grafana
+      share: /mnt/main/nfs/grafana
