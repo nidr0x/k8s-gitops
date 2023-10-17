@@ -12,7 +12,7 @@ spec:
   csi:
     driver: nfs.csi.k8s.io
     readOnly: false
-    volumeHandle: transmission-config # make sure it's a unique id in the cluster
+    volumeHandle: transmission-config
     volumeAttributes:
       server: 192.168.1.10
       share: /mnt/main/nfs/transmission/config
@@ -31,7 +31,7 @@ spec:
   csi:
     driver: nfs.csi.k8s.io
     readOnly: false
-    volumeHandle: transmission-downloads # make sure it's a unique id in the cluster
+    volumeHandle: transmission-downloads
     volumeAttributes:
       server: 192.168.1.10
       share: /mnt/main/nfs/transmission/downloads
