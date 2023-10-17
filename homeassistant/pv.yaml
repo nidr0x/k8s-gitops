@@ -4,7 +4,7 @@ metadata:
   name: homeassistant-config-pv
 spec:
   capacity:
-    storage: 1Gi
+    storage: 768Mi
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
