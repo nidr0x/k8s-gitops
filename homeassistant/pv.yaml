@@ -12,7 +12,7 @@ spec:
   csi:
     driver: nfs.csi.k8s.io
     readOnly: false
-    volumeHandle: homeassistant-config # make sure it's a unique id in the cluster
+    volumeHandle: homeassistant-config
     volumeAttributes:
       server: 192.168.1.10
       share: /mnt/main/nfs/homeassistant/config
