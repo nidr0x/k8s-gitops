@@ -15,7 +15,7 @@ spec:
       targetRevision: master
       path: monitoring/kube-prometheus-stack/
     - repoURL: https://prometheus-community.github.io/helm-charts
-      targetRevision: 51.7.0
+      targetRevision: 51.9.1
       chart: kube-prometheus-stack
       helm:
         valueFiles:
