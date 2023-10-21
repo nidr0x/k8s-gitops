@@ -18,7 +18,7 @@ spec:
          containers:
          - name: cloudflare-ddns
            image: ghcr.io/nidr0x/cloudflare-ddns-updater:latest
-           imagePullPolicy: Always
+           imagePullPolicy: IfNotPresent
            securityContext:
               runAsNonRoot: true
               runAsUser: 82
