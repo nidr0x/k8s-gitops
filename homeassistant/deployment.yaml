@@ -25,7 +25,7 @@ spec:
             privileged: false
             allowPrivilegeEscalation: false
             runAsGroup: 2002
-            runAsuser: 1001
+            runAsUser: 1001
           resources:
             requests:
               cpu: 50m
