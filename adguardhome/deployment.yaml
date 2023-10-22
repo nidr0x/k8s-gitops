@@ -54,8 +54,8 @@ spec:
               cpu: 80m
               memory: 64Mi
           securityContext:
-            runAsUser: 65534
-            runAsGroup: 65533
+            runAsUser: 1001
+            runAsGroup: 2002
             allowPrivilegeEscalation: false
             capabilities:
               add: ["NET_ADMIN"]
