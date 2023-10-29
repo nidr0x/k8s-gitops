@@ -6,7 +6,7 @@ spec:
   destination:
     namespace: argocd
     server: https://kubernetes.default.svc
-  project: default
+  project: everest
   sources:
     - repoURL: https://github.com/nidr0x/homelab
       targetRevision: master
