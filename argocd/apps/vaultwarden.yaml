@@ -6,7 +6,7 @@ spec:
   destination:
     namespace: bitwarden
     server: https://kubernetes.default.svc
-  project: default
+  project: everest
   source:
     path: vaultwarden/
     repoURL: https://github.com/nidr0x/homelab

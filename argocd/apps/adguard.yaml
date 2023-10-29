@@ -6,7 +6,7 @@ spec:
   destination:
     namespace: adguardhome
     server: https://kubernetes.default.svc
-  project: default
+  project: everest
   source:
     path: adguardhome/
     repoURL: https://github.com/nidr0x/homelab

@@ -6,7 +6,7 @@ spec:
   destination:
     namespace: freshrss
     server: https://kubernetes.default.svc
-  project: default
+  project: everest
   source:
     path: freshrss/
     repoURL: https://github.com/nidr0x/homelab

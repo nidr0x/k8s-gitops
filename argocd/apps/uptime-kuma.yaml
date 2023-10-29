@@ -6,7 +6,7 @@ spec:
   destination:
     namespace: uptime-kuma
     server: https://kubernetes.default.svc
-  project: default
+  project: everest
   source:
     path: monitoring/uptime-kuma/
     repoURL: https://github.com/nidr0x/homelab

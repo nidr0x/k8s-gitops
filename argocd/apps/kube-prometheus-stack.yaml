@@ -6,7 +6,7 @@ spec:
   destination:
     namespace: kube-monitoring
     server: https://kubernetes.default.svc
-  project: default
+  project: everest
   sources:
     - repoURL: https://github.com/nidr0x/homelab
       targetRevision: master
@@ -23,7 +23,6 @@ spec:
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
-      #- Replace=true
       - ServerSideApply=true
     automated:
       prune: true

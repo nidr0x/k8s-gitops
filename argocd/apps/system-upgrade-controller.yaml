@@ -6,7 +6,7 @@ spec:
   destination:
     namespace: kube-system
     server: https://kubernetes.default.svc
-  project: default
+  project: everest
   source:
     path: manifests
     repoURL: https://github.com/rancher/system-upgrade-controller.git

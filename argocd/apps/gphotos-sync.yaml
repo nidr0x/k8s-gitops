@@ -6,7 +6,7 @@ spec:
   destination:
     namespace: gphotos-sync
     server: https://kubernetes.default.svc
-  project: default
+  project: everest
   source:
     path: gphotos-sync/
     repoURL: https://github.com/nidr0x/homelab
