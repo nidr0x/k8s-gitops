@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd
+  name: argocd-everest
 spec:
   destination:
     namespace: argocd
@@ -17,6 +17,28 @@ spec:
       helm:
         valueFiles:
           - $nidr0x-homelab/argocd/values.yaml
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+
+---
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-motoradictos
+spec:
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  project: motoradictos
+  sources:
+    - repoURL: https://github.com/nidr0x/motoradictos
+      targetRevision: master
+      ref: motoradictos
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
