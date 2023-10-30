@@ -15,7 +15,7 @@ spec:
       targetRevision: master
       path: cert-manager/
     - repoURL: https://charts.jetstack.io
-      targetRevision: v1.13.1
+      targetRevision: v1.13.2
       chart: cert-manager
       helm:
         valueFiles:
