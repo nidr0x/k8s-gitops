@@ -6,6 +6,7 @@ resources:
 - argocd-apps.yaml
 - argocd-setup.yaml
 - secret.yaml
+- argocd-project-everest.yaml
 
 helmChartInflationGenerator:
 - chartName: argo-cd
