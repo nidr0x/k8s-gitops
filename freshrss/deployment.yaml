@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: freshrss
-          image: freshrss/freshrss:1.22.0-alpine
+          image: freshrss/freshrss:1.22.1-alpine
           imagePullPolicy: Always
           resources:
             requests:
