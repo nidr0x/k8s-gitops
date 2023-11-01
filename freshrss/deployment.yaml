@@ -30,8 +30,8 @@ spec:
               memory: 256Mi
           volumeMounts:
             - name: freshrss-data
-              mountPath: /var/www/FreshRSS/data
-              #mountPath: /config
+              #mountPath: /var/www/FreshRSS/data
+              mountPath: /config
           ports:
             - name: http
               containerPort: 80
