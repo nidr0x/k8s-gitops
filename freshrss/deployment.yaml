@@ -19,8 +19,8 @@ spec:
     spec:
       containers:
         - name: freshrss
-          image: linuxserver/freshrss:1.22.1
-          #image: freshrss/freshrss:1.22.1
+          #image: linuxserver/freshrss:1.22.1
+          image: freshrss/freshrss:1.22.1-alpine
           imagePullPolicy: Always
           resources:
             requests:
@@ -30,8 +30,8 @@ spec:
               memory: 256Mi
           volumeMounts:
             - name: freshrss-data
-              #mountPath: /var/www/FreshRSS/data
-              mountPath: /config
+              mountPath: /var/www/FreshRSS/data
+              #mountPath: /config
           ports:
             - name: http
               containerPort: 80
