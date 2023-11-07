@@ -15,7 +15,7 @@ spec:
     volumeHandle: gphotos-sync-secret
     volumeAttributes:
       server: 192.168.1.10
-      share: /nfs/gphotos-sync/secret
+      share: /mnt/main/nfs/gphotos-sync/secret
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -34,4 +34,4 @@ spec:
     volumeHandle: gphotos-sync-data # make sure it's a unique id in the cluster
     volumeAttributes:
       server: 192.168.1.10
-      share: /nfs/gphotos-sync
+      share: /mnt/main/nfs/gphotos-sync
