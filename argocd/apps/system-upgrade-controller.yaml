@@ -10,7 +10,7 @@ spec:
   source:
     path: manifests
     repoURL: https://github.com/rancher/system-upgrade-controller.git
-    targetRevision: v0.13.1
+    targetRevision: v0.13.2
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
