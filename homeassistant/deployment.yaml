@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: homeassistant
-          image: homeassistant/home-assistant:2023.11
+          image: homeassistant/home-assistant:2023.12
           imagePullPolicy: Always
           securityContext:
             privileged: false
