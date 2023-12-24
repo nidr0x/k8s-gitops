@@ -95,6 +95,9 @@ prometheus:
         targetLabel: job
         replacement: prometheus
 grafana:
+  labels:
+    traefik.http.routers.grafana.rule: Host(`monitoring.nidr0x.win`) && PathPrefix(`/grafana`)
+    traefik.http.services.grafana.loadbalancer.server.port: 3000
   securityContext:
     runAsGroup: 2002
     runAsNonRoot: true
@@ -116,8 +119,7 @@ grafana:
   grafana.ini:
     server:
       domain: monitoring.nidr0x.win
-      #root_url: "%(protocol)s://%(domain)s:%(http_port)s/grafana/"
-      root_url: "%(protocol)s://%(domain)s/grafana/"
+      root_url: "%(protocol)s://%(domain)s:%(http_port)s/grafana/"
       serve_from_sub_path: true
     users:
       allow_sign_up: false
