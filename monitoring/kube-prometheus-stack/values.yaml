@@ -115,8 +115,8 @@ grafana:
     annotations:
       kubernetes.io/ingress.class: traefik
       cert-manager.io/cluster-issuer: zerossl-prod
-      #traefik.ingress.kubernetes.io/router.middlewares: kube-system-stripprefix@kubernetescrd,kube-system-redirect-https@kubernetescrd
-      traefik.ingress.kubernetes.io/router.middlewares: kube-system-redirect-https@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: kube-system-stripprefix@kubernetescrd,kube-system-redirect-https@kubernetescrd
+      #traefik.ingress.kubernetes.io/router.middlewares: kube-system-redirect-https@kubernetescrd
       external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
     path: /grafana
     tls:
