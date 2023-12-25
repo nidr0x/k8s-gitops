@@ -20,13 +20,6 @@ spec:
                 name: kubepromstack-prometheus
                 port:
                   number: 9090
-          - path: /alertmanager
-            pathType: Prefix
-            backend:
-              service:
-                name: kubepromstack-alertmanager
-                port:
-                  number: 9093
   tls:
     - hosts:
       - '*.nidr0x.win'
