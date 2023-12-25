@@ -53,7 +53,7 @@ spec:
               service:
                 name: kubepromstack-grafana
                 port:
-                  number: 80
+                  number: 3000
   tls:
     - hosts:
       - '*.nidr0x.win'
