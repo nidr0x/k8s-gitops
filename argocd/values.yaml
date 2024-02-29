@@ -9,8 +9,11 @@ server:
       kubernetes.io/ingress.class: traefik
       cert-manager.io/cluster-issuer: zerossl-prod
       external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
-    hostname:: argocd.nidr0x.win
+    hostname: argocd.nidr0x.win
     tls:
+
+global:
+  domain: argocd.nidr0x.win
 
 dex:
   dnsConfig:
