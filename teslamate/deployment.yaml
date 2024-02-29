@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: teslamate
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: teslamate
+  template:
+    metadata:
+      labels:
+        app: teslamate
+    spec:
+      containers:
+        - name: teslamate
+          image: teslamate/teslamate:1.28.3
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 50m
+              memory: 100Mi
+            limits:
+              memory: 256Mi
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          env:
+            - name: ENCRYPTION_KEY
+              value: "Europe/Madrid"
+            - name: DATABASE_USER
+              value: "teslamate"
+            - name: DATABASE_PASS
+              value: "password" #insert your secure database password!
+            - name: DATABASE_NAME
+              value: "teslamate"
+            - name: DATABASE_HOST
+              value: "database"
+            - name: MQTT_HOST
+              value: "mosquitto"
+      restartPolicy: Always
