@@ -11,6 +11,8 @@ spec:
     path: teslamate/
     repoURL: https://github.com/nidr0x/homelab
     targetRevision: master
+    directory:
+      exclude: 'postgres.yaml'
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
