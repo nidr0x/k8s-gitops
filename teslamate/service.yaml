@@ -6,7 +6,7 @@ metadata:
   name: teslamate
 spec:
   ipFamilyPolicy: PreferDualStack
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - name: http
       protocol: TCP

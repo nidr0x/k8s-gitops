@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: teslamate
+  namespace: teslamate
 spec:
   replicas: 1
   strategy:
@@ -33,15 +34,15 @@ spec:
               protocol: TCP
           env:
             - name: ENCRYPTION_KEY
-              value: ""
+              value: "K8h31POBWwjhOtmMwTnD1oTap7VRVgRnmYTPtC+bWC3fJxT22r+GIx2hQPWpB"
             - name: DATABASE_USER
               value: "teslamate"
             - name: DATABASE_PASS
-              value: "rbugUqcVwTAwkbH3iXlR6EPvXF7PBah44EH1uMzKNkX8o1CtMGtMPU1Jio6yMffU" #insert your secure database password!
+              value: "test"
             - name: DATABASE_NAME
               value: "teslamate"
             - name: DATABASE_HOST
               value: "192.168.1.10"
             - name: MQTT_HOST
-              value: "mosquitto"
+              value: "192.168.1.10"
       restartPolicy: Always
