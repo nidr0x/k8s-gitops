@@ -166,7 +166,7 @@ grafana:
       token_url: https://oauth2.googleapis.com/token
       api_url: https://openidconnect.googleapis.com/v1/userinfo
       allowed_domains: monitoring.nidr0x.win nidr0x.win
-      hosted_domain: monitoring.nidr0x.win
+      #hosted_domain: monitoring.nidr0x.win
       use_pkce: true
   # List of grafana plugins to be installed
   plugins:
