@@ -160,13 +160,12 @@ grafana:
       allow_sign_up: true
       auto_login: false
       client_id: 672885211243-a9de98uqbpcuf0vbltap4s6qm68jcqtq.apps.googleusercontent.com
-      client_secret: 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
+      client_secret: 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
       scopes: openid email profile
       auth_url: https://accounts.google.com/o/oauth2/v2/auth
       token_url: https://oauth2.googleapis.com/token
       api_url: https://openidconnect.googleapis.com/v1/userinfo
       allowed_domains: monitoring.nidr0x.win nidr0x.win
-      #hosted_domain: monitoring.nidr0x.win
       use_pkce: true
   # List of grafana plugins to be installed
   plugins:
