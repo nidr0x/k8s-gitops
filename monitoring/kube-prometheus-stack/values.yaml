@@ -116,7 +116,6 @@ grafana:
       kubernetes.io/ingress.class: traefik
       cert-manager.io/cluster-issuer: zerossl-prod
       traefik.ingress.kubernetes.io/router.middlewares: kube-system-stripprefix@kubernetescrd,kube-system-redirect-https@kubernetescrd
-      #traefik.ingress.kubernetes.io/router.middlewares: kube-system-redirect-https@kubernetescrd
       external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
     path: /grafana
     tls:
@@ -161,10 +160,12 @@ grafana:
       auto_login: false
       client_id: 672885211243-a9de98uqbpcuf0vbltap4s6qm68jcqtq.apps.googleusercontent.com
       client_secret: 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
-      scopes: https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email
       auth_url: https://accounts.google.com/o/oauth2/auth
-      token_url: https://accounts.google.com/o/oauth2/token
+      token_url: https://oauth2.googleapis.com/token
       allowed_domains: monitoring.nidr0x.win nidr0x.win
+      hosted_domain: monitoring.nidr0x.win
+      use_pkce: true
+      scopes: openid email profile
   # List of grafana plugins to be installed
   plugins:
     - grafana-piechart-panel
