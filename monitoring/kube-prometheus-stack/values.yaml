@@ -139,6 +139,7 @@ grafana:
     - ReadWriteOnce
     size: 4Gi
   fullnameOverride: "kubepromstack-grafana"
+  assertNoLeakedSecrets: false
   # Configuring /grafana subpath
   grafana.ini:
     server:
