@@ -5,3 +5,4 @@ resources:
 - pv.yaml
 - traefik-servicemonitor.yaml
 - namespace.yaml
+- secret.yaml
