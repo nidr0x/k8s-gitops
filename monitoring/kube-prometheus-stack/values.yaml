@@ -108,6 +108,7 @@ prometheus:
         targetLabel: job
         replacement: prometheus
 grafana:
+  envFromSecret: kubepromstack-oauth2
   ingress:
     enabled: true
     hosts:
