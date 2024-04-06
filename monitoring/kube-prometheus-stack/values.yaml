@@ -173,7 +173,7 @@ grafana:
       allowed_domains: gmail.com
       use_pkce: true
       role_attribute_path: "'Admin'"
-      skip_org_role_sync: false
+      skip_org_role_sync: true
   # List of grafana plugins to be installed
   plugins:
     - grafana-piechart-panel
