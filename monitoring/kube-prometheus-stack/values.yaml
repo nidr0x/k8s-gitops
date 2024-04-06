@@ -108,23 +108,7 @@ prometheus:
         targetLabel: job
         replacement: prometheus
 grafana:
-  datasources:
-  datasources.yaml:
-    apiVersion: 1
-    datasources:
-      - name: TeslaMate
-        type: postgres
-        url: localhost
-        database: teslamate
-        user: teslamate
-        secureJsonData:
-          password: test 
-        jsonData:
-          sslmode: 'disable'
-          postgresVersion: 1000
-        version: 1
-        editable: true
-        isDefault: true
+
   envFromSecret: kubepromstack-oauth2
   ingress:
     enabled: true
@@ -208,6 +192,20 @@ grafana:
   #- name: Loki
   #  type: loki
   #  url: http://loki-gateway.logging.svc.cluster.local
+  additionalDataSources:
+  - name: TeslaMate
+    type: postgres
+    url: localhost
+    database: teslamate
+    user: teslamate
+    secureJsonData:
+      password: test
+    jsonData:
+      sslmode: 'disable'
+      postgresVersion: 1000
+    version: 1
+    editable: true
+    isDefault: true
   sidecar:
     dashboards:
       searchNamespace: ALL
