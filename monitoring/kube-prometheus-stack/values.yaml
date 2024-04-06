@@ -141,6 +141,9 @@ grafana:
     size: 4Gi
   fullnameOverride: "kubepromstack-grafana"
   assertNoLeakedSecrets: false
+  plugins:
+    - pr0ps-trackmap-panel
+    - natel-plotly-panel
   # Configuring /grafana subpath
   grafana.ini:
     server:
