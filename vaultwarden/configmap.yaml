@@ -40,3 +40,4 @@ data:
   IP_HEADER: 'CF-Connecting-IP'
   #Disable WALL due to NFS
   #ENABLE_DB_WAL: 'false'
+  SIGNUPS_ALLOWED=true
