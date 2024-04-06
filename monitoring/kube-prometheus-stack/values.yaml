@@ -109,10 +109,6 @@ prometheus:
         replacement: prometheus
 grafana:
   envFromSecret: kubepromstack-oauth2
-  plugins:
-    - pr0ps-trackmap-panel 2.1.4
-    - natel-plotly-panel 0.0.7
-    - grafana-worldmap-panel-ng
   ingress:
     enabled: true
     hosts:
@@ -172,11 +168,14 @@ grafana:
       api_url: https://openidconnect.googleapis.com/v1/userinfo
       allowed_domains: gmail.com
       use_pkce: true
-      role_attribute_path: "'Admin'"
       role_attribute_path: contains(groups[*], 'nidr0x@gmail.com') && 'Admin' || 'Viewer'
+      allow_asign_grafana_admin: true
   # List of grafana plugins to be installed
   plugins:
     - grafana-piechart-panel
+    - pr0ps-trackmap-panel 2.1.4
+    - natel-plotly-panel 0.0.7
+    - grafana-worldmap-panel-ng
   # ServiceMonitor label and job relabel
   serviceMonitor:
     labels:
