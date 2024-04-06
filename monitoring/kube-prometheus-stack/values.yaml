@@ -143,19 +143,19 @@ grafana:
   fullnameOverride: "kubepromstack-grafana"
   assertNoLeakedSecrets: false
   additionalDataSources:
-  - name: TeslaMate
-    type: postgres
-    url: 192.168.1.10
-    database: teslamate
-    user: teslamate
-    secureJsonData:
-      password: test
-    jsonData:
-      sslmode: 'disable'
-      postgresVersion: 1000
-    version: 1
-    editable: true
-    isDefault: true
+    - name: TeslaMate
+      type: postgres
+      url: 192.168.1.10
+      database: teslamate
+      user: teslamate
+      secureJsonData:
+        password: test
+      jsonData:
+        sslmode: 'disable'
+        postgresVersion: 1000
+      version: 1
+      editable: true
+      isDefault: true
   # List of grafana plugins to be installed
   plugins:
     - grafana-piechart-panel
