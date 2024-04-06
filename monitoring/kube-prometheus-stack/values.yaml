@@ -175,7 +175,7 @@ grafana:
     - grafana-piechart-panel
     - pr0ps-trackmap-panel 2.1.4
     - natel-plotly-panel 0.0.7
-    - grafana-worldmap-panel-ng
+    #- grafana-worldmap-panel-ng
   # ServiceMonitor label and job relabel
   serviceMonitor:
     labels:
