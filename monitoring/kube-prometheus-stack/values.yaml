@@ -142,7 +142,45 @@ grafana:
     size: 4Gi
   fullnameOverride: "kubepromstack-grafana"
   assertNoLeakedSecrets: false
-  # Configuring /grafana subpath
+  additionalDataSources:
+  - name: TeslaMate
+    type: postgres
+    url: 192.168.1.10
+    database: teslamate
+    user: teslamate
+    secureJsonData:
+      password: test
+    jsonData:
+      sslmode: 'disable'
+      postgresVersion: 1000
+    version: 1
+    editable: true
+    isDefault: true
+  # List of grafana plugins to be installed
+  plugins:
+    - grafana-piechart-panel
+    - pr0ps-trackmap-panel 2.1.4
+    - natel-plotly-panel 0.0.7
+    #- grafana-worldmap-panel-ng
+  # ServiceMonitor label and job relabel
+  serviceMonitor:
+    labels:
+      release: kubepromstack
+    relabelings:
+      # Replace job value
+      - sourceLabels:
+        - __address__
+        action: replace
+        targetLabel: job
+        replacement: grafana
+  # Additional data source: Loki
+  #additionalDataSources:
+  #- name: Loki
+  #  type: loki
+  #  url: http://loki-gateway.logging.svc.cluster.local
+  sidecar:
+    dashboards:
+      searchNamespace: ALL
   grafana.ini:
     server:
       domain: monitoring.nidr0x.win
@@ -170,45 +208,6 @@ grafana:
       use_pkce: true
       role_attribute_path: email=='nidr0x@gmail.com' && 'Admin' || 'Viewer'
       skip_org_role_sync: false
-  # List of grafana plugins to be installed
-  plugins:
-    - grafana-piechart-panel
-    - pr0ps-trackmap-panel 2.1.4
-    - natel-plotly-panel 0.0.7
-    #- grafana-worldmap-panel-ng
-  # ServiceMonitor label and job relabel
-  serviceMonitor:
-    labels:
-      release: kubepromstack
-    relabelings:
-      # Replace job value
-      - sourceLabels:
-        - __address__
-        action: replace
-        targetLabel: job
-        replacement: grafana
-  # Additional data source: Loki
-  #additionalDataSources:
-  #- name: Loki
-  #  type: loki
-  #  url: http://loki-gateway.logging.svc.cluster.local
-  additionalDataSources:
-  - name: TeslaMate
-    type: postgres
-    url: 192.168.1.10
-    database: teslamate
-    user: teslamate
-    secureJsonData:
-      password: test
-    jsonData:
-      sslmode: 'disable'
-      postgresVersion: 1000
-    version: 1
-    editable: true
-    isDefault: true
-  sidecar:
-    dashboards:
-      searchNamespace: ALL
 # Disabling monitoring of K8s services.
 # Monitoring of K3S components will be configured out of kube-prometheus-stack
 kubelet:
