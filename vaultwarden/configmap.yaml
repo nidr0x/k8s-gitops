@@ -30,7 +30,7 @@ data:
   # most likely no need to change this here, look at ingress configuration instead
   ROCKET_PORT: '8080'
   # Allow registration of new users
-  SIGNUPS_ALLOWED: 'true'
+  SIGNUPS_ALLOWED: 'false'
   # Allow current users invite new users even if registrations are otherwise disabled.
   # https://github.com/dani-garcia/bitwarden_rs/blob/master/README.md#disable-invitations
   INVITATIONS_ALLOWED: 'true'
@@ -38,5 +38,3 @@ data:
   SMTP_DEBUG: 'false'
   #GET Real IP
   IP_HEADER: 'CF-Connecting-IP'
-  #Disable WALL due to NFS
-  #ENABLE_DB_WAL: 'false'
