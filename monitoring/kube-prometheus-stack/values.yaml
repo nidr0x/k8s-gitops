@@ -108,7 +108,7 @@ prometheus:
         targetLabel: job
         replacement: prometheus
 grafana:
-
+  defaultDashboardsTimezone: Europe/Madrid
   envFromSecret: kubepromstack-oauth2
   ingress:
     enabled: true
