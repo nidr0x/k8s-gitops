@@ -109,6 +109,10 @@ prometheus:
         replacement: prometheus
 grafana:
   envFromSecret: kubepromstack-oauth2
+  plugins:
+    - pr0ps-trackmap-panel 2.1.4
+    - natel-plotly-panel 0.0.7
+    - grafana-worldmap-panel-ng
   ingress:
     enabled: true
     hosts:
@@ -141,9 +145,6 @@ grafana:
     size: 4Gi
   fullnameOverride: "kubepromstack-grafana"
   assertNoLeakedSecrets: false
-  plugins:
-    - pr0ps-trackmap-panel
-    - natel-plotly-panel
   # Configuring /grafana subpath
   grafana.ini:
     server:
