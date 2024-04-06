@@ -172,6 +172,7 @@ grafana:
       api_url: https://openidconnect.googleapis.com/v1/userinfo
       allowed_domains: gmail.com
       use_pkce: true
+      role_attribute_path: 'Admin'
   # List of grafana plugins to be installed
   plugins:
     - grafana-piechart-panel
