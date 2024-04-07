@@ -36,9 +36,6 @@ spec:
             - name: http
               protocol: TCP
               containerPort: 8123
-            - name: ws
-              protocol: TCP
-              containerPort: 5580
           volumeMounts:
             - name: homeassistant-config
               mountPath: /config
@@ -66,7 +63,23 @@ spec:
             periodSeconds: 5
             successThreshold: 1
             failureThreshold: 30
+        - name: matter-server
+          image: ghcr.io/home-assistant-libs/python-matter-server:5.9
+          imagePullPolicy: Always
+          securityContext:
+            privileged: false
+            allowPrivilegeEscalation: false
+            #runAsGroup: 2002
+            #runAsUser: 1001
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 128Mi
       volumes:
         - name: homeassistant-config
           persistentVolumeClaim:
             claimName: homeassistant-config-pvc
+
+
