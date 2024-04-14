@@ -182,12 +182,12 @@ grafana:
     dashboardproviders.yaml:
       apiVersion: 1
       providers:
-        - name: 'default'
-          folder: ''
+        - name: 'tesla'
+          folder: 'Tesla'
           options:
             path: /var/lib/grafana/dashboards/default
   dashboards:
-    default:
+    tesla:
       battery-health-lfp:
         url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/battery-health-lfp.json
       battery-health:
