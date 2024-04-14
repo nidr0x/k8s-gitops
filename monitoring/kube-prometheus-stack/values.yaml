@@ -182,7 +182,11 @@ grafana:
     dashboards:
       searchNamespace: ALL
   dashboards:
-    default:
+    battery-health:
+      local-dashboard:
+        url: https://github.com/teslamate-org/teslamate/blob/master/grafana/dashboards/battery-health.json
+        token: ''
+    battery-health-lfp:
       local-dashboard:
         url: https://github.com/teslamate-org/teslamate/blob/master/grafana/dashboards/battery-health-lfp.json
         token: ''
