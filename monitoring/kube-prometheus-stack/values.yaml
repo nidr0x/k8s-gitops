@@ -208,6 +208,14 @@ grafana:
         url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/efficiency.json
       locations:
         url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/locations.json
+      mileage:
+        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/mileage.json
+      overview-lfp:
+        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/overview-lfp.json
+      overview:
+        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/overview.json
+      projected-range:
+        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/projected-range.json
   grafana.ini:
     server:
       domain: monitoring.nidr0x.win
