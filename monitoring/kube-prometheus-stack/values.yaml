@@ -181,6 +181,10 @@ grafana:
   sidecar:
     dashboards:
       searchNamespace: ALL
+  dashboards:
+    local-dashboard:
+      url: https://github.com/teslamate-org/teslamate/blob/master/grafana/dashboards/battery-health-lfp.json
+      token: ''
   grafana.ini:
     server:
       domain: monitoring.nidr0x.win
