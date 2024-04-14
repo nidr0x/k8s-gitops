@@ -178,9 +178,14 @@ grafana:
   #- name: Loki
   #  type: loki
   #  url: http://loki-gateway.logging.svc.cluster.local
-  sidecar:
-    dashboards:
-      searchNamespace: ALL
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: 'default'
+          folder: ''
+          options:
+            path: /var/lib/grafana/dashboards/default
   dashboards:
     default:
       battery-health-lfp:
@@ -191,7 +196,6 @@ grafana:
     server:
       domain: monitoring.nidr0x.win
       root_url: "https://monitoring.nidr0x.win/grafana"
-      #serve_from_sub_path: false
     users:
       allow_sign_up: false
       auto_asign_org: false
