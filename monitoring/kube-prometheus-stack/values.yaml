@@ -200,6 +200,14 @@ grafana:
         url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/charging-stats-lfp.json
       charging-stats:
         url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/charging-stats.json
+      drive-stats:
+        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/drive-stats.json
+      drives:
+        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/drives.json
+      efficiency:
+        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/efficiency.json
+      locations:
+        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/locations.json
   grafana.ini:
     server:
       domain: monitoring.nidr0x.win
