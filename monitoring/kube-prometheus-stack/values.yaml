@@ -216,6 +216,20 @@ grafana:
         url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/overview.json
       projected-range:
         url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/projected-range.json
+      states:
+        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/states.json
+      statistics:
+        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/statistics.json
+      timeline:
+        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/timeline.json
+      trip:
+        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/trip.json
+      updates:
+        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/updates.json
+      vampire-drain:
+        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/vampire-drain.json
+      visited:
+        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/visited.json
   grafana.ini:
     server:
       domain: monitoring.nidr0x.win
