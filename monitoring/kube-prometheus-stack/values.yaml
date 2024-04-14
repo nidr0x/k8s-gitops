@@ -185,13 +185,21 @@ grafana:
         - name: 'tesla'
           folder: 'Tesla'
           options:
-            path: /var/lib/grafana/dashboards/default
+            path: /var/lib/grafana/dashboards/tesla
   dashboards:
     tesla:
       battery-health-lfp:
         url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/battery-health-lfp.json
       battery-health:
         url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/battery-health.json
+      charge-level:
+        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/charge-level.json
+      charges:
+        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/charges.json
+      charging-stats-lfp:
+        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/charging-stats-lfp.json
+      charging-stats:
+        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/charging-stats.json
   grafana.ini:
     server:
       domain: monitoring.nidr0x.win
