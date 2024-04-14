@@ -184,11 +184,9 @@ grafana:
   dashboards:
     default:
       battery-health-lfp:
-        url: https://github.com/teslamate-org/teslamate/blob/master/grafana/dashboards/battery-health-lfp.json
-        token: ''
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/battery-health-lfp.json
       battery-health:
-        url: https://github.com/teslamate-org/teslamate/blob/master/grafana/dashboards/battery-health.json
-        token: ''
+        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/battery-health.json
   grafana.ini:
     server:
       domain: monitoring.nidr0x.win
