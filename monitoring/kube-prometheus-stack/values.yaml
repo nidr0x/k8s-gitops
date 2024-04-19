@@ -46,6 +46,9 @@ alertmanager:
         spec:
           storageClassName: nfs
           accessModes: ["ReadWriteOnce"]
+          claimRef:
+            namespace: kube-monitoring
+            name: alertmanager-pv
           resources:
             requests:
               storage: 1Gi
@@ -95,6 +98,9 @@ prometheus:
         spec:
           storageClassName: nfs
           accessModes: ["ReadWriteOnce"]
+          claimRef:
+            namespace: kube-monitoring
+            name: prometheus-pv
           resources:
             requests:
               storage: 10Gi
