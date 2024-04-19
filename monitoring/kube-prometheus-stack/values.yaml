@@ -173,11 +173,6 @@ grafana:
         action: replace
         targetLabel: job
         replacement: grafana
-  # Additional data source: Loki
-  #additionalDataSources:
-  #- name: Loki
-  #  type: loki
-  #  url: http://loki-gateway.logging.svc.cluster.local
   dashboardProviders:
     dashboardproviders.yaml:
       apiVersion: 1
@@ -242,6 +237,8 @@ grafana:
       disable_login_form: true
     database:
       wal: false
+    security:
+      angular_support_enabled: false
     auth.google:
       enabled: true
       allow_sign_up: true
