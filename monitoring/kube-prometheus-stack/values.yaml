@@ -139,13 +139,6 @@ grafana:
     enabled: false
   deploymentStrategy:
     type: Recreate
-  persistence:
-    enabled: true
-    type: pvc
-    storageClassName: nfs
-    accessModes:
-    - ReadWriteOnce
-    size: 4Gi
   fullnameOverride: "kubepromstack-grafana"
   assertNoLeakedSecrets: false
   additionalDataSources:
@@ -232,6 +225,13 @@ grafana:
       visited:
         url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/visited.json
   grafana.ini:
+    database:
+      type: "postgres"
+      host: "192.168.1.10"
+      name: "grafana"
+      user: "grafana"
+      password: $__env{GRAFANA_POSTGRESQL_PASSWORD}
+      sslmode: "disable"
     server:
       domain: monitoring.nidr0x.win
       root_url: "https://monitoring.nidr0x.win/grafana"
