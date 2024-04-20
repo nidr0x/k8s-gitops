@@ -253,7 +253,7 @@ grafana:
       auto_login: false
       client_id: $__env{GF_AUTH_GOOGLE_CLIENT_ID}
       client_secret: $__env{GF_AUTH_GOOGLE_CLIENT_SECRET}
-      scopes: openid email
+      scopes: openid email profile
       auth_url: https://accounts.google.com/o/oauth2/v2/auth
       token_url: https://oauth2.googleapis.com/token
       api_url: https://openidconnect.googleapis.com/v1/userinfo
@@ -261,7 +261,8 @@ grafana:
       #hosted_domain: nidr0x.win monitoring.nidr0x.win
       use_pkce: true
       allow_assign_grafana_admin: true
-      role_attribute_path: email=='nidr0x@gmail.com' && 'Admin' || 'Viewer'
+      #role_attribute_path: email=='nidr0x@gmail.com' && 'Admin' || 'Viewer'
+      role_attribute_path: 'Admin'
       skip_org_role_sync: false
 # Disabling monitoring of K8s services.
 # Monitoring of K3S components will be configured out of kube-prometheus-stack
