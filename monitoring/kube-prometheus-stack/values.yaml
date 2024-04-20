@@ -240,7 +240,7 @@ grafana:
     users:
       allow_sign_up: false
       auto_asign_org: false
-      auto_assign_or_role: Admin
+      #auto_assign_or_role: Admin
     auth:
       disable_login_form: true
     database:
@@ -258,7 +258,6 @@ grafana:
       token_url: https://oauth2.googleapis.com/token
       api_url: https://openidconnect.googleapis.com/v1/userinfo
       allowed_domains: google.com gmail.com nidr0x.win
-      #hosted_domain: nidr0x.win monitoring.nidr0x.win
       use_pkce: true
       #role_attribute_path: email=='nidr0x@gmail.com' && 'Admin' || 'Viewer'
       role_attribute_path: 'Admin'
