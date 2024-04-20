@@ -250,7 +250,7 @@ grafana:
     auth.google:
       enabled: true
       allow_sign_up: true
-      auto_login: false
+      auto_login: true
       client_id: $__env{GF_AUTH_GOOGLE_CLIENT_ID}
       client_secret: $__env{GF_AUTH_GOOGLE_CLIENT_SECRET}
       scopes: openid email profile
@@ -260,7 +260,6 @@ grafana:
       allowed_domains: google.com gmail.com nidr0x.win
       #hosted_domain: nidr0x.win monitoring.nidr0x.win
       use_pkce: true
-      allow_assign_grafana_admin: true
       #role_attribute_path: email=='nidr0x@gmail.com' && 'Admin' || 'Viewer'
       role_attribute_path: 'Admin'
       skip_org_role_sync: false
