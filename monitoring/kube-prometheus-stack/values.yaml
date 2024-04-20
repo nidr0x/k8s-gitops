@@ -240,7 +240,7 @@ grafana:
     users:
       allow_sign_up: true
       auto_asign_org: true
-      auto_assign_or_role: Admin
+      auto_assign_or_role: 'Admin'
     auth:
       disable_login_form: false
     database:
