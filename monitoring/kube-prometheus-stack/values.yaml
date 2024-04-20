@@ -225,6 +225,8 @@ grafana:
       visited:
         url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/visited.json
   grafana.ini:
+    log:
+      level: debug
     database:
       type: "postgres"
       host: "192.168.1.10"
