@@ -253,7 +253,7 @@ grafana:
       auto_login: false
       client_id: $__env{GF_AUTH_GOOGLE_CLIENT_ID}
       client_secret: $__env{GF_AUTH_GOOGLE_CLIENT_SECRET}
-      scopes: openid email profile groups
+      scopes: openid email profile
       auth_url: https://accounts.google.com/o/oauth2/v2/auth
       token_url: https://oauth2.googleapis.com/token
       api_url: https://openidconnect.googleapis.com/v1/userinfo
