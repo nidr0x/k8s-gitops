@@ -78,6 +78,11 @@ prometheus:
         secretName: zerossl-prod
   prometheusSpec:
     fullnameOverride: "kubepromstack-prometheus"
+    retention: 7d
+    ruleSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    probeSelectorNilUsesHelmValues: false
     # Subpath /prometheus configuration
     externalUrl: http://monitoring.nidr0x.win/prometheus/
     routePrefix: /
@@ -112,7 +117,7 @@ prometheus:
         - __address__
         action: replace
         targetLabel: job
-        replacement: prometheus
+        replacement: prometheus-operator
 grafana:
   defaultDashboardsTimezone: Europe/Madrid
   envFromSecret: kubepromstack-oauth2
