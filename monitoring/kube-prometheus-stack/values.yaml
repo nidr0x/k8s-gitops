@@ -71,7 +71,6 @@ prometheus:
       cert-manager.io/cluster-issuer: zerossl-prod
       traefik.ingress.kubernetes.io/router.middlewares: kube-system-stripprefix@kubernetescrd,kube-system-redirect-https@kubernetescrd,kube-system-oauth-auth-redirect@kubernetescrd
       external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
-    path: /prometheus
     tls:
       - hosts:
         - '*.nidr0x.win'
@@ -117,7 +116,7 @@ prometheus:
         - __address__
         action: replace
         targetLabel: job
-        replacement: prometheus-operator
+        replacement: prometheus
 grafana:
   defaultDashboardsTimezone: Europe/Madrid
   envFromSecret: kubepromstack-oauth2
