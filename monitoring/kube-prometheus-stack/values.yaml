@@ -232,6 +232,8 @@ grafana:
       user: "grafana"
       password: $__env{GRAFANA_POSTGRESQL_PASSWORD}
       sslmode: "disable"
+    feature_toggles:
+      ssoSettingsApi: true
     server:
       domain: monitoring.nidr0x.win
       root_url: "https://monitoring.nidr0x.win/grafana"
