@@ -46,9 +46,6 @@ alertmanager:
         spec:
           storageClassName: nfs
           accessModes: ["ReadWriteMany"]
-          claimRef:
-            namespace: kube-monitoring
-            name: alertmanager-pv
           resources:
             requests:
               storage: 1Gi
@@ -95,7 +92,7 @@ prometheus:
       requests:
         memory: 1Gi
       limits:
-        memory: 1Gi
+        memory: 2Gi
     # PVC configuration
     storageSpec:
       volumeClaimTemplate:
