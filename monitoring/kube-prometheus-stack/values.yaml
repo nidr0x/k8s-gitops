@@ -250,7 +250,7 @@ grafana:
       angular_support_enabled: false
     auth.google:
       enabled: true
-      allow_sign_up: true
+      allow_sign_up: false
       auto_login: false
       client_id: $__env{GF_AUTH_GOOGLE_CLIENT_ID}
       client_secret: $__env{GF_AUTH_GOOGLE_CLIENT_SECRET}
