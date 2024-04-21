@@ -99,9 +99,6 @@ prometheus:
         spec:
           storageClassName: nfs
           accessModes: ["ReadWriteMany"]
-          claimRef:
-            namespace: kube-monitoring
-            name: prometheus-pv
           resources:
             requests:
               storage: 10Gi
