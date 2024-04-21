@@ -238,11 +238,11 @@ grafana:
       domain: monitoring.nidr0x.win
       root_url: "https://monitoring.nidr0x.win/grafana"
     users:
-      allow_sign_up: false
+      allow_sign_up: true
       auto_asign_org: true
       auto_assign_or_role: 'Admin'
     auth:
-      disable_login_form: true
+      disable_login_form: false
     database:
       wal: false
     security:
