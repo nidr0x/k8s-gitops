@@ -261,7 +261,7 @@ grafana:
       use_pkce: true
       role_attribute_path: email=='nidr0x@gmail.com' && 'Admin' || 'Viewer'
       #role_attribute_path: 'Admin'
-      skip_org_role_sync: true
+      skip_org_role_sync: false
 # Disabling monitoring of K8s services.
 # Monitoring of K3S components will be configured out of kube-prometheus-stack
 kubelet:
