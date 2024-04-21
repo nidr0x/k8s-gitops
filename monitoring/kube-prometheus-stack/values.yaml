@@ -45,7 +45,7 @@ alertmanager:
       volumeClaimTemplate:
         spec:
           storageClassName: nfs
-          accessModes: ["ReadWriteOnce"]
+          accessModes: ["ReadWriteMany"]
           claimRef:
             namespace: kube-monitoring
             name: alertmanager-pv
@@ -97,7 +97,7 @@ prometheus:
       volumeClaimTemplate:
         spec:
           storageClassName: nfs
-          accessModes: ["ReadWriteOnce"]
+          accessModes: ["ReadWriteMany"]
           claimRef:
             namespace: kube-monitoring
             name: prometheus-pv
