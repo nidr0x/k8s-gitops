@@ -240,6 +240,7 @@ grafana:
     users:
       allow_sign_up: false
       auto_asign_org: true
+      auto_assign_org_id: 1
       auto_assign_or_role: 'Admin'
     auth:
       disable_login_form: false
