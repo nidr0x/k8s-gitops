@@ -24,7 +24,7 @@ spec:
         runAsUser: 1000
       containers:
         - name: snmp-exporter
-          image: prom/snmp-exporter:v0.25.0
+          image: prom/snmp-exporter:v0.26.0
           imagePullPolicy: Always
           resources:
             requests:
