@@ -19,7 +19,6 @@ This repository contains Kubernetes manifests and ArgoCD definitions for a homel
 - [Node Problem Detector](https://github.com/kubernetes/node-problem-detector)
 - [OAuth2 Proxy](https://github.com/oauth2-proxy/oauth2-proxy)
 - [Secret Reloader](https://github.com/stakater/Reloader)
-- [SNMP Exporter](https://github.com/prometheus/snmp_exporter)
 - [Teslamate](https://github.com/teslamate-org/teslamate)
 - [Transmission](https://github.com/transmission/transmission)
 - [Uptime Kuma](https://github.com/louislam/uptime-kuma)
