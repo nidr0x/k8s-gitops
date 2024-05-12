@@ -146,7 +146,7 @@ grafana:
       database: teslamate
       user: teslamate
       secureJsonData:
-        password: test
+        password: $__env{TESLAMATE_POSTGRESQL_PASSWORD}
       jsonData:
         sslmode: 'disable'
         postgresVersion: 1000
