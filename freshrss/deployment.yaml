@@ -39,6 +39,12 @@ spec:
             value: "Europe/Madrid"
           - name: CRON_MIN
             value: "1,31"
+          - name: POSTGRES_DB
+            value: "freshrss"
+          - name: POSTGRES_USER
+            value: "freshrss"
+          - name: POSTGRES_PASSWORD
+            value: "kObUIaCzwQDSvln7RTCiZDwA93SyNB0ERG24WF4AEleeTzPppS21qanT6tfmStnl"
           #- name: PUID
           #  value: "950"
           #- name: PGID
