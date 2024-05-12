@@ -34,11 +34,17 @@ spec:
               protocol: TCP
           env:
             - name: ENCRYPTION_KEY
-              value: "K8h31POBWwjhOtmMwTnD1oTap7VRVgRnmYTPtC+bWC3fJxT22r+GIx2hQPWpB"
+              valueFrom:
+                secretKeyRef:
+                  name: teslamate
+                  key: ENCRYPTION_KEY
             - name: DATABASE_USER
               value: "teslamate"
             - name: DATABASE_PASS
-              value: "test"
+              valueFrom:
+                secretKeyRef:
+                  name: teslamate
+                  key: DATABASE_PASS
             - name: DATABASE_NAME
               value: "teslamate"
             - name: DATABASE_HOST
