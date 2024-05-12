@@ -16,21 +16,20 @@
   "requireConfig": "optional",
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "argocd": {
-    "fileMatch": ["\\.yaml$", "\\.yml$"]
+    "fileMatch": ["^.*\\.ya?ml$"]
   },
   "kubernetes": {
-    "fileMatch": ["\\.yaml$", "\\.yml$"]
+    "fileMatch": ["^.*\\.ya?ml$"]
   },
   "regexManagers": [
     {
       "matchStrings": [
         "source:\\n.*chart: (?<depName>.*)\\n.*repoURL: (?<registryUrl>.*)\\n.*targetRevision: (?<currentValue>.*)"
       ],
-      "fileMatch": ["\\.yaml$", "\\.yml$"],
+      "fileMatch": ["^.*\\.ya?ml$"],
       "datasourceTemplate": "helm"
     }
   ],
-
   "commitMessageTopic": "{{depName}}",
   "commitMessageExtra": "to {{newVersion}}",
   "commitMessageSuffix": "",
@@ -46,6 +45,8 @@
   ],
   "rangeStrategy": "auto",
   "prHourlyLimit": 2,
-  "prConcurrentLimit": 20
+  "prConcurrentLimit": 20,
+  "separateMajorMinor": true,
+  "separateMultipleMajor": true
 }
 
