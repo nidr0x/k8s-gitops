@@ -16,7 +16,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: gphotos-sync
-              image: ghcr.io/gilesknap/gphotos-sync:3.2.1
+              image: ghcr.io/gilesknap/gphotos-sync:3.2.2
               args: ["/storage"]
               resources:
                 requests:
