@@ -58,7 +58,7 @@ spec:
   ipFamilyPolicy: SingleStack
   ports:
   - name: postgres
-    port: 5433
+    port: 5434
     protocol: TCP
     targetPort: 5432
   selector:
