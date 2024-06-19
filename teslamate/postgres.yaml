@@ -1,18 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  creationTimestamp: null
   name: teslamate
----
-apiVersion: v1
-kind: Secret
-type: "kubernetes.io/basic-auth"
-metadata:
-  namespace: teslamate
-  name: teslamate
-stringData:
-  username: teslamate
-  password: test
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: Pooler
@@ -37,8 +26,8 @@ metadata:
   namespace: teslamate
 spec:
   env:
-  - name: TZ
-    value: Europe/Madrid
+    - name: TZ
+      value: Europe/Madrid
   bootstrap:
     initdb:
       dataChecksums: false
@@ -47,8 +36,6 @@ spec:
       localeCType: C
       localeCollate: C
       owner: teslamate
-      secret:
-        name: teslamate
       postInitTemplateSQL:
         - CREATE EXTENSION cube;
         - CREATE EXTENSION earthdistance;
@@ -70,13 +57,13 @@ spec:
   externalTrafficPolicy: Cluster
   internalTrafficPolicy: Cluster
   ipFamilies:
-  - IPv4
+    - IPv4
   ipFamilyPolicy: SingleStack
   ports:
-  - name: postgres
-    port: 5432
-    protocol: TCP
-    targetPort: 5432
+    - name: postgres
+      port: 5432
+      protocol: TCP
+      targetPort: 5432
   selector:
     cnpg.io/cluster: teslamate-cnpg-main-pooler-rw
   sessionAffinity: None
@@ -84,5 +71,4 @@ spec:
 status:
   loadBalancer:
     ingress:
-    - ip: 192.168.1.10
-
+      - ip: 192.168.1.10
