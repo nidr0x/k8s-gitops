@@ -2,12 +2,12 @@ prometheusOperator:
   # Relabeling job name for operator metrics
   serviceMonitor:
     relabelings:
-    # Replace job value
-    - sourceLabels:
-      - __address__
-      action: replace
-      targetLabel: job
-      replacement: prometheus-operator
+      # Replace job value
+      - sourceLabels:
+          - __address__
+        action: replace
+        targetLabel: job
+        replacement: prometheus-operator
   # Disable creation of kubelet service
   kubeletService:
     enabled: false
@@ -28,7 +28,7 @@ alertmanager:
     path: /alertmanager
     tls:
       - hosts:
-        - '*.nidr0x.win'
+          - "*.nidr0x.win"
         secretName: zerossl-prod
   alertmanagerSpec:
     fullnameOverride: "kubepromstack-alertmanager"
@@ -54,7 +54,7 @@ alertmanager:
     relabelings:
       # Replace job value
       - sourceLabels:
-        - __address__
+          - __address__
         action: replace
         targetLabel: job
         replacement: alertmanager
@@ -70,7 +70,7 @@ prometheus:
       external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
     tls:
       - hosts:
-        - '*.nidr0x.win'
+          - "*.nidr0x.win"
         secretName: zerossl-prod
   prometheusSpec:
     fullnameOverride: "kubepromstack-prometheus"
@@ -107,7 +107,7 @@ prometheus:
     relabelings:
       # Replace job value
       - sourceLabels:
-        - __address__
+          - __address__
         action: replace
         targetLabel: job
         replacement: prometheus
@@ -126,7 +126,7 @@ grafana:
     path: /grafana
     tls:
       - hosts:
-        - '*.nidr0x.win'
+          - "*.nidr0x.win"
         secretName: zerossl-prod
   securityContext:
     runAsGroup: 2002
@@ -148,7 +148,7 @@ grafana:
       secureJsonData:
         password: $__env{TESLAMATE_POSTGRESQL_PASSWORD}
       jsonData:
-        sslmode: 'disable'
+        sslmode: "disable"
         postgresVersion: 1000
       version: 1
       editable: true
@@ -166,7 +166,7 @@ grafana:
     relabelings:
       # Replace job value
       - sourceLabels:
-        - __address__
+          - __address__
         action: replace
         targetLabel: job
         replacement: grafana
@@ -174,51 +174,51 @@ grafana:
     dashboardproviders.yaml:
       apiVersion: 1
       providers:
-        - name: 'tesla'
-          folder: 'Tesla'
+        - name: "tesla"
+          folder: "Tesla"
           options:
             path: /var/lib/grafana/dashboards/tesla
   dashboards:
     tesla:
       battery-health:
-        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/battery-health.json
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/battery-health.json
       charge-level:
-        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/charge-level.json
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/charge-level.json
       charges:
-        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/charges.json
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/charges.json
       charging-stats:
-        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/charging-stats.json
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/charging-stats.json
       drive-stats:
-        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/drive-stats.json
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/drive-stats.json
       drives:
-        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/drives.json
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/drives.json
       efficiency:
-        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/efficiency.json
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/efficiency.json
       locations:
-        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/locations.json
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/locations.json
       mileage:
-        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/mileage.json
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/mileage.json
       overview:
-        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/overview.json
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/overview.json
       projected-range:
-        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/projected-range.json
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/projected-range.json
       states:
-        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/states.json
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/states.json
       statistics:
-        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/statistics.json
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/statistics.json
       timeline:
-        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/timeline.json
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/timeline.json
       trip:
-        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/trip.json
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/trip.json
       updates:
-        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/updates.json
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/updates.json
       vampire-drain:
-        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/vampire-drain.json
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/vampire-drain.json
       visited:
-        url:  https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/visited.json
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/visited.json
   grafana.ini:
     #log:
-      #level: debug
+    #level: debug
     database:
       type: "postgres"
       host: "192.168.1.10"
@@ -226,6 +226,7 @@ grafana:
       user: "grafana"
       password: $__env{GRAFANA_POSTGRESQL_PASSWORD}
       sslmode: "disable"
+      wal: false
     feature_toggles:
       ssoSettingsApi: true
     server:
@@ -235,11 +236,9 @@ grafana:
       allow_sign_up: false
       auto_asign_org: true
       auto_assign_org_id: 1
-      auto_assign_or_role: 'Admin'
+      auto_assign_or_role: "Admin"
     auth:
       disable_login_form: true
-    database:
-      wal: false
     security:
       angular_support_enabled: false
     auth.google:
@@ -296,4 +295,3 @@ namespaceOverride: kube-monitoring
 nameOverride: ""
 fullnameOverride: "kubepromstack"
 releaseOverride: ""
-
