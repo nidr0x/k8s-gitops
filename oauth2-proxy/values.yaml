@@ -23,10 +23,6 @@ config:
     set_xauthrequest = "true"
     ## path for for sign_in.html and error.html templates
     #custom_templates_dir = "/etc/oauth2-proxy-template/"
-    # Exclude paths from authentication
-    skip_auth_regex = "^/public/.*$"
-    # Ensure that the original URL is preserved after login
-    preserve_host = true
 
 extraObjects:
   - apiVersion: v1
