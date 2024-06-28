@@ -1,28 +1,25 @@
-config:
-  existingSecret: oauth2-proxy
-  configFile: |
-    reverse_proxy = "true"
-    redirect_url = "https://sso.nidr0x.win/oauth2/callback"
-    upstreams = "static://202"
-    email_domains = [ "*" ]
-    ## custom (html) banner string
-    # banner = ""
-    ## custom (html) footer string
-    footer = "-"
-    provider = "google"
-    whitelist_domains = [ ".nidr0x.win" ]
-    cookie_domains = [ ".nidr0x.win" ]
-    cookie_expire = "168h"
-    cookie_secure = "false"
-    cookie_httponly = "true"
-    cookie_samesite = "lax"
-    skip_provider_button= "true"
-    pass_access_token = "true"
-    pass_authorization_header = "true"
-    set_authorization_header = "true"
-    set_xauthrequest = "true"
-    ## path for for sign_in.html and error.html templates
-    #custom_templates_dir = "/etc/oauth2-proxy-template/"
+existingSecret: oauth2-proxy
+configFile: |
+  reverse_proxy = true
+  redirect_url = "https://sso.nidr0x.win/oauth2/callback"
+  upstreams = "static://202"
+  email_domains = ["*"]
+  ## Custom (HTML) banner string
+  # banner = ""
+  ## Custom (HTML) footer string
+  footer = "-"
+  provider = "google"
+  whitelist_domains = [".nidr0x.win"]
+  cookie_domains = [".nidr0x.win"]
+  cookie_expire = "168h"
+  cookie_secure = false
+  cookie_httponly = true
+  cookie_samesite = "lax"
+  skip_provider_button = true
+  pass_access_token = true
+  pass_authorization_header = true
+  set_authorization_header = true
+  set_xauthrequest = true
 
 extraObjects:
   - apiVersion: v1
@@ -35,13 +32,13 @@ extraObjects:
         Disallow: /
 
 extraVolumes:
-- name: html-template
-  configMap:
-    name: oauth2-proxy-templates
+  - name: html-template
+    configMap:
+      name: oauth2-proxy-templates
 
 extraVolumeMounts:
-- mountPath: /etc/oauth2-proxy-template
-  name: html-template
+  - mountPath: /etc/oauth2-proxy-template
+    name: html-template
 
 securityContext:
   enabled: true
@@ -67,8 +64,8 @@ ingress:
     cert-manager.io/cluster-issuer: zerossl-prod
     external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
   hosts:
-   - sso.nidr0x.win
-  tls:
+    - sso.nidr0x.win
+  tls: []
 
 resources:
   limits:
@@ -112,4 +109,3 @@ checkDeprecation: true
 
 extraArgs:
   reverse-proxy: true
-
