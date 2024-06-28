@@ -34,15 +34,6 @@ extraObjects:
         User-agent: *
         Disallow: /
 
-extraVolumes:
-  - name: html-template
-    configMap:
-      name: oauth2-proxy-templates
-
-extraVolumeMounts:
-  - mountPath: /etc/oauth2-proxy-template
-    name: html-template
-
 securityContext:
   enabled: true
   runAsNonRoot: true
