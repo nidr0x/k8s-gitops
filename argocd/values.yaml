@@ -1,0 +1,62 @@
+fullnameOverride: argocd
+
+server:
+  ingress:
+    enabled: true
+    https: false
+
+    annotations:
+      kubernetes.io/ingress.class: traefik
+      cert-manager.io/cluster-issuer: zerossl-prod
+      external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
+    hostname: argocd.nidr0x.win
+    tls:
+
+global:
+  domain: argocd.nidr0x.win
+
+dex:
+  dnsConfig:
+    nameservers:
+      - 1.1.1.1
+      - 1.0.0.1
+  dnsPolicy: None
+
+configs:
+  params:
+    # Run server without TLS
+    # Traefik finishes TLS connections
+    server.insecure: true
+  rbac:
+    policy.default: ""
+    scopes: '[email, group]'
+    policy.csv: |
+      g, nidr0x@gmail.com, role:admin
+  cm:
+    admin.enabled: 'false'
+    url: https://argocd.nidr0x.win
+    statusbadge.enabled: 'false'
+    dex.config: |
+      connectors:
+        - config:
+            issuer: https://accounts.google.com
+            clientID: $sso:dex.google.clientID
+            clientSecret: $sso:dex.google.clientSecret
+          type: oidc
+          id: google
+          name: Google
+
+    # Adding Applications health check
+    resource.customizations.health.argoproj.io_Application: |
+      hs = {}
+      hs.status = "Progressing"
+      hs.message = ""
+      if obj.status ~= nil then
+        if obj.status.health ~= nil then
+          hs.status = obj.status.health.status
+          if obj.status.health.message ~= nil then
+            hs.message = obj.status.health.message
+          end
+        end
+      end
+      return hs

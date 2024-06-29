@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: adguardhome
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: "zerossl-prod"
+    external-dns.alpha.kubernetes.io/target: ip-non-proxied.nidr0x.win
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+spec:
+  rules:
+   - host: adguard.nidr0x.win
+     http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: adguardhome-http
+            port:
+              name: http
+  tls:

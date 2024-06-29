@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: teslamate
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Pooler
+metadata:
+  name: teslamate-cnpg-main-pooler-rw
+  namespace: teslamate
+spec:
+  cluster:
+    name: teslamate-cnpg-main
+  instances: 1
+  pgbouncer:
+    paused: false
+    poolMode: session
+  type: rw
+status:
+  instances: 1
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: teslamate-cnpg-main-pooler-rw
+  namespace: teslamate
+spec:
+  env:
+    - name: TZ
+      value: Europe/Madrid
+  bootstrap:
+    initdb:
+      dataChecksums: false
+      database: teslamate
+      encoding: UTF8
+      localeCType: C
+      localeCollate: C
+      owner: teslamate
+      postInitTemplateSQL:
+        - CREATE EXTENSION cube;
+        - CREATE EXTENSION earthdistance;
+        - ALTER FUNCTION ll_to_earth(float8, float8) OWNER TO teslamate;
+  logLevel: info
+  storage:
+    size: 1Gi
+  monitoring:
+    disableDefaultQueries: false
+    enablePodMonitor: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: teslamate
+  namespace: teslamate
+spec:
+  allocateLoadBalancerNodePorts: false
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+    - name: postgres
+      port: 5432
+      protocol: TCP
+      targetPort: 5432
+  selector:
+    cnpg.io/cluster: teslamate-cnpg-main-pooler-rw
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+      - ip: 192.168.1.10

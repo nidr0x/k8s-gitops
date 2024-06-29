@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus-stack
+spec:
+  destination:
+    namespace: kube-monitoring
+    server: https://kubernetes.default.svc
+  project: everest
+  sources:
+    - repoURL: https://github.com/nidr0x/homelab
+      targetRevision: master
+      ref: nidr0x-homelab
+    - repoURL: https://github.com/nidr0x/homelab
+      targetRevision: master
+      path: monitoring/kube-prometheus-stack/
+    - repoURL: https://prometheus-community.github.io/helm-charts
+      targetRevision: 61.1.0
+      chart: kube-prometheus-stack
+      helm:
+        valueFiles:
+          - $nidr0x-homelab/monitoring/kube-prometheus-stack/values.yaml
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - RespectIgnoreDifferences=true
+    automated:
+      prune: true
+      selfHeal: true

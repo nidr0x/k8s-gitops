@@ -1,0 +1,17 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-nidr0x-win
+spec:
+  secretName: zerossl-prod
+  issuerRef:
+    kind: ClusterIssuer
+    name: zerossl-prod
+  duration: 2160h0m0s # 90d
+  renewBefore: 720h0m0s # 30d before SSL will expire, renew it
+  dnsNames:
+  - "*.nidr0x.win"
+  secretTemplate:
+    annotations:
+      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
