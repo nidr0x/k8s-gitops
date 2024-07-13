@@ -9,14 +9,14 @@ metadata:
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
 spec:
   rules:
-   - host: adguard.nidr0x.win
-     http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: adguardhome-http
-            port:
-              name: http
+    - host: dns.nidr0x.win
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: adguardhome-http
+                port:
+                  name: http
   tls:
