@@ -2,16 +2,16 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: argocd
 resources:
-- namespace.yaml
-- argocd-apps.yaml
-- argocd-setup.yaml
-- secret.yaml
-- argocd-project-everest.yaml
+  - namespace.yaml
+  - argocd-apps.yaml
+  - argocd-setup.yaml
+  - secret.yaml
+  - argocd-project-everest.yaml
 
-helmChartInflationGenerator:
-- chartName: argo-cd
-  chartRepoUrl: https://argoproj.github.io/argo-helm
-  chartVersion: 5.27.4
-  releaseName: argocd
-  releaseNamespace: argocd
-  values: values.yaml
+helmCharts:
+  - name: argo-cd
+    repo: https://argoproj.github.io/argo-helm
+    version: 6.7.9
+    releaseName: argocd
+    valuesFile: values.yaml
+    namespace: argocd
