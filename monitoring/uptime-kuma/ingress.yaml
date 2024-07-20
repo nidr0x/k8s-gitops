@@ -3,7 +3,6 @@ kind: Ingress
 metadata:
   name: uptime-kuma
   annotations:
-    kubernetes.io/ingress.class: traefik
     cert-manager.io/cluster-issuer: zerossl-prod
     external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
     traefik.ingress.kubernetes.io/router.middlewares: kube-system-oauth-auth-redirect@kubernetescrd
@@ -21,5 +20,5 @@ spec:
                   name: http
   tls:
     - hosts:
-      - '*.nidr0x.win'
+        - "*.nidr0x.win"
       secretName: zerossl-prod
