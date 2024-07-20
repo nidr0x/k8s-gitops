@@ -5,30 +5,15 @@ metadata:
   labels:
     app: bitwarden
 spec:
-  ipFamilyPolicy: PreferDualStack
   ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: 8080
-  - name: ws
-    protocol: TCP
-    port: 3012
-    targetPort: 3012
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+    - name: ws
+      protocol: TCP
+      port: 3012
+      targetPort: 3012
   type: ClusterIP
   selector:
     app: bitwarden
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: bitwarden-mariadb
-  labels:
-    app: bitwarden-mariadb
-spec:
-  ipFamilyPolicy: PreferDualStack
-  ports:
-  - name: mariadb
-    port: 3306
-  selector:
-    app: bitwarden-mariadb
