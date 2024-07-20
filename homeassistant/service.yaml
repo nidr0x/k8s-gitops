@@ -5,7 +5,7 @@ metadata:
     app: homeassistant
   name: homeassistant
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - name: http
       protocol: TCP
