@@ -5,6 +5,7 @@ metadata:
     app: adguardhome
   name: adguardhome-https
 spec:
+  type: LoadBalancer
   ports:
     - name: https
       port: 443
@@ -24,6 +25,7 @@ metadata:
     app: adguardhome
   name: adguardhome-http
 spec:
+  type: LoadBalancer
   ports:
     - name: http
       port: 80
@@ -52,8 +54,6 @@ kind: Service
 metadata:
   labels:
     app: adguardhome
-  annotations:
-    io.cilium.service-ip-pool: "int-pool"
   name: dns-over-tls
 spec:
   type: LoadBalancer
