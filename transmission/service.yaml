@@ -5,7 +5,7 @@ metadata:
     app: transmission
   name: transmission
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - name: http
       protocol: TCP
