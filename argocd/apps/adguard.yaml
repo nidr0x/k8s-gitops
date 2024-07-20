@@ -10,7 +10,7 @@ spec:
   source:
     path: adguardhome/
     repoURL: https://github.com/nidr0x/homelab
-    targetRevision: move-to-talos
+    targetRevision: master
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
