@@ -41,6 +41,7 @@ metadata:
     app: adguardhome
   name: adguardhome-admin
 spec:
+  type: LoadBalancer
   ports:
     - name: admin
       port: 3000
