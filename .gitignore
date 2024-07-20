@@ -35,3 +35,13 @@ Temporary Items
 ### macOS Patch ###
 # iCloud generated files
 *.icloud
+
+# Other stuff
+.terraform/
+*terraform.tfstate*
+tfplan
+*.log
+talos-*-amd64.json
+talosconfig.yml
+kubeconfig.yml
+secrets*

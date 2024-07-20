@@ -5,16 +5,15 @@ metadata:
     app: adguardhome
   name: adguardhome-https
 spec:
-  ipFamilyPolicy: PreferDualStack
   ports:
-  - name: https
-    port: 443
-    protocol: TCP
-    targetPort: https
-  - name: https-udp
-    port: 443
-    protocol: UDP
-    targetPort: https-udp
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: https
+    - name: https-udp
+      port: 443
+      protocol: UDP
+      targetPort: https-udp
   selector:
     app: adguardhome
 ---
@@ -25,12 +24,11 @@ metadata:
     app: adguardhome
   name: adguardhome-http
 spec:
-  ipFamilyPolicy: PreferDualStack
   ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: http
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
   selector:
     app: adguardhome
 ---
@@ -41,12 +39,11 @@ metadata:
     app: adguardhome
   name: adguardhome-admin
 spec:
-  ipFamilyPolicy: PreferDualStack
   ports:
-  - name: admin
-    port: 3000
-    protocol: TCP
-    targetPort: admin
+    - name: admin
+      port: 3000
+      protocol: TCP
+      targetPort: admin
   selector:
     app: adguardhome
 ---
@@ -55,20 +52,20 @@ kind: Service
 metadata:
   labels:
     app: adguardhome
+  annotations:
+    io.cilium.service-ip-pool: "int-pool"
   name: dns-over-tls
 spec:
-  ipFamilyPolicy: PreferDualStack
-  externalTrafficPolicy: Local
   type: LoadBalancer
   ports:
-  - name: dns-over-tls
-    port: 853
-    protocol: TCP
-    targetPort: dns-over-tls
-  - name: dns-over-quic
-    port: 853
-    protocol: UDP
-    targetPort: dns-over-quic-2
+    - name: dns-over-tls
+      port: 853
+      protocol: TCP
+      targetPort: dns-over-tls
+    - name: dns-over-quic
+      port: 853
+      protocol: UDP
+      targetPort: dns-over-quic-2
   selector:
     app: adguardhome
 ---
@@ -79,18 +76,16 @@ metadata:
     app: adguardhome
   name: dns-tcp-udp
 spec:
-  ipFamilyPolicy: PreferDualStack
-  externalTrafficPolicy: Local
   type: LoadBalancer
   ports:
-  - name: dns-tcp
-    port: 53
-    protocol: TCP
-    targetPort: dns-tcp
-  - name: dns-udp
-    port: 53
-    protocol: UDP
-    targetPort: dns-udp
+    - name: dns-tcp
+      port: 53
+      protocol: TCP
+      targetPort: dns-tcp
+    - name: dns-udp
+      port: 53
+      protocol: UDP
+      targetPort: dns-udp
   selector:
     app: adguardhome
 ---
@@ -101,17 +96,15 @@ metadata:
     app: adguardhome
   name: dnscrypt
 spec:
-  ipFamilyPolicy: PreferDualStack
-  externalTrafficPolicy: Local
   type: LoadBalancer
   ports:
-  - name: dnscrypt
-    port: 5443
-    protocol: TCP
-    targetPort: dnscrypt
-  - name: dnscrypt-udp
-    port: 5443
-    protocol: UDP
-    targetPort: dnscrypt-udp
+    - name: dnscrypt
+      port: 5443
+      protocol: TCP
+      targetPort: dnscrypt
+    - name: dnscrypt-udp
+      port: 5443
+      protocol: UDP
+      targetPort: dnscrypt-udp
   selector:
     app: adguardhome
