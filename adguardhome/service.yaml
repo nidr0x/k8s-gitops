@@ -39,7 +39,6 @@ metadata:
     app: adguardhome
   name: adguardhome-admin
 spec:
-  ipFamilyPolicy: PreferDualStack
   ports:
     - name: admin
       port: 3000
