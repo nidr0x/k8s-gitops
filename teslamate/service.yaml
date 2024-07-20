@@ -5,7 +5,6 @@ metadata:
     app: teslamate
   name: teslamate
 spec:
-  ipFamilyPolicy: PreferDualStack
   type: LoadBalancer
   ports:
     - name: http
