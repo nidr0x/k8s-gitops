@@ -10,11 +10,10 @@ spec:
   source:
     path: argocd/apps/
     repoURL: https://github.com/nidr0x/homelab
-    targetRevision: master
+    targetRevision: move-to-talos #temp
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
     automated:
       prune: true
       selfHeal: true
-
