@@ -5,7 +5,7 @@ metadata:
     app: freshrss
   name: freshrss
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - name: http
       protocol: TCP
