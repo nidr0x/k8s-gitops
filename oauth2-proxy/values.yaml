@@ -42,7 +42,7 @@ authenticatedEmailsFile:
   enabled: false
 
 service:
-  type: ClusterIP
+  type: LoadBalancer
   portNumber: 4180
 
 serviceAccount:
@@ -54,7 +54,6 @@ ingress:
   enabled: true
   path: /
   annotations:
-    kubernetes.io/ingress.class: traefik
     cert-manager.io/cluster-issuer: zerossl-prod
     external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
   hosts:
