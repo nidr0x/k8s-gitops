@@ -22,6 +22,12 @@ dex:
       - 1.0.0.1
   dnsPolicy: None
 
+ingress:
+  enabled: true
+  hostname: argocd.nidr0x.win
+  path: /
+  pathType: Prefix
+
 configs:
   params:
     # Run server without TLS
