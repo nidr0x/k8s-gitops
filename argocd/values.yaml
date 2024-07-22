@@ -15,17 +15,8 @@ server:
 global:
   domain: argocd.nidr0x.win
 
-dex:
-  dnsConfig:
-    nameservers:
-      - 1.1.1.1
-      - 1.0.0.1
-  dnsPolicy: None
-
 configs:
   params:
-    # Run server without TLS
-    # Traefik finishes TLS connections
     server.insecure: true
   rbac:
     policy.default: ""
