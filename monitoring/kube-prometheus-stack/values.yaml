@@ -1,4 +1,8 @@
 prometheusOperator:
+  image:
+    tag: v0.52.0
+  prometheusConfigReloaderImage:
+    tag: v0.52.0
   # Relabeling job name for operator metrics
   serviceMonitor:
     relabelings:
