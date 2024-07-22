@@ -38,5 +38,3 @@ data:
   SMTP_DEBUG: "false"
   #GET Real IP
   IP_HEADER: "CF-Connecting-IP"
-  #Log level
-  LOG_LEVEL: debug
