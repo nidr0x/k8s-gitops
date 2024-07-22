@@ -9,6 +9,9 @@ server:
       external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
     hostname: argocd.nidr0x.win
     tls:
+      - hosts:
+          - "*.nidr0x.win"
+        secretName: zerossl-pro
   service:
     type: LoadBalancer
 
