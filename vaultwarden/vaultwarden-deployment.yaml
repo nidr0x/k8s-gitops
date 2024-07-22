@@ -55,9 +55,9 @@ spec:
             - containerPort: 3012
               name: ws
               protocol: TCP
-          #volumeMounts:
-          #  - mountPath: /data
-          # name: bitwarden-data
+          volumeMounts:
+            - mountPath: /data
+              name: bitwarden-data
           resources:
             limits:
               memory: 512Mi
@@ -69,7 +69,7 @@ spec:
             runAsUser: 950
             allowPrivilegeEscalation: false
             runAsGroup: 950
-      #   volumes:
-      # - name: bitwarden-data
-      # persistentVolumeClaim:
-      # claimName: bitwarden-data-pvc
+      volumes:
+        - name: bitwarden-data
+          persistentVolumeClaim:
+          claimName: bitwarden-data-pvc
