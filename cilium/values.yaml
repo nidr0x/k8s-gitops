@@ -1,0 +1,40 @@
+k8sServiceHost: 192.168.1.11
+k8sServicePort: 6443
+
+kubeProxyReplacement: true
+
+l2announcements:
+  enabled: true
+
+externalIPs:
+  enabled: true
+
+k8sClientRateLimit:
+  qps: 50
+  burst: 200
+
+bpf:
+  masquerade: true
+  hostLegacyRouting: false
+
+socketLB:
+  hostNamespaceOnly: true
+
+operator:
+  replicas: 1 # Uncomment this if you only have one node
+  rollOutPods: true
+
+rollOutCiliumPods: true
+
+securityContext:
+  privileged: true
+
+ingressController:
+  enabled: true
+  default: true
+  enforceHttps: false
+  loadbalancerMode: shared
+  service:
+    loadBalancerIP: 192.168.1.248
+    annotations:
+      io.cilium/lb-ipam-ips: 192.168.1.220
