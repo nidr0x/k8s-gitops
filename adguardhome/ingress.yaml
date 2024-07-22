@@ -19,3 +19,6 @@ spec:
                 port:
                   name: http
   tls:
+    - hosts:
+        - "*.nidr0x.win"
+      secretName: zerossl-prod
