@@ -40,6 +40,8 @@ metadata:
   labels:
     app: adguardhome
   name: adguardhome-admin
+  annotations:
+    "io.cilium/lb-ipam-sharing-key": "dns"
 spec:
   type: LoadBalancer
   ports:
@@ -57,7 +59,7 @@ metadata:
     app: adguardhome
   name: dns-over-tls
   annotations:
-    "io.cilium/lb-ipam-sharing-key": "1234"
+    "io.cilium/lb-ipam-sharing-key": "dns"
 spec:
   type: LoadBalancer
   ports:
@@ -79,7 +81,7 @@ metadata:
     app: adguardhome
   name: dns-tcp-udp
   annotations:
-    "io.cilium/lb-ipam-sharing-key": "1234"
+    "io.cilium/lb-ipam-sharing-key": "dns"
 spec:
   type: LoadBalancer
   ports:
@@ -101,7 +103,7 @@ metadata:
     app: adguardhome
   name: dnscrypt
   annotations:
-    "io.cilium/lb-ipam-sharing-key": "1234"
+    "io.cilium/lb-ipam-sharing-key": "dns"
 spec:
   type: LoadBalancer
   ports:
