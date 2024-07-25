@@ -32,7 +32,7 @@ securityContext:
 ingressController:
   enabled: true
   default: true
-  enforceHttps: false
+  enforceHttps: true
   loadbalancerMode: shared
   defaultSecretName: zerossl-prod
   service:
