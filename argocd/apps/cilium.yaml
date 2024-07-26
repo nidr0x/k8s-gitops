@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cilium
+spec:
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  project: everest
+  sources:
+    - repoURL: https://github.com/nidr0x/homelab
+      targetRevision: master
+      ref: nidr0x-homelab
+    - repoURL: https://github.com/nidr0x/homelab
+      targetRevision: master
+      path: cilium/
+    - repoURL: https://helm.cilium.io
+      targetRevision: v1.16.0
+      chart: cilium
+      helm:
+        valueFiles:
+          - $nidr0x-homelab/cilium/values.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

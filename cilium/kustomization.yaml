@@ -4,12 +4,3 @@ kind: Kustomization
 resources:
   - announce.yaml
   - ip-pool.yaml
-
-helmCharts:
-  - name: cilium
-    repo: https://helm.cilium.io
-    version: 1.16.0
-    releaseName: "cilium"
-    includeCRDs: true
-    namespace: kube-system
-    valuesFile: values.yaml
