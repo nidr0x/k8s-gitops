@@ -7,6 +7,7 @@ metadata:
     external-dns.alpha.kubernetes.io/target: ip-non-proxied.nidr0x.win
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
 spec:
+  ingressClassName: cilium
   rules:
     - host: dns.nidr0x.win
       http:
