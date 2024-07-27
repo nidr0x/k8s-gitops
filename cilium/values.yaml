@@ -38,7 +38,7 @@ hubble:
 ingressController:
   enabled: true
   default: true
-  enforceHttps: true
+  #enforceHttps: true
   loadbalancerMode: shared
   defaultSecretName: zerossl-prod
   service:
