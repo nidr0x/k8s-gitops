@@ -29,6 +29,12 @@ rollOutCiliumPods: true
 securityContext:
   privileged: true
 
+hubble:
+  relay:
+    enabled: true
+  ui:
+    enabled: true
+
 ingressController:
   enabled: true
   default: true
