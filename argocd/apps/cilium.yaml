@@ -25,4 +25,4 @@ spec:
       prune: true
     syncOptions:
       - ServerSideApply=true
-      - RespectIgnoreDifferences=true
+      - IncludeMutationWebhook=true
