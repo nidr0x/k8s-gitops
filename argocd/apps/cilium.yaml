@@ -24,7 +24,7 @@ spec:
     automated:
       prune: true
     syncOptions:
-      - ServerSideApply=true
+      # - ServerSideApply=true
   ignoreDifferences:
     - group: ""
       kind: ConfigMap
