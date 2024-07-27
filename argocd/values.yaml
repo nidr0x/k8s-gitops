@@ -30,6 +30,13 @@ configs:
     admin.enabled: false
     url: https://argocd.nidr0x.win
     statusbadge.enabled: false
+    resource.exclusions: |
+      - apiGroups:
+          - cilium.io
+        kinds:
+          - CiliumIdentity
+        clusters:
+          - "*"
     dex.config: |
       connectors:
         - type: oidc
