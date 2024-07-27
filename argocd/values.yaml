@@ -28,7 +28,7 @@ configs:
       g, nidr0x@gmail.com, role:admin
   cm:
     admin.enabled: "false"
-    url: https://argocd.nidr0x.win
+    #url: https://argocd.nidr0x.win
     statusbadge.enabled: "false"
     dex.config: |
       connectors:
