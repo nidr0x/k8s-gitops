@@ -35,6 +35,11 @@ hubble:
   ui:
     enabled: true
 
+envoyConfig:
+  secretsNamespace:
+    create: true
+    name: kube-system
+
 ingressController:
   enabled: true
   default: true
