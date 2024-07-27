@@ -8,7 +8,7 @@ server:
       cert-manager.io/cluster-issuer: zerossl-prod
       external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
     hostname: argocd.nidr0x.win
-    tls:
+    extraTls:
       - hosts:
           - "*.nidr0x.win"
         secretName: zerossl-pro
