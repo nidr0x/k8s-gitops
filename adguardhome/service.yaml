@@ -3,25 +3,6 @@ kind: Service
 metadata:
   labels:
     app: adguardhome
-  name: adguardhome-https
-spec:
-  ports:
-    - name: https
-      port: 443
-      protocol: TCP
-      targetPort: https
-    - name: https-udp
-      port: 443
-      protocol: UDP
-      targetPort: https-udp
-  selector:
-    app: adguardhome
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: adguardhome
   name: adguardhome-http
 spec:
   ports:
