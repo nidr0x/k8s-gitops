@@ -37,7 +37,7 @@ hubble:
 
 envoyConfig:
   secretsNamespace:
-    create: true
+    create: false
     name: kube-system
 
 ingressController:
