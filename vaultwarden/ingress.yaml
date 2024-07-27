@@ -8,6 +8,7 @@ metadata:
     external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
 spec:
+  ingressClassName: cilium
   rules:
     - host: bitwarden.nidr0x.win
       http:
