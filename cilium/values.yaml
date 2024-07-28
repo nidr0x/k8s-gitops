@@ -10,15 +10,15 @@ externalIPs:
   enabled: true
 
 k8sClientRateLimit:
-  qps: 100
+  qps: 80
   burst: 200
 
 gatewayAPI:
   enabled: false
 
-bpf:
-  masquerade: true
-  hostLegacyRouting: false
+#bpf:
+#  masquerade: true
+#hostLegacyRouting: false
 
 socketLB:
   hostNamespaceOnly: true
