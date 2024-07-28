@@ -27,4 +27,4 @@ spec:
                   name: ws
   tls:
     - hosts:
-        - *.nidr0x.win
+        - "*.nidr0x.win"
