@@ -16,15 +16,15 @@ k8sClientRateLimit:
 gatewayAPI:
   enabled: false
 
-#bpf:
-#  masquerade: true
-#hostLegacyRouting: false
+bpf:
+  masquerade: true
+  hostLegacyRouting: false
 
 socketLB:
   hostNamespaceOnly: true
 
 operator:
-  replicas: 1 # Uncomment this if you only have one node
+  replicas: 1 # One node
   rollOutPods: true
 
 rollOutCiliumPods: true
