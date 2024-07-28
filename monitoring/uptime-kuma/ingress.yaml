@@ -22,4 +22,3 @@ spec:
   tls:
     - hosts:
         - "*.nidr0x.win"
-      secretName: zerossl-prod
