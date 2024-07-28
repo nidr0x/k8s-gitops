@@ -21,5 +21,4 @@ spec:
                   name: http
   tls:
     - hosts:
-        - "*.nidr0x.win"
-      secretName: zerossl-prod
+        - *.nidr0x.win

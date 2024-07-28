@@ -19,3 +19,6 @@ spec:
                 name: transmission
                 port:
                   name: http
+  tls:
+    - hosts:
+        - *.nidr0x.win

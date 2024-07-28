@@ -25,3 +25,6 @@ spec:
                 name: homeassistant
                 port:
                   name: ws
+  tls:
+    - hosts:
+        - *.nidr0x.win
