@@ -18,15 +18,6 @@ server:
 global:
   domain: argocd.nidr0x.win
 
-dex:
-  service:
-    ports:
-      http:
-        port: 5556
-        targetPort: 5556
-        protocol: TCP
-        name: http
-
 configs:
   params:
     server.insecure: true
