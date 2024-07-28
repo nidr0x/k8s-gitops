@@ -10,8 +10,11 @@ externalIPs:
   enabled: true
 
 k8sClientRateLimit:
-  qps: 50
+  qps: 100
   burst: 200
+
+gatewayAPI:
+  enabled: false
 
 bpf:
   masquerade: true
