@@ -35,16 +35,12 @@ hubble:
   ui:
     enabled: true
 
-envoyConfig:
-  secretsNamespace:
-    create: false
-    name: kube-system
-
 ingressController:
   enabled: true
   default: true
   #enforceHttps: true
   loadbalancerMode: shared
+  defaultSecretNamespace: kube-system
   defaultSecretName: zerossl-prod
   service:
     loadBalancerIP: 192.168.1.220
