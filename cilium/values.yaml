@@ -29,6 +29,9 @@ rollOutCiliumPods: true
 securityContext:
   privileged: true
 
+ipv6:
+  enabled: true
+
 hubble:
   relay:
     enabled: true
