@@ -23,7 +23,7 @@ spec:
             claimName: adguardhome-pvc-data
         - name: tls-cert-secret
           secret:
-            secretName: zerossl-prod
+            secretName: prod-cert-zerossl
       containers:
         - name: adguardhome-sync
           imagePullPolicy: IfNotPresent
@@ -63,59 +63,59 @@ spec:
             exec:
               command:
                 - nslookup
-                - 'google.com'
+                - "google.com"
             initialDelaySeconds: 15
           readinessProbe:
             exec:
               command:
                 - nslookup
-                - 'google.com'
+                - "google.com"
             initialDelaySeconds: 15
           startupProbe:
             exec:
               command:
                 - nslookup
-                - 'google.com'
+                - "google.com"
             initialDelaySeconds: 15
             failureThreshold: 10
             periodSeconds: 10
           ports:
-              - name: dns-tcp
-                containerPort: 53
-                protocol: TCP
-              - name: dns-udp
-                containerPort: 53
-                protocol: UDP
-              - name: http
-                containerPort: 80
-                protocol: TCP
-              - name: https
-                containerPort: 443
-                protocol: TCP
-              - name: https-udp
-                containerPort: 443
-                protocol: UDP
-              - name: admin
-                containerPort: 3000
-                protocol: TCP
-              - name: dns-over-tls
-                containerPort: 853
-                protocol: TCP
-              - name: dns-over-quic-1
-                containerPort: 784
-                protocol: UDP
-              - name: dns-over-quic-2
-                containerPort: 853
-                protocol: UDP
-              - name: dns-over-quic-3
-                containerPort: 8853
-                protocol: UDP
-              - name: dnscrypt
-                containerPort: 5443
-                protocol: TCP
-              - name: dnscrypt-udp
-                containerPort: 5443
-                protocol: UDP
+            - name: dns-tcp
+              containerPort: 53
+              protocol: TCP
+            - name: dns-udp
+              containerPort: 53
+              protocol: UDP
+            - name: http
+              containerPort: 80
+              protocol: TCP
+            - name: https
+              containerPort: 443
+              protocol: TCP
+            - name: https-udp
+              containerPort: 443
+              protocol: UDP
+            - name: admin
+              containerPort: 3000
+              protocol: TCP
+            - name: dns-over-tls
+              containerPort: 853
+              protocol: TCP
+            - name: dns-over-quic-1
+              containerPort: 784
+              protocol: UDP
+            - name: dns-over-quic-2
+              containerPort: 853
+              protocol: UDP
+            - name: dns-over-quic-3
+              containerPort: 8853
+              protocol: UDP
+            - name: dnscrypt
+              containerPort: 5443
+              protocol: TCP
+            - name: dnscrypt-udp
+              containerPort: 5443
+              protocol: UDP
           volumeMounts:
             - name: tls-cert-secret
               mountPath: /certs
