@@ -25,12 +25,6 @@ global:
   logLevel: 3
 
 extraArgs:
-  - --dns01-recursive-nameservers=1.1.1.1:53,9.9.9.9:53
+  - --dns01-recursive-nameservers=8.8.8.8:53,1.1.1.1:53
   - --dns01-recursive-nameservers-only
   - --feature-gates=ExperimentalGatewayAPISupport=true
-
-podDnsPolicy: None
-podDnsConfig:
-  nameservers:
-    - 1.1.1.1
-    - 9.9.9.9
