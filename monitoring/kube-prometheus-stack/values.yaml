@@ -33,7 +33,7 @@ alertmanager:
     tls:
       - hosts:
           - "*.nidr0x.win"
-        secretName: zerossl-prod
+        secretName: prod-cert-zerossl
   alertmanagerSpec:
     fullnameOverride: "kubepromstack-alertmanager"
     # Subpath /alertmanager configuration
@@ -70,12 +70,12 @@ prometheus:
     hosts:
       - monitoring.nidr0x.win
     annotations:
-      cert-manager.io/cluster-issuer: zerossl-prod
+      cert-manager.io/cluster-issuer: prod-cert-zerossl
       external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
     tls:
       - hosts:
           - "*.nidr0x.win"
-        secretName: zerossl-prod
+        secretName: prod-cert-zerossl
   prometheusSpec:
     fullnameOverride: "kubepromstack-prometheus"
     retention: 7d
