@@ -11,7 +11,7 @@ server:
     extraTls:
       - hosts:
           - "*.nidr0x.win"
-        secretName: zerossl-prod
+        secretName: prod-cert-zerossl
   service:
     type: LoadBalancer
 

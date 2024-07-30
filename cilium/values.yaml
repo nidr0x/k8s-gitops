@@ -47,6 +47,6 @@ ingressController:
   #enforceHttps: true
   loadbalancerMode: shared
   defaultSecretNamespace: cert-manager
-  defaultSecretName: zerossl-prod
+  defaultSecretName: prod-cert-zerossl
   service:
     loadBalancerIP: 192.168.1.220
