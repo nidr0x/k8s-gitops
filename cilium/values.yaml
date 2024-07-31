@@ -13,9 +13,6 @@ k8sClientRateLimit:
   qps: 80
   burst: 200
 
-gatewayAPI:
-  enabled: false
-
 l7Proxy: true
 bpf:
   masquerade: true
