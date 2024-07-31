@@ -63,8 +63,8 @@ cgroup:
     enabled: false
   hostRoot: /sys/fs/cgroup
 
-ipv6:
-  enabled: true
+#ipv6:
+#  enabled: true
 
 hubble:
   relay:
