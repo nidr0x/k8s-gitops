@@ -16,6 +16,7 @@ k8sClientRateLimit:
 gatewayAPI:
   enabled: false
 
+l7Proxy: true
 bpf:
   masquerade: true
 
