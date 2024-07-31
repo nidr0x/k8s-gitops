@@ -67,7 +67,7 @@ cgroup:
   hostRoot: /sys/fs/cgroup
 
 ipv6:
-  enabled: true
+  enabled: false
 
 hubble:
   relay:
@@ -81,7 +81,7 @@ prometheus:
 ingressController:
   enabled: true
   default: true
-  enforceHttps: true
+  enforceHttps: false
   loadbalancerMode: shared
   defaultSecretNamespace: cert-manager
   defaultSecretName: prod-cert-zerossl
