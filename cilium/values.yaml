@@ -45,6 +45,21 @@ securityContext:
       - SYS_ADMIN
       - SYS_RESOURCE
 
+envoy:
+  enabled: true
+  prometheus:
+    enabled: true
+  securityContext:
+    capabilities:
+      keepCapNetBindService: true
+      envoy:
+        - NET_BIND_SERVICE
+        - CAP_NET_ADMIN
+        - CAP_BPF
+        - NET_ADMIN
+        - SYS_ADMIN
+        - SYS_RESOURCE
+
 cgroup:
   autoMount:
     enabled: false
