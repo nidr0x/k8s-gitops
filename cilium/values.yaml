@@ -47,8 +47,6 @@ securityContext:
 
 envoy:
   enabled: true
-  prometheus:
-    enabled: true
   securityContext:
     capabilities:
       keepCapNetBindService: true
