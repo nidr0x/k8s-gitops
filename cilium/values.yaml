@@ -12,10 +12,6 @@ l2announcements:
 externalIPs:
   enabled: true
 
-k8sClientRateLimit:
-  qps: 80
-  burst: 200
-
 l7Proxy: true
 bpf:
   masquerade: true
