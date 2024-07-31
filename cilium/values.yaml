@@ -13,11 +13,15 @@ externalIPs:
   enabled: true
 
 l7Proxy: true
+
 bpf:
   masquerade: true
 
 socketLB:
   hostNamespaceOnly: true
+
+gatewayAPI:
+  enabled: true
 
 operator:
   replicas: 1 # One node
