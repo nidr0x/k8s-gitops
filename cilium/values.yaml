@@ -77,6 +77,8 @@ prometheus:
 ingressController:
   enabled: true
   default: true
+  hostNetwork:
+    enabled: true
   #enforceHttps: true
   loadbalancerMode: shared
   defaultSecretNamespace: cert-manager
