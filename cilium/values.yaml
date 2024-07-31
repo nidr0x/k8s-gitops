@@ -71,6 +71,9 @@ hubble:
   ui:
     enabled: true
 
+prometheus:
+  enabled: false
+
 ingressController:
   enabled: true
   default: true
