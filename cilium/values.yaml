@@ -49,7 +49,7 @@ securityContext:
       - SYS_RESOURCE
 
 envoy:
-  enabled: true
+  enabled: false
   securityContext:
     capabilities:
       keepCapNetBindService: true
@@ -76,9 +76,6 @@ hubble:
     enabled: true
 
 prometheus:
-  enabled: false
-
-envoy:
   enabled: false
 
 loadBalancer:
