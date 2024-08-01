@@ -78,6 +78,9 @@ hubble:
 prometheus:
   enabled: false
 
+envoy:
+  enabled: false
+
 loadBalancer:
   algorithm: maglev
   mode: dsr
