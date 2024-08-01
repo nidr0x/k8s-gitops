@@ -78,6 +78,9 @@ hubble:
 prometheus:
   enabled: false
 
+encryption:
+  enabled: true
+
 ingressController:
   enabled: true
   default: true
