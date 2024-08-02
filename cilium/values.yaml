@@ -78,9 +78,6 @@ hubble:
 prometheus:
   enabled: false
 
-loadBalancer:
-  algorithm: maglev
-  mode: dsr
 localRedirectPolicy: true
 
 ingressController:
