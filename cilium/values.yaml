@@ -14,8 +14,10 @@ externalIPs:
 
 l7Proxy: true
 
+enableIPv4Masquerade: false
+
 bpf:
-  masquerade: false
+  masquerade: false #test
 
 socketLB:
   hostNamespaceOnly: true
