@@ -91,3 +91,5 @@ ingressController:
   defaultSecretName: prod-cert-zerossl
   service:
     loadBalancerIP: 192.168.1.220
+    insecureNodePort: 32434
+    secureNodePort: 31247
