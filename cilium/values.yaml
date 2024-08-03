@@ -15,7 +15,7 @@ externalIPs:
 l7Proxy: true
 
 bpf:
-  masquerade: true
+  masquerade: false
 
 socketLB:
   hostNamespaceOnly: true
@@ -49,7 +49,7 @@ securityContext:
       - SYS_RESOURCE
 
 envoy:
-  enabled: false
+  enabled: true
   securityContext:
     capabilities:
       keepCapNetBindService: true
