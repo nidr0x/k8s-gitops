@@ -80,7 +80,8 @@ hubble:
 prometheus:
   enabled: false
 
-localRedirectPolicy: true
+debug:
+  enabled: true
 
 ingressController:
   enabled: true
