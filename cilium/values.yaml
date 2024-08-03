@@ -14,14 +14,8 @@ externalIPs:
 
 l7Proxy: true
 
-bpf:
-  masquerade: false
-
 socketLB:
   hostNamespaceOnly: true
-
-gatewayAPI:
-  enabled: true
 
 operator:
   replicas: 1 # One node
@@ -69,7 +63,11 @@ cgroup:
 ipv6:
   enabled: false
 
+bgp:
+  enabled: false
+
 hubble:
+  enabled: true
   relay:
     enabled: true
   ui:
