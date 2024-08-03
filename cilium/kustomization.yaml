@@ -4,11 +4,3 @@ kind: Kustomization
 resources:
   - announce.yaml
   - ip-pool.yaml
-
-helmCharts:
-  - name: cilium
-    repo: https://helm.cilium.io/
-    version: 1.16.0 # Ajusta la versión a la que desees instalar
-    releaseName: cilium
-    namespace: kube-system
-    valuesFile: values.yaml # Referencia al archivo de valores personalizados
