@@ -9,6 +9,12 @@ ipam:
 l2announcements:
   enabled: true
 
+k8sClientRateLimit:
+  qps: 50
+  burst: 200
+
+enableCiliumEndpointSlice: true
+
 externalIPs:
   enabled: true
 
