@@ -15,6 +15,9 @@ k8sClientRateLimit:
 
 enableCiliumEndpointSlice: true
 
+gatewayAPI:
+  enabled: true
+
 externalIPs:
   enabled: true
 
