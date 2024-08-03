@@ -83,7 +83,7 @@ localRedirectPolicy: true
 ingressController:
   enabled: true
   default: true
-  enforceHttps: false
+  enforceHttps: true
   loadbalancerMode: shared
   defaultSecretNamespace: cert-manager
   defaultSecretName: prod-cert-zerossl
