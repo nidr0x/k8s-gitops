@@ -12,11 +12,6 @@ l2announcements:
 externalIPs:
   enabled: true
 
-l7Proxy: true
-
-socketLB:
-  hostNamespaceOnly: true
-
 operator:
   replicas: 1 # One node
   rollOutPods: true
