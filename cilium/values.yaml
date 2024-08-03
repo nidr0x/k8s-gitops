@@ -17,7 +17,7 @@ l7Proxy: true
 enableIPv4Masquerade: false
 
 bpf:
-  masquerade: false #test
+  masquerade: true #test
 
 socketLB:
   hostNamespaceOnly: true
