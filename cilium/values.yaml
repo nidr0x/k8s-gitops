@@ -79,8 +79,8 @@ hubble:
 prometheus:
   enabled: false
 
-debug:
-  enabled: true
+#debug:
+#  enabled: true
 
 ingressController:
   enabled: true
