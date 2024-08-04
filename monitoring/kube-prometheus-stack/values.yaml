@@ -1,0 +1,297 @@
+prometheusOperator:
+  # Relabeling job name for operator metrics
+  serviceMonitor:
+    relabelings:
+      # Replace job value
+      - sourceLabels:
+          - __address__
+        action: replace
+        targetLabel: job
+        replacement: prometheus-operator
+  # Disable creation of kubelet service
+  kubeletService:
+    enabled: false
+prometheus-node-exporter:
+  fullnameOverride: "kubepromstack-prometheus-node-exporter"
+kube-state-metrics:
+  fullnameOverride: "kubepromstack-kube-state-metrics"
+alertmanager:
+  ingress:
+    enabled: true
+    hosts:
+      - monitoring.nidr0x.win
+    annotations:
+      cert-manager.io/cluster-issuer: zerossl-prod
+      external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
+    path: /alertmanager
+    pathType: Prefix
+    tls:
+      - hosts:
+          - monitoring.nidr0x.win
+        secretName: prod-cert-zerossl
+  alertmanagerSpec:
+    fullnameOverride: "kubepromstack-alertmanager"
+    # Subpath /alertmanager configuration
+    externalUrl: http://monitoring.nidr0x.win/alertmanager/
+    routePrefix: /
+    securityContext:
+      runAsGroup: 2002
+      runAsNonRoot: true
+      runAsUser: 1001
+      fsGroup: 2002
+    # PVC configuration
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: nfs
+          accessModes: ["ReadWriteMany"]
+          resources:
+            requests:
+              storage: 1Gi
+  # ServiceMonitor job relabel
+  serviceMonitor:
+    relabelings:
+      # Replace job value
+      - sourceLabels:
+          - __address__
+        action: replace
+        targetLabel: job
+        replacement: alertmanager
+prometheus:
+  ingress:
+    enabled: true
+    hosts:
+      - monitoring.nidr0x.win
+    annotations:
+      cert-manager.io/cluster-issuer: prod-cert-zerossl
+      external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
+    paths:
+      - /prometheus
+    pathType: Prefix
+    tls:
+      - hosts:
+          - monitoring.nidr0x.win
+        secretName: prod-cert-zerossl
+  prometheusSpec:
+    fullnameOverride: "kubepromstack-prometheus"
+    retention: 7d
+    ruleSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    probeSelectorNilUsesHelmValues: false
+    # Subpath /prometheus configuration
+    externalUrl: http://monitoring.nidr0x.win/prometheus/
+    routePrefix: /
+    securityContext:
+      runAsGroup: 2002
+      runAsNonRoot: true
+      runAsUser: 1001
+      fsGroup: 2002
+    # Resources request and limits
+    resources:
+      requests:
+        memory: 1Gi
+      limits:
+        memory: 2Gi
+    # PVC configuration
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: nfs
+          accessModes: ["ReadWriteMany"]
+          resources:
+            requests:
+              storage: 10Gi
+  # ServiceMonitor job relabel
+  serviceMonitor:
+    relabelings:
+      # Replace job value
+      - sourceLabels:
+          - __address__
+        action: replace
+        targetLabel: job
+        replacement: prometheus
+grafana:
+  defaultDashboardsTimezone: Europe/Madrid
+  envFromSecret: kubepromstack-oauth2
+  ingress:
+    enabled: true
+    hosts:
+      - monitoring.nidr0x.win
+    annotations:
+      cert-manager.io/cluster-issuer: zerossl-prod
+      external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
+    path: /grafana
+    pathType: Prefix
+    tls:
+      - hosts:
+          - monitoring.nidr0x.win
+        secretName: prod-cert-zerossl
+  securityContext:
+    runAsGroup: 2002
+    runAsNonRoot: true
+    runAsUser: 1001
+    fsGroup: 2002
+  testFramework:
+    enabled: false
+  deploymentStrategy:
+    type: Recreate
+  fullnameOverride: "kubepromstack-grafana"
+  assertNoLeakedSecrets: false
+  additionalDataSources:
+    - name: TeslaMate
+      type: postgres
+      url: 192.168.1.10
+      database: teslamate
+      user: teslamate
+      secureJsonData:
+        password: $__env{TESLAMATE_POSTGRESQL_PASSWORD}
+      jsonData:
+        sslmode: "disable"
+        postgresVersion: 1000
+      version: 1
+      editable: true
+      isDefault: false
+  # List of grafana plugins to be installed
+  plugins:
+    - grafana-piechart-panel
+    - pr0ps-trackmap-panel 2.1.4
+    - natel-plotly-panel 0.0.7
+    #- grafana-worldmap-panel-ng
+  # ServiceMonitor label and job relabel
+  serviceMonitor:
+    labels:
+      release: kubepromstack
+    relabelings:
+      # Replace job value
+      - sourceLabels:
+          - __address__
+        action: replace
+        targetLabel: job
+        replacement: grafana
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: "tesla"
+          folder: "Tesla"
+          options:
+            path: /var/lib/grafana/dashboards/tesla
+  dashboards:
+    tesla:
+      battery-health:
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/battery-health.json
+      charge-level:
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/charge-level.json
+      charges:
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/charges.json
+      charging-stats:
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/charging-stats.json
+      drive-stats:
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/drive-stats.json
+      drives:
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/drives.json
+      efficiency:
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/efficiency.json
+      locations:
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/locations.json
+      mileage:
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/mileage.json
+      overview:
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/overview.json
+      projected-range:
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/projected-range.json
+      states:
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/states.json
+      statistics:
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/statistics.json
+      timeline:
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/timeline.json
+      trip:
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/trip.json
+      updates:
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/updates.json
+      vampire-drain:
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/vampire-drain.json
+      visited:
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/visited.json
+  grafana.ini:
+    #log:
+    #level: debug
+    database:
+      type: "postgres"
+      host: "192.168.1.10:5434"
+      name: "grafana"
+      user: "grafana"
+      password: $__env{GRAFANA_POSTGRESQL_PASSWORD}
+      sslmode: "disable"
+      wal: false
+    feature_toggles:
+      ssoSettingsApi: true
+    server:
+      domain: monitoring.nidr0x.win
+      root_url: "https://monitoring.nidr0x.win/grafana"
+      serve_from_sub_path: true
+    users:
+      allow_sign_up: false
+      auto_asign_org: true
+      auto_assign_org_id: 1
+      auto_assign_or_role: "Admin"
+    auth:
+      disable_login_form: true
+    security:
+      angular_support_enabled: false
+    auth.google:
+      enabled: true
+      allow_sign_up: true
+      auto_login: false
+      client_id: $__env{GF_AUTH_GOOGLE_CLIENT_ID}
+      client_secret: $__env{GF_AUTH_GOOGLE_CLIENT_SECRET}
+      scopes: openid email profile
+      auth_url: https://accounts.google.com/o/oauth2/v2/auth
+      token_url: https://oauth2.googleapis.com/token
+      api_url: https://openidconnect.googleapis.com/v1/userinfo
+      #allowed_domains: nidr0x.win
+      validate_hd: false
+      use_pkce: true
+      role_attribute_path: email=='nidr0x@gmail.com' && 'Admin'
+      allow_assign_grafana_admin: true
+      skip_org_role_sync: false
+# Disabling monitoring of K8s services.
+# Monitoring of K3S components will be configured out of kube-prometheus-stack
+kubelet:
+  enabled: false
+kubeApiServer:
+  enabled: false
+kubeControllerManager:
+  enabled: false
+kubeScheduler:
+  enabled: false
+kubeProxy:
+  enabled: false
+kubeEtcd:
+  enabled: false
+# Disable K8S Prometheus Rules
+# Rules for K3S components will be configured out of kube-prometheus-stack
+defaultRules:
+  create: true
+  rules:
+    etcd: false
+    k8s: false
+    kubeApiserverAvailability: false
+    kubeApiserverBurnrate: false
+    kubeApiserverHistogram: false
+    kubeApiserverSlos: false
+    kubeControllerManager: false
+    kubelet: false
+    kubeProxy: false
+    kubernetesApps: false
+    kubernetesResources: false
+    kubernetesStorage: false
+    kubernetesSystem: false
+    kubeScheduler: false
+
+namespaceOverride: kube-monitoring
+nameOverride: ""
+fullnameOverride: "kubepromstack"
+releaseOverride: ""

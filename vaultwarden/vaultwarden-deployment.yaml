@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bitwarden
+  labels:
+    app: bitwarden
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bitwarden
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: bitwarden
+    spec:
+      serviceAccountName: bitwarden
+      containers:
+        - name: bitwarden
+          image: ghcr.io/dani-garcia/vaultwarden:1.31.0-alpine
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: bitwarden
+          env:
+            - name: SMTP_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: bitwarden
+                  key: emailUser
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: bitwarden
+                  key: emailPassword
+            - name: ADMIN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: bitwarden
+                  key: ADMIN_TOKEN
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: bitwarden
+                  key: BITWARDEN_POSTGRESQL_URL
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+            - containerPort: 3012
+              name: ws
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /data
+              name: bitwarden-data
+          resources:
+            limits:
+              memory: 512Mi
+            requests:
+              cpu: 50m
+              memory: 256Mi
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 950
+            allowPrivilegeEscalation: false
+            runAsGroup: 950
+      volumes:
+        - name: bitwarden-data
+          persistentVolumeClaim:
+          claimName: bitwarden-data-pvc

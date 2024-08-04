@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: csi-driver-nfs
+spec:
+  destination:
+    namespace: csi-driver-nfs
+    server: https://kubernetes.default.svc
+  project: everest
+  sources:
+    - repoURL: https://github.com/nidr0x/homelab
+      targetRevision: master
+      ref: nidr0x-homelab
+    - repoURL: https://github.com/nidr0x/homelab
+      targetRevision: master
+      path: csi-driver-nfs/
+    - repoURL: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
+      targetRevision: v4.8.0
+      chart: csi-driver-nfs
+      helm:
+        valueFiles:
+          - $nidr0x-homelab/csi-driver-nfs/values.yaml
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: privileged

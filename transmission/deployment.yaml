@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transmission
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+        maxSurge: 0
+        maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: transmission
+  template:
+    metadata:
+      labels:
+        app: transmission
+    spec:
+     volumes:
+      - name: transmission-config
+        persistentVolumeClaim:
+          claimName: transmission-config-pvc
+      - name: transmission-downloads
+        persistentVolumeClaim:
+          claimName: transmission-downloads-pvc
+     containers:
+        - name: transmission
+          image: ghcr.io/linuxserver/transmission:4.0.6
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 50m
+              memory: 200Mi
+            limits:
+              memory: 256Mi
+          ports:
+            - name: http
+              protocol: TCP
+              containerPort: 9091
+          volumeMounts:
+            - name: transmission-config
+              mountPath: /config
+            - name: transmission-downloads
+              mountPath: /downloads
+          env:
+          - name: TZ
+            value: "Europe/Madrid"
+          - name: PUID
+            value: "1001"
+          - name: PGID
+            value: "2002"

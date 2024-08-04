@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: uptime-kuma
+spec:
+  destination:
+    namespace: uptime-kuma
+    server: https://kubernetes.default.svc
+  project: everest
+  source:
+    path: monitoring/uptime-kuma/
+    repoURL: https://github.com/nidr0x/homelab
+    targetRevision: master
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
