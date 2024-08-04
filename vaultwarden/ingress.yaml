@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bitwarden
+  annotations:
+    kubernetes.io/ingress.allow-http: "false"
+    cert-manager.io/cluster-issuer: zerossl-prod
+    external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "true"
+spec:
+  ingressClassName: cilium
+  rules:
+    - host: bitwarden.nidr0x.win
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: bitwarden
+                port:
+                  name: http
+          - path: /notifications/hub
+            pathType: Prefix
+            backend:
+              service:
+                name: bitwarden
+                port:
+                  name: ws
+  tls:
+    - hosts:
+        - bitwarden.nidr0x.win
+      secretName: prod-cert-zerossl

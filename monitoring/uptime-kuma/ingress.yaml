@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: uptime-kuma
+  annotations:
+    cert-manager.io/cluster-issuer: zerossl-prod
+    external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
+spec:
+  ingressClassName: cilium
+  rules:
+    - host: uptime.nidr0x.win
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: uptime-kuma
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - uptime.nidr0x.win
+      secretName: prod-cert-zerossl

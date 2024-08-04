@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: adguardhome
+  annotations:
+    cert-manager.io/cluster-issuer: zerossl-prod
+    external-dns.alpha.kubernetes.io/target: ip-non-proxied.nidr0x.win
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: false
+spec:
+  ingressClassName: cilium
+  rules:
+    - host: dns.nidr0x.win
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: adguardhome-http
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - "dns.nidr0x.win"
+      secretName: prod-cert-zerossl

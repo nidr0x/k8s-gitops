@@ -1,0 +1,35 @@
+fullnameOverride: cert-manager
+maxConcurrentChallenges: 2
+
+installCRDs: true
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 10m
+    memory: 64Mi
+webhook:
+  resources:
+    limits:
+      cpu: 100m
+      memory: 64Mi
+    requests:
+      cpu: 10m
+      memory: 32Mi
+cainjector:
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 10m
+      memory: 64Mi
+
+global:
+  logLevel: 3
+
+extraArgs:
+  - --dns01-recursive-nameservers=8.8.8.8:53,1.1.1.1:53
+  - --dns01-recursive-nameservers-only

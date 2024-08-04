@@ -1,0 +1,25 @@
+cluster:
+  allowSchedulingOnControlPlanes: true
+  clusterName: everest
+  network:
+    cni:
+      name: none
+  proxy:
+    disabled: true
+
+machine:
+  install:
+    image: ghcr.io/siderolabs/installer:1.7.5
+    disk: "/dev/sda"
+  network:
+    interfaces:
+      - deviceSelector:
+          physical: true # should select any hardware network device, if you have just one, it will be selected
+        dhcp: true
+        vip:
+          ip: 192.168.1.15
+  time:
+    disabled: false
+    servers:
+      - "time.cloudflare.com"
+    bootTimeout: "2m0s"

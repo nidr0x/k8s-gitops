@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: homeassistant
+spec:
+  destination:
+    namespace: homeassistant
+    server: https://kubernetes.default.svc
+  project: everest
+  source:
+    path: homeassistant/
+    repoURL: https://github.com/nidr0x/homelab
+    targetRevision: master
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
