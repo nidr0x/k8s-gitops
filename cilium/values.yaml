@@ -85,7 +85,6 @@ debug:
 ingressController:
   enabled: true
   default: true
-  enforceHttps: false
   loadbalancerMode: shared
   defaultSecretNamespace: cert-manager
   defaultSecretName: prod-cert-zerossl
