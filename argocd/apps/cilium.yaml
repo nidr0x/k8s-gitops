@@ -15,7 +15,7 @@ spec:
       targetRevision: master
       path: cilium/
     - repoURL: https://helm.cilium.io
-      targetRevision: v1.15.7
+      targetRevision: 1.16.0
       chart: cilium
       helm:
         valueFiles:
