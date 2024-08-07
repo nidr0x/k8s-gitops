@@ -9,7 +9,7 @@ cluster:
 
 machine:
   install:
-    image: ghcr.io/siderolabs/installer:1.7.5
+    image: ghcr.io/siderolabs/installer:1.7.6
     disk: "/dev/sda"
   network:
     interfaces:
