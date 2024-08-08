@@ -44,4 +44,3 @@ tfplan
 talos-*-amd64.json
 talosconfig.yml
 kubeconfig.yml
-secrets*
