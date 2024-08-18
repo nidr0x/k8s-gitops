@@ -8,11 +8,11 @@ metadata:
 spec:
   description: Project for Everest
   destinations:
-  - namespace: '*'
-    name: '*'
-    server: https://kubernetes.default.svc
+    - namespace: "*"
+      name: "*"
+      server: https://kubernetes.default.svc
   sourceRepos:
-  - '*'
+    - "*"
   clusterResourceWhitelist:
-  - group: '*'
-    kind: '*'
+    - group: "*"
+      kind: "*"

@@ -3,7 +3,7 @@
   "username": "rosey-bot[bot]",
   "repositories": ["nidr0x/homelab"],
   "extends": [
-    "config:base",
+    "config:recommended",
     "docker:enableMajor",
     ":disableRateLimiting",
     ":dependencyDashboard",
@@ -21,10 +21,14 @@
   "kubernetes": {
     "fileMatch": ["^.*\\.ya?ml$"]
   },
-  "regexManagers": [
+  "customManagers": [
     {
+      "customType": "regex",
       "matchStrings": [
-        "source:\\n.*chart: (?<depName>.*)\\n.*repoURL: (?<registryUrl>.*)\\n.*targetRevision: (?<currentValue>.*)"
+        "source:\\s*\\n",
+        ".*chart: (?<depName>.*)\\n",
+        ".*repoURL: (?<registryUrl>.*)\\n",
+        ".*targetRevision: (?<currentValue>.*)"
       ],
       "fileMatch": ["^.*\\.ya?ml$"],
       "datasourceTemplate": "helm"
@@ -34,10 +38,7 @@
   "commitMessageExtra": "to {{newVersion}}",
   "commitMessageSuffix": "",
   "packageRules": [
-    {
-      "matchDatasources": ["helm"],
-      "commitMessageTopic": "chart {{depName}}"
-    },
+    { "matchDatasources": ["helm"], "commitMessageTopic": "chart {{depName}}" },
     {
       "matchDatasources": ["docker"],
       "commitMessageTopic": "image {{depName}}"
@@ -49,4 +50,3 @@
   "separateMajorMinor": true,
   "separateMultipleMajor": true
 }
-

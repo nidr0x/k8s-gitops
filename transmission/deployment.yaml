@@ -7,8 +7,8 @@ spec:
   strategy:
     type: RollingUpdate
     rollingUpdate:
-        maxSurge: 0
-        maxUnavailable: 1
+      maxSurge: 0
+      maxUnavailable: 1
   selector:
     matchLabels:
       app: transmission
@@ -17,14 +17,14 @@ spec:
       labels:
         app: transmission
     spec:
-     volumes:
-      - name: transmission-config
-        persistentVolumeClaim:
-          claimName: transmission-config-pvc
-      - name: transmission-downloads
-        persistentVolumeClaim:
-          claimName: transmission-downloads-pvc
-     containers:
+      volumes:
+        - name: transmission-config
+          persistentVolumeClaim:
+            claimName: transmission-config-pvc
+        - name: transmission-downloads
+          persistentVolumeClaim:
+            claimName: transmission-downloads-pvc
+      containers:
         - name: transmission
           image: ghcr.io/linuxserver/transmission:4.0.6
           imagePullPolicy: Always
@@ -44,9 +44,9 @@ spec:
             - name: transmission-downloads
               mountPath: /downloads
           env:
-          - name: TZ
-            value: "Europe/Madrid"
-          - name: PUID
-            value: "1001"
-          - name: PGID
-            value: "2002"
+            - name: TZ
+              value: "Europe/Madrid"
+            - name: PUID
+              value: "1001"
+            - name: PGID
+              value: "2002"
