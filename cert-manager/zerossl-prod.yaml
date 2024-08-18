@@ -13,13 +13,14 @@ spec:
         key: ZEROSSL_EAB
     # Name of a secret used to store the ACME account private key
     privateKeySecretRef:
-      name: zerossl-prod
-       # Enable the DNS-01 challenge provider
+      name:
+        zerossl-prod
+        # Enable the DNS-01 challenge provider
     solvers:
-    - dns01:
-        # Replace the section below with your DNS01 provider
-        cloudflare:
-          email: nidr0x@gmail.com
-          apiKeySecretRef:
-            name: cloudflare-api-token-secret
-            key: CF_API_KEY
+      - dns01:
+          # Replace the section below with your DNS01 provider
+          cloudflare:
+            email: nidr0x@gmail.com
+            apiKeySecretRef:
+              name: cloudflare-api-token-secret
+              key: CF_API_KEY

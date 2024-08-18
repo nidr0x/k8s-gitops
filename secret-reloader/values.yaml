@@ -1,5 +1,5 @@
 reloader:
   readOnlyRootFileSystem: true
-  
+
 fullnameOverride: "secret-reloader"
 nameOverride: "secret-reloader"
