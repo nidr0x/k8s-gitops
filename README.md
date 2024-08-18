@@ -1,5 +1,7 @@
 <div align="center">
 
+[![Super-Linter](https://github.com/nidr0x/homelab/actions/workflows/lint.yaml/badge.svg)](https://github.com/marketplace/actions/super-linter)
+
 # nidr0x Homelab 🏡
 
 Welcome to the nidr0x Homelab repository! Here you'll find [Kubernetes](https://kubernetes.io/) manifests and [Argo CD](https://argoproj.github.io/cd/) definitions for a homelab environment, all running on top of [Talos](https://talos.dev). This setup includes a wide range of applications, each organized into its own folder, with versioning expertly managed by [Renovate](https://www.mend.io/renovate/).
