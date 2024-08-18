@@ -35,5 +35,3 @@ Check the [commit history](https://github.com/nidr0x/homelab/commits/master)
 ## Repository structure
 
 The repository is organized into folders by application. Each folder contains the necessary manifest files to deploy the application on a Kubernetes cluster. The `argocd` folder contains files for setting up and managing ArgoCD.
-
-WIP

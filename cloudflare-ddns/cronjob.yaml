@@ -15,31 +15,31 @@ spec:
       ttlSecondsAfterFinished: 100
       template:
         spec:
-         containers:
-         - name: cloudflare-ddns
-           image: ghcr.io/nidr0x/cloudflare-ddns-updater:latest
-           imagePullPolicy: IfNotPresent
-           securityContext:
-              runAsNonRoot: true
-              runAsUser: 82
-              allowPrivilegeEscalation: false
-              runAsGroup: 82
-           resources:
-            requests:
-              cpu: 50m
-              memory: 32Mi
-            limits:
-              memory: 64Mi
-           envFrom:
-           env:
-           - name: CLOUDFLARE_API_KEY
-             valueFrom:
-              secretKeyRef:
-                name: cloudflare-ddns
-                key: CLOUDFLARE_API_KEY
-           - name: CLOUDFLARE_EMAIL
-             valueFrom:
-               secretKeyRef:
-                name: cloudflare-ddns
-                key: CLOUDFLARE_EMAIL
-         restartPolicy: OnFailure
+          containers:
+            - name: cloudflare-ddns
+              image: ghcr.io/nidr0x/cloudflare-ddns-updater:latest
+              imagePullPolicy: IfNotPresent
+              securityContext:
+                runAsNonRoot: true
+                runAsUser: 82
+                allowPrivilegeEscalation: false
+                runAsGroup: 82
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 32Mi
+                limits:
+                  memory: 64Mi
+              envFrom:
+              env:
+                - name: CLOUDFLARE_API_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: cloudflare-ddns
+                      key: CLOUDFLARE_API_KEY
+                - name: CLOUDFLARE_EMAIL
+                  valueFrom:
+                    secretKeyRef:
+                      name: cloudflare-ddns
+                      key: CLOUDFLARE_EMAIL
+          restartPolicy: OnFailure
