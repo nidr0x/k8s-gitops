@@ -19,11 +19,11 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
         with:
           fetch-depth: 0
 
       - name: Super-linter
-        uses: super-linter/super-linter@v7.0.0
+        uses: super-linter/super-linter@02a1172d274f021e4c70f66e23f1085eadd1064b # v7.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
