@@ -36,4 +36,3 @@ spec:
             - name: gphotos-sync-secret
               persistentVolumeClaim:
                 claimName: gphotos-sync-secret-pvc
-

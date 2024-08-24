@@ -7,8 +7,8 @@ spec:
   strategy:
     type: RollingUpdate
     rollingUpdate:
-        maxSurge: 1
-        maxUnavailable: 0
+      maxSurge: 1
+      maxUnavailable: 0
   selector:
     matchLabels:
       app: freshrss
@@ -35,16 +35,16 @@ spec:
               containerPort: 80
               protocol: TCP
           env:
-          - name: TZ
-            value: "Europe/Madrid"
-          - name: CRON_MIN
-            value: "1,31"
-          - name: DB_HOST
-            value: "192.168.1.10"
-          - name: DB_USER
-            value: "freshrss"
-          - name: DB_PASSWORD
-            value: "kObUIaCzwQDSvln7RTCiZDwA93SyNB0ERG24WF4AEleeTzPppS21qanT6tfmStnl"
+            - name: TZ
+              value: "Europe/Madrid"
+            - name: CRON_MIN
+              value: "1,31"
+            - name: DB_HOST
+              value: "192.168.1.10"
+            - name: DB_USER
+              value: "freshrss"
+            - name: DB_PASSWORD
+              value: "kObUIaCzwQDSvln7RTCiZDwA93SyNB0ERG24WF4AEleeTzPppS21qanT6tfmStnl"
           #- name: PUID
           #  value: "950"
           #- name: PGID

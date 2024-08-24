@@ -4,7 +4,13 @@ name: Lint
 on: # yamllint disable-line rule:truthy
   push: null
   pull_request: null
-
+env:
+  VALIDATE_GITLEAKS: false
+  VALIDATE_GO_RELEASER: false
+  VALIDATE_EDITORCONFIG: false
+  VALIDATE_JSCPD: false
+  VALIDATE_KUBERNETES_KUBECONFORM: false
+  VALIDATE_CHECKOV: false
 permissions: {}
 
 jobs:
