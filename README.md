@@ -2,13 +2,13 @@
 
 [![Super-Linter](https://github.com/nidr0x/homelab/actions/workflows/lint.yaml/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
-# nidr0x Homelab 🏡
+# 🏡 nidr0x Homelab
 
 Welcome to the nidr0x Homelab repository! Here you'll find [Kubernetes](https://kubernetes.io/) manifests and [Argo CD](https://argoproj.github.io/cd/) definitions for a homelab environment, all running on top of [Talos](https://talos.dev). This setup includes a wide range of applications, each organized into its own folder, with versioning expertly managed by [Renovate](https://www.mend.io/renovate/).
 
 </div>
 
-## Application list
+## ⚙️ Application list
 
 - [Adguard Home](https://github.com/AdguardTeam/AdGuardHome)
 - [ArgoCD](https://github.com/argoproj/argo-cd)
@@ -28,10 +28,21 @@ Welcome to the nidr0x Homelab repository! Here you'll find [Kubernetes](https://
 - [Uptime Kuma](https://github.com/louislam/uptime-kuma)
 - [Vaultwarden](https://github.com/dani-garcia/vaultwarden)
 
-## Changelog
+## 🛠️ Changelog
 
 Check the [commit history](https://github.com/nidr0x/homelab/commits/master)
 
-## Repository structure
+## 🔗 External cloud dependencies
+
+While most of my infrastructure and workloads are self-hosted I do rely upon the cloud for certain key parts of my setup. This saves me from having to worry about two things. (1) Dealing with chicken/egg scenarios and (2) services I critically need whether my cluster is online or not.
+
+| Service                                   | Use                                       | Cost           |
+| ----------------------------------------- | ----------------------------------------- | -------------- |
+| [Cloudflare](https://www.cloudflare.com/) | Domain & Oauth (Using Zero Trust)         | ~$10/yr        |
+| [GitHub](https://www.github.com/)         | Repository                                | Free           |
+| [ZeroSSL](https://www.zerossl.com/)       | Issuing SSL Certificates via Cert Manager | Free           |
+|                                           |                                           | Total: ~$10/yr |
+
+## 📁 Repository structure
 
 The repository is organized into folders by application. Each folder contains the necessary manifest files to deploy the application on a Kubernetes cluster. The `argocd` folder contains files for setting up and managing ArgoCD.
