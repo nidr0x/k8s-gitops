@@ -8,10 +8,10 @@ spec:
     server: https://kubernetes.default.svc
   project: everest
   sources:
-    - repoURL: https://github.com/nidr0x/homelab
+    - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
-      ref: nidr0x-homelab
-    - repoURL: https://github.com/nidr0x/homelab
+      ref: nidr0x-k8s-gitops
+    - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
       path: monitoring/node-problem-detector/
     - repoURL: https://charts.deliveryhero.io/
@@ -19,7 +19,7 @@ spec:
       chart: node-problem-detector
       helm:
         valueFiles:
-          - $nidr0x-homelab/monitoring/node-problem-detector/values.yaml
+          - $nidr0x-k8s-gitops/monitoring/node-problem-detector/values.yaml
   syncPolicy:
     syncOptions:
       - Replace=True

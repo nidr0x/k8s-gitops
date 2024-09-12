@@ -9,7 +9,7 @@ spec:
   project: everest
   source:
     path: adguardhome/
-    repoURL: https://github.com/nidr0x/homelab
+    repoURL: https://github.com/nidr0x/k8s-gitops
     targetRevision: master
   syncPolicy:
     syncOptions:

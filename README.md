@@ -1,6 +1,6 @@
 <div align="center">
 
-[![Super-Linter](https://github.com/nidr0x/homelab/actions/workflows/lint.yaml/badge.svg)](https://github.com/marketplace/actions/super-linter)
+[![Super-Linter](https://github.com/nidr0x/k8s-gitops/actions/workflows/lint.yaml/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
 # 🏡 nidr0x Homelab
 
@@ -30,7 +30,7 @@ Welcome to the nidr0x Homelab repository! Here you'll find [Kubernetes](https://
 
 ## 🛠️ Changelog
 
-Check the [commit history](https://github.com/nidr0x/homelab/commits/master)
+Check the [commit history](https://github.com/nidr0x/k8s-gitops/commits/master)
 
 ## 🔗 External cloud dependencies
 
