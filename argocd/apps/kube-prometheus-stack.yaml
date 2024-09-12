@@ -8,10 +8,10 @@ spec:
     server: https://kubernetes.default.svc
   project: everest
   sources:
-    - repoURL: https://github.com/nidr0x/homelab
+    - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
-      ref: nidr0x-homelab
-    - repoURL: https://github.com/nidr0x/homelab
+      ref: nidr0x-k8s-gitops
+    - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
       path: monitoring/kube-prometheus-stack/
     - repoURL: https://prometheus-community.github.io/helm-charts
@@ -19,7 +19,7 @@ spec:
       chart: kube-prometheus-stack
       helm:
         valueFiles:
-          - $nidr0x-homelab/monitoring/kube-prometheus-stack/values.yaml
+          - $nidr0x-k8s-gitops/monitoring/kube-prometheus-stack/values.yaml
   syncPolicy:
     syncOptions:
       - CreateNamespace=true

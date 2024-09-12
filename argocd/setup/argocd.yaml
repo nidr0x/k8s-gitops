@@ -8,15 +8,15 @@ spec:
     server: https://kubernetes.default.svc
   project: everest
   sources:
-    - repoURL: https://github.com/nidr0x/homelab
+    - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
-      ref: nidr0x-homelab
+      ref: nidr0x-k8s-gitops
     - repoURL: https://argoproj.github.io/argo-helm
       targetRevision: 7.5.2
       chart: argo-cd
       helm:
         valueFiles:
-          - $nidr0x-homelab/argocd/values.yaml
+          - $nidr0x-k8s-gitops/argocd/values.yaml
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
