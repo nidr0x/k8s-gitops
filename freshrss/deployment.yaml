@@ -44,7 +44,10 @@ spec:
             - name: DB_USER
               value: "freshrss"
             - name: DB_PASSWORD
-              value: "kObUIaCzwQDSvln7RTCiZDwA93SyNB0ERG24WF4AEleeTzPppS21qanT6tfmStnl"
+              valueFrom:
+                secretKeyRef:
+                  name: freshrss
+                  key: DB_PASSWORD
           #- name: PUID
           #  value: "950"
           #- name: PGID
