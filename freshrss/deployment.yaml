@@ -42,12 +42,15 @@ spec:
             - name: DB_HOST
               value: "192.168.1.10"
             - name: DB_USER
-              value: "freshrss"
+              valueFrom:
+                secretKeyRef:
+                  name: freshrss
+                  key: POSTGRES_USER
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: freshrss
-                  key: DB_PASSWORD
+                  key: POSTGRES_PASSWORD
           #- name: PUID
           #  value: "950"
           #- name: PGID
