@@ -23,7 +23,8 @@ alertmanager:
     annotations:
       cert-manager.io/cluster-issuer: zerossl-prod
       external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
-    path: /alertmanager
+    paths:
+      - /alertmanager
     pathType: Prefix
     tls:
       - hosts:
