@@ -1,30 +1,31 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: "{{ .Values.cluster.name }}-argocd-apps-yaml"
+  name: argocd-apps-yaml
 spec:
   generators:
+    - clusters:
+        selector:
+          matchLabels:
+            environment: production
     - list:
         elements:
           - targetRevision: master
   template:
     metadata:
       name: "{{name}}"
-  destination:
-    namespace: argocd
-    server: "{{name}}"
-  project: everest
-  source:
-    path: argocd/apps/
-    repoURL: https://github.com/nidr0x/k8s-gitops
-<<<<<<< HEAD:argocd/argocd-apps.yaml
-    targetRevision: "{{ .Values.targetRevision }}"
-=======
-    targetRevision: "{{ values.targetRevision }}"
->>>>>>> ee134e4 (Use ApplicationSet):argocd/argocd-applicationset.yaml
-  syncPolicy:
-    syncOptions:
-      - CreateNamespace=true
-    automated:
-      prune: true
-      selfHeal: true
+    spec:
+      project: everest
+      source:
+        repoURL: https://github.com/nidr0x/k8s-gitops
+        path: argocd/apps/
+        targetRevision: "{{targetRevision}}"
+      destination:
+        namespace: argocd
+        server: "{{server}}"
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+        automated:
+          prune: true
+          selfHeal: true
