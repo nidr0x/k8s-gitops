@@ -1,16 +1,27 @@
 apiVersion: argoproj.io/v1alpha1
-kind: Application
+kind: ApplicationSet
 metadata:
   name: "{{ .Values.cluster.name }}-argocd-apps-yaml"
 spec:
+  generators:
+    - list:
+        elements:
+          - targetRevision: master
+  template:
+    metadata:
+      name: "{{name}}"
   destination:
     namespace: argocd
-    server: https://kubernetes.default.svc
+    server: "{{name}}"
   project: everest
   source:
     path: argocd/apps/
     repoURL: https://github.com/nidr0x/k8s-gitops
+<<<<<<< HEAD:argocd/argocd-apps.yaml
     targetRevision: "{{ .Values.targetRevision }}"
+=======
+    targetRevision: "{{ values.targetRevision }}"
+>>>>>>> ee134e4 (Use ApplicationSet):argocd/argocd-applicationset.yaml
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
