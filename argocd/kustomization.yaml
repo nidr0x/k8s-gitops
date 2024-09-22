@@ -3,10 +3,10 @@ kind: Kustomization
 namespace: argocd
 resources:
   - namespace.yaml
-  - argocd-apps.yaml
-  - argocd-setup.yaml
+  - argocd-applicationset.yaml
   - secret.yaml
   - argocd-project-everest.yaml
+  - setup/argocd.yaml
 
 helmCharts:
   - name: argo-cd
