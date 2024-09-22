@@ -1,5 +1,13 @@
 fullnameOverride: argocd
 
+repoServer:
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+    targetCPUUtilizationPercentage: 85
+    targetMemoryUtilizationPercentage: 85
+
 server:
   ingress:
     enabled: true
@@ -15,6 +23,12 @@ server:
           - argocd.nidr0x.win
   service:
     type: LoadBalancer
+
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    targetCPUUtilizationPercentage: 65
+    targetMemoryUtilizationPercentage: 65
 
 global:
   domain: argocd.nidr0x.win
