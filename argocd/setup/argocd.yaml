@@ -1,23 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
+kind: Application
 metadata:
-  name: argocd-apps-yaml
+  name: argocd
+  namespace: argocd
 spec:
-  template:
-    metadata:
-      name: "{{name}}"
-    spec:
-      project: everest
-      source:
-        repoURL: https://github.com/nidr0x/k8s-gitops
-        path: argocd/apps/
-        targetRevision: "{{targetRevision}}"
-      destination:
-        namespace: argocd
-        server: "{{server}}"
-      syncPolicy:
-        syncOptions:
-          - CreateNamespace=true
-        automated:
-          prune: true
-          selfHeal: true
+  project: everest
+  source:
+    repoURL: https://github.com/nidr0x/k8s-gitops
+    path: argocd/
+    targetRevision: master
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: argocd
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
