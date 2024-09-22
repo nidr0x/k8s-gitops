@@ -4,13 +4,25 @@ metadata:
   name: argocd-apps-yaml
 spec:
   generators:
-    - clusters:
-        selector:
-          matchLabels:
-            environment: production
     - list:
         elements:
-          - targetRevision: master
+          - name: adguard
+          - name: cert-manager
+          - name: cilium
+          - name: cloudflare-ddns
+          - name: csi-driver-nfs
+          - name: external-dns
+          - name: external-secrets
+          - name: freshrss
+          - name: gphotos-sync
+          - name: homeassistant
+          - name: kube-prometheus-stack
+          - name: node-problem-detector
+          - name: secret-reloader
+          - name: teslamate
+          - name: transmission
+          - name: uptime-kuma
+          - name: vaultwarden
   template:
     metadata:
       name: "{{name}}"
@@ -18,11 +30,11 @@ spec:
       project: everest
       source:
         repoURL: https://github.com/nidr0x/k8s-gitops
-        path: argocd/apps/
-        targetRevision: "{{targetRevision}}"
+        path: apps/{{name}}.yaml
+        targetRevision: master
       destination:
-        namespace: argocd
-        server: "{{server}}"
+        namespace: "{{name}}"
+        server: https://kubernetes.default.svc
       syncPolicy:
         syncOptions:
           - CreateNamespace=true
