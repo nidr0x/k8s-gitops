@@ -2,17 +2,24 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: argocd
-  namespace: argocd
 spec:
-  project: everest
-  source:
-    repoURL: https://github.com/nidr0x/k8s-gitops
-    path: argocd/
-    targetRevision: master
   destination:
-    server: "https://kubernetes.default.svc"
     namespace: argocd
+    server: https://kubernetes.default.svc
+  project: everest
+  sources:
+    - repoURL: https://github.com/nidr0x/homelab
+      targetRevision: master
+      ref: nidr0x-homelab
+    - repoURL: https://argoproj.github.io/argo-helm
+      targetRevision: 7.5.2
+      chart: argo-cd
+      helm:
+        valueFiles:
+          - $nidr0x-homelab/argocd/values.yaml
   syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
     automated:
-      selfHeal: true
       prune: true
+      selfHeal: true
