@@ -7,22 +7,39 @@ spec:
     - list:
         elements:
           - name: adguard
+            namespace: adguardhome
           - name: cert-manager
+            namespace: cert-manager
           - name: cilium
+            namespace: cilium
           - name: cloudflare-ddns
+            namespace: kube-system
           - name: csi-driver-nfs
+            namespace: csi-driver-nfs
           - name: external-dns
+            namespace: kube-system
           - name: external-secrets
+            namespace: kube-system
           - name: freshrss
+            namespace: freshrss
           - name: gphotos-sync
+            namespace: gphotos-sync
           - name: homeassistant
+            namespace: homeassistant
           - name: kube-prometheus-stack
+            namespace: kube-monitoring
           - name: node-problem-detector
+            namespace: kube-system
           - name: secret-reloader
+            namespace: kube-system
           - name: teslamate
+            namespace: teslamate
           - name: transmission
+            namespace: transmission
           - name: uptime-kuma
+            namespace: uptime-kuma
           - name: vaultwarden
+            namespace: vaultwarden
   template:
     metadata:
       name: "{{name}}"
