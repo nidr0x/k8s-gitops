@@ -30,7 +30,7 @@ spec:
       project: everest
       source:
         repoURL: https://github.com/nidr0x/k8s-gitops
-        path: apps/{{name}}.yaml
+        path: argocd/apps/{{name}}.yaml
         targetRevision: master
       destination:
         namespace: "{{name}}"
