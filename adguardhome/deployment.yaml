@@ -27,7 +27,7 @@ spec:
       containers:
         - name: adguardhome-sync
           imagePullPolicy: IfNotPresent
-          image: lscr.io/linuxserver/adguardhome-sync:0.6.12
+          image: lscr.io/linuxserver/adguardhome-sync:0.6.13
           env:
             - name: TZ
               value: Europe/Madrid
