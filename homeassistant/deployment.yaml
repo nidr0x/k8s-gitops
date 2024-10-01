@@ -64,7 +64,7 @@ spec:
             successThreshold: 1
             failureThreshold: 30
         - name: matter-server
-          image: ghcr.io/home-assistant-libs/python-matter-server:6.5
+          image: ghcr.io/home-assistant-libs/python-matter-server:6.6
           imagePullPolicy: Always
           securityContext:
             privileged: false
