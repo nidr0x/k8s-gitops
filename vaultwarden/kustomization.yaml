@@ -7,6 +7,6 @@ resources:
   - service.yaml
   - ingress.yaml
   - secret.yaml
-  - vaultwarden-deployment.yaml
+  - deployment.yaml
   - pv.yaml
   - pvc.yaml
