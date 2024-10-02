@@ -9,8 +9,9 @@ cluster:
 
 machine:
   install:
-    image: ghcr.io/siderolabs/installer:1.7.6
+    image: factory.talos.dev/installer/a67adf43d3bcbfb16d4fb6227edcf6f5ff039c493372f759d2dfcf8c21c932df:v1.8.0 # with extensions for n100
     disk: "/dev/sda"
+    wipe: true
   network:
     interfaces:
       - deviceSelector:
