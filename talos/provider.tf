@@ -5,6 +5,10 @@ terraform {
       source  = "siderolabs/talos"
       version = "0.6.0"
     }
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "~> 4"
+    }
   }
 }
 
