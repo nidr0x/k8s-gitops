@@ -153,6 +153,9 @@ grafana:
       version: 1
       editable: true
       isDefault: false
+    - name: Loki
+      type: loki
+      url: http://loki-gateway.logging.svc.cluster.local
   # List of grafana plugins to be installed
   plugins:
     - grafana-piechart-panel

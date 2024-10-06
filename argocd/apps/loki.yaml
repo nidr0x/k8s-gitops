@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: loki
+spec:
+  destination:
+    namespace: kube-monitoring
+    server: https://kubernetes.default.svc
+  project: everest
+  sources:
+    - repoURL: https://github.com/nidr0x/k8s-gitops
+      targetRevision: master
+      ref: nidr0x-k8s-gitops
+    - repoURL: https://github.com/nidr0x/k8s-gitops
+      targetRevision: master
+      path: monitoring/loki/
+    - repoURL: https://grafana.github.io/helm-charts
+      targetRevision: v6.16.0
+      chart: loki
+      helm:
+        valueFiles:
+          - $nidr0x-k8s-gitops/monitoring/loki/values.yaml
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
