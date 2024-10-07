@@ -15,7 +15,7 @@ spec:
       targetRevision: master
       path: monitoring/metrics-server/
     - repoURL: https://kubernetes-sigs.github.io/metrics-server/
-      targetRevision: v3.12.1
+      targetRevision: 3.12.2
       chart: metrics-server
       helm:
         valueFiles:
