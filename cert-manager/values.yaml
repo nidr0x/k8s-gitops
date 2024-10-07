@@ -3,6 +3,10 @@ maxConcurrentChallenges: 5
 
 installCRDs: true
 
+global:
+  leaderElection:
+    namespace: cert-manager
+
 resources:
   limits:
     cpu: 100m
