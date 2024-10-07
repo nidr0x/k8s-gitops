@@ -17,6 +17,15 @@ gateway:
   enabled: true
   replicas: 1
 
+write:
+  replicas: 1
+
+read:
+  replicas: 1
+
+backend:
+  replicas: 1
+
 minio:
   enabled: true
 
