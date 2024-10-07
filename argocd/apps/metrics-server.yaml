@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: metrics-server
+spec:
+  destination:
+    namespace: kube-monitoring
+    server: https://kubernetes.default.svc
+  project: everest
+  sources:
+    - repoURL: https://github.com/nidr0x/k8s-gitops
+      targetRevision: master
+      ref: nidr0x-k8s-gitops
+    - repoURL: https://github.com/nidr0x/k8s-gitops
+      targetRevision: master
+      path: monitoring/metrics-server/
+    - repoURL: https://kubernetes-sigs.github.io/metrics-server/
+      targetRevision: v3.12.1
+      chart: metrics-server
+      helm:
+        valueFiles:
+          - $nidr0x-k8s-gitops/monitoring/metrics-server/values.yaml
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
