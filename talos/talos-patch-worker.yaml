@@ -1,0 +1,23 @@
+cluster:
+  clusterName: everest
+  network:
+    cni:
+      name: none
+  proxy:
+    disabled: true
+
+machine:
+  install:
+    image: factory.talos.dev/installer/6039119bf63cb3664001ea0293d0e9dd64dd759bfb5941a266aa33df875faec9:v1.8.0 # with extensions for n100
+    disk: "/dev/sda"
+    wipe: true
+  network:
+    interfaces:
+      - deviceSelector:
+          physical: true # should select any hardware network device, if you have just one, it will be selected
+        dhcp: true
+  time:
+    disabled: false
+    servers:
+      - "time.cloudflare.com"
+    bootTimeout: "2m0s"
