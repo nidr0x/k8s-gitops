@@ -17,6 +17,6 @@ spec:
       - dns01:
           cloudflare:
             email: nidr0x@gmail.com
-            apiKeySecretRef:
+            apiTokenSecretRef:
               name: cloudflare-api-token-secret
               key: CF_API_KEY

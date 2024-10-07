@@ -1,5 +1,5 @@
 fullnameOverride: cert-manager
-maxConcurrentChallenges: 2
+maxConcurrentChallenges: 10
 
 installCRDs: true
 
@@ -28,8 +28,11 @@ cainjector:
       memory: 64Mi
 
 global:
-  logLevel: 3
+  logLevel: 5
+  leaderElection:
+    namespace: cert-manager
 
 extraArgs:
   - --dns01-recursive-nameservers=8.8.8.8:53,1.1.1.1:53
   - --dns01-recursive-nameservers-only
+  - --cluster-resource-namespace=cert-manager
