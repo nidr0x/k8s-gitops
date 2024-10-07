@@ -91,7 +91,7 @@ prometheus:
     # Resources request and limits
     resources:
       requests:
-        memory: 1Gi
+        memory: 256Mi
       limits:
         memory: 2Gi
     # PVC configuration
