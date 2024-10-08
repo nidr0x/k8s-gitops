@@ -11,6 +11,7 @@ env:
   VALIDATE_JSCPD: false
   VALIDATE_KUBERNETES_KUBECONFORM: false
   VALIDATE_CHECKOV: false
+  FIX_MARKDOWN: true
 permissions: {}
 
 jobs:
