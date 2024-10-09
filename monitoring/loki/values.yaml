@@ -80,7 +80,6 @@ minio:
   rootPassword: minioadmin
   persistence:
     size: 10Gi
-    storageClass: nfs
 
 persistence:
   enabled: true
