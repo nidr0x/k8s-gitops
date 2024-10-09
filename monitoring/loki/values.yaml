@@ -12,6 +12,8 @@ loki:
           period: 24h
         object_store: s3
         schema: v13
+  querier:
+    max_concurrent: 2
 
 gateway:
   enabled: true
@@ -25,6 +27,33 @@ read:
 
 backend:
   replicas: 1
+
+ingester:
+  replicas: 0
+
+querier:
+  replicas: 0
+
+queryFrontend:
+  replicas: 0
+
+queryScheduler:
+  replicas: 0
+
+distributor:
+  replicas: 0
+
+compactor:
+  replicas: 0
+
+indexGateway:
+  replicas: 0
+
+bloomCompactor:
+  replicas: 0
+
+bloomGateway:
+  replicas: 0
 
 minio:
   enabled: true
