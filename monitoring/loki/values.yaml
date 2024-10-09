@@ -2,7 +2,17 @@ deploymentMode: SimpleScalable
 
 loki:
   auth_enabled: false
-
+  structuredConfig:
+    common:
+      storage:
+        s3:
+          s3: http://loki-minio:9000
+          endpoint: http://loki-minio:9000
+          bucketnames: loki-chunks
+          access_key_id: minioadmin
+          secret_access_key: minioadmin
+          s3forcepathstyle: true
+          insecure: true
   schemaConfig:
     configs:
       - from: 2024-04-01
@@ -12,6 +22,8 @@ loki:
           period: 24h
         object_store: s3
         schema: v13
+  querier:
+    max_concurrent: 2
 
 gateway:
   enabled: true
@@ -19,15 +31,60 @@ gateway:
 
 write:
   replicas: 1
+  persistence:
+    size: 10Gi
+    storageClass: nfs
 
 read:
   replicas: 1
+  persistence:
+    size: 10Gi
+    storageClass: nfs
 
 backend:
   replicas: 1
+  persistence:
+    size: 10Gi
+    storageClass: nfs
+
+ingester:
+  replicas: 0
+
+querier:
+  replicas: 0
+
+queryFrontend:
+  replicas: 0
+
+queryScheduler:
+  replicas: 0
+
+distributor:
+  replicas: 0
+
+compactor:
+  replicas: 0
+
+indexGateway:
+  replicas: 0
+
+bloomCompactor:
+  replicas: 0
+
+bloomGateway:
+  replicas: 0
 
 minio:
   enabled: true
+  rootUser: minioadmin
+  rootPassword: minioadmin
+  persistence:
+    size: 10Gi
+
+persistence:
+  enabled: true
+  size: 10Gi
+  storageClass: nfs
 
 monitoring:
   selfMonitoring:

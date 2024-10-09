@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cloudflared
+spec:
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  project: everest
+  sources:
+    - repoURL: https://github.com/nidr0x/k8s-gitops
+      targetRevision: master
+      ref: nidr0x-k8s-gitops
+    - repoURL: https://github.com/nidr0x/k8s-gitops
+      targetRevision: master
+      path: cloudflared/
+    - repoURL: https://cloudflare.github.io/helm-charts
+      targetRevision: 0.3.2
+      chart: cloudflare-tunnel
+      helm:
+        valueFiles:
+          - $nidr0x-k8s-gitops/cloudflared/values.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

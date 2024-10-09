@@ -1,0 +1,20 @@
+cloudflare:
+  tunnelName: "Everest"
+  tunnelId: "7cd1469d-4c25-4351-8154-64110386a0f7"
+  secretName: "tunnel-credentials"
+  ingress:
+    - hostname: "*.nidr0x.win"
+      service: "https://cilium-ingress.kube-system.svc.cluster.local:443"
+      originRequest:
+        noTLSVerify: true
+
+resources:
+  limits:
+    memory: "128Mi"
+  requests:
+    cpu: "100m"
+    memory: "64Mi"
+
+replicaCount: 1
+
+fullnameOverride: "cloudflared"
