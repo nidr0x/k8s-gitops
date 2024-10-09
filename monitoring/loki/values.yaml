@@ -79,8 +79,8 @@ minio:
   rootUser: minioadmin
   rootPassword: minioadmin
   persistence:
-    enabled: true
-    size: 5Gi
+    size: 10Gi
+    storageClass: nfs
 
 persistence:
   enabled: true
