@@ -32,15 +32,20 @@ gateway:
 write:
   replicas: 1
   persistence:
-    enabled: false
+    size: 10Gi
+    storageClass: nfs
 
 read:
   replicas: 1
+  persistence:
+    size: 10Gi
+    storageClass: nfs
 
 backend:
   replicas: 1
   persistence:
-    enabled: false
+    size: 10Gi
+    storageClass: nfs
 
 ingester:
   replicas: 0
