@@ -76,6 +76,7 @@ minio:
 persistence:
   enabled: true
   size: 5Gi
+  backend: false
 
 monitoring:
   selfMonitoring:
