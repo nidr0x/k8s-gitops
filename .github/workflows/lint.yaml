@@ -32,6 +32,7 @@ jobs:
           VALIDATE_JSCPD: false
           VALIDATE_KUBERNETES_KUBECONFORM: false
           VALIDATE_CHECKOV: false
+          FIX_MARKDOWN: true
 
       - name: Commit and push linting fixes
         if: >
