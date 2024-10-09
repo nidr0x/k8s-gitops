@@ -31,12 +31,13 @@ gateway:
 
 write:
   replicas: 1
-
+  persistence: false
 read:
   replicas: 1
 
 backend:
   replicas: 1
+  persistence: false
 
 ingester:
   replicas: 0
@@ -76,7 +77,6 @@ minio:
 persistence:
   enabled: true
   size: 5Gi
-  backend: false
 
 monitoring:
   selfMonitoring:
