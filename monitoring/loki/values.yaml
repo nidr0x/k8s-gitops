@@ -31,13 +31,16 @@ gateway:
 
 write:
   replicas: 1
-  persistence: false
+  persistence:
+    enabled: false
+
 read:
   replicas: 1
 
 backend:
   replicas: 1
-  persistence: false
+  persistence:
+    enabled: false
 
 ingester:
   replicas: 0
