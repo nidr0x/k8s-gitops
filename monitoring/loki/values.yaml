@@ -2,7 +2,17 @@ deploymentMode: SimpleScalable
 
 loki:
   auth_enabled: false
-
+  structuredConfig:
+    common:
+      storage:
+        s3:
+          s3: http://loki-minio:9000
+          endpoint: http://loki-minio:9000
+          bucketnames: loki-chunks
+          access_key_id: minioadmin
+          secret_access_key: minioadmin
+          s3forcepathstyle: true
+          insecure: true
   schemaConfig:
     configs:
       - from: 2024-04-01
@@ -57,6 +67,15 @@ bloomGateway:
 
 minio:
   enabled: true
+  rootUser: minioadmin
+  rootPassword: minioadmin
+  persistence:
+    enabled: true
+    size: 5Gi
+
+persistence:
+  enabled: true
+  size: 5Gi
 
 monitoring:
   selfMonitoring:
