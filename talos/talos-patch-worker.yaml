@@ -1,4 +1,6 @@
 cluster:
+  extraManifests:
+    - https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/main/deploy/standalone-install.yaml
   clusterName: everest
   network:
     cni:
@@ -7,6 +9,9 @@ cluster:
     disabled: true
 
 machine:
+  kubelet:
+    extraArgs:
+      rotate-server-certificates: true
   install:
     image: factory.talos.dev/installer/6039119bf63cb3664001ea0293d0e9dd64dd759bfb5941a266aa33df875faec9:v1.8.0 # with extensions for n100
     disk: "/dev/sda"
