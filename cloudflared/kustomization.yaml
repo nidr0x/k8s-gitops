@@ -1,5 +1,13 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: kube-system
+
+configMapGenerator:
+  - name: config
+    namespace: kube-system
+    files:
+      - config.yaml
+
 resources:
   - secret.yaml
+  - daemon-set.yaml
