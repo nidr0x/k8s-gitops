@@ -11,4 +11,8 @@ ingress:
     service: "https://cilium-ingress.kube-system.svc.cluster.local:443"
     originRequest:
       originServerName: "*.nidr0x.win"
+  - hostname: "nidr0x.win"
+    service: "https://cilium-ingress.kube-system.svc.cluster.local:443"
+    originRequest:
+      originServerName: "nidr0x.win"
   - service: http_status:404
