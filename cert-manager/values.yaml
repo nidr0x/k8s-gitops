@@ -28,7 +28,7 @@ cainjector:
       memory: 64Mi
 
 global:
-  logLevel: 5
+  logLevel: 2
   leaderElection:
     namespace: cert-manager
 

@@ -19,4 +19,4 @@ spec:
             email: nidr0x@gmail.com
             apiTokenSecretRef:
               name: cloudflare-api-token-secret
-              key: CF_API_KEY
+              key: CF_API_TOKEN
