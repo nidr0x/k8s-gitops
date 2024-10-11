@@ -1,3 +1,5 @@
+podAnnotations:
+  pod-security.kubernetes.io/enforce: privileged
 promtail:
   enabled: true
   config:
