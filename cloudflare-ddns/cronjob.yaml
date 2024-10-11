@@ -32,11 +32,11 @@ spec:
                   memory: 64Mi
               envFrom:
               env:
-                - name: CLOUDFLARE_API_KEY
+                - name: CLOUDFLARE_API_TOKEN
                   valueFrom:
                     secretKeyRef:
                       name: cloudflare-ddns
-                      key: CLOUDFLARE_API_KEY
+                      key: CLOUDFLARE_API_TOKEN
                 - name: CLOUDFLARE_EMAIL
                   valueFrom:
                     secretKeyRef:
