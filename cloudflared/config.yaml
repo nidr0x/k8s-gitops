@@ -4,15 +4,18 @@ metrics: 0.0.0.0:2000
 no-autoupdate: true
 
 warp-routing:
-  enabled: true
+  enabled: false
+
+originRequest:
+  http2Origin: true
 
 ingress:
   - hostname: "*.nidr0x.win"
-    service: "https://cilium-ingress.kube-system.svc.cluster.local:443"
+    service: "https://192.168.1.220:443"
     originRequest:
       originServerName: "*.nidr0x.win"
   - hostname: "nidr0x.win"
-    service: "https://cilium-ingress.kube-system.svc.cluster.local:443"
+    service: "https://192.168.1.220:443"
     originRequest:
       originServerName: "nidr0x.win"
   - service: http_status:404

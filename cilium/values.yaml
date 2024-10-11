@@ -57,6 +57,15 @@ hubble:
 prometheus:
   enabled: false
 
+envoy:
+  securityContext:
+    capabilities:
+      keepCapNetBindService: true
+      envoy: [NET_ADMIN, PERFMON, BPF]
+
+authentication:
+  enabled: false
+
 #debug:
 #  enabled: true
 
