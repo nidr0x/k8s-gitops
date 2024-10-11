@@ -30,6 +30,7 @@ spec:
             initialDelaySeconds: 60
             failureThreshold: 5
             periodSeconds: 10
+          resources:
             requests:
               cpu: 100m
               memory: 64Mi
