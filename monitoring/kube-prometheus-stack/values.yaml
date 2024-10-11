@@ -22,7 +22,7 @@ alertmanager:
       - monitoring.nidr0x.win
     annotations:
       cert-manager.io/cluster-issuer: zerossl-prod
-      external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
+      external-dns.alpha.kubernetes.io/target: 9a0ffdc6-2725-4fbc-bf4b-e137a7081be3.cfargotunnel.com
     paths:
       - /alertmanager
     pathType: Prefix
@@ -65,7 +65,7 @@ prometheus:
       - monitoring.nidr0x.win
     annotations:
       cert-manager.io/cluster-issuer: prod-cert-zerossl
-      external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
+      external-dns.alpha.kubernetes.io/target: 9a0ffdc6-2725-4fbc-bf4b-e137a7081be3.cfargotunnel.com
     paths:
       - /prometheus
     pathType: Prefix
@@ -121,7 +121,7 @@ grafana:
       - monitoring.nidr0x.win
     annotations:
       cert-manager.io/cluster-issuer: zerossl-prod
-      external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
+      external-dns.alpha.kubernetes.io/target: 9a0ffdc6-2725-4fbc-bf4b-e137a7081be3.cfargotunnel.com
     path: /grafana
     pathType: Prefix
     tls:
