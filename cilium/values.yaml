@@ -73,6 +73,8 @@ ingressController:
   enabled: true
   default: true
   loadbalancerMode: shared
+  defaultSecretNamespace: kube-system
+  defaultSecretName: wildcard-nidr0x-win
   service:
     loadBalancerIP: 192.168.1.220
     insecureNodePort: 32434
