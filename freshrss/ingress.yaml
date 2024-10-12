@@ -20,5 +20,4 @@ spec:
                   name: http
   tls:
     - hosts:
-        - rss.nidr0x.win
-      secretName: prod-cert-zerossl
+        - '*.nidr0x.win
