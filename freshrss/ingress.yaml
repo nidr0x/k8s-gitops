@@ -20,4 +20,4 @@ spec:
                   name: http
   tls:
     - hosts:
-        - '*.nidr0x.win
+        - '*.nidr0x.win'
