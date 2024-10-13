@@ -21,4 +21,3 @@ spec:
   tls:
     - hosts:
         - uptime.nidr0x.win
-      secretName: prod-cert-zerossl

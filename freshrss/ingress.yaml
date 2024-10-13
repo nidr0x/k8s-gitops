@@ -20,4 +20,4 @@ spec:
                   name: http
   tls:
     - hosts:
-        - "rss.nidr0x.win"
+        - rss.nidr0x.win

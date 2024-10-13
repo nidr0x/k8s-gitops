@@ -18,8 +18,7 @@ server:
       external-dns.alpha.kubernetes.io/target: 9a0ffdc6-2725-4fbc-bf4b-e137a7081be3.cfargotunnel.com
     hostname: argocd.nidr0x.win
     extraTls:
-      - secretName: prod-cert-zerossl
-        hosts:
+      - hosts:
           - argocd.nidr0x.win
   service:
     type: LoadBalancer
