@@ -30,4 +30,3 @@ spec:
   tls:
     - hosts:
         - bitwarden.nidr0x.win
-      secretName: prod-cert-zerossl

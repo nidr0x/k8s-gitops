@@ -29,7 +29,6 @@ alertmanager:
     tls:
       - hosts:
           - monitoring.nidr0x.win
-        secretName: prod-cert-zerossl
   alertmanagerSpec:
     fullnameOverride: "kubepromstack-alertmanager"
     # Subpath /alertmanager configuration
@@ -72,7 +71,6 @@ prometheus:
     tls:
       - hosts:
           - monitoring.nidr0x.win
-        secretName: prod-cert-zerossl
   prometheusSpec:
     fullnameOverride: "kubepromstack-prometheus"
     retention: 7d
@@ -127,7 +125,6 @@ grafana:
     tls:
       - hosts:
           - monitoring.nidr0x.win
-        secretName: prod-cert-zerossl
   securityContext:
     runAsGroup: 2002
     runAsNonRoot: true
