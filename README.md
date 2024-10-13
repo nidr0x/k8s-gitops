@@ -8,6 +8,10 @@ Welcome to the nidr0x Homelab repository! Here you'll find [Kubernetes](https://
 
 </div>
 
+# 🧪 Purpose
+
+The primary goal of this repository, beyond self-hosting services on my own infrastructure, is to continuously improve my skills, experiment with new technologies and methodologies, and apply this knowledge to real-world scenarios in my professional work.
+
 ## ⚙️ Application list
 
 - [Adguard Home](https://github.com/AdguardTeam/AdGuardHome)
@@ -38,14 +42,14 @@ Check the [commit history](https://github.com/nidr0x/k8s-gitops/commits/master)
 
 ## 🔗 External cloud dependencies
 
-While most of my infrastructure and workloads are self-hosted I do rely upon the cloud for certain key parts of my setup. This saves me from having to worry about two things. (1) Dealing with chicken/egg scenarios and (2) services I critically need whether my cluster is online or not.
+While most of my infrastructure and workloads are self-hosted I do rely upon the cloud for certain key parts of my setup. This saves me from having to worry about two things. Dealing with chicken/egg scenarios and services I critically need whether my cluster is online or not.
 
-| Service                                   | Use                                                       | Cost                 |
-| ----------------------------------------- | --------------------------------------------------------- | -------------------- |
-| [Cloudflare](https://www.cloudflare.com/) | Domain & R2 (Terrafom backend) & Oauth (Using Zero Trust) | ~$10/yr              |
-| [GitHub](https://www.github.com/)         | Repository                                                | Free                 |
-| [Brevo](https://www.brevo.com/)           | SMTP email platform                                       | Free (up to 300/day) |
-| [ZeroSSL](https://www.zerossl.com/)       | Issuing SSL Certificates via Cert Manager                 | Free                 |
+| Service                                   | Use                                                                                                   | Cost                 |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------- | -------------------- |
+| [Cloudflare](https://www.cloudflare.com/) | Domain & R2 (Terrafom backend) & Cloudflare tunnels (expoing applications) & Oauth (Using Zero Trust) | ~$10/yr              |
+| [GitHub](https://www.github.com/)         | Repository & CI/CD                                                                                    | Free                 |
+| [Brevo](https://www.brevo.com/)           | SMTP email platform                                                                                   | Free (up to 300/day) |
+| [ZeroSSL](https://www.zerossl.com/)       | Issuing SSL Certificates via Cert Manager                                                             | Free                 |
 
 ## 📁 Repository structure
 
