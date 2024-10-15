@@ -6,6 +6,9 @@ kubeProxyReplacement: true
 ipam:
   mode: kubernetes
 
+ipv6:
+  enabled: true
+
 l2announcements:
   enabled: true
 
