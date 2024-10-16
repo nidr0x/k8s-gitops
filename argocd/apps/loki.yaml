@@ -15,7 +15,7 @@ spec:
       targetRevision: master
       path: monitoring/loki/
     - repoURL: https://grafana.github.io/helm-charts
-      targetRevision: v6.16.0
+      targetRevision: 6.18.0
       chart: loki
       helm:
         valueFiles:
