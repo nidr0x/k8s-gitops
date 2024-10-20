@@ -54,31 +54,9 @@ spec:
               cpu: 80m
               memory: 64Mi
           securityContext:
-            #runAsUser: 1001
-            #runAsGroup: 2002
             allowPrivilegeEscalation: false
             capabilities:
               add: ["NET_ADMIN"]
-          livenessProbe:
-            exec:
-              command:
-                - nslookup
-                - "google.com"
-            initialDelaySeconds: 15
-          readinessProbe:
-            exec:
-              command:
-                - nslookup
-                - "google.com"
-            initialDelaySeconds: 15
-          startupProbe:
-            exec:
-              command:
-                - nslookup
-                - "google.com"
-            initialDelaySeconds: 15
-            failureThreshold: 10
-            periodSeconds: 10
           ports:
             - name: dns-tcp
               containerPort: 53
