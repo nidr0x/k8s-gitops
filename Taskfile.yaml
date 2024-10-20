@@ -1,0 +1,23 @@
+---
+version: "3"
+
+vars:
+  KUBERNETES_DIR: "{{.ROOT_DIR}}/terraform/talos"
+  K8S_CLUSTER: '{{.K8S_CLUSTER | default "main"}}'
+
+includes:
+  pre-commit:
+    taskfile: .taskfiles/pre-commit
+    dir: .taskfiles/pre-commit
+  talos:
+    taskfile: .taskfiles/talos
+    dir: .taskfiles/talos
+  kubernetes:
+    taskfile: .taskfiles/kubernetes
+    dir: .taskfiles/kubernetes
+
+tasks:
+  default:
+    silent: true
+    cmds:
+      - task -l
