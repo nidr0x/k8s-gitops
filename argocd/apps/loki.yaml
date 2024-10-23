@@ -13,13 +13,13 @@ spec:
       ref: nidr0x-k8s-gitops
     - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
-      path: monitoring/loki/
+      path: kubernetes/main/apps/monitoring/loki/
     - repoURL: https://grafana.github.io/helm-charts
       targetRevision: 6.18.0
       chart: loki
       helm:
         valueFiles:
-          - $nidr0x-k8s-gitops/monitoring/loki/values.yaml
+          - $nidr0x-k8s-gitops/kubernetes/main/apps/monitoring/loki/values.yaml
   syncPolicy:
     syncOptions:
       - CreateNamespace=true

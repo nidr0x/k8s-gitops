@@ -13,13 +13,13 @@ spec:
       ref: nidr0x-k8s-gitops
     - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
-      path: monitoring/node-problem-detector/
+      path: kubernetes/main/apps/monitoring/node-problem-detector/
     - repoURL: https://charts.deliveryhero.io/
       targetRevision: 2.3.14
       chart: node-problem-detector
       helm:
         valueFiles:
-          - $nidr0x-k8s-gitops/monitoring/node-problem-detector/values.yaml
+          - $nidr0x-k8s-gitops/kubernetes/main/monitoring/node-problem-detector/values.yaml
   syncPolicy:
     syncOptions:
       - Replace=True

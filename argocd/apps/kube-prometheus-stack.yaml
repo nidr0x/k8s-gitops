@@ -13,13 +13,13 @@ spec:
       ref: nidr0x-k8s-gitops
     - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
-      path: monitoring/kube-prometheus-stack/
+      path: kubernetes/main/apps/monitoring/kube-prometheus-stack/
     - repoURL: https://prometheus-community.github.io/helm-charts
       targetRevision: 65.3.1
       chart: kube-prometheus-stack
       helm:
         valueFiles:
-          - $nidr0x-k8s-gitops/monitoring/kube-prometheus-stack/values.yaml
+          - $nidr0x-k8s-gitops/kubernetes/main/monitoring/kube-prometheus-stack/values.yaml
   syncPolicy:
     syncOptions:
       - CreateNamespace=true

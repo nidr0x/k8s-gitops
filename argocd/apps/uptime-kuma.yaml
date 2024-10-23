@@ -8,7 +8,7 @@ spec:
     server: https://kubernetes.default.svc
   project: everest
   source:
-    path: monitoring/uptime-kuma/
+    path: kubernetes/main/apps/monitoring/uptime-kuma/
     repoURL: https://github.com/nidr0x/k8s-gitops
     targetRevision: master
   syncPolicy:
