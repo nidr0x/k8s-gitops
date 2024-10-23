@@ -10,7 +10,7 @@ spec:
   sources:
     - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
-      path: cloudflared/
+      path: kubernetes/main/apps/cloudflared/
   syncPolicy:
     automated:
       prune: true

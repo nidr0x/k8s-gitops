@@ -8,7 +8,7 @@ spec:
     server: https://kubernetes.default.svc
   project: everest
   source:
-    path: gphotos-sync/
+    path: kubernetes/main/apps/gphotos-sync/
     repoURL: https://github.com/nidr0x/k8s-gitops
     targetRevision: master
   syncPolicy:
