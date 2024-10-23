@@ -13,13 +13,13 @@ spec:
       ref: nidr0x-k8s-gitops
     - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
-      path: cert-manager/
+      path: kubernetes/main/apps/cert-manager/
     - repoURL: https://charts.jetstack.io
       targetRevision: v1.16.1
       chart: cert-manager
       helm:
         valueFiles:
-          - $nidr0x-k8s-gitops/cert-manager/values.yaml
+          - $nidr0x-k8s-gitops/kubernetes/main/apps/cert-manager/values.yaml
   syncPolicy:
     syncOptions:
       - CreateNamespace=true

@@ -8,7 +8,7 @@ spec:
     server: https://kubernetes.default.svc
   project: everest
   source:
-    path: transmission/
+    path: kubernetes/main/apps/transmission/
     repoURL: https://github.com/nidr0x/k8s-gitops
     targetRevision: master
   syncPolicy:

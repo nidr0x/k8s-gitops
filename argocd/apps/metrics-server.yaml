@@ -13,13 +13,13 @@ spec:
       ref: nidr0x-k8s-gitops
     - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
-      path: monitoring/metrics-server/
+      path: kubernetes/main/apps/monitoring/metrics-server/
     - repoURL: https://kubernetes-sigs.github.io/metrics-server/
       targetRevision: 3.12.2
       chart: metrics-server
       helm:
         valueFiles:
-          - $nidr0x-k8s-gitops/monitoring/metrics-server/values.yaml
+          - $nidr0x-k8s-gitops/kubernetes/main/apps/monitoring/metrics-server/values.yaml
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
