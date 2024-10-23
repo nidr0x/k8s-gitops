@@ -13,13 +13,13 @@ spec:
       ref: nidr0x-k8s-gitops
     - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
-      path: csi-driver-nfs/
+      path: kubernetes/main/apps/csi-driver-nfs/
     - repoURL: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
       targetRevision: v4.9.0
       chart: csi-driver-nfs
       helm:
         valueFiles:
-          - $nidr0x-k8s-gitops/csi-driver-nfs/values.yaml
+          - $nidr0x-k8s-gitops/kubernetes/main/apps/csi-driver-nfs/values.yaml
   syncPolicy:
     syncOptions:
       - CreateNamespace=true

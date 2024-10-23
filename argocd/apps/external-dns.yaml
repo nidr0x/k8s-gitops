@@ -13,13 +13,13 @@ spec:
       ref: nidr0x-k8s-gitops
     - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
-      path: external-dns/
+      path: kubernetes/main/apps/external-dns/
     - repoURL: https://kubernetes-sigs.github.io/external-dns/
       targetRevision: 1.15.0
       chart: external-dns
       helm:
         valueFiles:
-          - $nidr0x-k8s-gitops/external-dns/values.yaml
+          - $nidr0x-k8s-gitops/kubernetes/main/apps/external-dns/values.yaml
   syncPolicy:
     automated:
       prune: true
