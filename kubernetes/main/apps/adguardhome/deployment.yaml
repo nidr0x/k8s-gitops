@@ -46,6 +46,9 @@ spec:
             capabilities:
               drop: ["ALL"]
           volumeMounts:
+            - name: config
+              mountPath: /tmp/AdGuardHome.yaml
+              subPath: AdGuardHome.yaml
             - name: config-folder
               mountPath: /opt/adguardhome/conf
       containers:
