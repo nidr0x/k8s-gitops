@@ -1,0 +1,276 @@
+http:
+  pprof:
+    port: 6060
+    enabled: false
+  address: 0.0.0.0:80
+  session_ttl: 720h
+auth_attempts: 5
+block_auth_min: 15
+http_proxy: ""
+language: en
+theme: dark
+dns:
+  bind_hosts:
+    - 0.0.0.0
+  port: 53
+  anonymize_client_ip: false
+  ratelimit: 0
+  ratelimit_subnet_len_ipv4: 24
+  ratelimit_subnet_len_ipv6: 56
+  ratelimit_whitelist: []
+  refuse_any: true
+  upstream_dns:
+    - h3://dns.cloudflare.com/dns-query
+    - quic://dns1.nextdns.io
+    - quic://freedns.controld.com/p0
+    - h3://dns.google/dns-query
+  upstream_dns_file: ""
+  bootstrap_dns:
+    - 1.1.1.1
+    - 1.0.0.1
+    - 2606:4700:4700::1111
+    - 2606:4700:4700::1001
+    - 9.9.9.9
+    - 149.112.112.112
+    - 2620:fe::fe
+    - 2620:fe::9
+  fallback_dns: []
+  upstream_mode: parallel
+  fastest_timeout: 1s
+  allowed_clients: []
+  disallowed_clients: []
+  blocked_hosts:
+    - version.bind
+    - id.server
+    - hostname.bind
+  trusted_proxies:
+    - 127.0.0.0/8
+    - ::1/128
+    - 10.42.0.0/24
+    - 10.42.0.1/32
+  cache_size: 4194304
+  cache_ttl_min: 600
+  cache_ttl_max: 84600
+  cache_optimistic: true
+  bogus_nxdomain: []
+  aaaa_disabled: false
+  enable_dnssec: true
+  edns_client_subnet:
+    custom_ip: ""
+    enabled: false
+    use_custom: false
+  max_goroutines: 50
+  handle_ddr: true
+  ipset: []
+  ipset_file: ""
+  bootstrap_prefer_ipv6: true
+  upstream_timeout: 10s
+  private_networks: []
+  use_private_ptr_resolvers: false
+  local_ptr_upstreams: []
+  use_dns64: false
+  dns64_prefixes: []
+  serve_http3: true
+  use_http3_upstreams: true
+  serve_plain_dns: true
+  hostsfile_enabled: true
+tls:
+  enabled: true
+  server_name: dns.nidr0x.win
+  force_https: false
+  port_https: 443
+  port_dns_over_tls: 853
+  port_dns_over_quic: 853
+  port_dnscrypt: 0
+  dnscrypt_config_file: ""
+  allow_unencrypted_doh: false
+  certificate_chain: ""
+  private_key: ""
+  certificate_path: /certs/tls.crt
+  private_key_path: /certs/tls.key
+  strict_sni_check: false
+querylog:
+  dir_path: ""
+  ignored: []
+  interval: 6h
+  size_memory: 1000
+  enabled: true
+  file_enabled: true
+statistics:
+  dir_path: ""
+  ignored: []
+  interval: 24h
+  enabled: true
+filters:
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_27.txt
+    name: OISD Blocklist Full
+    id: 1675566435
+  - enabled: true
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt
+    name: AdGuard DNS filter
+    id: 1684625031
+  - enabled: true
+    url: https://raw.githubusercontent.com/LanikSJ/ubo-filters/main/filters/getadmiral-domains.txt
+    name: Admiral
+    id: 1697675565
+whitelist_filters:
+  - enabled: true
+    url: https://raw.githubusercontent.com/anudeepND/whitelist/master/domains/whitelist.txt
+    name: anudeepND
+    id: 1612271587
+  - enabled: true
+    url: https://raw.githubusercontent.com/Ultimate-Hosts-Blacklist/whitelist/master/domains.list
+    name: Ultimate-Hosts-Blacklist
+    id: 1648752551
+user_rules:
+  - "@@||track.effiliation.com^"
+  - "@@||newrelic.com^$important"
+  - "@@||clk.tradedoubler.com^"
+  - "@@||ad.doubleclick.net^"
+  - "@@||enterprise.activity.windows.com^"
+  - "@@||edge.activity.windows.com^"
+  - "@@||v10.vortex-win.data.microsoft.com^"
+  - "@@||v20.events.data.microsoft.com^"
+  - "@@||v20.vortex-win.data.microsoft.com^"
+  - "@@||tc.tradetracker.net^"
+  - "@@||*.cloud.answerhub.com^"
+  - "@@||*.gov^"
+  - "@@||*.inc.com^"
+  - "@@||*.lenta.ru^"
+  - "@@||*.smartsheet.com^"
+  - "@@||ae01.alicdn.com^"
+  - "@@||app.link^"
+  - "@@||browser.pipe.aria.microsoft.com^"
+  - "@@||get3.adobe.com^"
+  - "@@||mobile.pipe.aria.microsoft.com^"
+  - "@@||s.youtube.com^"
+  - "@@||settings-win.data.microsoft.com^"
+  - "@@||teslarati-com-edge.ntv.io^"
+  - "@@||v10.events.data.microsoft.com^"
+  - "@@||*.githubapp.com^"
+  - "@@||www.googleadservices.com"
+  - "@@||s.click.aliexpress.com"
+  - "@@||sync.richaudience.com"
+  - "@@||slack.com^"
+  - "@@||slack-edge.com^"
+  - "@@||pirate-bay.net^"
+  - "@@||clickserve.dartsearch.net^"
+  - "@@||bnc.lt^"
+  - "@@||ojrq.net^"
+  - "@@||ssl.google-analytics.com^$important"
+  - "@@||www.google-analytics.com^$important"
+  - "@@||control.kochava.com^$important"
+  - "@@||www.anrdoezrs.net^$important"
+  - "@@||www.emjcd.com^$important"
+  - "@@||shareasale.com^$important"
+  - "@@||go.redirectingat^$important"
+  - "@@||marketingplatform.google.com^$important"
+  - "@@||analytics.google.com^$important"
+  - "@@||iprofiles.apple.com^"
+  - "@@||mdmenrollment.apple.com^"
+  - "@@||deviceenrollment.apple.com^"
+  - "@@||insights-collector.newrelic.com/*/events$xhr,domain=diariosur.es|diariovasco.com|elcorreo.com|lasprovincias.es"
+  - "@@||js-agent.newrelic.com^"
+  - "@@||svocento.com^"
+  - "@@||quantcast.com^"
+  - "@@||secure.quantserve.com^"
+  - "@@||one-time-offer.com^"
+  - "@@||analytics.query.yahoo.com^$important"
+  - "@@||region1.app-measurement.com^$important"
+  - "@@||tags.tiqcdn.com^$important"
+  - "@@||local^$important"
+  - "@@||api2.amplitude.com^$important"
+  - "@@||app-measurement.com^$important"
+  - "@@||adsassets.waze.com^$important"
+  - "@@||ads-resources.waze.com^$important"
+  - "||awmdm.com^$important"
+  - "@@||mon-va.tiktokv.com^$important"
+  - "@@||mcs-va-useast2a.tiktokv.com^$important"
+  - "||raw.githubusercontent.com^$dnstype=~A"
+dhcp:
+  enabled: false
+  interface_name: ""
+  local_domain_name: lan
+  dhcpv4:
+    gateway_ip: ""
+    subnet_mask: ""
+    range_start: ""
+    range_end: ""
+    lease_duration: 86400
+    icmp_timeout_msec: 1000
+    options: []
+  dhcpv6:
+    range_start: ""
+    lease_duration: 86400
+    ra_slaac_only: false
+    ra_allow_slaac: false
+filtering:
+  blocking_ipv4: ""
+  blocking_ipv6: ""
+  blocked_services:
+    schedule:
+      time_zone: UTC
+    ids: []
+  protection_disabled_until: null
+  safe_search:
+    enabled: false
+    bing: true
+    duckduckgo: true
+    ecosia: true
+    google: true
+    pixabay: true
+    yandex: true
+    youtube: true
+  blocking_mode: default
+  parental_block_host: family-block.dns.adguard.com
+  safebrowsing_block_host: standard-block.dns.adguard.com
+  rewrites:
+    - domain: mikrotik
+      answer: 192.168.1.1
+    - domain: alexandria
+      answer: nidr0x.myqnapcloud.com
+    - domain: everest
+      answer: 192.168.1.11
+    - domain: qnap
+      answer: 192.168.1.10
+    - domain: nidr0x.myqnapcloud.com
+      answer: 192.168.1.10
+    - domain: nas
+      answer: 192.168.1.6
+    - domain: ubuntu-8gb-ngb1-1
+      answer: 2a01:4f8:1c1b:62f2::1
+  safe_fs_patterns:
+    - /opt/adguardhome/work/data/userfilters/*
+  safebrowsing_cache_size: 1048576
+  safesearch_cache_size: 1048576
+  parental_cache_size: 1048576
+  cache_time: 30
+  filters_update_interval: 1
+  blocked_response_ttl: 10
+  filtering_enabled: true
+  parental_enabled: false
+  safebrowsing_enabled: false
+  protection_enabled: true
+clients:
+  runtime_sources:
+    whois: true
+    arp: true
+    rdns: true
+    dhcp: true
+    hosts: true
+  persistent: []
+log:
+  enabled: true
+  file: ""
+  max_backups: 0
+  max_size: 100
+  max_age: 3
+  compress: false
+  local_time: false
+  verbose: false
+os:
+  group: ""
+  user: ""
+  rlimit_nofile: 0
+schema_version: 29
