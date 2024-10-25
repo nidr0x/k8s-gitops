@@ -18,12 +18,36 @@ spec:
         app: adguardhome
     spec:
       volumes:
-        - name: adguardhome-data
-          persistentVolumeClaim:
-            claimName: adguardhome-pvc-data
         - name: tls-cert-secret
           secret:
             secretName: prod-cert-zerossl
+        - name: config
+          configMap:
+            name: adguard-config
+        - name: users
+          secret:
+            secretName: users
+        - name: config-folder
+          emptyDir: {}
+        - name: work-folder
+          emptyDir: {}
+      initContainers:
+        - name: copy-base-config
+          image: busybox
+          command:
+            [
+              "cp",
+              "/tmp/AdGuardHome.yaml",
+              "/opt/adguardhome/conf/AdGuardHome.yaml",
+            ]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: config-folder
+              mountPath: /opt/adguardhome/conf
       containers:
         - name: adguardhome-sync
           imagePullPolicy: IfNotPresent
@@ -55,6 +79,7 @@ spec:
               memory: 64Mi
           securityContext:
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
             capabilities:
               add: ["NET_ADMIN"]
           ports:
@@ -97,7 +122,7 @@ spec:
           volumeMounts:
             - name: tls-cert-secret
               mountPath: /certs
-            - name: adguardhome-data
+            - name: config-folder
               mountPath: /opt/adguardhome/conf
-            - name: adguardhome-data
+            - name: work-folder
               mountPath: /opt/adguardhome/work
