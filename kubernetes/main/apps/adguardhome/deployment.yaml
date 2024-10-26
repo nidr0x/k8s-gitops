@@ -72,7 +72,6 @@ spec:
               mountPath: /opt/adguardhome/conf
       containers:
         - name: adguardhome-sync
-          imagePullPolicy: IfNotPresent
           image: lscr.io/linuxserver/adguardhome-sync:0.6.13
           env:
             - name: TZ
@@ -92,7 +91,6 @@ spec:
               memory: 64Mi
         - name: adguardhome
           image: adguard/adguardhome:v0.107.53
-          imagePullPolicy: IfNotPresent
           resources:
             limits:
               memory: 256Mi
