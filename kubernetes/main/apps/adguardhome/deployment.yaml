@@ -51,6 +51,25 @@ spec:
               subPath: AdGuardHome.yaml
             - name: config-folder
               mountPath: /opt/adguardhome/conf
+        - name: append-users
+          image: busybox
+          command:
+            [
+              "sh",
+              "-c",
+              "cat /tmp/users.yaml >> /opt/adguardhome/conf/AdGuardHome.yaml",
+            ]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: users
+              mountPath: /tmp/users.yaml
+              subPath: users.yaml
+            - name: config-folder
+              mountPath: /opt/adguardhome/conf
       containers:
         - name: adguardhome-sync
           imagePullPolicy: IfNotPresent
