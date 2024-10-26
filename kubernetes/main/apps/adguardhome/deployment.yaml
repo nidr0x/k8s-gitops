@@ -27,12 +27,15 @@ spec:
         - name: users
           secret:
             secretName: users
+        - name: adguardhome-sync
+          secret:
+            secretName: adguardhome-sync
         - name: config-folder
           emptyDir: {}
         - name: work-folder
           emptyDir: {}
       initContainers:
-        - name: copy-base-config
+        - name: copy-base-config-adguardhome
           image: public.ecr.aws/docker/library/busybox:latest
           command:
             [
@@ -51,6 +54,25 @@ spec:
               subPath: AdGuardHome.yaml
             - name: config-folder
               mountPath: /opt/adguardhome/conf
+        - name: copy-base-config-adguardhome-sync
+          image: public.ecr.aws/docker/library/busybox:latest
+          command:
+            [
+              "cp",
+              "/tmp/AdGuardHome-sync.yaml",
+              "/config/AdGuardHome-sync.yaml",
+            ]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: adguardhome-sync
+              mountPath: /tmp/AdGuardHome-sync.yaml
+              subPath: AdGuardHome-sync.yaml
+            - name: config-folder
+              mountPath: /config
         - name: append-users
           image: busybox
           command:
@@ -77,12 +99,12 @@ spec:
             - name: TZ
               value: Europe/Madrid
             - name: CONFIGFILE
-              value: /opt/adguardhome/conf/adguardhome-sync.yaml
+              value: /config/AdGuardHome-sync.yaml
             - name: LOG_LEVEL
               value: info
           volumeMounts:
             - name: config-folder
-              mountPath: /opt/adguardhome/conf
+              mountPath: /config
           resources:
             requests:
               memory: 32Mi
