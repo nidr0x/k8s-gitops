@@ -14,3 +14,4 @@ resources:
   - service.yaml
   - pvc.yaml
   - pv.yaml
+  - secret.yaml
