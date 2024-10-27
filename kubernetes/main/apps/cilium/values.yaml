@@ -66,8 +66,8 @@ envoy:
 authentication:
   enabled: false
 
-#debug:
-#  enabled: true
+debug:
+  enabled: true
 
 ingressController:
   enabled: true
