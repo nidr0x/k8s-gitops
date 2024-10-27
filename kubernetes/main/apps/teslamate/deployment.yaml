@@ -39,7 +39,7 @@ spec:
                   name: teslamate
                   key: ENCRYPTION_KEY
             - name: DATABASE_USER
-              value: "teslamate"
+              value: "postgres"
             - name: DATABASE_PASS
               valueFrom:
                 secretKeyRef:
