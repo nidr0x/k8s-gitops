@@ -41,8 +41,9 @@ spec:
         - CREATE EXTENSION earthdistance;
         - ALTER FUNCTION ll_to_earth(float8, float8) OWNER TO teslamate;
   logLevel: info
+  enableSuperuserAccess: true
   storage:
-    size: 1Gi
+    size: 2Gi
   monitoring:
     disableDefaultQueries: false
     enablePodMonitor: false
