@@ -38,7 +38,7 @@ spec:
       owner: freshrss
   logLevel: info
   storage:
-    size: 512Mi
+    size: 1024Mi
   monitoring:
     disableDefaultQueries: false
     enablePodMonitor: false
