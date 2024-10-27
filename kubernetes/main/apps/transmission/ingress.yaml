@@ -4,7 +4,7 @@ metadata:
   name: transmission
   annotations:
     cert-manager.io/cluster-issuer: zerossl-prod
-    external-dns.alpha.kubernetes.io/target: 9a0ffdc6-2725-4fbc-bf4b-e137a7081be3.cfargotunnel.com
+    external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
 spec:
   ingressClassName: cilium
   rules:
