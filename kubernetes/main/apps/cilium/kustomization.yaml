@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - announce.yaml
   - ip-pool.yaml
+  - ingress.yaml
