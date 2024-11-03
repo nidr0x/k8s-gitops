@@ -13,9 +13,11 @@ ingress:
   - hostname: "*.nidr0x.win"
     service: "https://192.168.1.220:443"
     originRequest:
+      noTLSVerify: true
       originServerName: "*.nidr0x.win"
   - hostname: "nidr0x.win"
     service: "https://192.168.1.220:443"
     originRequest:
-      originServerName: "nidr0x.win"
+      noTLSVerify: true
+      originServerName: "*.nidr0x.win"
   - service: http_status:404
