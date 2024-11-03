@@ -18,13 +18,6 @@ spec:
                 name: homeassistant
                 port:
                   name: http
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: homeassistant
-                port:
-                  name: ws
   tls:
     - hosts:
         - ha.nidr0x.win
