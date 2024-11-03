@@ -19,7 +19,7 @@ spec:
       chart: node-problem-detector
       helm:
         valueFiles:
-          - $nidr0x-k8s-gitops/kubernetes/main/monitoring/node-problem-detector/values.yaml
+          - $nidr0x-k8s-gitops/kubernetes/main/apps/monitoring/node-problem-detector/values.yaml
   syncPolicy:
     syncOptions:
       - Replace=True
