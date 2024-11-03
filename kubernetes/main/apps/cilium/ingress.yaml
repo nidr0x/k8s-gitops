@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: global-ingress
+  namespace: kube-system
+  annotations:
+    cert-manager.io/cluster-issuer: zerossl-prod
+    external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
+spec:
+  ingressClassName: cilium
+  rules:
+    - host: "*.nidr0x.win"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: cilium-ingress
+                port:
+                  name: https
+  tls:
+    - hosts:
+        - "*.nidr0x.win"
