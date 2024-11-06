@@ -19,7 +19,7 @@ spec:
       chart: kube-prometheus-stack
       helm:
         valueFiles:
-          - $nidr0x-k8s-gitops/kubernetes/main/monitoring/kube-prometheus-stack/values.yaml
+          - $nidr0x-k8s-gitops/kubernetes/main/apps/monitoring/kube-prometheus-stack/values.yaml
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
