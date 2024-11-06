@@ -4,7 +4,7 @@ metrics: 0.0.0.0:2000
 no-autoupdate: true
 
 warp-routing:
-  enabled: false
+  enabled: true
 
 originRequest:
   http2Origin: true
