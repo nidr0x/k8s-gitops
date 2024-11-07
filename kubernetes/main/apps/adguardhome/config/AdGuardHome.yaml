@@ -114,6 +114,10 @@ filters:
     url: https://raw.githubusercontent.com/LanikSJ/ubo-filters/main/filters/getadmiral-domains.txt
     name: Admiral
     id: 1697675565
+  - enabled: true
+    url: https://secure.fanboy.co.nz/fanboy-cookiemonster.txt
+    name: Easylist Cookie List
+    id: 1707675323
 whitelist_filters:
   - enabled: true
     url: https://raw.githubusercontent.com/anudeepND/whitelist/master/domains/whitelist.txt
