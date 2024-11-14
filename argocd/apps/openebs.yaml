@@ -21,6 +21,11 @@ spec:
         valueFiles:
           - $nidr0x-k8s-gitops/kubernetes/main/apps/openebs/values.yaml
   syncPolicy:
+    managedNamespaceMetadata:
+      annotations:
+        pod-security.kubernetes.io/audit: privileged
+        pod-security.kubernetes.io/enforce: privileged
+        pod-security.kubernetes.io/warn: privileged
     syncOptions:
       - CreateNamespace=true
     automated:
