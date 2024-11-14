@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: openebs
+spec:
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  project: everest
+  sources:
+    - repoURL: https://github.com/nidr0x/k8s-gitops
+      targetRevision: master
+      ref: nidr0x-k8s-gitops
+    - repoURL: https://github.com/nidr0x/k8s-gitops
+      targetRevision: master
+      path: kubernetes/main/apps/openebs
+    - repoURL: https://openebs.github.io/charts
+      targetRevision: 3.10.0
+      chart: openebs
+      helm:
+        valueFiles:
+          - $nidr0x-k8s-gitops/kubernetes/main/apps/openebs/values.yaml
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
