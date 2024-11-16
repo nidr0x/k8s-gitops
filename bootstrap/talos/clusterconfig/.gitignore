@@ -1,0 +1,4 @@
+everest-controlplane-01.yaml
+everest-worker-01.yaml
+everest-worker-02.yaml
+talosconfig
