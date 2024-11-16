@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket                      = "nidr0x-homelab"
-    key                         = "talos/terraform.tfstate"
+    key                         = "cloudflare/terraform.tfstate"
     region                      = "auto"
     skip_credentials_validation = true
     skip_metadata_api_check     = true
