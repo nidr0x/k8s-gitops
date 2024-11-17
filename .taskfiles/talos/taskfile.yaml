@@ -1,3 +1,14 @@
 ---
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: "3"
+
+tasks:
+  reset-node:
+    desc: Reset Talos on a single node [CLUSTER=main] [HOSTNAME=required]
+    prompt: Reset Talos node '{{.HOSTNAME}}' on the '{{.CLUSTER}}' cluster ... continue?
+    cmd: talosctl reset --nodes {{.HOSTNAME}} --graceful=false
+    requires:
+      vars: [CLUSTER, HOSTNAME]
+    preconditions:
+      - talosctl --nodes {{.HOSTNAME}} get machineconfig
+      - talosctl config info
