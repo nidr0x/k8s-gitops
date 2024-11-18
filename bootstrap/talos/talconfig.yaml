@@ -37,9 +37,9 @@ patches:
     - op: add
       path: /machine/kubelet/extraMounts
       value:
-        - destination: /var/local/openebs
+        - destination: /var/openebs/local
           type: bind
-          source: /var/local/openebs
+          source: /var/openebs/local
           options:
             - rbind
             - rshared

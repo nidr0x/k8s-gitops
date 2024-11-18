@@ -35,19 +35,19 @@ write:
   replicas: 1
   persistence:
     size: 10Gi
-    storageClass: openebs-device
+    storageClass: openebs-hostpath
 
 read:
   replicas: 1
   persistence:
     size: 10Gi
-    storageClass: openebs-device
+    storageClass: openebs-hostpath
 
 backend:
   replicas: 1
   persistence:
     size: 10Gi
-    storageClass: openebs-device
+    storageClass: openebs-hostpath
 
 ingester:
   replicas: 0
@@ -81,12 +81,12 @@ minio:
   rootUser: minioadmin
   rootPassword: minioadmin
   persistence:
-    size: 10Gi
+    size: 512Mi
 
 persistence:
   enabled: true
   size: 10Gi
-  storageClass: nfs
+  storageClass: openebs-hostpath
 
 monitoring:
   selfMonitoring:
