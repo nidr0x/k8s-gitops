@@ -1,100 +1,55 @@
-deploymentMode: SimpleScalable
-
+deploymentMode: SingleBinary
 loki:
   auth_enabled: false
+  analytics:
+    reporting_enabled: false
+  server:
+    log_level: info
   commonConfig:
     replication_factor: 1
-  structuredConfig:
-    common:
-      storage:
-        s3:
-          s3: http://loki-minio:9000
-          endpoint: http://loki-minio:9000
-          bucketnames: loki-chunks
-          access_key_id: minioadmin
-          secret_access_key: minioadmin
-          s3forcepathstyle: true
-          insecure: true
+  compactor:
+    working_directory: /var/loki/compactor/retention
+    delete_request_store: filesystem
+    retention_enabled: true
+  ingester:
+    chunk_encoding: snappy
+  storage:
+    type: filesystem
   schemaConfig:
     configs:
-      - from: 2024-04-01
+      - from: "2024-04-01" # quote
         store: tsdb
+        object_store: filesystem
+        schema: v13
         index:
           prefix: loki_index_
           period: 24h
-        object_store: s3
-        schema: v13
-  querier:
-    max_concurrent: 2
-
+  limits_config:
+    retention_period: 14d
+singleBinary:
+  replicas: 1
+  persistence:
+    enabled: true
+    storageClass: openebs-hostpath
+    size: 50Gi
 gateway:
-  enabled: true
-  replicas: 1
-
-write:
-  replicas: 1
-  persistence:
-    size: 10Gi
-    storageClass: openebs-hostpath
-
-read:
-  replicas: 1
-  persistence:
-    size: 10Gi
-    storageClass: openebs-hostpath
-
+  replicas: 0
 backend:
-  replicas: 1
-  persistence:
-    size: 10Gi
-    storageClass: openebs-hostpath
-
-ingester:
   replicas: 0
-
-querier:
+read:
   replicas: 0
-
-queryFrontend:
+write:
   replicas: 0
-
-queryScheduler:
-  replicas: 0
-
-distributor:
-  replicas: 0
-
-compactor:
-  replicas: 0
-
-indexGateway:
-  replicas: 0
-
-bloomCompactor:
-  replicas: 0
-
-bloomGateway:
-  replicas: 0
-
-minio:
-  enabled: true
-  rootUser: minioadmin
-  rootPassword: minioadmin
-  persistence:
-    size: 512Mi
-
-persistence:
-  enabled: true
-  size: 10Gi
-  storageClass: openebs-hostpath
-
-monitoring:
-  selfMonitoring:
-    enabled: false
-    grafanaAgent:
-      installOperator: false
-    lokiCanary:
-      enabled: false
-
+chunksCache:
+  enabled: false
+resultsCache:
+  enabled: false
+lokiCanary:
+  enabled: false
 test:
   enabled: false
+sidecar:
+  image:
+    repository: ghcr.io/kiwigrid/k8s-sidecar
+  rules:
+    searchNamespace: ALL
