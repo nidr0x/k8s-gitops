@@ -35,19 +35,19 @@ write:
   replicas: 1
   persistence:
     size: 10Gi
-    storageClass: openebs-device
+    storageClass: openebs-hostpath
 
 read:
   replicas: 1
   persistence:
     size: 10Gi
-    storageClass: openebs-device
+    storageClass: openebs-hostpath
 
 backend:
   replicas: 1
   persistence:
     size: 10Gi
-    storageClass: openebs-device
+    storageClass: openebs-hostpath
 
 ingester:
   replicas: 0
