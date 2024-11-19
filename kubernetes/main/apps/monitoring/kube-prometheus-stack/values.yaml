@@ -43,7 +43,7 @@ alertmanager:
     storage:
       volumeClaimTemplate:
         spec:
-          storageClassName: nfs
+          storageClassName: openebs-hostpath
           accessModes: ["ReadWriteMany"]
           resources:
             requests:
@@ -96,7 +96,7 @@ prometheus:
     storageSpec:
       volumeClaimTemplate:
         spec:
-          storageClassName: nfs
+          storageClassName: openebs-hostpath
           accessModes: ["ReadWriteMany"]
           resources:
             requests:
