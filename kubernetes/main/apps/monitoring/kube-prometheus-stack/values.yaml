@@ -44,7 +44,7 @@ alertmanager:
       volumeClaimTemplate:
         spec:
           storageClassName: openebs-hostpath
-          accessModes: ["ReadWriteMany"]
+          accessModes: ["ReadWriteOnce"]
           resources:
             requests:
               storage: 1Gi
@@ -97,7 +97,7 @@ prometheus:
       volumeClaimTemplate:
         spec:
           storageClassName: openebs-hostpath
-          accessModes: ["ReadWriteMany"]
+          accessModes: ["ReadWriteOnce"]
           resources:
             requests:
               storage: 10Gi
