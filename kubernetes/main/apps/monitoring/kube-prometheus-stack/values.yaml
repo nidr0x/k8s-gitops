@@ -152,7 +152,11 @@ grafana:
       isDefault: false
     - name: Loki
       type: loki
-      url: http://loki-gateway.logging.svc.cluster.local
+      uid: loki
+      access: proxy
+      url: http://loki-headless.kube-monitoring.svc.cluster.local
+      jsonData:
+        maxLines: 250
   # List of grafana plugins to be installed
   plugins:
     - grafana-piechart-panel
