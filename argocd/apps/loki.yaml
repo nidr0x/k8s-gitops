@@ -15,7 +15,7 @@ spec:
       targetRevision: master
       path: kubernetes/main/apps/monitoring/loki/
     - repoURL: https://grafana.github.io/helm-charts
-      targetRevision: 6.20.0
+      targetRevision: 6.21.0
       chart: loki
       helm:
         valueFiles:
