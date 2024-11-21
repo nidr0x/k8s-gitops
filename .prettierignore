@@ -1,1 +1,2 @@
 argocd/secret.yaml
+bootstrap/talos/talsecret.yaml
