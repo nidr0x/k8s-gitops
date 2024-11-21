@@ -154,7 +154,7 @@ grafana:
       type: loki
       uid: loki
       access: proxy
-      url: http://loki-headless.kube-monitoring.svc.cluster.local
+      url: http://loki-headless.kube-monitoring.svc.cluster.local:3100
       jsonData:
         maxLines: 250
   # List of grafana plugins to be installed
