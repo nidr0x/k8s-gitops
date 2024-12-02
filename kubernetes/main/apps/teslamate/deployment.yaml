@@ -41,22 +41,22 @@ spec:
             - name: DATABASE_USER
               valueFrom:
                 secretKeyRef:
-                  name: teslamate-database-app
+                  name: teslamate-database-superuser
                   key: username
             - name: DATABASE_PASS
               valueFrom:
                 secretKeyRef:
-                  name: teslamate-database-app
+                  name: teslamate-database-superuser
                   key: password
             - name: DATABASE_NAME
               valueFrom:
                 secretKeyRef:
-                  name: teslamate-database-app
+                  name: teslamate-database-superuser
                   key: dbname
             - name: DATABASE_HOST
               valueFrom:
                 secretKeyRef:
-                  name: teslamate-database-app
+                  name: teslamate-database-superuser
                   key: host
             - name: MQTT_HOST
               value: "192.168.1.10"
