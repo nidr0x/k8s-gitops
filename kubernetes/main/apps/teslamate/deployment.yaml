@@ -56,7 +56,7 @@ spec:
             - name: DATABASE_HOST
               valueFrom:
                 secretKeyRef:
-                  name: teslamate-database-superuser
+                  name: teslamate-database-app
                   key: host
             - name: MQTT_HOST
               value: "192.168.1.10"
