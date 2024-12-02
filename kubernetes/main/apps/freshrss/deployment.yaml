@@ -40,17 +40,20 @@ spec:
             - name: CRON_MIN
               value: "1,31"
             - name: DB_HOST
-              value: "192.168.1.10"
+              valueFrom:
+                secretKeyRef:
+                  name: freshrss-database-app
+                  key: host
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
-                  name: freshrss
-                  key: POSTGRES_USER
+                  name: freshrss-database-app
+                  key: username
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: freshrss
-                  key: POSTGRES_PASSWORD
+                  name: freshrss-database-app
+                  key: password
           #- name: PUID
           #  value: "950"
           #- name: PGID
