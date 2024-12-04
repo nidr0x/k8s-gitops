@@ -233,10 +233,10 @@ grafana:
     #level: debug
     database:
       type: postgres
-      host: ${HOST}:${PORT}
-      name: ${DBNAME}
-      user: ${USERNAME}
-      password: ${PASSWORD}
+      host: $__env{HOST}:$$__env{PORT}
+      name: $__env{DBNAME}
+      user: $__env{USERNAME}
+      password: $__env{PASSWORD}
       sslmode: disable
       wal: false
     feature_toggles:
