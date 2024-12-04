@@ -112,7 +112,9 @@ prometheus:
         replacement: prometheus
 grafana:
   defaultDashboardsTimezone: Europe/Madrid
-  envFromSecret: kubepromstack-oauth2
+  envFromSecrets:
+    - name: kubepromstack-oauth2
+    - name: grafana-database-app
   ingress:
     enabled: true
     hosts:
@@ -230,12 +232,12 @@ grafana:
     #log:
     #level: debug
     database:
-      type: "postgres"
-      host: "192.168.1.10:5434"
-      name: "grafana"
-      user: "grafana"
-      password: $__env{GRAFANA_POSTGRESQL_PASSWORD}
-      sslmode: "disable"
+      type: postgres
+      host: $__env{HOST}:$$__env{PORT}
+      name: $__env{DBNAME}
+      user: $__env{USERNAME}
+      password: $__env{PASSWORD}
+      sslmode: disable
       wal: false
     feature_toggles:
       ssoSettingsApi: true
