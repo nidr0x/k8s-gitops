@@ -13,3 +13,19 @@ spec:
       targetPort: 4000
   selector:
     app: teslamate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mqtt
+  name: mqtt
+spec:
+  type: ClusterIP
+  ports:
+    - name: mqtt
+      protocol: TCP
+      port: 1883
+      targetPort: 1883
+  selector:
+    app: mqtt

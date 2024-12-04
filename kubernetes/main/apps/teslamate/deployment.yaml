@@ -50,5 +50,26 @@ spec:
             - name: DATABASE_HOST
               value: "192.168.1.10"
             - name: MQTT_HOST
-              value: "192.168.1.10"
-      restartPolicy: Always
+              value: "mqtt"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mqtt
+  namespace: teslamate
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mqtt
+  template:
+    metadata:
+      labels:
+        app: mqtt
+    spec:
+      containers:
+        - name: mqtt
+          image: eclipse-mosquitto:2
+          command: ["mosquitto", "-c", "/mosquitto-no-auth.conf"]
+          ports:
+            - containerPort: 1883
