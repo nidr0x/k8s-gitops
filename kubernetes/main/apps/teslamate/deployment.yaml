@@ -51,13 +51,24 @@ spec:
               value: "192.168.1.10"
             - name: MQTT_HOST
               value: "mqtt"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mqtt
+  namespace: teslamate
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mqtt
+  template:
+    metadata:
+      labels:
+        app: mqtt
+    spec:
+      containers:
         - name: mqtt
           image: eclipse-mosquitto:2
-          imagePullPolicy: Always
-          resources:
-            requests:
-              cpu: 50m
-              memory: 100Mi
-            limits:
-              memory: 356Mi
-      restartPolicy: Always
+          ports:
+            - containerPort: 1883
