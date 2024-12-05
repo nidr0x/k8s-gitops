@@ -49,6 +49,4 @@ spec:
               value: "teslamate"
             - name: DATABASE_HOST
               value: "192.168.1.10"
-            - name: MQTT_HOST
-              value: "192.168.1.10"
       restartPolicy: Always
