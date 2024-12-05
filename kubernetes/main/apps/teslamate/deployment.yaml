@@ -49,4 +49,15 @@ spec:
               value: "teslamate"
             - name: DATABASE_HOST
               value: "192.168.1.10"
+            - name: MQTT_HOST
+              value: "mqtt"
+        - name: mqtt
+          image: eclipse-mosquitto:2
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 50m
+              memory: 100Mi
+            limits:
+              memory: 356Mi
       restartPolicy: Always
