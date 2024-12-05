@@ -70,5 +70,6 @@ spec:
       containers:
         - name: mqtt
           image: eclipse-mosquitto:2
+          command: ["mosquitto", "-c", "/mosquitto-no-auth.conf"]
           ports:
             - containerPort: 1883
