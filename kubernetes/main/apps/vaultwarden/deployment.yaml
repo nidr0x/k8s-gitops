@@ -46,8 +46,8 @@ spec:
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: vaultwarden-database-app
-                  key: uri
+                  name: bitwarden
+                  key: BITWARDEN_POSTGRESQL_URL
           ports:
             - containerPort: 8080
               name: http
