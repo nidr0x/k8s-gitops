@@ -139,7 +139,7 @@ grafana:
   fullnameOverride: "kubepromstack-grafana"
   assertNoLeakedSecrets: false
   additionalDataSources:
-    - name: Teslamate
+    - name: TeslaMate
       type: postgres
       url: 192.168.1.10
       database: teslamate
