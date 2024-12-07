@@ -1,0 +1,67 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: teslamate-database
+  namespace: teslamate
+spec:
+  env:
+    - name: TZ
+      value: Europe/Madrid
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.6
+
+  backup:
+    barmanObjectStore:
+      destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
+      endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
+      s3Credentials:
+        accessKeyId:
+          name: bitwarden
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: bitwarden
+          key: SECRET_ACCESS_KEY
+      wal:
+        compression: gzip
+    retentionPolicy: "10d"
+
+  enableSuperuserAccess: true
+  logLevel: info
+
+  storage:
+    pvcTemplate:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 2Gi
+      storageClassName: openebs-hostpath
+
+  monitoring:
+    disableDefaultQueries: false
+    enablePodMonitor: false
+
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "1"
+    limits:
+      memory: "1Gi"
+      cpu: "2"
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Pooler
+metadata:
+  name: teslamate-rw
+  namespace: teslamate
+spec:
+  cluster:
+    name: teslamate-database
+  instances: 1
+  pgbouncer:
+    paused: false
+    poolMode: session
+  type: rw
+status:
+  instances: 1
