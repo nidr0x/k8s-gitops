@@ -39,24 +39,15 @@ spec:
                   name: teslamate
                   key: ENCRYPTION_KEY
             - name: DATABASE_USER
-              valueFrom:
-                secretKeyRef:
-                  name: teslamate-database-superuser
-                  key: username
+              value: "postgres"
             - name: DATABASE_PASS
               valueFrom:
                 secretKeyRef:
-                  name: teslamate-database-superuser
-                  key: password
+                  name: teslamate
+                  key: DATABASE_PASS
             - name: DATABASE_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: teslamate-database-app
-                  key: dbname
+              value: "teslamate"
             - name: DATABASE_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: teslamate-database-superuser
-                  key: host
+              value: "192.168.1.10"
             - name: DISABLE_MQTT
               value: "true"
