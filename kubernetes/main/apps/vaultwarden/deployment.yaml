@@ -46,14 +46,11 @@ spec:
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: vaultwarden-database-app
-                  key: uri
+                  name: bitwarden
+                  key: BITWARDEN_POSTGRESQL_URL
           ports:
             - containerPort: 8080
               name: http
-              protocol: TCP
-            - containerPort: 3012
-              name: ws
               protocol: TCP
           volumeMounts:
             - mountPath: /data
