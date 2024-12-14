@@ -51,12 +51,12 @@ spec:
             - name: DATABASE_NAME
               valueFrom:
                 secretKeyRef:
-                  name: teslamate-database-app
+                  name: teslamate-database-superuser
                   key: dbname
             - name: DATABASE_HOST
               valueFrom:
                 secretKeyRef:
-                  name: teslamate-database-app
+                  name: teslamate-database-superuser
                   key: host
             - name: DISABLE_MQTT
               value: "true"
