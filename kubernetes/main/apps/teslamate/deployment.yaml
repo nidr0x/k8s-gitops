@@ -47,5 +47,7 @@ spec:
                   key: DATABASE_PASS
             - name: DATABASE_NAME
               value: "teslamate"
+            - name: DATABASE_HOST
+              value: "192.168.1.10"
             - name: DISABLE_MQTT
               value: "true"
