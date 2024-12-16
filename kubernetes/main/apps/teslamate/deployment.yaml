@@ -49,10 +49,7 @@ spec:
                   name: teslamate-database-superuser
                   key: password
             - name: DATABASE_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: teslamate-database-app
-                  key: dbname
+              value: teslamate
             - name: DATABASE_HOST
               valueFrom:
                 secretKeyRef:
