@@ -22,7 +22,7 @@ spec:
       serviceAccountName: bitwarden
       containers:
         - name: bitwarden
-          image: ghcr.io/dani-garcia/vaultwarden:1.32.6-alpine
+          image: ghcr.io/dani-garcia/vaultwarden:1.32.7-alpine
           imagePullPolicy: Always
           envFrom:
             - configMapRef:
