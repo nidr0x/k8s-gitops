@@ -227,6 +227,7 @@ filtering:
     yandex: true
     youtube: true
   blocking_mode: default
+  allow_unencrypted_doh: true
   parental_block_host: family-block.dns.adguard.com
   safebrowsing_block_host: standard-block.dns.adguard.com
   rewrites:
