@@ -17,7 +17,7 @@ spec:
       targetRevision: master
       path: kubernetes/main/apps/cloudnative-pg
     - repoURL: https://cloudnative-pg.github.io/charts
-      targetRevision: 0.22.1
+      targetRevision: 0.23.0
       chart: cloudnative-pg
       helm:
         valueFiles:
