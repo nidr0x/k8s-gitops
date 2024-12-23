@@ -94,7 +94,7 @@ spec:
               mountPath: /opt/adguardhome/conf
       containers:
         - name: adguardhome-sync
-          image: lscr.io/linuxserver/adguardhome-sync:0.6.16
+          image: lscr.io/linuxserver/adguardhome-sync:0.6.17
           env:
             - name: TZ
               value: Europe/Madrid
