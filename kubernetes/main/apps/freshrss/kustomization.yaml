@@ -8,4 +8,4 @@ resources:
   - ingress.yaml
   - service.yaml
   - secret.yaml
-  #  - database.yaml
+  - database.yaml
