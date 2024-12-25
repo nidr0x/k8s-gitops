@@ -5,5 +5,4 @@ resources:
   - pv.yaml
   - namespace.yaml
   - secret.yaml
-  - database.yaml
-  - postgres.yaml
+  #- database.yaml
