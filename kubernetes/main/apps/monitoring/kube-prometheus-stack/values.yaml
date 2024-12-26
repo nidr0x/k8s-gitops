@@ -144,12 +144,12 @@ grafana:
       url: teslamate-database-rw.teslamate.svc.cluster.local
       database: app
       user: app
+      version: 15
       secureJsonData:
         password: $__env{TESLAMATE_POSTGRESQL_PASSWORD}
       jsonData:
         sslmode: "disable"
         postgresVersion: 1000
-      version: 1
       editable: true
       isDefault: false
     - name: Loki
