@@ -142,7 +142,7 @@ grafana:
     - name: TeslaMate
       type: postgres
       url: teslamate-database-rw.teslamate.svc.cluster.local
-      database: teslamate
+      database: app
       user: app
       secureJsonData:
         password: $__env{TESLAMATE_POSTGRESQL_PASSWORD}
