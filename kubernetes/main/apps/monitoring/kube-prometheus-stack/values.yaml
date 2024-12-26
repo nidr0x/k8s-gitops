@@ -308,3 +308,5 @@ namespaceOverride: kube-monitoring
 nameOverride: ""
 fullnameOverride: "kubepromstack"
 releaseOverride: ""
+nodeExporter:
+  enabled: false
