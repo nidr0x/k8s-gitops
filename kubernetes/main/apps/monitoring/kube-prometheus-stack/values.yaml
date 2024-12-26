@@ -141,7 +141,7 @@ grafana:
   additionalDataSources:
     - name: TeslaMate
       type: postgres
-      url: 192.168.1.10
+      url: $__env{host}
       database: teslamate
       user: teslamate
       secureJsonData:
