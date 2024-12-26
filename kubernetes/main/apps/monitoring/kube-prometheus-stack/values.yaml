@@ -141,11 +141,11 @@ grafana:
   additionalDataSources:
     - name: TeslaMate
       type: postgres
-      url: $__env{host}
+      url: teslamate-database-rw.teslamate.svc.cluster.local
       database: teslamate
-      user: teslamate
+      user: app
       secureJsonData:
-        password: $__env{password}
+        password: $__env{TESLAMATE_POSTGRESQL_PASSWORD}
       jsonData:
         sslmode: "disable"
         postgresVersion: 1000
@@ -158,8 +158,7 @@ grafana:
       access: proxy
       url: http://loki-headless.kube-monitoring.svc.cluster.local:3100
       jsonData:
-        maxLines: 250
-  # List of grafana plugins to be installed
+        maxLines: 250 # List of grafana plugins to be installed
   plugins:
     - grafana-piechart-panel
     - pr0ps-trackmap-panel 2.1.4
