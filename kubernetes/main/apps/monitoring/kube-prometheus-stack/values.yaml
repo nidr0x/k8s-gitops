@@ -159,6 +159,7 @@ grafana:
       url: http://loki-headless.kube-monitoring.svc.cluster.local:3100
       jsonData:
         maxLines: 250 # List of grafana plugins to be installed
+  prune: true
   plugins:
     - grafana-piechart-panel
     - pr0ps-trackmap-panel 2.1.4
