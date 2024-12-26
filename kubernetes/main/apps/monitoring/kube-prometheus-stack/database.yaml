@@ -7,6 +7,11 @@ spec:
   instances: 1
   imageName: ghcr.io/cloudnative-pg/postgresql:16.6
 
+  bootstrap:
+    initdb:
+      database: grafana
+      owner: grafana
+
   backup:
     barmanObjectStore:
       destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
