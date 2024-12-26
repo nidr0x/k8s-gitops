@@ -45,3 +45,14 @@ spec:
     limits:
       memory: "1Gi"
       cpu: "2"
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: vaultwarden-backup
+spec:
+  schedule: "0 0 0 * * *"
+  backupOwnerReference: self
+  cluster:
+    name: vaultwarden
