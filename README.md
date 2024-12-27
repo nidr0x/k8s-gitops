@@ -51,6 +51,7 @@ While most of my infrastructure and workloads are self-hosted I do rely upon the
 | [GitHub](https://www.github.com/)         | Repository & CI/CD                                                                                    | Free                 |
 | [Brevo](https://www.brevo.com/)           | SMTP email platform                                                                                   | Free (up to 300/day) |
 | [ZeroSSL](https://www.zerossl.com/)       | Issuing SSL Certificates via Cert Manager                                                             | Free                 |
+| [Doppler](https://www.doppler.com/)       | Secrets management platform                                                                           | Free                 |
 
 ## 📁 Repository structure
 
