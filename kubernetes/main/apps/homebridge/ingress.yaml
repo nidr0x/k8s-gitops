@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: homeassistant
+  name: homebridge
   annotations:
     cert-manager.io/cluster-issuer: zerossl-prod
     external-dns.alpha.kubernetes.io/target: ip.nidr0x.win

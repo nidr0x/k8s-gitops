@@ -25,6 +25,7 @@ The primary goal of this repository, beyond self-hosting services on my own infr
 - [FreshRSS](https://github.com/FreshRSS/FreshRSS)
 - [GPhotos Sync](https://github.com/gilesknap/gphotos-sync)
 - [Home Assistant](https://github.com/home-assistant/docker)
+- [Homebridge](https://homebridge.io/)
 - [Kube Prometheus Stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
 - [Loki](https://grafana.com/oss/loki/)
 - [Node Problem Detector](https://github.com/kubernetes/node-problem-detector)
