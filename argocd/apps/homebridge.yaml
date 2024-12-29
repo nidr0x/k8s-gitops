@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: homebridge
+spec:
+  destination:
+    namespace: homebridge
+    server: https://kubernetes.default.svc
+  project: everest
+  source:
+    path: kubernetes/main/apps/homebridge/
+    repoURL: https://github.com/nidr0x/k8s-gitops
+    targetRevision: master
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
