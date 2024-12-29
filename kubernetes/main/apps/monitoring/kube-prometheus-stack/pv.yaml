@@ -12,7 +12,7 @@ spec:
   csi:
     driver: nfs.csi.k8s.io
     readOnly: false
-    volumeHandle: alertmanager # make sure it's a unique id in the cluster
+    volumeHandle: alertmanager
     volumeAttributes:
       server: 192.168.1.10
       share: /mnt/main/nfs/alertmanager
@@ -31,7 +31,7 @@ spec:
   csi:
     driver: nfs.csi.k8s.io
     readOnly: false
-    volumeHandle: prometheus # make sure it's a unique id in the cluster
+    volumeHandle: prometheus
     volumeAttributes:
       server: 192.168.1.10
       share: /mnt/main/nfs/prometheus
@@ -50,7 +50,7 @@ spec:
   csi:
     driver: nfs.csi.k8s.io
     readOnly: false
-    volumeHandle: grafana # make sure it's a unique id in the cluster
+    volumeHandle: grafana
     volumeAttributes:
       server: 192.168.1.10
       share: /mnt/main/nfs/grafana
