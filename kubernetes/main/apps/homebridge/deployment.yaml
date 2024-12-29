@@ -17,13 +17,26 @@ spec:
       labels:
         app: homebridge
     spec:
+      hostNetwork: true
       containers:
         - name: homebridge
           image: homebridge/homebridge:2024-12-19
           imagePullPolicy: Always
           securityContext:
-            privileged: false
-            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+            allowPrivilegeEscalation: true
+          env:
+            - name: TERMINATE_ON_ERROR
+              value: "1"
+            - name: HOMEBRIDGE_CONFIG_UI
+              value: "1"
+            - name: HOMEBRIDGE_CONFIG_UI_PORT
+              value: "8090"
+            - name: PUID
+              value: "1000"
+            - name: PUID
+              value: "1000"
           resources:
             requests:
               cpu: 50m
@@ -68,14 +81,3 @@ spec:
         - name: homebridge-config
           persistentVolumeClaim:
             claimName: homebridge-config-pvc
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: homebridge-config-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
