@@ -4,6 +4,8 @@ version: "3"
 vars:
   CLUSTER: '{{.CLUSTER | default "main"}}'
   CLUSTER_DIR: "{{.ROOT_DIR}}/kubernetes/{{.CLUSTER}}"
+  KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
+  SOPS_CONFIG_FILE: "{{.ROOT_DIR}}/.sops.yaml"
 
 includes:
   pre-commit:

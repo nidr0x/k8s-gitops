@@ -12,6 +12,12 @@
 # Icon must end with two \r
 Icon
 
+# Kubernetes
+kubeconfig
+talosconfig
+
+# Taskfile
+.task
 
 # Thumbnails
 ._*
