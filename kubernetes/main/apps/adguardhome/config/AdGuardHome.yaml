@@ -157,6 +157,7 @@ user_rules:
   - "@@||s.click.aliexpress.com"
   - "@@||sync.richaudience.com"
   - "@@||slack.com^"
+  - "@@||rollbar.com^"
   - "@@||slack-edge.com^"
   - "@@||pirate-bay.net^"
   - "@@||clickserve.dartsearch.net^"
