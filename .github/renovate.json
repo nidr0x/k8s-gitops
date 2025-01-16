@@ -24,6 +24,7 @@
   "customManagers": [
     {
       "customType": "regex",
+      "description": "Process Helm charts updates",
       "matchStrings": [
         "source:\\s*\\n",
         ".*chart: (?<depName>.*)\\n",
@@ -32,6 +33,15 @@
       ],
       "fileMatch": ["^.*\\.ya?ml$"],
       "datasourceTemplate": "helm"
+    },
+    {
+      "customType": "regex",
+      "description": "Process Talos and K8S upgrades",
+      "matchStrings": [
+        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( repository=(?<registryUrl>\\S+))?\\n.+(:\\s|=)(&\\S+\\s)?(?<currentValue>\\S+)",
+        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+/(?<currentValue>(v|\\d)[^/]+)"
+      ],
+      "fileMatch": ["(^|/)bootstrap/.+\\.ya?ml$"]
     }
   ],
   "commitMessageTopic": "{{depName}}",
