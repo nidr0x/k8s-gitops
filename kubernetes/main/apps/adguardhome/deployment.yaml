@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: adguardhome
 spec:
+  priorityClassName: system-cluster-critical
   selector:
     matchLabels:
       app: adguardhome
