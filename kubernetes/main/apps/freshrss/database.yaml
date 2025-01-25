@@ -7,27 +7,26 @@ spec:
   instances: 1
   imageName: ghcr.io/cloudnative-pg/postgresql:16.6
 
-  bootstrap:
-    initdb:
-      database: freshrss
-      owner: freshrss
-
   logLevel: info
 
-  backup:
-    barmanObjectStore:
-      destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
-      endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
-      s3Credentials:
-        accessKeyId:
-          name: freshrss
-          key: ACCESS_KEY_ID
-        secretAccessKey:
-          name: freshrss
-          key: SECRET_ACCESS_KEY
-      wal:
-        compression: gzip
-    retentionPolicy: "10d"
+  bootstrap:
+    recovery:
+      source: freshrss
+
+  externalClusters:
+    - name: freshrss
+      barmanObjectStore:
+        destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
+        endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
+        s3Credentials:
+          accessKeyId:
+            name: freshrss
+            key: ACCESS_KEY_ID
+          secretAccessKey:
+            name: freshrss
+            key: SECRET_ACCESS_KEY
+        wal:
+          maxParallel: 8
 
   primaryUpdateStrategy: unsupervised
 
@@ -45,11 +44,11 @@ spec:
 
   resources:
     requests:
-      memory: "512Mi"
-      cpu: "1"
+      memory: "256Mi"
+      cpu: "250m"
     limits:
-      memory: "1Gi"
-      cpu: "2"
+      memory: "384Mi"
+      cpu: "500m"
 
 ---
 apiVersion: postgresql.cnpg.io/v1
