@@ -20,10 +20,10 @@ spec:
         endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
         s3Credentials:
           accessKeyId:
-            name: bitwarden
+            name: freshrss
             key: ACCESS_KEY_ID
           secretAccessKey:
-            name: bitwarden
+            name: freshrss
             key: SECRET_ACCESS_KEY
         wal:
           maxParallel: 8
