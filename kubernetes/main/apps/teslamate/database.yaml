@@ -10,20 +10,24 @@ spec:
   instances: 1
   imageName: ghcr.io/cloudnative-pg/postgresql:16.6
 
-  backup:
-    barmanObjectStore:
-      destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
-      endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
-      s3Credentials:
-        accessKeyId:
-          name: teslamate
-          key: ACCESS_KEY_ID
-        secretAccessKey:
-          name: teslamate
-          key: SECRET_ACCESS_KEY
-      wal:
-        compression: gzip
-    retentionPolicy: "10d"
+  bootstrap:
+    recovery:
+      source: teslamate-database
+
+  externalClusters:
+    - name: teslamate-database
+      barmanObjectStore:
+        destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
+        endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
+        s3Credentials:
+          accessKeyId:
+            name: teslamate
+            key: ACCESS_KEY_ID
+          secretAccessKey:
+            name: teslamate
+            key: SECRET_ACCESS_KEY
+        wal:
+          maxParallel: 8
 
   enableSuperuserAccess: true
   logLevel: info
@@ -51,26 +55,10 @@ spec:
 
 ---
 apiVersion: postgresql.cnpg.io/v1
-kind: Pooler
-metadata:
-  name: teslamate-rw
-  namespace: teslamate
-spec:
-  cluster:
-    name: teslamate-database
-  instances: 1
-  pgbouncer:
-    paused: false
-    poolMode: session
-  type: rw
-status:
-  instances: 1
-
----
-apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
   name: teslamate-backup
+  namespace: teslamate
 spec:
   schedule: "0 0 0 * * *"
   backupOwnerReference: self
