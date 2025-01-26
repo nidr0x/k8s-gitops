@@ -4,6 +4,9 @@ metadata:
   name: freshrss-database
   namespace: freshrss
 spec:
+  env:
+    - name: TZ
+      value: Europe/Madrid
   instances: 1
   imageName: ghcr.io/cloudnative-pg/postgresql:16.6
 
@@ -11,10 +14,10 @@ spec:
 
   bootstrap:
     recovery:
-      source: freshrss
+      source: freshrss-database
 
   externalClusters:
-    - name: freshrss
+    - name: freshrss-database
       barmanObjectStore:
         destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
         endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
@@ -55,6 +58,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
   name: freshrss-backup
+  namespace: freshrss
 spec:
   schedule: "0 0 0 * * *"
   backupOwnerReference: self

@@ -4,38 +4,30 @@ metadata:
   name: vaultwarden-database
   namespace: bitwarden
 spec:
+  env:
+    - name: TZ
+      value: Europe/Madrid
   instances: 1
   imageName: ghcr.io/cloudnative-pg/postgresql:17.1
 
-  backup:
-    barmanObjectStore:
-      destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
-      endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
-      s3Credentials:
-        accessKeyId:
-          name: bitwarden
-          key: ACCESS_KEY_ID
-        secretAccessKey:
-          name: bitwarden
-          key: SECRET_ACCESS_KEY
-      wal:
-        compression: gzip
-    retentionPolicy: "10d"
+  bootstrap:
+    recovery:
+      source: vaultwarden-database
 
-  recovery:
-    source: vaultwarden-database
-    barmanObjectStore:
-      destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
-      endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
-      s3Credentials:
-        accessKeyId:
-          name: bitwarden
-          key: ACCESS_KEY_ID
-        secretAccessKey:
-          name: bitwarden
-          key: SECRET_ACCESS_KEY
-      wal:
-        compression: gzip
+  externalClusters:
+    - name: vaultwarden-database
+      barmanObjectStore:
+        destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
+        endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
+        s3Credentials:
+          accessKeyId:
+            name: bitwarden
+            key: ACCESS_KEY_ID
+          secretAccessKey:
+            name: bitwarden
+            key: SECRET_ACCESS_KEY
+        wal:
+          maxParallel: 8
 
   logLevel: info
 
@@ -66,6 +58,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
   name: vaultwarden-backup
+  namespace: bitwarden
 spec:
   schedule: "0 0 0 * * *"
   backupOwnerReference: self
