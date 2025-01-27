@@ -21,8 +21,8 @@ dns:
   refuse_any: true
   upstream_dns:
     - h3://dns.cloudflare.com/dns-query
-    - quic://dns1.nextdns.io
-    - quic://freedns.controld.com/p0
+    - https://freedns.controld.com/p0
+    - https://dns.quad9.net/dns-query
     - h3://dns.google/dns-query
   upstream_dns_file: ""
   bootstrap_dns:
