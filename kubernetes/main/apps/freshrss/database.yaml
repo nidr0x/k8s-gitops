@@ -8,7 +8,12 @@ spec:
     - name: TZ
       value: Europe/Madrid
   instances: 1
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.1
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.2
+
+  bootstrap:
+    initdb:
+      database: freshrss
+      owner: freshrss
 
   logLevel: info
 
