@@ -19,16 +19,7 @@ externalIPs:
   enabled: true
 
 operator:
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-              - key: kubernetes.io/hostname
-                operator: In
-                values:
-                  - controlplane-01
-  replicas: 1
+  replicas: 3
   rollOutPods: true
 
 rollOutCiliumPods: true
