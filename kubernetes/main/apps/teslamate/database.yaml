@@ -9,7 +9,6 @@ spec:
       value: Europe/Madrid
   instances: 1
   imageName: ghcr.io/cloudnative-pg/postgresql:16.6
-
   backup:
     barmanObjectStore:
       destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
@@ -27,10 +26,8 @@ spec:
         compression: bzip2
         maxParallel: 8
     retentionPolicy: "10d"
-
   enableSuperuserAccess: true
   logLevel: info
-
   storage:
     pvcTemplate:
       accessModes:
@@ -39,11 +36,9 @@ spec:
         requests:
           storage: 2Gi
       storageClassName: openebs-hostpath
-
   monitoring:
     disableDefaultQueries: false
     enablePodMonitor: false
-
   resources:
     requests:
       memory: "256Mi"

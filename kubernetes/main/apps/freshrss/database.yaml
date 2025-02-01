@@ -9,14 +9,11 @@ spec:
       value: Europe/Madrid
   instances: 1
   imageName: ghcr.io/cloudnative-pg/postgresql:17.2
-
   bootstrap:
     initdb:
       database: freshrss
       owner: freshrss
-
   logLevel: info
-
   backup:
     barmanObjectStore:
       destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
@@ -32,11 +29,8 @@ spec:
         compression: bzip2
       wal:
         compression: bzip2
-        maxParallel: 8
     retentionPolicy: "10d"
-
   primaryUpdateStrategy: unsupervised
-
   storage:
     pvcTemplate:
       accessModes:
@@ -45,10 +39,8 @@ spec:
         requests:
           storage: 1Gi
       storageClassName: openebs-hostpath
-
   monitoring:
     enablePodMonitor: true
-
   resources:
     requests:
       memory: "256Mi"
