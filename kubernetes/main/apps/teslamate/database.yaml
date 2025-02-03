@@ -44,7 +44,7 @@ spec:
       memory: "256Mi"
       cpu: "250m"
     limits:
-      memory: "512Mi"
+      memory: "768Mi"
 
 ---
 apiVersion: postgresql.cnpg.io/v1
