@@ -41,7 +41,6 @@ spec:
             - name: TUNNEL_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: TUNNEL_TOKEN
                   key: token
           volumeMounts:
             - name: config
