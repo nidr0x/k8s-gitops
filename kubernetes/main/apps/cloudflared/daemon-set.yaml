@@ -42,7 +42,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: tunnel-credentials
-                  key: token
+                  key: TUNNEL_TOKEN
           volumeMounts:
             - name: config
               mountPath: /etc/cloudflared/config/config.yaml
