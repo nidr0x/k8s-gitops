@@ -36,7 +36,10 @@ spec:
               mountPath: /commafeed/data
           env:
             - name: QUARKUS_DATASOURCE_JDBC_URL
-              value: "jdbc:postgresql://$(COMMAFEED_DB_HOST):5432/commafeed"
+              valueFrom:
+                secretKeyRef:
+                  name: commafeed-database-app
+                  key: jdbc-uri
             - name: QUARKUS_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -47,15 +50,8 @@ spec:
                 secretKeyRef:
                   name: commafeed-database-app
                   key: password
-            - name: COMMAFEED_DB_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: commafeed-database-app
-                  key: host
             - name: QUARKUS_DATASOURCE_DB_KIND
               value: "postgresql"
-            - name: COMMAFEED_APP_ALLOWREGISTRATIONS
-              value: "false"
             - name: COMMAFEED_APP_PUBLICURL
               value: "https://rss.nidr0x.win"
       restartPolicy: Always
