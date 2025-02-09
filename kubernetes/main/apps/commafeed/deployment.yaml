@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: commafeed
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: commafeed
+  template:
+    metadata:
+      labels:
+        app: commafeed
+    spec:
+      containers:
+        - name: commafeed
+          image: athou/commafeed:5.4.0-postgresql
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 50m
+              memory: 100Mi
+            limits:
+              memory: 256Mi
+          ports:
+            - name: http
+              containerPort: 8082
+              protocol: TCP
+          volumeMounts:
+            - name: commafeed-data
+              mountPath: /commafeed/data
+          env:
+            - name: QUARKUS_DATASOURCE_JDBC_URL
+              value: "jdbc:postgresql://$(COMMAFEED_DB_HOST):5432/commafeed"
+            - name: QUARKUS_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: commafeed-database-app
+                  key: username
+            - name: QUARKUS_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: commafeed-database-app
+                  key: password
+            - name: COMMAFEED_DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: commafeed-database-app
+                  key: host
+            - name: QUARKUS_DATASOURCE_DB_KIND
+              value: "postgresql"
+            - name: COMMAFEED_APP_ALLOWREGISTRATIONS
+              value: "false"
+            - name: COMMAFEED_APP_PUBLICURL
+              value: "https://rss.nidr0x.win"
+      restartPolicy: Always
+      volumes:
+        - name: commafeed-data
+          persistentVolumeClaim:
+            claimName: commafeed-data-pvc
