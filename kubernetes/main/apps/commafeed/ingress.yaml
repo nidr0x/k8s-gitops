@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: freshrss
+  name: commafeed
   annotations:
     cert-manager.io/cluster-issuer: zerossl-prod
     external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
@@ -15,7 +15,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: freshrss
+                name: commafeed
                 port:
                   name: http
   tls:
