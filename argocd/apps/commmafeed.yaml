@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: freshrss
+  name: commafeed
 spec:
   destination:
-    namespace: freshrss
+    namespace: commafeed
     server: https://kubernetes.default.svc
   project: everest
   source:
-    path: kubernetes/main/apps/freshrss/
+    path: kubernetes/main/apps/commafeed/
     repoURL: https://github.com/nidr0x/k8s-gitops
     targetRevision: master
   syncPolicy:
