@@ -50,22 +50,24 @@ tasks:
       - which talosctl yq
 
   upgrade-node:
-    desc: Upgrade Talos on a single node [HOSTNAME=required]
+    desc: Upgrade Talos on a single node [IP=required]
     cmds:
-      - talosctl --nodes {{.HOSTNAME}} upgrade --image="factory.talos.dev/installer{{if eq .TALOS_SECUREBOOT "true"}}-secureboot{{end}}/{{.TALOS_SCHEMATIC_ID}}:{{.TALOS_VERSION}}" --timeout=10m
-      - talosctl --nodes {{.HOSTNAME}} health --wait-timeout=10m --server=false
-    vars:
-      TALOS_SCHEMATIC_ID:
-        sh: kubectl get node {{.HOSTNAME}} --output=jsonpath='{.metadata.annotations.extensions\.talos\.dev/schematic}'
-      TALOS_SECUREBOOT:
-        sh: talosctl --nodes {{.HOSTNAME}} get securitystate --output=jsonpath='{.spec.secureBoot}'
-      TALOS_VERSION:
-        sh: yq '.talosVersion' {{.TALHELPER_CONFIG_FILE}}
+      - |
+        TALOS_VERSION=$(yq '.talosVersion' {{.TALHELPER_CONFIG_FILE}})
+        NODE_NAME=$(kubectl get nodes -o jsonpath='{range .items[*]}{@.status.addresses[?(@.type=="InternalIP")].address}{"\t"}{@.metadata.name}{"\n"}{end}' | grep "^{{.IP}}" | cut -f2)
+        TALOS_SCHEMATIC_ID=$(kubectl get node ${NODE_NAME} --output=jsonpath='{.metadata.annotations.extensions\.talos\.dev/schematic}')
+        TALOS_SECUREBOOT=$(talosctl --nodes {{.IP}} get securitystate --output=jsonpath='{.spec.secureBoot}')
+        SECURE_BOOT_SUFFIX=""
+        if [ "$TALOS_SECUREBOOT" = "true" ]; then
+          SECURE_BOOT_SUFFIX="-secureboot"
+        fi
+        talosctl --nodes {{.IP}} upgrade --image="factory.talos.dev/installer${SECURE_BOOT_SUFFIX}/${TALOS_SCHEMATIC_ID}:${TALOS_VERSION}" --timeout=10m
+      - talosctl --nodes {{.IP}} health --wait-timeout=10m --server=false
     requires:
-      vars: [HOSTNAME]
+      vars: [IP]
     preconditions:
-      - curl -fsSL -o /dev/null --fail https://github.com/siderolabs/talos/releases/tag/{{.TALOS_VERSION}}
-      - talosctl --nodes {{.HOSTNAME}} get machineconfig
+      - curl -fsSL -o /dev/null --fail https://github.com/siderolabs/talos/releases/tag/v$(yq '.talosVersion' {{.TALHELPER_CONFIG_FILE}} | sed 's/^v//')
+      - talosctl --nodes {{.IP}} get machineconfig
       - talosctl config info
       - test -f {{.TALOSCONFIG}}
       - which kubectl talosctl yq
