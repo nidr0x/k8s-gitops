@@ -47,15 +47,24 @@ Check the [commit history](https://github.com/nidr0x/k8s-gitops/commits/master)
 
 While most of my infrastructure and workloads are self-hosted I do rely upon the cloud for certain key parts of my setup. This saves me from having to worry about two things. Dealing with chicken/egg scenarios and services I critically need whether my cluster is online or not.
 
-| Service                                    | Use                                                                                                    | Cost                 |
-| ------------------------------------------ | ------------------------------------------------------------------------------------------------------ | -------------------- |
-| [Cloudflare](https://www.cloudflare.com/)  | Domain & R2 (Database backups) & Cloudflare tunnels (exposing applications) & Oauth (using Zero Trust) | ~$10/yr              |
-| [GitHub](https://www.github.com/)          | Repository & CI/CD                                                                                     | Free                 |
-| [Brevo](https://www.brevo.com/)            | SMTP email platform                                                                                    | Free (up to 300/day) |
-| [ZeroSSL](https://www.zerossl.com/)        | Issuing SSL Certificates via Cert Manager                                                              | Free                 |
-| [Doppler](https://www.doppler.com/)        | Secrets management platform                                                                            | Free                 |
-| [healthchecks.io](https://healthchecks.io) | Monitoring internet connectivity                                                                       | Free                 |
+| Service                                    | Use                                                                                               | Cost                 |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------- | -------------------- |
+| [Cloudflare](https://www.cloudflare.com/)  | Domain & R2 (Database backups) & Cloudflare tunnels (exposing applications) & Oauth ( Zero Trust) | ~$10/yr              |
+| [GitHub](https://www.github.com/)          | Repository & CI/CD                                                                                | Free                 |
+| [Brevo](https://www.brevo.com/)            | SMTP email platform                                                                               | Free (up to 300/day) |
+| [ZeroSSL](https://www.zerossl.com/)        | Issuing SSL Certificates via Cert Manager                                                         | Free                 |
+| [Doppler](https://www.doppler.com/)        | Secrets management platform                                                                       | Free                 |
+| [healthchecks.io](https://healthchecks.io) | Monitoring internet connectivity                                                                  | Free                 |
 
 ## 📁 Repository structure
 
 The repository is organized into folders by application. Each folder contains the necessary manifest files to deploy the application on a Kubernetes cluster. The `argocd` folder contains files for setting up and managing ArgoCD.
+
+## 🌐 Public Services
+
+As part of my commitment to open-source communities, I offer these public services:
+
+**DNS-over-HTTPS (DoH)**
+🔗 `https://dns.nidr0x.win/dns-query`
+
+It is powered by [AdGuard Home](https://github.com/AdguardTeam/AdGuardHome) + [Cloudflare](https://www.cloudflare.com). The configuration that uses is available [here](https://github.com/nidr0x/k8s-gitops/blob/master/kubernetes/main/apps/adguardhome/config/AdGuardHome.yaml)
