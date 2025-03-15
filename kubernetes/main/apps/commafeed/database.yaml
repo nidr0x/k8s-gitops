@@ -11,35 +11,34 @@ spec:
   imageName: ghcr.io/cloudnative-pg/postgresql:17.2
   postgresql:
     parameters:
-      max_wal_size: '1GB'
-      min_wal_size: '80MB'
-      archive_mode: 'on'
-      wal_keep_size: '640MB'
+      max_wal_size: "1GB"
+      min_wal_size: "80MB"
+      archive_mode: "on"
+      wal_keep_size: "640MB"
   bootstrap:
     initdb:
       database: commafeed
       owner: commafeed
   logLevel: info
-  #  backup:
-  #    barmanObjectStore:
-  #      destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
-  #      endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
-  #      s3Credentials:
-  #        accessKeyId:
-  #          name: commafeed
-  #          key: ACCESS_KEY_ID
-  #        secretAccessKey:
-  #          name: commafeed
-  #          key: SECRET_ACCESS_KEY
-  #      data:
-  #        compression: bzip2
-  #        encryption: AES256
-  #      wal:
-  #        compression: bzip2
-  #        maxParallel: 8
-  #        encryption: AES256
-  #        retention: "2d"
-  #    retentionPolicy: "10d"
+  backup:
+    barmanObjectStore:
+      destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
+      endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
+      s3Credentials:
+        accessKeyId:
+          name: commafeed
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: commafeed
+          key: SECRET_ACCESS_KEY
+      data:
+        compression: bzip2
+        encryption: AES256
+      wal:
+        compression: bzip2
+        maxParallel: 8
+        encryption: AES256
+    retentionPolicy: "10d"
   primaryUpdateStrategy: unsupervised
   storage:
     pvcTemplate:
@@ -78,4 +77,4 @@ spec:
   schedule: "0 0 0 * * *"
   backupOwnerReference: self
   cluster:
-    name: commafeed
+    name: commafeed-database
