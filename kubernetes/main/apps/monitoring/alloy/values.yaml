@@ -1,0 +1,24 @@
+podAnnotations:
+  pod-security.kubernetes.io/enforce: privileged
+alloy:
+  extraArgs:
+    - --disable-reporting
+  fullnameOverride: grafana-alloy
+  serviceMonitor:
+    enabled: true
+  configMap:
+    content: |
+      discovery.kubernetes "pods" {
+         role = "pod"
+       }
+
+       loki.source.kubernetes "pods" {
+         targets    = discovery.kubernetes.pods.targets
+         forward_to = [loki.write.local.receiver]
+       }
+
+       loki.write "local" {
+         endpoint {
+           url = "http://loki-headless.kube-monitoring.svc.cluster.local:3100/loki/api/v1/push"
+         }
+       }
