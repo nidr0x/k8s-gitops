@@ -4,4 +4,4 @@ namespace: kube-monitoring
 resources:
   - pv.yaml
   - secret.yaml
-  #- database.yaml
+  - database.yaml
