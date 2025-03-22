@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: loki
+  name: alloy
 spec:
   destination:
     namespace: kube-monitoring
@@ -13,13 +13,13 @@ spec:
       ref: nidr0x-k8s-gitops
     - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
-      path: kubernetes/main/apps/monitoring/loki/
+      path: kubernetes/main/apps/monitoring/alloy/
     - repoURL: https://grafana.github.io/helm-charts
-      targetRevision: 6.28.0
-      chart: loki
+      targetRevision: 0.12.5
+      chart: alloy
       helm:
         valueFiles:
-          - $nidr0x-k8s-gitops/kubernetes/main/apps/monitoring/loki/values.yaml
+          - $nidr0x-k8s-gitops/kubernetes/main/apps/monitoring/alloy/values.yaml
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
