@@ -6,7 +6,7 @@ metadata:
 spec:
   env:
     - name: TZ
-      value: Europe/Madrid
+      value: UTC
   instances: 1
   imageName: ghcr.io/cloudnative-pg/postgresql:17.2
   backup:
