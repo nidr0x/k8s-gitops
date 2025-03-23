@@ -45,7 +45,7 @@ spec:
               mountPath: /downloads
           env:
             - name: TZ
-              value: "Europe/Madrid"
+              value: "UTC"
             - name: PUID
               value: "1001"
             - name: PGID
