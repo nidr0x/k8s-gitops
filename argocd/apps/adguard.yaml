@@ -11,11 +11,6 @@ spec:
     path: kubernetes/main/apps/adguardhome/
     repoURL: https://github.com/nidr0x/k8s-gitops
     targetRevision: master
-  ignoreDifferences:
-    - group: apps
-      kind: Deployment
-      jsonPointers:
-        - /spec/template/spec/priorityClassName
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
