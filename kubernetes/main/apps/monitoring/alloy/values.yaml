@@ -12,10 +12,16 @@ alloy:
          role = "pod"
        }
 
-       loki.source.kubernetes "pods" {
-         targets    = discovery.kubernetes.pods.targets
-         forward_to = [loki.write.local.receiver]
-       }
+      loki.source.kubernetes "pods" {
+        targets    = discovery.kubernetes.pods.targets
+        forward_to = [loki.write.local.receiver]
+
+        labels = {
+          namespace = "{{ .Namespace }}"
+          pod       = "{{ .PodName }}"
+          container = "{{ .ContainerName }}"
+        }
+      }
 
        loki.write "local" {
          endpoint {
