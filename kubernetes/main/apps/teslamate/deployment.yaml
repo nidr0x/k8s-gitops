@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: teslamate
-          image: teslamate/teslamate:1.32.0
+          image: teslamate/teslamate:1.33.0
           imagePullPolicy: Always
           resources:
             requests:
