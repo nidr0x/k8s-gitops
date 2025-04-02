@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: unbound
+  namespace: unbound
+spec:
+  selector:
+    matchLabels:
+      app: unbound
+  template:
+    metadata:
+      labels:
+        app: unbound
+    spec:
+      containers:
+        - name: unbound
+          image: docker.io/mvance/unbound:1.22.0 # renovate: docker=docker.io/mvance/unbound
+          ports:
+            - name: unbound-dns-tcp
+              containerPort: 5335
+              protocol: TCP
+            - name: unbound-dns-udp
+              containerPort: 5335
+              protocol: UDP
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 128Mi
+          startupProbe:
+            exec:
+              command: ["drill", "@127.0.0.1", "-p", "5335", "cloudflare.com"]
+            initialDelaySeconds: 10
+            failureThreshold: 3
+            timeoutSeconds: 5
+          volumeMounts:
+            - name: config
+              mountPath: /opt/unbound/etc/unbound/unbound.conf
+              subPath: unbound.conf
+      volumes:
+        - name: config
+          configMap:
+            name: unbound-config

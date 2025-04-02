@@ -16,11 +16,6 @@ alloy:
         targets    = discovery.kubernetes.pods.targets
         forward_to = [loki.write.local.receiver]
 
-        labels = {
-          namespace = "{{ .Namespace }}"
-          pod       = "{{ .PodName }}"
-          container = "{{ .ContainerName }}"
-        }
       }
 
        loki.write "local" {
