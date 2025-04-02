@@ -20,6 +20,7 @@ dns:
   ratelimit_whitelist: []
   refuse_any: true
   upstream_dns:
+    #- udp://unbound.unbound.svc.cluster.local
     - h3://dns.cloudflare.com/dns-query
     - https://freedns.controld.com/p0
     - https://dns.quad9.net/dns-query
