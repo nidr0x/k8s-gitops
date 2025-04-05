@@ -18,13 +18,13 @@ dns:
   ratelimit_subnet_len_ipv4: 24
   ratelimit_subnet_len_ipv6: 56
   ratelimit_whitelist: []
-  refuse_any: true
+  refuse_any: false
   upstream_dns:
-    #- udp://unbound.unbound.svc.cluster.local
-    - h3://dns.cloudflare.com/dns-query
-    - https://freedns.controld.com/p0
-    - https://dns.quad9.net/dns-query
-    - h3://dns.google/dns-query
+    - tcp://10.96.0.11:53
+  #  - h3://dns.cloudflare.com/dns-query
+  #  - https://freedns.controld.com/p0
+  #  - https://dns.quad9.net/dns-query
+  #  - h3://dns.google/dns-query
   upstream_dns_file: ""
   bootstrap_dns:
     - 1.1.1.1
@@ -36,7 +36,7 @@ dns:
     - 2620:fe::fe
     - 2620:fe::9
   fallback_dns: []
-  upstream_mode: parallel
+  upstream_mode: fastest_addr
   fastest_timeout: 1s
   allowed_clients: []
   disallowed_clients: []
@@ -50,7 +50,7 @@ dns:
     - 192.168.1.0/24
     - 10.244.0.0/16
   cache_size: 4194304
-  cache_ttl_min: 600
+  cache_ttl_min: 300
   cache_ttl_max: 84600
   cache_optimistic: true
   bogus_nxdomain: []
@@ -58,7 +58,7 @@ dns:
   enable_dnssec: true
   edns_client_subnet:
     custom_ip: ""
-    enabled: false
+    enabled: true
     use_custom: false
   max_goroutines: 50
   handle_ddr: true
