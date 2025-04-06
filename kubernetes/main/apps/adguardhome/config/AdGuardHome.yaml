@@ -35,9 +35,11 @@ dns:
     - 149.112.112.112
     - 2620:fe::fe
     - 2620:fe::9
-  fallback_dns: []
-  upstream_mode: fastest_addr
-  fastest_timeout: 1s
+  fallback_dns:
+    - 1.1.1.1
+    - 9.9.9.9
+  upstream_mode: parallel
+  fastest_timeout: 0.5s
   allowed_clients: []
   disallowed_clients: []
   blocked_hosts:
@@ -55,12 +57,12 @@ dns:
   cache_optimistic: true
   bogus_nxdomain: []
   aaaa_disabled: false
-  enable_dnssec: true
+  enable_dnssec: false
   edns_client_subnet:
     custom_ip: ""
     enabled: true
     use_custom: false
-  max_goroutines: 50
+  max_goroutines: 200
   handle_ddr: true
   ipset: []
   ipset_file: ""
@@ -203,7 +205,7 @@ dhcp:
     subnet_mask: ""
     range_start: ""
     range_end: ""
-    lease_duration: 86400
+    lease_duration: 86600
     icmp_timeout_msec: 1000
     options: []
   dhcpv6:
