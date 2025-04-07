@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: unbound
-          image: docker.io/mvance/unbound:1.22.0 # renovate: docker=docker.io/mvance/unbound
+          image: klutchell/unbound:main@sha256:17f4bedf629061cbd90f34683d822c1c000295953daf047a262dbf1493a22528 # renovate: docker=klutchell/unbound
           ports:
             - name: unbound-dns-tcp
               containerPort: 5335
@@ -28,15 +28,9 @@ spec:
               memory: 64Mi
             limits:
               memory: 192Mi
-          startupProbe:
-            exec:
-              command: ["drill", "@127.0.0.1", "-p", "5335", "cloudflare.com"]
-            initialDelaySeconds: 10
-            failureThreshold: 3
-            timeoutSeconds: 5
           volumeMounts:
             - name: config
-              mountPath: /opt/unbound/etc/unbound/unbound.conf
+              mountPath: /etc/unbound/custom.conf.d/unbound.conf
               subPath: unbound.conf
       volumes:
         - name: config
