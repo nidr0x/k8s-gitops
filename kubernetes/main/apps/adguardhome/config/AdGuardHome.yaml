@@ -27,14 +27,7 @@ dns:
   #  - h3://dns.google/dns-query
   upstream_dns_file: ""
   bootstrap_dns:
-    - 1.1.1.1
-    - 1.0.0.1
-    - 2606:4700:4700::1111
-    - 2606:4700:4700::1001
-    - 9.9.9.9
-    - 149.112.112.112
-    - 2620:fe::fe
-    - 2620:fe::9
+    - 10.96.0.11
   fallback_dns:
     - 1.1.1.1
     - 9.9.9.9
@@ -51,9 +44,9 @@ dns:
     - ::1/128
     - 192.168.1.0/24
     - 10.244.0.0/16
-  cache_size: 4194304
-  cache_ttl_min: 300
-  cache_ttl_max: 84600
+  cache_size: 0
+  cache_ttl_min: 0
+  cache_ttl_max: 0
   cache_optimistic: true
   bogus_nxdomain: []
   aaaa_disabled: false
