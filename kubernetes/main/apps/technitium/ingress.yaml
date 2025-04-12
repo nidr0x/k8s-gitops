@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: technitium
+  annotations:
+    cert-manager.io/cluster-issuer: zerossl-prod
+    external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
+spec:
+  ingressClassName: cilium
+  rules:
+    - host: dns2.nidr0x.win
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: technitium
+                port:
+                  name: dns-https
+    - host: dns2-admin.nidr0x.win
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: technitium
+                port:
+                  name: web-http
+  tls:
+    - hosts:
+        - dns2.nidr0x.win
+        - dns2-admin.nidr0x.win
