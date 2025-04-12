@@ -1,0 +1,108 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: technitium
+  labels:
+    app: technitium
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: technitium
+  template:
+    metadata:
+      labels:
+        app: technitium
+    spec:
+      initContainers:
+        - name: convert-cert-to-pfx
+          image: alpine/openssl
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "Starting certificate conversion to PKCS#12..."
+              INPUT_DIR="/input-certs"
+              OUTPUT_DIR="/shared-certs"
+              OUTPUT_PFX="${OUTPUT_DIR}/technitium.pfx"
+              KEY_FILE="${INPUT_DIR}/tls.key"
+              CERT_FILE="${INPUT_DIR}/tls.crt"
+              CHAIN_FILE="${INPUT_DIR}/ca.crt"
+
+              OPENSSL_CMD="openssl pkcs12 -export -out \"${OUTPUT_PFX}\" -inkey \"${KEY_FILE}\" -in \"${CERT_FILE}\" -passout pass:"
+
+              if [ -f "${CHAIN_FILE}" ]; then
+                echo "ca.crt file found, adding -certfile."
+                OPENSSL_CMD="${OPENSSL_CMD} -certfile \"${CHAIN_FILE}\""
+              else
+                echo "ca.crt file not found, -certfile will not be used."
+              fi
+
+              echo "Executing: ${OPENSSL_CMD}"
+              eval ${OPENSSL_CMD}
+
+              if [ $? -eq 0 ]; then
+                echo "PFX conversion completed successfully: ${OUTPUT_PFX}"
+                ls -l ${OUTPUT_DIR}
+              else
+                echo "Error during PFX conversion."
+                exit 1
+              fi
+          volumeMounts:
+            - name: tls-cert-secret-input
+              mountPath: /input-certs
+              readOnly: true
+            - name: shared-certs
+              mountPath: /shared-certs
+              readOnly: false
+      containers:
+        - name: technitium-dns
+          image: technitium/dns-server:13.5.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 53
+              protocol: UDP
+            - containerPort: 53
+              protocol: TCP
+            - containerPort: 8080
+            - containerPort: 443
+            - containerPort: 853
+            - containerPort: 5380
+            - containerPort: 53443
+          env:
+            - name: DNS_SERVER_ADMIN_PASSWORD
+              value: test
+            - name: DNS_SERVER_WEB_SERVICE_HTTP_PORT
+              value: "5380"
+            - name: DNS_SERVER_WEB_SERVICE_HTTPS_PORT
+              value: "53443"
+            - name: DNS_SERVER_WEB_SERVICE_ENABLE_HTTPS
+              value: "true"
+            - name: DNS_SERVER_WEB_SERVICE_USE_SELF_SIGNED_CERT
+              value: "true"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+              ephemeral-storage: 1Gi
+            limits:
+              memory: 1Gi
+              ephemeral-storage: 1Gi
+          volumeMounts:
+            - name: config
+              mountPath: /etc/dns
+            - name: shared-certs
+              mountPath: /etc/dns/certs
+              readOnly: true
+      securityContext:
+        sysctls:
+          - name: net.ipv4.ip_local_port_range
+            value: "1024 65000"
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: technitium-config-pvc
+        - name: tls-cert-secret-input
+          secret:
+            secretName: prod-cert-zerossl
+        - name: shared-certs
+          emptyDir: {}

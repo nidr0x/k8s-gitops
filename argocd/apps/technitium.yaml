@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: technitium
+spec:
+  destination:
+    namespace: technitium
+    server: https://kubernetes.default.svc
+  project: everest
+  source:
+    path: kubernetes/main/apps/technitium/
+    repoURL: https://github.com/nidr0x/k8s-gitops
+    targetRevision: master
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: privileged
