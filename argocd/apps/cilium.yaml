@@ -15,7 +15,7 @@ spec:
       targetRevision: master
       path: kubernetes/main/apps/cilium/
     - repoURL: https://helm.cilium.io
-      targetRevision: 1.17.2
+      targetRevision: 1.17.3
       chart: cilium
       helm:
         valueFiles:
