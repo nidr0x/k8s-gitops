@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: unbound
-          image: klutchell/unbound:main@sha256:4d05e41aca828bf6b54f995f00007b5e6f3e02a0a31f1e58e6aab23373cb2316 # renovate: docker=klutchell/unbound
+          image: klutchell/unbound:main@sha256:65a03322496ee7cd2aee097dfb494ade87cdc888e62c78c2246fced4c148b136 # renovate: docker=klutchell/unbound
           ports:
             - name: unbound-dns-tcp
               containerPort: 5335
