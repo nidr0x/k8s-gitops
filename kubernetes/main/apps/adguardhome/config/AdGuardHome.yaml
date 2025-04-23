@@ -18,21 +18,24 @@ dns:
   ratelimit_subnet_len_ipv4: 24
   ratelimit_subnet_len_ipv6: 56
   ratelimit_whitelist: []
-  refuse_any: false
+  refuse_any: true
   upstream_dns:
-    - udp://10.96.0.11:53
-  #  - h3://dns.cloudflare.com/dns-query
-  #  - https://freedns.controld.com/p0
-  #  - https://dns.quad9.net/dns-query
-  #  - h3://dns.google/dns-query
+    - h3://dns.cloudflare.com/dns-query
+    - https://freedns.controld.com/p0
+    - https://dns.quad9.net/dns-query
   upstream_dns_file: ""
   bootstrap_dns:
-    - 10.96.0.11
-  fallback_dns:
     - 1.1.1.1
+    - 1.0.0.1
+    - 2606:4700:4700::1111
+    - 2606:4700:4700::1001
     - 9.9.9.9
+    - 149.112.112.112
+    - 2620:fe::fe
+    - 2620:fe::9
+  fallback_dns: []
   upstream_mode: parallel
-  fastest_timeout: 0.5s
+  fastest_timeout: 1s
   allowed_clients: []
   disallowed_clients: []
   blocked_hosts:
@@ -44,18 +47,18 @@ dns:
     - ::1/128
     - 192.168.1.0/24
     - 10.244.0.0/16
-  cache_size: 0
-  cache_ttl_min: 0
-  cache_ttl_max: 0
-  cache_optimistic: false
+  cache_size: 4194304
+  cache_ttl_min: 600
+  cache_ttl_max: 84600
+  cache_optimistic: true
   bogus_nxdomain: []
   aaaa_disabled: false
-  enable_dnssec: false
+  enable_dnssec: true
   edns_client_subnet:
     custom_ip: ""
-    enabled: true
+    enabled: false
     use_custom: false
-  max_goroutines: 200
+  max_goroutines: 50
   handle_ddr: true
   ipset: []
   ipset_file: ""
@@ -198,7 +201,7 @@ dhcp:
     subnet_mask: ""
     range_start: ""
     range_end: ""
-    lease_duration: 86600
+    lease_duration: 86400
     icmp_timeout_msec: 1000
     options: []
   dhcpv6:
