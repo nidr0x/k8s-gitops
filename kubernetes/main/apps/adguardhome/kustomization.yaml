@@ -8,7 +8,6 @@ configMapGenerator:
       - config/AdGuardHome.yaml
 
 resources:
-  - namespace.yaml
   - deployment.yaml
   - ingress.yaml
   - service.yaml
