@@ -5,6 +5,7 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: zerossl-prod
     external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
+    ingress.cilium.io/tls-passthrough: enabled
 spec:
   ingressClassName: cilium
   rules:
