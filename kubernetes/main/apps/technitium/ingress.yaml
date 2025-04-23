@@ -17,7 +17,7 @@ spec:
               service:
                 name: technitium
                 port:
-                  name: dns-http
+                  name: dns-https
     - host: dns2-admin.nidr0x.win
       http:
         paths:
