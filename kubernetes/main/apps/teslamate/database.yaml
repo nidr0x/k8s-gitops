@@ -8,7 +8,7 @@ spec:
     - name: TZ
       value: UTC
   instances: 1
-  imageName: ghcr.io/cloudnative-pg/postgresql:16.6
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.7
   backup:
     barmanObjectStore:
       destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
