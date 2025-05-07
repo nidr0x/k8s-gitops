@@ -37,6 +37,7 @@ spec:
       initContainers:
         - name: copy-base-config-adguardhome
           image: public.ecr.aws/docker/library/busybox:latest
+          imagePullPolicy: IfNotPresent
           command:
             [
               "cp",
