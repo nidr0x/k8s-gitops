@@ -76,7 +76,7 @@ spec:
               mountPath: /opt/adguardhome/conf
       containers:
         - name: adguardhome
-          image: adguard/adguardhome:v0.107.61
+          image: adguard/adguardhome:v0.107.62
           resources:
             limits:
               memory: 256Mi
