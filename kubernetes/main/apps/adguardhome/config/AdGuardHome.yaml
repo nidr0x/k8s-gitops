@@ -192,6 +192,7 @@ user_rules:
   - "@@||mon-va.tiktokv.com^$important"
   - "@@||mcs-va-useast2a.tiktokv.com^$important"
   - "||raw.githubusercontent.com^$dnstype=~A"
+  - "@@||apple.com^"
 dhcp:
   enabled: false
   interface_name: ""
