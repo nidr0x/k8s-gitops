@@ -1,6 +1,53 @@
 k8sServiceHost: localhost
 k8sServicePort: 7445
 
+ipv6:
+  enabled: true
+  nodePort:
+    enabled: true
+  address: "fd00:10:244::1/64"
+
+ipv4:
+  enabled: true
+  nodePort:
+    enabled: true
+
+ipam:
+  mode: "kubernetes"
+  ipv6:
+    enabled: true
+    requestIPv6: true
+  ipv4:
+    enabled: true
+    requestIPv4: true
+
+kubeProxyReplacement: true
+
+# Enable IPv6 for Cilium's internal components
+bpf:
+  l3:
+    enabled: true
+    ipv6:
+      enabled: true
+    ipv4:
+      enabled: true
+
+# Enable IPv6 for policy enforcement
+policy:
+  enforcement:
+    ipv6:
+      enabled: true
+    ipv4:
+      enabled: true
+
+# Enable IPv6 for health checks
+health:
+  enabled: true
+  ipv6:
+    enabled: true
+  ipv4:
+    enabled: true
+
 kubeProxyReplacement: true
 
 ipam:
