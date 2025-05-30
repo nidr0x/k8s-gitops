@@ -56,7 +56,8 @@ spec:
             - name: config-folder
               mountPath: /opt/adguardhome/conf
         - name: append-users
-          image: busybox
+          image: public.ecr.aws/docker/library/busybox:latest
+          imagePullPolicy: IfNotPresent
           command:
             [
               "sh",
