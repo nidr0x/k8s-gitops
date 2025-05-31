@@ -16,10 +16,10 @@
   "requireConfig": "optional",
   "dependencyDashboardTitle": "Renovate Dashboard 🤖",
   "argocd": {
-    "fileMatch": ["^.*\\.ya?ml$"]
+    "managerFilePatterns": ["/^.*\\.ya?ml$/"]
   },
   "kubernetes": {
-    "fileMatch": ["^.*\\.ya?ml$"]
+    "managerFilePatterns": ["/^.*\\.ya?ml$/"]
   },
   "customManagers": [
     {
@@ -31,7 +31,7 @@
         ".*repoURL: (?<registryUrl>.*)\\n",
         ".*targetRevision: (?<currentValue>.*)"
       ],
-      "fileMatch": ["^.*\\.ya?ml$"],
+      "managerFilePatterns": ["/^.*\\.ya?ml$/"],
       "datasourceTemplate": "helm"
     },
     {
@@ -41,7 +41,7 @@
         "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( repository=(?<registryUrl>\\S+))?\\n.+(:\\s|=)(&\\S+\\s)?(?<currentValue>\\S+)",
         "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+/(?<currentValue>(v|\\d)[^/]+)"
       ],
-      "fileMatch": ["(^|/)bootstrap/.+\\.ya?ml$"]
+      "managerFilePatterns": ["(^|/)bootstrap/.+\\.ya?ml$"]
     }
   ],
   "commitMessageTopic": "{{depName}}",
