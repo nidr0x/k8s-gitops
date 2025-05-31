@@ -265,20 +265,14 @@ filtering:
   parental_block_host: family-block.dns.adguard.com
   safebrowsing_block_host: standard-block.dns.adguard.com
   rewrites:
-    - domain: mikrotik
+    - domain: unifi
       answer: 192.168.1.1
-    - domain: alexandria
-      answer: nidr0x.myqnapcloud.com
+    - domain: truenas
+      answer: 192.168.1.10
     - domain: everest
       answer: 192.168.1.11
-    - domain: qnap
-      answer: 192.168.1.10
-    - domain: nidr0x.myqnapcloud.com
-      answer: 192.168.1.10
-    - domain: nas
-      answer: 192.168.1.6
-    - domain: ubuntu-8gb-ngb1-1
-      answer: 2a01:4f8:1c1b:62f2::1
+    - domain: dns.nidr0x.win
+      answer: 192.168.1.220
   safe_fs_patterns:
     - /opt/adguardhome/work/data/userfilters/*
   safebrowsing_cache_size: 1048576
