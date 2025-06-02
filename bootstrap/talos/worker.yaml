@@ -10,6 +10,13 @@ machineSpec:
           - rbind
           - rshared
           - rw
+  files:
+    - # Spegel
+      op: create
+      path: /etc/cri/conf.d/20-customization.part
+      content: |
+        [plugins."io.containerd.cri.v1.images"]
+          discard_unpacked_layers = false
   sysctls:
     vm.nr_hugepages: "1024"
   nodeLabels:
