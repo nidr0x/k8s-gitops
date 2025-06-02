@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: spegel
+spec:
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  project: everest
+  sources:
+    - repoURL: https://github.com/nidr0x/k8s-gitops
+      targetRevision: master
+      ref: nidr0x-k8s-gitops
+    - repoURL: ghcr.io/spegel-org/helm-charts
+      targetRevision: 0.2.0
+      chart: spegel
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
