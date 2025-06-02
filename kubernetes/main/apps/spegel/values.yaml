@@ -1,0 +1,10 @@
+spegel:
+  containerdSock: /run/containerd/containerd.sock
+  containerdRegistryConfigPath: /tmp/containerd/certs.d
+service:
+  registry:
+    hostPort: 29999
+serviceMonitor:
+  enabled: true
+grafanaDashboard:
+  enabled: true
