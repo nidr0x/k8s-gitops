@@ -11,6 +11,9 @@ spec:
     - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
       ref: nidr0x-k8s-gitops
+    - repoURL: https://github.com/nidr0x/k8s-gitops
+      targetRevision: master
+      path: kubernetes/main/apps/spegel/
     - repoURL: ghcr.io/spegel-org/helm-charts
       targetRevision: 0.2.0
       chart: spegel
