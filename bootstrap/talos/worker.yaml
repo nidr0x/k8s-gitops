@@ -10,6 +10,13 @@ machineSpec:
           - rbind
           - rshared
           - rw
+      - destination: /var/local
+        type: bind
+        source: /var/local
+        options:
+          - rbind
+          - rshared
+          - rw
   files:
     - # Spegel
       op: create
