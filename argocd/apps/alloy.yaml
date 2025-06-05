@@ -15,7 +15,7 @@ spec:
       targetRevision: master
       path: kubernetes/main/apps/monitoring/alloy/
     - repoURL: https://grafana.github.io/helm-charts
-      targetRevision: 1.1.0
+      targetRevision: 1.1.1
       chart: alloy
       helm:
         valueFiles:
