@@ -68,4 +68,4 @@ spec:
   schedule: "0 0 0 * * *"
   backupOwnerReference: self
   cluster:
-    name: teslamate
+    name: teslamate-database
