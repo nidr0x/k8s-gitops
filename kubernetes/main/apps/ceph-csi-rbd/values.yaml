@@ -1,7 +1,7 @@
 cephConf: |
   [global]
   fsid = ed613c65-ddc2-42e7-b017-24386071e99a
-  mon_host = 192.168.1.11
+  ms_mode = secure
 
 csiConfig:
   - clusterID: "ed613c65-ddc2-42e7-b017-24386071e99a"
