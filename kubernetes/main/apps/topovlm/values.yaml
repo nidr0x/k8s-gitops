@@ -1,0 +1,53 @@
+image:
+  repository: ghcr.io/topolvm/topolvm-with-sidecar
+  pullPolicy: IfNotPresent
+
+scheduler:
+  type: daemonset
+  deployment:
+    replicaCount: 2
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: node-role.kubernetes.io/master
+                operator: Exists
+  tolerations:
+    - key: "CriticalAddonsOnly"
+      operator: "Exists"
+    - key: "node-role.kubernetes.io/master"
+      effect: "NoSchedule"
+    - key: "node-role.kubernetes.io/control-plane"
+      effect: "NoSchedule"
+
+lvmd:
+  managed: true
+  deviceClasses:
+    - name: "nvme"
+      volume-group: "pve"
+      default: true
+      spare-gb: 10
+
+controller:
+  replicaCount: 2
+
+node:
+  securityContext:
+    privileged: true
+
+storageClasses:
+  - name: topolvm-provisioner-ssd
+    storageClass:
+      isDefaultClass: true
+      fsType: xfs
+      volumeBindingMode: WaitForFirstConsumer
+      allowVolumeExpansion: true
+      additionalParameters:
+        "topolvm.cybozu.com/device-class": "nvme"
+
+crd:
+  create: true
+
+podSecurityPolicy:
+  create: true

@@ -14,12 +14,12 @@ spec:
     - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
       path: kubernetes/main/apps/ceph-csi-rbd/
-    - repoURL: https://ceph.github.io/csi-charts
-      targetRevision: 3.2.1
-      chart: ceph-csi-rbd
+    - repoURL: https://topolvm.github.io/topolvm/
+      targetRevision: 15.5.5
+      chart: topolvm
       helm:
         valueFiles:
-          - $nidr0x-k8s-gitops/kubernetes/main/apps/ceph-csi-rbd/values.yaml
+          - $nidr0x-k8s-gitops/kubernetes/main/apps/topolvm/values.yaml
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
