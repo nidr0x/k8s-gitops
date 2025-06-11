@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ceph-csi-rbd
+  name: topolvm
 spec:
   destination:
     namespace: kube-system
@@ -13,7 +13,7 @@ spec:
       ref: nidr0x-k8s-gitops
     - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
-      path: kubernetes/main/apps/ceph-csi-rbd/
+      path: kubernetes/main/apps/topolvm/
     - repoURL: https://topolvm.github.io/topolvm/
       targetRevision: 15.5.5
       chart: topolvm
