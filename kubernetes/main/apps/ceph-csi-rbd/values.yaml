@@ -3,6 +3,11 @@ cephConf: |
   fsid = ed613c65-ddc2-42e7-b017-24386071e99a
   mon_host = 192.168.1.11
 
+csiConfig:
+  - clusterID: "ed613c65-ddc2-42e7-b017-24386071e99a"
+    monitors:
+      - "192.168.1.11"
+
 controllerplugin:
   tolerations:
     - key: "node-role.kubernetes.io/control-plane"
@@ -19,7 +24,7 @@ nodeplugin:
       effect: "NoExecute"
 
 storageClasses:
-  - name: ceph-rbd-external # He renombrado el SC para evitar conflictos con el anterior
+  - name: ceph-rbd-external
     isDefault: false
     clusterID: "ed613c65-ddc2-42e7-b017-24386071e99a"
     pool: ceph-pool-rbd
