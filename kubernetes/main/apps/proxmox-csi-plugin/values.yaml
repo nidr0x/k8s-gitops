@@ -5,6 +5,7 @@ node:
     node.cloudprovider.kubernetes.io/platform: nocloud
   tolerations:
     - operator: Exists
+  kubeletDir: /var/lib/kubelet/
 
 nodeSelector:
   node-role.kubernetes.io/control-plane: ""
