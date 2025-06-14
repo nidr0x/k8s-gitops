@@ -10,4 +10,4 @@ resources:
   - deployment.yaml
   - pv.yaml
   - pvc.yaml
-  - database.yaml
+#   - database.yaml
