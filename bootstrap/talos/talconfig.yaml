@@ -12,18 +12,39 @@ allowSchedulingOnControlPlanes: false
 cniConfig:
   name: none
 
+schematic:
+  customization:
+    systemExtensions:
+      officialExtensions:
+        - siderolabs/amd-ucode
+        - siderolabs/amdgpu
+        - siderolabs/qemu-guest-agent
+
 nodes:
   - hostname: controlplane-01
     ipAddress: 192.168.1.90
     installDisk: /dev/sda
     controlPlane: true
     configPath: ./controlplane.yaml
-  - hostname: worker-01
+  - hostname: controlplane-02
     ipAddress: 192.168.1.91
+    installDisk: /dev/sda
+    controlPlane: true
+  - hostname: controlplane-03
+    ipAddress: 192.168.1.92
+    installDisk: /dev/sda
+    controlPlane: true
+    configPath: ./controlplane.yaml
+  - hostname: worker-01
+    ipAddress: 192.168.1.100
     installDisk: /dev/sda
     configPath: ./worker.yaml
   - hostname: worker-02
-    ipAddress: 192.168.1.92
+    ipAddress: 192.168.1.103
+    installDisk: /dev/sda
+    configPath: ./worker.yaml
+  - hostname: worker-03
+    ipAddress: 192.168.1.102
     installDisk: /dev/sda
     configPath: ./worker.yaml
 
