@@ -9,6 +9,8 @@ tolerations:
 storageClass:
   - name: proxmox-k8s-zfs
     storage: k8s-storage
-    reclaimPolicy: Delete
+    reclaimPolicy: Retain
     fstype: ext4
     ssd: "true"
+    mountOptions:
+      - noatime
