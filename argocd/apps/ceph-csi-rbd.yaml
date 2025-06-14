@@ -15,7 +15,7 @@ spec:
       targetRevision: master
       path: kubernetes/main/apps/ceph-csi-rbd/
     - repoURL: https://ceph.github.io/csi-charts
-      targetRevision: 3.2.1
+      targetRevision: 3.14.0
       chart: ceph-csi-rbd
       helm:
         valueFiles:
