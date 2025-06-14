@@ -14,7 +14,7 @@ spec:
     - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
       path: kubernetes/main/apps/proxmox-csi-plugin/
-    - repoURL: ghcr.io/sergelogvinov/charts/
+    - repoURL: ghcr.io/sergelogvinov/charts
       targetRevision: 0.3.11
       chart: proxmox-csi-plugin
       helm:
