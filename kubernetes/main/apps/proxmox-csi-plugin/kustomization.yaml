@@ -3,4 +3,3 @@ kind: Kustomization
 namespace: kube-system
 resources:
   - secret.yaml
-  - storageclass.yaml

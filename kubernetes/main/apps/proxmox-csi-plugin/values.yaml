@@ -8,9 +8,10 @@ tolerations:
 
 storageClass:
   - name: proxmox-k8s-zfs
+    cache: writethrough
     storage: k8s-storage
     reclaimPolicy: Retain
     fstype: ext4
-    ssd: "true"
+    ssd: true
     mountOptions:
       - noatime
