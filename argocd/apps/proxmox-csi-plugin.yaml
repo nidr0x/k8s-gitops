@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: topolvm
+  name: proxmox-csi-plugin
 spec:
   destination:
     namespace: kube-system
@@ -13,13 +13,13 @@ spec:
       ref: nidr0x-k8s-gitops
     - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
-      path: kubernetes/main/apps/topolvm/
-    - repoURL: https://topolvm.github.io/topolvm/
-      targetRevision: 15.5.5
-      chart: topolvm
+      path: kubernetes/main/apps/proxmox-csi-plugin/
+    - repoURL: ghcr.io/sergelogvinov/charts/proxmox-csi-plugin
+      targetRevision: 0.3.10
+      chart: proxmox-csi-plugin
       helm:
         valueFiles:
-          - $nidr0x-k8s-gitops/kubernetes/main/apps/topolvm/values.yaml
+          - $nidr0x-k8s-gitops/kubernetes/main/apps/proxmox-csi-plugin/values.yaml
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
