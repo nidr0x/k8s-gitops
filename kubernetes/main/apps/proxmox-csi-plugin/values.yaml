@@ -1,0 +1,20 @@
+createNamespace: true
+
+node:
+  nodeSelector:
+    node.cloudprovider.kubernetes.io/platform: nocloud
+  tolerations:
+    - operator: Exists
+
+nodeSelector:
+  node-role.kubernetes.io/control-plane: ""
+tolerations:
+  - key: node-role.kubernetes.io/control-plane
+    effect: NoSchedule
+
+storageClass:
+  - name: proxmox-k8s-zfs
+    storage: k8s-storage
+    reclaimPolicy: Delete
+    fstype: ext4
+    ssd: "true"
