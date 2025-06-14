@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cert-manager
+  name: ceph-csi-rbd
 spec:
   destination:
-    namespace: cert-manager
+    namespace: kube-system
     server: https://kubernetes.default.svc
   project: everest
   sources:
@@ -13,13 +13,13 @@ spec:
       ref: nidr0x-k8s-gitops
     - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
-      path: kubernetes/main/apps/cert-manager/
-    - repoURL: https://charts.jetstack.io
-      targetRevision: v1.18.0
-      chart: cert-manager
+      path: kubernetes/main/apps/ceph-csi-rbd/
+    - repoURL: https://ceph.github.io/csi-charts
+      targetRevision: 3.2.1
+      chart: ceph-csi-rbd
       helm:
         valueFiles:
-          - $nidr0x-k8s-gitops/kubernetes/main/apps/cert-manager/values.yaml
+          - $nidr0x-k8s-gitops/kubernetes/main/apps/ceph-csi-rbd/values.yaml
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
