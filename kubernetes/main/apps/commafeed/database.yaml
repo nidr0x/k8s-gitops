@@ -8,7 +8,7 @@ spec:
     - name: TZ
       value: UTC
   instances: 1
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.2
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.5
   postgresql:
     parameters:
       max_wal_size: "1GB"
