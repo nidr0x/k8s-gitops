@@ -30,7 +30,7 @@ singleBinary:
   replicas: 1
   persistence:
     enabled: true
-    storageClass: openebs-hostpath
+    storageClass: proxmox-k8s-zfs
     size: 50Gi
 gateway:
   replicas: 0
