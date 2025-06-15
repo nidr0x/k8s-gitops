@@ -5,8 +5,7 @@ metadata:
   namespace: kube-monitoring
 spec:
   instances: 1
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.2
-
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.5
   bootstrap:
     initdb:
       database: grafana
