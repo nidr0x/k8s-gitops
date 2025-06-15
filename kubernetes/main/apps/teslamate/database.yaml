@@ -8,7 +8,7 @@ spec:
     - name: TZ
       value: UTC
   instances: 1
-  imageName: ghcr.io/cloudnative-pg/postgresql:16.8
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.9
   backup:
     barmanObjectStore:
       destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
@@ -37,7 +37,7 @@ spec:
       resources:
         requests:
           storage: 2Gi
-      storageClassName: ceph-rbd-external
+      storageClassName: proxmox-k8s-zfs
   monitoring:
     disableDefaultQueries: false
     enablePodMonitor: false
