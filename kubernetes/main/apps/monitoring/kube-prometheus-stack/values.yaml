@@ -43,7 +43,7 @@ alertmanager:
     storage:
       volumeClaimTemplate:
         spec:
-          storageClassName: openebs-hostpath
+          storageClassName: proxmox-k8s-zfs
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:
@@ -96,7 +96,7 @@ prometheus:
     storageSpec:
       volumeClaimTemplate:
         spec:
-          storageClassName: openebs-hostpath
+          storageClassName: proxmox-k8s-zfs
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:
