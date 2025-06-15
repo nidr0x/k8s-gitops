@@ -39,7 +39,7 @@ spec:
       resources:
         requests:
           storage: 512Mi
-      storageClassName: openebs-hostpath
+      storageClassName: proxmox-k8s-zfs
   monitoring:
     enablePodMonitor: true
   resources:
