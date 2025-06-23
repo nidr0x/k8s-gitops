@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: node-local-dns
+spec:
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  project: everest
+  sources:
+    - repoURL: https://github.com/nidr0x/k8s-gitops
+      targetRevision: master
+      ref: nidr0x-k8s-gitops
+    - repoURL: https://github.com/nidr0x/k8s-gitops
+      targetRevision: master
+      path: kubernetes/main/apps/node-local-dns/
+    - repoURL: https://raw.githubusercontent.com/deliveryhero/helm-charts/refs/heads/master
+      targetRevision: 2.1.8
+      chart: node-local-dns
+      helm:
+        valueFiles:
+          - $nidr0x-k8s-gitops/kubernetes/main/apps/node-local-dns/values.yaml
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
