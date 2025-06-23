@@ -1,0 +1,7 @@
+machine:
+  network:
+    disableSearchDomain: true
+    interfaces:
+      - deviceSelector:
+          physical: true
+        dhcp: true
