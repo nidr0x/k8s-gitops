@@ -1,5 +1,5 @@
----
 # yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
+---
 clusterName: everest
 endpoint: "https://192.168.1.90:6443"
 
@@ -12,20 +12,11 @@ allowSchedulingOnControlPlanes: false
 cniConfig:
   name: none
 
-schematic:
-  customization:
-    systemExtensions:
-      officialExtensions:
-        - siderolabs/amd-ucode
-        - siderolabs/amdgpu
-        - siderolabs/qemu-guest-agent
-
 nodes:
   - hostname: controlplane-01
     ipAddress: 192.168.1.90
     installDisk: /dev/sda
     controlPlane: true
-    configPath: ./controlplane.yaml
   - hostname: controlplane-02
     ipAddress: 192.168.1.91
     installDisk: /dev/sda
@@ -34,19 +25,40 @@ nodes:
     ipAddress: 192.168.1.92
     installDisk: /dev/sda
     controlPlane: true
-    configPath: ./controlplane.yaml
   - hostname: worker-01
     ipAddress: 192.168.1.100
     installDisk: /dev/sda
-    configPath: ./worker.yaml
   - hostname: worker-02
     ipAddress: 192.168.1.103
     installDisk: /dev/sda
-    configPath: ./worker.yaml
   - hostname: worker-03
     ipAddress: 192.168.1.102
     installDisk: /dev/sda
-    configPath: ./worker.yaml
 
 extraManifests:
   - "https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/main/deploy/standalone-install.yaml"
+
+worker:
+  schematic:
+    customization:
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/amd-ucode
+          - siderolabs/amdgpu
+          - siderolabs/qemu-guest-agent
+
+controlPlane:
+  schematic:
+    customization:
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/amd-ucode
+          - siderolabs/amdgpu
+          - siderolabs/qemu-guest-agent
+
+patches:
+  - "@./patches/global/machine-files.yaml"
+  - "@./patches/global/machine-kubelet.yaml"
+  - "@./patches/global/machine-network.yaml"
+  - "@./patches/global/machine-sysctls.yaml"
+  - "@./patches/global/machine-install.yaml"
