@@ -1,2 +1,5 @@
 serviceMonitor:
   enabled: true
+
+config:
+  bindIp: true
