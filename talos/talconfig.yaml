@@ -4,7 +4,7 @@ clusterName: everest
 endpoint: "https://192.168.1.90:6443"
 
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-talosVersion: v1.10.3
+talosVersion: v1.10.4
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.33.1
 allowSchedulingOnControlPlanes: false
@@ -62,3 +62,4 @@ patches:
   - "@./patches/global/machine-network.yaml"
   - "@./patches/global/machine-sysctls.yaml"
   - "@./patches/global/machine-install.yaml"
+  - "@./patches/global/machine-time.yaml"
