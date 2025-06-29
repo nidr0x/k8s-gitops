@@ -17,28 +17,29 @@ The primary goal of this repository, beyond self-hosting services on my own infr
 
 - [Adguard Home](https://github.com/AdguardTeam/AdGuardHome)
 - [ArgoCD](https://github.com/argoproj/argo-cd)
-- [CSI Driver NFS](https://github.com/kubernetes-csi/csi-driver-nfs)
+- [Cert-manager](https://github.com/cert-manager/cert-manager)
 - [Cilium](https://cilium.io/)
 - [Cloudflared](https://github.com/cloudflare/cloudflared)
 - [Cloudnative-PG](https://github.com/cloudnative-pg/cloudnative-pg)
+- [Commafeed](https://github.com/Athou/commafeed)
+- [CSI Driver NFS](https://github.com/kubernetes-csi/csi-driver-nfs)
 - [External DNS](https://github.com/kubernetes-sigs/external-dns)
 - [External Secrets](https://github.com/external-secrets/external-secrets)
-- [FreshRSS](https://github.com/FreshRSS/FreshRSS)
-- [GPhotos Sync](https://github.com/gilesknap/gphotos-sync)
-- [Grafana Alloy](https://grafana.com/docs/alloy/latest/)
 - [Home Assistant](https://github.com/home-assistant/docker)
 - [Homebridge](https://homebridge.io/)
-- [Kube Prometheus Stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
-- [Loki](https://grafana.com/oss/loki/)
+- [Kubelet Serving Cert Approver](https://github.com/alex1989hu/kubelet-serving-cert-approver)
+- [Kubernetes Reflector](https://github.com/emberstack/kubernetes-reflector)
+- [Monitoring](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) (Kube Prometheus Stack, Loki, Grafana Alloy)
+- [Node Local DNS](https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/)
 - [Node Problem Detector](https://github.com/kubernetes/node-problem-detector)
+- [Proxmox CSI Plugin](https://github.com/sergelogvinov/proxmox-csi-plugin)
 - [Secret Reloader](https://github.com/stakater/Reloader)
+- [Spegel](https://github.com/spegel-sd/spegel)
 - [Teslamate](https://github.com/teslamate-org/teslamate)
 - [Transmission](https://github.com/transmission/transmission)
-- [Uptime Kuma](https://github.com/louislam/uptime-kuma)
 - [Unbound](https://www.nlnetlabs.nl/projects/unbound/about/)
+- [Uptime Kuma](https://github.com/louislam/uptime-kuma)
 - [Vaultwarden](https://github.com/dani-garcia/vaultwarden)
-- [cert-manager](https://github.com/cert-manager/cert-manager)
-- [kubelet serving cert approver](https://github.com/alex1989hu/kubelet-serving-cert-approver)
 
 ## 🛠️ Changelog
 
@@ -69,3 +70,11 @@ As part of my commitment to open-source communities, I offer these public servic
 🔗 `https://dns.nidr0x.win/dns-query`
 
 It is powered by [AdGuard Home](https://github.com/AdguardTeam/AdGuardHome) + [Cloudflare](https://www.cloudflare.com). The configuration that uses is available [here](https://github.com/nidr0x/k8s-gitops/blob/master/kubernetes/main/apps/adguardhome/config/AdGuardHome.yaml)
+
+## TO-DO
+
+- [ ] Move to a dedicated VLAN
+- [ ] Improve observability stack
+- [ ] Refactor ArgoCD setup
+- [ ] Define and implement Network Policies
+- [ ] Create an architecture diagram
