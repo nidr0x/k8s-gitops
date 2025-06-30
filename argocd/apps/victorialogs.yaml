@@ -13,7 +13,7 @@ spec:
       ref: nidr0x-k8s-gitops
     - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
-      path: kubernetes/main/apps/victorialogs/
+      path: kubernetes/main/apps/monitoring/victorialogs/
     - repoURL: https://victoriametrics.github.io/helm-charts
       targetRevision: v1.24.0
       chart: victoria-logs-single
