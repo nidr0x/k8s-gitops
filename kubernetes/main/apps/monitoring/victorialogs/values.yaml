@@ -8,12 +8,11 @@ server:
       cpu: "250m"
       memory: "512Mi"
     limits:
-      cpu: "1"
       memory: "1Gi"
   ingress:
     enabled: true
     hosts:
-      - name: monitoring.nidr0x.win
+      - host: monitoring.nidr0x.win
         paths:
           - path: /victorialogs
             pathType: Prefix
@@ -27,5 +26,4 @@ vector:
       cpu: 100m
       memory: 128Mi
     limits:
-      cpu: 250m
       memory: 256Mi
