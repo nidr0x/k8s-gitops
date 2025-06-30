@@ -1,3 +1,5 @@
+nameOverride: "victorialogs"
+
 server:
   persistentVolume:
     enabled: true
