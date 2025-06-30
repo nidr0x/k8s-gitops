@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: alloy
+  name: kube-monitoring
 spec:
   destination:
     namespace: kube-monitoring
@@ -13,13 +13,13 @@ spec:
       ref: nidr0x-k8s-gitops
     - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
-      path: kubernetes/main/apps/monitoring/alloy/
-    - repoURL: https://grafana.github.io/helm-charts
-      targetRevision: 1.1.2
-      chart: alloy
+      path: kubernetes/main/apps/victorialogs/
+    - repoURL: https://victoriametrics.github.io/helm-charts
+      targetRevision: v1.24.0
+      chart: victoria-logs-single
       helm:
         valueFiles:
-          - $nidr0x-k8s-gitops/kubernetes/main/apps/monitoring/alloy/values.yaml
+          - $nidr0x-k8s-gitops/kubernetes/main/apps/monitoring/victorialogs/values.yaml
   syncPolicy:
     syncOptions:
       - CreateNamespace=true

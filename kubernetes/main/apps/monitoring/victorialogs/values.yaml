@@ -1,0 +1,33 @@
+server:
+  persistentVolume:
+    enabled: true
+    size: 10Gi
+    storageClass: "proxmox-k8s-zfs"
+  resources:
+    requests:
+      cpu: "250m"
+      memory: "512Mi"
+    limits:
+      cpu: "1"
+      memory: "1Gi"
+  ingress:
+    enabled: true
+    hosts:
+      - monitoring.nidr0x.win
+    annotations:
+      cert-manager.io/cluster-issuer: zerossl-prod
+      external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
+    path: /victorialogs
+    pathType: Prefix
+    tls:
+      - hosts:
+          - monitoring.nidr0x.win
+vector:
+  enabled: true
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi
