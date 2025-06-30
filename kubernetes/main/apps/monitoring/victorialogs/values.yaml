@@ -12,10 +12,9 @@ server:
   ingress:
     enabled: true
     hosts:
-      - host: monitoring.nidr0x.win
-        paths:
-          - path: /victorialogs
-            pathType: Prefix
+      - name: monitoring.nidr0x.win
+        path:
+          - /victorialogs
     tls:
       - hosts:
           - monitoring.nidr0x.win
