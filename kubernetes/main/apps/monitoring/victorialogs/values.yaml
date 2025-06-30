@@ -15,6 +15,7 @@ server:
       - name: monitoring.nidr0x.win
         path:
           - /victorialogs
+    pathType: Prefix
     tls:
       - hosts:
           - monitoring.nidr0x.win
