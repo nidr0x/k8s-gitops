@@ -15,7 +15,7 @@ spec:
       targetRevision: master
       path: kubernetes/main/apps/cert-manager/
     - repoURL: https://charts.jetstack.io
-      targetRevision: v1.18.1
+      targetRevision: v1.18.2
       chart: cert-manager
       helm:
         valueFiles:
