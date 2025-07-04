@@ -151,6 +151,14 @@ grafana:
         postgresVersion: 1000
       editable: true
       isDefault: false
+    - name: VictoriaLogs
+      type: loki
+      url: http://victorialogs.kube-monitoring.svc.cluster.local:9428
+      access: proxy
+      jsonData:
+        maxLines: 1000
+      editable: true
+      isDefault: false
   prune: true
   plugins:
     - grafana-piechart-panel
