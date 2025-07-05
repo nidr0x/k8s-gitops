@@ -37,7 +37,7 @@ spec:
         - ReadWriteOnce
       resources:
         requests:
-          storage: 5Gi
+          storage: 6Gi
       storageClassName: proxmox-k8s-zfs
   monitoring:
     enablePodMonitor: true
