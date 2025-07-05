@@ -16,6 +16,9 @@ spec:
     - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
       path: kubernetes/main/apps/cloudnative-pg
+    - repoURL: https://github.com/nidr0x/k8s-gitops
+      targetRevision: master
+      path: kubernetes/main/apps/cloudnative-pg/barman-cloud-plugin.yaml
     - repoURL: https://cloudnative-pg.github.io/charts
       targetRevision: 0.24.0
       chart: cloudnative-pg
@@ -25,6 +28,7 @@ spec:
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
+      - ServerSideApply=true
     automated:
       prune: true
       selfHeal: true
