@@ -1,8 +1,9 @@
 repos:
-  - repo: https://github.com/onedr0p/sops-pre-commit
-    rev: v2.1.1
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.27.2
     hooks:
-      - id: forbid-secrets
+      - id: gitleaks
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
