@@ -1,1 +1,2 @@
-fingerprint:d6d549e3a2c2e20941f02d768f321c24a8b247d2:cert-manager/zerossl-prod.yaml:generic-api-key:10
+d6d549e3a2c2e20941f02d768f321c24a8b247d2:cert-manager/zerossl-prod.yaml:generic-api-key:10
+kubernetes/main/apps/cloudnative-pg/barman-cloud-plugin.yaml:kubernetes-secret-yaml:886
