@@ -160,11 +160,6 @@ grafana:
       editable: true
       isDefault: false
   prune: true
-  plugins:
-    - grafana-piechart-panel
-    - pr0ps-trackmap-panel 2.1.4
-    - natel-plotly-panel 0.0.7
-    #- grafana-worldmap-panel-ng
   # ServiceMonitor label and job relabel
   serviceMonitor:
     labels:
@@ -184,6 +179,10 @@ grafana:
           folder: "Tesla"
           options:
             path: /var/lib/grafana/dashboards/tesla
+        - name: "tesla-internal"
+          folder: "Tesla/Internal"
+          options:
+            path: /var/lib/grafana/dashboards/tesla-internal
   dashboards:
     tesla:
       battery-health:
@@ -194,6 +193,8 @@ grafana:
         url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/charges.json
       charging-stats:
         url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/charging-stats.json
+      database-info:
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/database-info.json
       drive-stats:
         url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/drive-stats.json
       drives:
@@ -222,10 +223,11 @@ grafana:
         url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/vampire-drain.json
       visited:
         url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/visited.json
-      drive-details:
-        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/internal/drive-details.json
+    tesla-internal:
       charge-details:
         url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/internal/charge-details.json
+      drive-details:
+        url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/internal/drive-details.json
       home:
         url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/internal/home.json
   grafana.ini:
