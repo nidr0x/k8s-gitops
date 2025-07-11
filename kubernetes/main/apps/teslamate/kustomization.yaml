@@ -6,4 +6,5 @@ resources:
   - ingress.yaml
   - secret.yaml
   - deployment.yaml
-  # - database.yaml
+  - database.yaml
+  - pdb.yaml
