@@ -36,3 +36,4 @@ extraArgs:
   - --dns01-recursive-nameservers=8.8.8.8:53,1.1.1.1:53
   - --dns01-recursive-nameservers-only
   - --cluster-resource-namespace=cert-manager
+  - --enable-gateway-api
