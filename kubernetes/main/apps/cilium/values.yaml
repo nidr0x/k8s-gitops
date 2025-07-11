@@ -13,6 +13,9 @@ k8sClientRateLimit:
   qps: 50
   burst: 200
 
+gatewayAPI:
+  enabled: true
+
 enableCiliumEndpointSlice: true
 
 externalIPs:
