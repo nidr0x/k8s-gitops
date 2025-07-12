@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gateway-api-crds
+spec:
+  project: everest
+  source:
+    repoURL: https://github.com/kubernetes-sigs/gateway-api.git
+    path: config/crd
+    # renovate: datasource=github-releases depName=kubernetes-sigs/gateway-api
+    targetRevision: v1.3.0
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
