@@ -1,3 +1,18 @@
+crds:
+  enabled: true
+
+victoria-metrics-operator:
+  enabled: true
+  operator:
+    disable_prometheus_converter: false
+    enable_converter_ownership: true
+  resources:
+    requests:
+      cpu: 10m
+      memory: 100Mi
+    limits:
+      memory: 100Mi
+
 grafana:
   enabled: true
   defaultDashboardsTimezone: Europe/Madrid
@@ -49,7 +64,6 @@ grafana:
       access: proxy
       jsonData:
         maxLines: 1000
-        pathPrefix: /
       editable: true
       isDefault: false
   dashboardProviders:
@@ -128,26 +142,29 @@ grafana:
       serve_from_sub_path: true
     users:
       allow_sign_up: false
-      auto_asign_org: true
+      auto_assign_org: true
       auto_assign_org_id: 1
-      auto_assign_or_role: "Admin"
+      auto_assign_org_role: "Viewer"
     auth:
       disable_login_form: true
     security:
       angular_support_enabled: false
+      disable_initial_admin_creation: false
+      login_attempt_limit: 0
+      login_maximum_inactive_lifetime_days: 7
     auth.google:
       enabled: true
       allow_sign_up: true
-      auto_login: false
+      auto_login: true
       client_id: $__env{GF_AUTH_GOOGLE_CLIENT_ID}
       client_secret: $__env{GF_AUTH_GOOGLE_CLIENT_SECRET}
       scopes: openid email profile
       auth_url: https://accounts.google.com/o/oauth2/v2/auth
       token_url: https://oauth2.googleapis.com/token
       api_url: https://openidconnect.googleapis.com/v1/userinfo
-      validate_hd: false
+      allowed_domains: gmail.com
       use_pkce: true
-      role_attribute_path: email=='nidr0x@gmail.com' && 'Admin'
+      role_attribute_path: email == 'nidr0x@gmail.com' && 'Admin' || 'None'
       allow_assign_grafana_admin: true
       skip_org_role_sync: false
 
@@ -166,23 +183,16 @@ vmsingle:
         requests:
           storage: 2Gi
   ingress:
-    enabled: true
-    hosts:
-      - monitoring.nidr0x.win
-    annotations:
-      cert-manager.io/cluster-issuer: zerossl-prod
-      external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
-    path: /victoriametrics
-    pathType: Prefix
-    tls:
-      - hosts:
-          - monitoring.nidr0x.win
+    enabled: false
 
 vmalert:
   enabled: true
   persistentVolume:
     storageClass: proxmox-k8s-zfs
     size: 1Gi
+
+alertmanager:
+  enabled: true
 
 # Enable default dashboards (including vmstat)
 dashboard:
@@ -193,3 +203,22 @@ nodeExporter:
   enabled: true
 kubeStateMetrics:
   enabled: true
+
+kubelet:
+  enabled: true
+  vmScrape:
+    spec:
+      metricRelabelConfigs:
+        - action: labeldrop
+          regex: (uid)
+        - action: labeldrop
+          regex: (id|name)
+        - action: labeldrop
+          regex: "extensions_talos_dev_.*"
+        - action: labeldrop
+
+kubeApiserver:
+  enabled: true
+
+defaultDashboardsEnabled: true
+experimentalDashboardsEnabled: true
