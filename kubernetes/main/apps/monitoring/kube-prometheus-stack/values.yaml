@@ -58,58 +58,7 @@ alertmanager:
         targetLabel: job
         replacement: alertmanager
 prometheus:
-  ingress:
-    enabled: true
-    hosts:
-      - monitoring.nidr0x.win
-    annotations:
-      cert-manager.io/cluster-issuer: prod-cert-zerossl
-      external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
-    paths:
-      - /prometheus
-    pathType: Prefix
-    tls:
-      - hosts:
-          - monitoring.nidr0x.win
-  prometheusSpec:
-    fullnameOverride: "kubepromstack-prometheus"
-    retention: 7d
-    ruleSelectorNilUsesHelmValues: false
-    serviceMonitorSelectorNilUsesHelmValues: false
-    podMonitorSelectorNilUsesHelmValues: false
-    probeSelectorNilUsesHelmValues: false
-    # Subpath /prometheus configuration
-    externalUrl: http://monitoring.nidr0x.win/prometheus/
-    routePrefix: /
-    securityContext:
-      runAsGroup: 2002
-      runAsNonRoot: true
-      runAsUser: 1001
-      fsGroup: 2002
-    # Resources request and limits
-    resources:
-      requests:
-        memory: 256Mi
-      limits:
-        memory: 2Gi
-    # PVC configuration
-    storageSpec:
-      volumeClaimTemplate:
-        spec:
-          storageClassName: proxmox-k8s-zfs
-          accessModes: ["ReadWriteOnce"]
-          resources:
-            requests:
-              storage: 10Gi
-  # ServiceMonitor job relabel
-  serviceMonitor:
-    relabelings:
-      # Replace job value
-      - sourceLabels:
-          - __address__
-        action: replace
-        targetLabel: job
-        replacement: prometheus
+  enabled: false
 grafana:
   defaultDashboardsTimezone: Europe/Madrid
   envFromSecrets:
@@ -159,6 +108,12 @@ grafana:
         maxLines: 1000
       editable: true
       isDefault: false
+    - name: VictoriaMetrics
+      type: prometheus
+      url: http://victoriametrics.kube-monitoring.svc.cluster.local:8428
+      access: proxy
+      editable: true
+      isDefault: true
   prune: true
   # ServiceMonitor label and job relabel
   serviceMonitor:
