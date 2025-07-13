@@ -12,10 +12,10 @@ ingress:
     - hosts:
         - monitoring.nidr0x.win
 
-persistence:
-  enabled: true
-  storageClass: proxmox-k8s-zfs
-  size: 10Gi
+server:
+  persistentVolume:
+    storageClassName: proxmox-k8s-zfs
+    size: 10Gi
 
 resources:
   requests:
