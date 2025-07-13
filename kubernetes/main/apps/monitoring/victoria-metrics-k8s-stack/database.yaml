@@ -16,10 +16,10 @@ spec:
       endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
       s3Credentials:
         accessKeyId:
-          name: kubepromstack-oauth2
+          name: victoriametricsstack-oauth2
           key: ACCESS_KEY_ID
         secretAccessKey:
-          name: kubepromstack-oauth2
+          name: victoriametricsstack-oauth2
           key: SECRET_ACCESS_KEY
       data:
         compression: bzip2
