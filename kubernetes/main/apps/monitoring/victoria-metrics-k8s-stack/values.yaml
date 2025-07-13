@@ -159,9 +159,12 @@ vmagent:
 
 vmsingle:
   enabled: true
-  persistentVolume:
-    storageClass: proxmox-k8s-zfs
-    size: 1Gi
+  spec:
+    storage:
+      storageClassName: "proxmox-k8s-zfs"
+      resources:
+        requests:
+          storage: 2Gi
   ingress:
     enabled: true
     hosts:
