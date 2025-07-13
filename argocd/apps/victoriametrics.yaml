@@ -15,7 +15,7 @@ spec:
       targetRevision: master
       path: kubernetes/main/apps/monitoring/victoriametrics/
     - repoURL: https://victoriametrics.github.io/helm-charts
-      targetRevision: 0.18.0
+      targetRevision: 0.23.0
       chart: victoria-metrics-single
       helm:
         valueFiles:
