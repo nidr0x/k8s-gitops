@@ -142,9 +142,7 @@ grafana:
       serve_from_sub_path: true
     users:
       allow_sign_up: false
-      auto_assign_org: true
-      auto_assign_org_id: 1
-      auto_assign_org_role: "Viewer"
+      auto_assign_org_role: Admin
     auth:
       disable_login_form: true
     security:
@@ -164,7 +162,7 @@ grafana:
       api_url: https://openidconnect.googleapis.com/v1/userinfo
       allowed_domains: gmail.com
       use_pkce: true
-      role_attribute_path: email == 'nidr0x@gmail.com' && 'Admin' || 'None'
+      role_attribute_path: email=='nidr0x@gmail.com' && 'Admin'
       allow_assign_grafana_admin: true
       skip_org_role_sync: false
 
