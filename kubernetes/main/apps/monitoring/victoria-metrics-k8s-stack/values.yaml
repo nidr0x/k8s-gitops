@@ -1,68 +1,8 @@
-prometheusOperator:
-  # Relabeling job name for operator metrics
-  serviceMonitor:
-    relabelings:
-      # Replace job value
-      - sourceLabels:
-          - __address__
-        action: replace
-        targetLabel: job
-        replacement: prometheus-operator
-  # Disable creation of kubelet service
-  kubeletService:
-    enabled: false
-prometheus-node-exporter:
-  fullnameOverride: "kubepromstack-prometheus-node-exporter"
-kube-state-metrics:
-  fullnameOverride: "kubepromstack-kube-state-metrics"
-alertmanager:
-  ingress:
-    enabled: true
-    hosts:
-      - monitoring.nidr0x.win
-    annotations:
-      cert-manager.io/cluster-issuer: zerossl-prod
-      external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
-    paths:
-      - /alertmanager
-    pathType: Prefix
-    tls:
-      - hosts:
-          - monitoring.nidr0x.win
-  alertmanagerSpec:
-    fullnameOverride: "kubepromstack-alertmanager"
-    # Subpath /alertmanager configuration
-    externalUrl: http://monitoring.nidr0x.win/alertmanager/
-    routePrefix: /
-    securityContext:
-      runAsGroup: 2002
-      runAsNonRoot: true
-      runAsUser: 1001
-      fsGroup: 2002
-    # PVC configuration
-    storage:
-      volumeClaimTemplate:
-        spec:
-          storageClassName: proxmox-k8s-zfs
-          accessModes: ["ReadWriteOnce"]
-          resources:
-            requests:
-              storage: 1Gi
-  # ServiceMonitor job relabel
-  serviceMonitor:
-    relabelings:
-      # Replace job value
-      - sourceLabels:
-          - __address__
-        action: replace
-        targetLabel: job
-        replacement: alertmanager
-prometheus:
-  enabled: false
 grafana:
+  enabled: true
   defaultDashboardsTimezone: Europe/Madrid
   envFromSecrets:
-    - name: kubepromstack-oauth2
+    - name: victoriametricsstack-oauth2
     - name: grafana-database-app
   ingress:
     enabled: true
@@ -76,17 +16,20 @@ grafana:
     tls:
       - hosts:
           - monitoring.nidr0x.win
+  podSecurityContext:
+    fsGroup: 2002
+    runAsGroup: 2002
+    runAsNonRoot: true
+    runAsUser: 1001
+    seccompProfile:
+      type: RuntimeDefault
   securityContext:
     runAsGroup: 2002
     runAsNonRoot: true
     runAsUser: 1001
-    fsGroup: 2002
-  testFramework:
-    enabled: false
   deploymentStrategy:
     type: Recreate
-  fullnameOverride: "kubepromstack-grafana"
-  assertNoLeakedSecrets: false
+  fullnameOverride: "victoriametrics-grafana"
   additionalDataSources:
     - name: TeslaMate
       type: postgres
@@ -102,30 +45,13 @@ grafana:
       isDefault: false
     - name: VictoriaLogs
       type: loki
-      url: http://victorialogs.kube-monitoring.svc.cluster.local:9428
+      url: http://victorialogs-server.kube-monitoring.svc.cluster.local:9428
       access: proxy
       jsonData:
         maxLines: 1000
+        pathPrefix: /
       editable: true
       isDefault: false
-    - name: VictoriaMetrics
-      type: prometheus
-      url: http://victoriametrics.kube-monitoring.svc.cluster.local:8428
-      access: proxy
-      editable: true
-      isDefault: true
-  prune: true
-  # ServiceMonitor label and job relabel
-  serviceMonitor:
-    labels:
-      release: kubepromstack
-    relabelings:
-      # Replace job value
-      - sourceLabels:
-          - __address__
-        action: replace
-        targetLabel: job
-        replacement: grafana
   dashboardProviders:
     dashboardproviders.yaml:
       apiVersion: 1
@@ -186,8 +112,6 @@ grafana:
       home:
         url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/internal/home.json
   grafana.ini:
-    #log:
-    #level: debug
     database:
       type: postgres
       host: $__env{host}:$__env{port}
@@ -221,49 +145,48 @@ grafana:
       auth_url: https://accounts.google.com/o/oauth2/v2/auth
       token_url: https://oauth2.googleapis.com/token
       api_url: https://openidconnect.googleapis.com/v1/userinfo
-      #allowed_domains: nidr0x.win
       validate_hd: false
       use_pkce: true
       role_attribute_path: email=='nidr0x@gmail.com' && 'Admin'
       allow_assign_grafana_admin: true
       skip_org_role_sync: false
-# Disabling monitoring of K8s services.
-# Monitoring of K3S components will be configured out of kube-prometheus-stack
-kubelet:
-  enabled: false
-kubeApiServer:
-  enabled: false
-kubeControllerManager:
-  enabled: false
-kubeScheduler:
-  enabled: false
-kubeProxy:
-  enabled: false
-kubeEtcd:
-  enabled: false
-# Disable K8S Prometheus Rules
-# Rules for K3S components will be configured out of kube-prometheus-stack
-defaultRules:
-  create: true
-  rules:
-    etcd: false
-    k8s: false
-    kubeApiserverAvailability: false
-    kubeApiserverBurnrate: false
-    kubeApiserverHistogram: false
-    kubeApiserverSlos: false
-    kubeControllerManager: false
-    kubelet: false
-    kubeProxy: false
-    kubernetesApps: false
-    kubernetesResources: false
-    kubernetesStorage: false
-    kubernetesSystem: false
-    kubeScheduler: false
 
-namespaceOverride: kube-monitoring
-nameOverride: ""
-fullnameOverride: "kubepromstack"
-releaseOverride: ""
+vmagent:
+  enabled: true
+  persistentVolume:
+    storageClass: proxmox-k8s-zfs
+    size: 10Gi
+
+vmsingle:
+  enabled: true
+  persistentVolume:
+    storageClass: proxmox-k8s-zfs
+    size: 1Gi
+  ingress:
+    enabled: true
+    hosts:
+      - monitoring.nidr0x.win
+    annotations:
+      cert-manager.io/cluster-issuer: zerossl-prod
+      external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
+    path: /victoriametrics
+    pathType: Prefix
+    tls:
+      - hosts:
+          - monitoring.nidr0x.win
+
+vmalert:
+  enabled: true
+  persistentVolume:
+    storageClass: proxmox-k8s-zfs
+    size: 1Gi
+
+# Enable default dashboards (including vmstat)
+dashboard:
+  enabled: true
+
+# Enable node exporter, kube-state-metrics, etc.
 nodeExporter:
-  enabled: false
+  enabled: true
+kubeStateMetrics:
+  enabled: true
