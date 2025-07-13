@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kube-prometheus-stack
+  name: victoria-metrics-k8s-stack
 spec:
   destination:
     namespace: kube-monitoring
@@ -13,21 +13,16 @@ spec:
       ref: nidr0x-k8s-gitops
     - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
-      path: kubernetes/main/apps/monitoring/kube-prometheus-stack/
-    - repoURL: https://prometheus-community.github.io/helm-charts
-      targetRevision: 75.10.0
-      chart: kube-prometheus-stack
+      path: kubernetes/main/apps/monitoring/victoria-metrics-k8s-stack/
+    - repoURL: https://victoriametrics.github.io/helm-charts
+      targetRevision: 0.18.0
+      chart: victoria-metrics-k8s-stack
       helm:
         valueFiles:
-          - $nidr0x-k8s-gitops/kubernetes/main/apps/monitoring/kube-prometheus-stack/values.yaml
+          - $nidr0x-k8s-gitops/kubernetes/main/apps/monitoring/victoria-metrics-k8s-stack/values.yaml
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
-      - ApplyOutOfSyncOnly=true
-      - ServerSideApply=true
     automated:
       prune: true
       selfHeal: true
-    managedNamespaceMetadata:
-      labels:
-        pod-security.kubernetes.io/enforce: privileged
