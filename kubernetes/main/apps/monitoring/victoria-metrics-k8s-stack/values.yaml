@@ -12,6 +12,14 @@ victoria-metrics-operator:
       memory: 100Mi
     limits:
       memory: 100Mi
+  service:
+    ports:
+      - name: http
+        port: 8080
+        targetPort: 8080
+      - name: webhook-server
+        port: 9443
+        targetPort: 9443
 
 grafana:
   enabled: true
@@ -143,6 +151,10 @@ grafana:
         datasource: VictoriaMetrics
       kubernetes:
         gnetId: 14205
+        revision: 1
+        datasource: VictoriaMetrics
+      coredns:
+        gnetId: 13602
         revision: 1
         datasource: VictoriaMetrics
   grafana.ini:
