@@ -1,6 +1,29 @@
 crds:
   enabled: true
 
+defaultDatasources:
+  extra:
+    - name: TeslaMate
+      type: postgres
+      url: teslamate-database-rw.teslamate.svc.cluster.local
+      database: teslamate
+      user: postgres
+      secureJsonData:
+        password: $__env{TESLAMATE_POSTGRESQL_PASSWORD}
+      jsonData:
+        sslmode: "disable"
+        postgresVersion: 1000
+      editable: true
+      isDefault: false
+    - name: VictoriaLogs
+      type: loki
+      url: http://victorialogs-server.kube-monitoring.svc.cluster.local:9428
+      access: proxy
+      jsonData:
+        maxLines: 1000
+      editable: true
+      isDefault: false
+
 victoria-metrics-operator:
   enabled: true
   operator:
@@ -12,10 +35,21 @@ victoria-metrics-operator:
       memory: 100Mi
     limits:
       memory: 100Mi
+  service:
+    ports:
+      - name: http
+        port: 8080
+        targetPort: 8080
+      - name: webhook-server
+        port: 9443
+        targetPort: 9443
 
 grafana:
   enabled: true
   defaultDashboardsTimezone: Europe/Madrid
+  sidecar:
+    dashboards:
+      enabled: false
   envFromSecrets:
     - name: victoriametricsstack-oauth2
     - name: grafana-database-app
@@ -45,27 +79,6 @@ grafana:
   deploymentStrategy:
     type: Recreate
   fullnameOverride: "victoriametrics-grafana"
-  additionalDataSources:
-    - name: TeslaMate
-      type: postgres
-      url: teslamate-database-rw.teslamate.svc.cluster.local
-      database: teslamate
-      user: postgres
-      secureJsonData:
-        password: $__env{TESLAMATE_POSTGRESQL_PASSWORD}
-      jsonData:
-        sslmode: "disable"
-        postgresVersion: 1000
-      editable: true
-      isDefault: false
-    - name: VictoriaLogs
-      type: loki
-      url: http://victorialogs-server.kube-monitoring.svc.cluster.local:9428
-      access: proxy
-      jsonData:
-        maxLines: 1000
-      editable: true
-      isDefault: false
   dashboardProviders:
     dashboardproviders.yaml:
       apiVersion: 1
@@ -74,10 +87,10 @@ grafana:
           folder: "Tesla"
           options:
             path: /var/lib/grafana/dashboards/tesla
-        - name: "tesla-internal"
-          folder: "Tesla/Internal"
+        - name: "k8s"
+          folder: "K8s"
           options:
-            path: /var/lib/grafana/dashboards/tesla-internal
+            path: /var/lib/grafana/dashboards/k8s
   dashboards:
     tesla:
       battery-health:
@@ -118,13 +131,37 @@ grafana:
         url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/vampire-drain.json
       visited:
         url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/visited.json
-    tesla-internal:
       charge-details:
         url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/internal/charge-details.json
       drive-details:
         url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/internal/drive-details.json
       home:
         url: https://raw.githubusercontent.com/teslamate-org/teslamate/master/grafana/dashboards/internal/home.json
+    k8s:
+      victoria-metrics-cluster:
+        gnetId: 11176
+        revision: 38
+        datasource: VictoriaMetrics
+      victoria-metrics-single:
+        gnetId: 10229
+        revision: 7
+        datasource: VictoriaMetrics
+      victoria-metrics-vmagent:
+        gnetId: 12683
+        revision: 7
+        datasource: VictoriaMetrics
+      victoria-metrics-vmalert:
+        gnetId: 12684
+        revision: 7
+        datasource: VictoriaMetrics
+      kubernetes:
+        gnetId: 14205
+        revision: 1
+        datasource: VictoriaMetrics
+      coredns:
+        gnetId: 13602
+        revision: 1
+        datasource: VictoriaMetrics
   grafana.ini:
     database:
       type: postgres
@@ -179,7 +216,7 @@ vmsingle:
       storageClassName: "proxmox-k8s-zfs"
       resources:
         requests:
-          storage: 2Gi
+          storage: 5Gi
   ingress:
     enabled: false
 
