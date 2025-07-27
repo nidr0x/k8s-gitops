@@ -13,7 +13,7 @@ spec:
       ref: nidr0x-k8s-gitops
     - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
-      path: kubernetes/main/apps/openebs
+      path: kubernetes/main/apps/kubernetes-reflector
     - repoURL: https://emberstack.github.io/helm-charts
       targetRevision: 9.1.22
       chart: reflector
