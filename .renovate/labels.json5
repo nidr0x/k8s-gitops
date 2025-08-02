@@ -34,5 +34,4 @@
       addLabels: ["renovate/pip"],
     },
   ],
-  platformAutomerge: true,
 }

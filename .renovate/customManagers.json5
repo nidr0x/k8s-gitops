@@ -1,0 +1,29 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+   "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Process Talos and K8S upgrades",
+      "matchStrings": [
+        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( repository=(?<registryUrl>\\S+))?\\n.+(:\\s|\\s)?(&\\S+\\s)?(?<currentValue>\\S+)",
+        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+/(?<currentValue>(v|\\d)[^/]+)"
+      ],
+      "managerFilePatterns": ["(^|/)\\nbootstrap/.+\\.ya?ml$"],
+      "datasourceTemplate": "github-releases"
+    },
+    {
+      customType: "regex",
+      description: "Process annotated dependencies",
+      managerFilePatterns: [
+        "/(^|/).+\\.env$/",
+        "/(^|/).+\\.sh$/",
+        "/(^|/).+\\.ya?ml(?:\\.j2)?$/",
+      ],
+      matchStrings: [
+        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( repository=(?<registryUrl>\\S+))?\\n.+(:\\s|=)(&\\S+\\s)?(?<currentValue>\\S+)",
+        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+/(?<currentValue>(v|\\d)[^/]+)",
+      ],
+      datasourceTemplate: "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
+    },
+  ]
+}
