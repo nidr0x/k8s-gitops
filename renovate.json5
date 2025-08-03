@@ -1,6 +1,6 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: [
     "config:recommended",
     "docker:enableMajor",
     ":disableRateLimiting",
@@ -13,38 +13,36 @@
     "github>nidr0x/k8s-gitops//.renovate/automerge.json5",
     "github>nidr0x/k8s-gitops//.renovate/commitMessage.json5",
   ],
-  "dependencyDashboardTitle": "Renovate Dashboard 🤖",
-  "argocd": {
-    "managerFilePatterns": ["/^.*\\.ya?ml$/"]
+  dependencyDashboardTitle: "Renovate Dashboard 🤖",
+  argocd: {
+    managerFilePatterns: ["/^.*\\.ya?ml$/"],
   },
-  "kubernetes": {
-    "managerFilePatterns": ["/^.*\\.ya?ml$/"]
+  kubernetes: {
+    managerFilePatterns: ["/^.*\\.ya?ml$/"],
   },
-  ignorePaths: [
-    "**/*.sops.*",
-  ],
-  "commitMessageTopic": "{{depName}}",
-  "commitMessageExtra": "to {{newVersion}}",
-  "commitMessageSuffix": "",
-  "packageRules": [
+  ignorePaths: ["**/*.sops.*"],
+  commitMessageTopic: "{{depName}}",
+  commitMessageExtra: "to {{newVersion}}",
+  commitMessageSuffix: "",
+  packageRules: [
     {
-      "matchDatasources": ["helm"],
-      "commitMessageTopic": "chart {{depName}}",
-      "groupName": "helm"
+      matchDatasources: ["helm"],
+      commitMessageTopic: "chart {{depName}}",
+      groupName: "helm",
     },
     {
-      "matchDatasources": ["docker"],
-      "commitMessageTopic": "image {{depName}}",
-      "groupName": "docker"
+      matchDatasources: ["docker"],
+      commitMessageTopic: "image {{depName}}",
+      groupName: "docker",
     },
     {
-      "matchManagers": ["github-actions"],
-      "groupName": "github-actions"
-    }
+      matchManagers: ["github-actions"],
+      groupName: "github-actions",
+    },
   ],
-  "rangeStrategy": "auto",
-  "prHourlyLimit": 2,
-  "prConcurrentLimit": 20,
-  "separateMajorMinor": true,
-  "separateMultipleMajor": true
+  rangeStrategy: "auto",
+  prHourlyLimit: 2,
+  prConcurrentLimit: 20,
+  separateMajorMinor: true,
+  separateMultipleMajor: true,
 }
