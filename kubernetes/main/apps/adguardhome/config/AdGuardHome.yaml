@@ -20,7 +20,7 @@ dns:
   ratelimit_whitelist: []
   refuse_any: true
   upstream_dns:
-    - h3://dns.cloudflare.com/dns-query
+    - https://dns.cloudflare.com/dns-query
     - https://freedns.controld.com/p0
     - https://dns.quad9.net/dns-query
   upstream_dns_file: ""
