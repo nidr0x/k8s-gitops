@@ -18,45 +18,42 @@ spec:
         app: freshrss
     spec:
       containers:
-        image: freshrss/freshrss:1.26.3
-        imagePullPolicy: IfNotPresent
-        resources:
-          requests:
-            cpu: 50m
-            memory: 100Mi
-          limits:
-            memory: 256Mi
-        volumeMounts:
-          - name: freshrss-data
-            mountPath: /var/www/FreshRSS/data
-        ports:
-          - name: http
-            containerPort: 80
-            protocol: TCP
-        env:
-          - name: TZ
-            value: "Europe/Madrid"
-          - name: CRON_MIN
-            value: "1,31"
-          - name: DB_HOST
-            valueFrom:
-              secretKeyRef:
-                name: freshrss-database-app
-                key: host
-          - name: DB_USER
-            valueFrom:
-              secretKeyRef:
-                name: freshrss-database-app
-                key: username
-          - name: DB_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: freshrss-database-app
-                key: password
-        #- name: PUID
-        #  value: "950"
-        #- name: PGID
-        #  value: "950"
+        - name: freshrss
+          image: freshrss/freshrss:1.26.3
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 50m
+              memory: 100Mi
+            limits:
+              memory: 256Mi
+          volumeMounts:
+            - name: freshrss-data
+              mountPath: /var/www/FreshRSS/data
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          env:
+            - name: TZ
+              value: "Europe/Madrid"
+            - name: CRON_MIN
+              value: "1,31"
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: freshrss-database-app
+                  key: host
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: freshrss-database-app
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: freshrss-database-app
+                  key: password
       restartPolicy: Always
       volumes:
         - name: freshrss-data
