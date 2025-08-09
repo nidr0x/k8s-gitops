@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: freshrss-data-pvc
+  name: freshrss-data
 spec:
   storageClassName: proxmox-k8s-zfs
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 1Gi
+      storage: 512Mi

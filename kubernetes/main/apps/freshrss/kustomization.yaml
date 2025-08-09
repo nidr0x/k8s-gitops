@@ -3,7 +3,6 @@ kind: Kustomization
 namespace: freshrss
 resources:
   - pvc.yaml
-  - pv.yaml
   - deployment.yaml
   - ingress.yaml
   - service.yaml
