@@ -171,6 +171,10 @@ grafana:
       password: $__env{password}
       sslmode: disable
       wal: false
+    dashboard_versions:
+      enabled: true
+      max_versions_to_keep: 20
+      cleanup_interval: 10m
     feature_toggles:
       ssoSettingsApi: true
     server:
