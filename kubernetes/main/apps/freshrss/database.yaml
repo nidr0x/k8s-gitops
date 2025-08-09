@@ -61,7 +61,7 @@ spec:
 apiVersion: postgresql.cnpg.io/v1
 kind: Backup
 metadata:
-  name:
+  name: freshrss
   namespace: freshrss
 spec:
   cluster:
