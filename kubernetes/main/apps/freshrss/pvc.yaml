@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: freshrss-data-pvc
 spec:
-  storageClassName: nfs
+  storageClassName: proxmox-k8s-zfs
   accessModes:
     - ReadWriteMany
   resources:
