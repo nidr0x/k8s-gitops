@@ -9,6 +9,4 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   storageClassName: proxmox-k8s-zfs
-  resources:
-    requests:
-      storage: 512Mi
+  capacity: 512Mi
