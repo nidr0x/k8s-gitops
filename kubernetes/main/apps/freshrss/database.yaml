@@ -1,8 +1,8 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: commafeed-database
-  namespace: commafeed
+  name: freshrss-database
+  namespace: freshrss
 spec:
   env:
     - name: TZ
@@ -17,8 +17,8 @@ spec:
       wal_keep_size: "640MB"
   bootstrap:
     initdb:
-      database: commafeed
-      owner: commafeed
+      database: freshrss
+      owner: freshrss
   logLevel: info
   backup:
     barmanObjectStore:
@@ -26,10 +26,10 @@ spec:
       endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
       s3Credentials:
         accessKeyId:
-          name: commafeed
+          name: freshrss
           key: ACCESS_KEY_ID
         secretAccessKey:
-          name: commafeed
+          name: freshrss
           key: SECRET_ACCESS_KEY
       data:
         compression: bzip2
@@ -61,20 +61,20 @@ spec:
 apiVersion: postgresql.cnpg.io/v1
 kind: Backup
 metadata:
-  name: commafeed
-  namespace: commafeed
+  name:
+  namespace: freshrss
 spec:
   cluster:
-    name: commafeed-database
+    name: freshrss-database
 
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
-  name: commafeed-backup
-  namespace: commafeed
+  name: freshrss-backup
+  namespace: freshrss
 spec:
   schedule: "0 0 0 * * *"
   backupOwnerReference: self
   cluster:
-    name: commafeed-database
+    name: freshrss-database
