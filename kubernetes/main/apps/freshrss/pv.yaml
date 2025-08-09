@@ -5,9 +5,10 @@ metadata:
   labels:
     app: freshrss
 spec:
-  capacity:
-    storage: 512Mi
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   storageClassName: proxmox-k8s-zfs
+  resources:
+    requests:
+      storage: 512Mi
