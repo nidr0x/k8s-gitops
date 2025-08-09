@@ -1,6 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: commafeed
+namespace: freshrss
 resources:
   - pvc.yaml
   - pv.yaml
@@ -8,4 +8,4 @@ resources:
   - ingress.yaml
   - service.yaml
   - secret.yaml
-#  - database.yaml
+  - database.yaml
