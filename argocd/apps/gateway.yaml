@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gateway
+spec:
+  destination:
+    namespace: gateway
+    server: https://kubernetes.default.svc
+  project: everest
+  sources:
+    - repoURL: https://github.com/nidr0x/k8s-gitops
+      targetRevision: master
+      path: kubernetes/main/apps/network/
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
