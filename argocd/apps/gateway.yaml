@@ -12,6 +12,8 @@ spec:
       targetRevision: master
       path: kubernetes/main/apps/network/
   syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
     automated:
       prune: true
       selfHeal: true
