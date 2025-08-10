@@ -1,0 +1,42 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: internal
+  namespace: gateway
+spec:
+  gatewayClassName: cilium
+  addresses:
+    - type: IPAddress
+      value: 192.168.1.221
+  listeners:
+    - protocol: TLS
+      port: 443
+      name: tls-passthrough
+      hostname: "*.nidr0x.win"
+      tls:
+        mode: Passthrough
+      allowedRoutes:
+        namespaces:
+          from: All
+    - protocol: HTTPS
+      port: 443
+      name: https-gateway
+      hostname: "*.nidr0x.win"
+      tls:
+        certificateRefs:
+          - kind: Secret
+            name: prod-cert-zerossl
+      allowedRoutes:
+        namespaces:
+          from: All
+    - protocol: HTTPS
+      port: 443
+      name: https-domain-gateway
+      hostname: nidr0x.win
+      tls:
+        certificateRefs:
+          - kind: Secret
+            name: prod-cert-zerossl
+      allowedRoutes:
+        namespaces:
+          from: All
