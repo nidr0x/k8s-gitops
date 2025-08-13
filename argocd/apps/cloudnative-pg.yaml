@@ -20,7 +20,7 @@ spec:
       targetRevision: master
       path: kubernetes/main/apps/cloudnative-pg/barman-cloud-plugin.yaml
     - repoURL: https://cloudnative-pg.github.io/charts
-      targetRevision: 0.25.0
+      targetRevision: 0.26.0
       chart: cloudnative-pg
       helm:
         valueFiles:
