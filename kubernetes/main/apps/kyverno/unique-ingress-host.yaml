@@ -20,9 +20,9 @@ spec:
     - name: check-single-host-create
       match:
         any:
-        - resources:
-            kinds:
-              - Ingress
+          - resources:
+              kinds:
+                - Ingress
       context:
         - name: hosts
           apiCall:
@@ -30,23 +30,23 @@ spec:
             jmesPath: "items[].spec.rules[].host"
       preconditions:
         all:
-        - key: "{{request.operation || 'BACKGROUND'}}"
-          operator: Equals
-          value: CREATE
+          - key: "{{request.operation || 'BACKGROUND'}}"
+            operator: Equals
+            value: CREATE
       validate:
         message: "The Ingress host name must be unique."
         deny:
           conditions:
             any:
-            - key: "{{ request.object.spec.rules[].host }}"
-              operator: AnyIn
-              value: "{{ hosts }}"
+              - key: "{{ request.object.spec.rules[].host }}"
+                operator: AnyIn
+                value: "{{ hosts }}"
     - name: check-single-host-update
       match:
         any:
-        - resources:
-            kinds:
-              - Ingress
+          - resources:
+              kinds:
+                - Ingress
       context:
         - name: hosts
           apiCall:
@@ -54,14 +54,14 @@ spec:
             jmesPath: "items[?metadata.name!='{{request.object.metadata.name}}'].spec.rules[].host"
       preconditions:
         all:
-        - key: "{{request.operation || 'BACKGROUND'}}"
-          operator: Equals
-          value: UPDATE
+          - key: "{{request.operation || 'BACKGROUND'}}"
+            operator: Equals
+            value: UPDATE
       validate:
         message: "The Ingress host name must be unique."
         deny:
           conditions:
             any:
-            - key: "{{ request.object.spec.rules[].host }}"
-              operator: AnyIn
-              value: "{{ hosts }}"
+              - key: "{{ request.object.spec.rules[].host }}"
+                operator: AnyIn
+                value: "{{ hosts }}"
