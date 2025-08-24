@@ -19,9 +19,9 @@ spec:
     - name: require-image-tag
       match:
         any:
-        - resources:
-            kinds:
-              - Pod
+          - resources:
+              kinds:
+                - Pod
       validate:
         message: "An image tag is required."
         pattern:
@@ -31,9 +31,9 @@ spec:
     - name: validate-image-tag
       match:
         any:
-        - resources:
-            kinds:
-              - Pod
+          - resources:
+              kinds:
+                - Pod
       validate:
         message: "Using a mutable image tag e.g. 'latest' is not allowed."
         pattern:
