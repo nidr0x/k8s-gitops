@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kyverno
+spec:
+  destination:
+    namespace: kyverno
+    server: https://kubernetes.default.svc
+  project: everest
+  sources:
+    - repoURL: https://github.com/nidr0x/k8s-gitops
+      targetRevision: master
+      ref: nidr0x-k8s-gitops
+    - repoURL: https://github.com/nidr0x/k8s-gitops
+      targetRevision: master
+      path: kubernetes/main/apps/kyverno/
+    - repoURL: https://kyverno.github.io/kyverno/
+      targetRevision: 3.5.1
+      chart: kyverno
+      helm:
+        valueFiles:
+          - $nidr0x-k8s-gitops/kubernetes/main/apps/kyverno/values.yaml
+    - repoURL: https://kyverno.github.io/kyverno/
+      targetRevision: 3.5.1
+      chart: kyverno-policies
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
