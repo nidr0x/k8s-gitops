@@ -9,6 +9,16 @@ spec:
       value: UTC
   instances: 1
   imageName: ghcr.io/cloudnative-pg/postgresql:16.9
+
+  postgresql:
+    parameters:
+      max_wal_size: "512MB"
+      min_wal_size: "128MB"
+      archive_timeout: "10min"
+      checkpoint_timeout: "15min"
+      checkpoint_completion_target: "0.9"
+      wal_keep_size: "256MB"
+
   backup:
     barmanObjectStore:
       destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
@@ -25,12 +35,23 @@ spec:
         encryption: AES256
       wal:
         compression: bzip2
-        maxParallel: 8
+        maxParallel: 4
         encryption: AES256
-    retentionPolicy: "10d"
+    retentionPolicy: "7d"
+
   enableSuperuserAccess: true
   logLevel: info
+
   storage:
+    pvcTemplate:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi
+      storageClassName: proxmox-k8s-zfs
+
+  walStorage:
     pvcTemplate:
       accessModes:
         - ReadWriteOnce
@@ -38,34 +59,14 @@ spec:
         requests:
           storage: 2Gi
       storageClassName: proxmox-k8s-zfs
+
   monitoring:
     disableDefaultQueries: false
     enablePodMonitor: false
+
   resources:
     requests:
       memory: "256Mi"
       cpu: "250m"
     limits:
       memory: "768Mi"
-
----
-apiVersion: postgresql.cnpg.io/v1
-kind: Backup
-metadata:
-  name: teslamate
-  namespace: teslamate
-spec:
-  cluster:
-    name: teslamate-database
-
----
-apiVersion: postgresql.cnpg.io/v1
-kind: ScheduledBackup
-metadata:
-  name: teslamate-backup
-  namespace: teslamate
-spec:
-  schedule: "0 0 0 * * *"
-  backupOwnerReference: self
-  cluster:
-    name: teslamate-database
