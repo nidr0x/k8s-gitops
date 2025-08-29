@@ -3,4 +3,4 @@ kind: Kustomization
 namespace: kube-monitoring
 resources:
   - secret.yaml
-  - database.yaml
+#  - database.yaml
