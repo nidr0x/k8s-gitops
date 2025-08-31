@@ -8,22 +8,29 @@ spec:
     - name: TZ
       value: UTC
   instances: 1
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.5
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.6-bookworm
+
   postgresql:
     parameters:
-      max_wal_size: "1GB"
-      min_wal_size: "80MB"
-      archive_mode: "on"
-      wal_keep_size: "640MB"
+      max_wal_size: "512MB"
+      min_wal_size: "128MB"
+      archive_timeout: "10min"
+      checkpoint_timeout: "15min"
+      checkpoint_completion_target: "0.9"
+      wal_keep_size: "256MB"
+
   bootstrap:
     initdb:
       database: freshrss
       owner: freshrss
+
   logLevel: info
+
   backup:
     barmanObjectStore:
       destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
       endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
+      serverName: freshrss-database-v2
       s3Credentials:
         accessKeyId:
           name: freshrss
@@ -36,27 +43,39 @@ spec:
         encryption: AES256
       wal:
         compression: bzip2
-        maxParallel: 8
+        maxParallel: 4
         encryption: AES256
-    retentionPolicy: "10d"
+    retentionPolicy: "7d"
+
   primaryUpdateStrategy: unsupervised
+
   storage:
     pvcTemplate:
       accessModes:
         - ReadWriteOnce
       resources:
         requests:
-          storage: 1Gi
+          storage: 2Gi
       storageClassName: proxmox-k8s-zfs
+
+  walStorage:
+    pvcTemplate:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 2Gi
+      storageClassName: proxmox-k8s-zfs
+
   monitoring:
     enablePodMonitor: true
+
   resources:
     requests:
       memory: "256Mi"
-      cpu: "250m"
+      cpu: "128m"
     limits:
       memory: "768Mi"
-
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: Backup
@@ -66,7 +85,6 @@ metadata:
 spec:
   cluster:
     name: freshrss-database
-
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
