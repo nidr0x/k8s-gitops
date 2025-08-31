@@ -8,7 +8,7 @@ spec:
     - name: TZ
       value: UTC
   instances: 1
-  imageName: ghcr.io/cloudnative-pg/postgresql:16.9
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.10-bookworm
 
   postgresql:
     parameters:
@@ -23,6 +23,7 @@ spec:
     barmanObjectStore:
       destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
       endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
+      serverName: teslamate-database-v2
       s3Credentials:
         accessKeyId:
           name: teslamate
@@ -70,3 +71,25 @@ spec:
       cpu: "250m"
     limits:
       memory: "768Mi"
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Backup
+metadata:
+  name: teslamate
+  namespace: teslamate
+spec:
+  cluster:
+    name: teslamate-database
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: teslamate-backup
+  namespace: teslamate
+spec:
+  schedule: "0 0 0 * * *"
+  backupOwnerReference: self
+  cluster:
+    name: teslamate-database

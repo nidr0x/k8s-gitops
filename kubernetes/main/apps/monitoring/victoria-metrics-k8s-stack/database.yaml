@@ -5,15 +5,27 @@ metadata:
   namespace: kube-monitoring
 spec:
   instances: 1
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.5
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.6-bookworm
+
   bootstrap:
     initdb:
       database: grafana
       owner: grafana
+
+  postgresql:
+    parameters:
+      max_wal_size: "512MB"
+      min_wal_size: "128MB"
+      archive_timeout: "10min"
+      checkpoint_timeout: "15min"
+      checkpoint_completion_target: "0.9"
+      wal_keep_size: "256MB"
+
   backup:
     barmanObjectStore:
       destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
       endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
+      serverName: grafana-database-v2
       s3Credentials:
         accessKeyId:
           name: victoriametricsstack-oauth2
@@ -26,11 +38,13 @@ spec:
         encryption: AES256
       wal:
         compression: bzip2
-        maxParallel: 8
+        maxParallel: 4
         encryption: AES256
-    retentionPolicy: "10d"
+    retentionPolicy: "7d"
+
   logLevel: info
   primaryUpdateStrategy: unsupervised
+
   storage:
     pvcTemplate:
       accessModes:
@@ -39,15 +53,25 @@ spec:
         requests:
           storage: 27Gi
       storageClassName: proxmox-k8s-zfs
+
+  walStorage:
+    pvcTemplate:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 2Gi
+      storageClassName: proxmox-k8s-zfs
+
   monitoring:
     enablePodMonitor: true
+
   resources:
     requests:
       memory: "256Mi"
       cpu: "250m"
     limits:
       memory: "384Mi"
-
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: Backup
@@ -57,7 +81,6 @@ metadata:
 spec:
   cluster:
     name: grafana-database
-
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
