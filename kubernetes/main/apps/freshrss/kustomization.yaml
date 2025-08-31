@@ -4,7 +4,7 @@ namespace: freshrss
 resources:
   - pvc.yaml
   - deployment.yaml
-  - http-route.yaml
+  #  - http-route.yaml
   - service.yaml
   - secret.yaml
 #  - database.yaml
