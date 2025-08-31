@@ -7,4 +7,5 @@ resources:
   #  - http-route.yaml
   - service.yaml
   - secret.yaml
-#  - database.yaml
+  - ingress.yaml
+  - database.yaml
