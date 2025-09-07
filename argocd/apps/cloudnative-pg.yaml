@@ -18,7 +18,7 @@ spec:
       path: kubernetes/main/apps/cloudnative-pg
     - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
-      path: kubernetes/main/apps/cloudnative-pg/barman-cloud-plugin.yaml
+      path: kubernetes/main/apps/cloudnative-pg/
     - repoURL: https://cloudnative-pg.github.io/charts
       targetRevision: 0.26.0
       chart: cloudnative-pg
