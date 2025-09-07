@@ -7,6 +7,23 @@ repoServer:
     maxReplicas: 3
     targetCPUUtilizationPercentage: 85
     targetMemoryUtilizationPercentage: 85
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+controller:
+  replicas: 2
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
 
 server:
   ingress:
@@ -28,6 +45,13 @@ server:
     minReplicas: 2
     targetCPUUtilizationPercentage: 65
     targetMemoryUtilizationPercentage: 65
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
 
 global:
   domain: argocd.nidr0x.win
