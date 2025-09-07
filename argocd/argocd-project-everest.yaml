@@ -12,7 +12,7 @@ spec:
       name: "*"
       server: https://kubernetes.default.svc
   sourceRepos:
-    - "*"
+    - https://github.com/nidr0x/homelab
   clusterResourceWhitelist:
     - group: "*"
       kind: "*"
