@@ -27,11 +27,6 @@
   commitMessageSuffix: "",
   packageRules: [
     {
-      matchDatasources: ["helm"],
-      commitMessageTopic: "chart {{depName}}",
-      groupName: "helm",
-    },
-    {
       matchDatasources: ["docker"],
       commitMessageTopic: "image {{depName}}",
       groupName: "docker",
