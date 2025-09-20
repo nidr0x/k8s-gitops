@@ -34,7 +34,7 @@ victoria-metrics-operator:
       cpu: 10m
       memory: 100Mi
     limits:
-      memory: 100Mi
+      memory: 180Mi
   service:
     ports:
       - name: http
