@@ -8,3 +8,5 @@ serviceMonitor:
   enabled: true
 grafanaDashboard:
   enabled: true
+podLabels:
+  app.kubernetes.io/component: spegel
