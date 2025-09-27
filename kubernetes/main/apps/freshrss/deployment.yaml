@@ -44,6 +44,11 @@ spec:
                 secretKeyRef:
                   name: freshrss-database-app
                   key: host
+            - name: DB_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: freshrss-database-app
+                  key: dbname
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
