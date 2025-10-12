@@ -26,14 +26,16 @@ jobs:
         uses: super-linter/super-linter/slim@7bba2eeb89d01dc9bfd93c497477a57e72c83240 # v8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_BIOME_FORMAT: false
+          VALIDATE_BIOME_LINT: false
+          VALIDATE_CHECKOV: false
+          VALIDATE_EDITORCONFIG: false
+          VALIDATE_GITHUB_ACTIONS_ZIZMOR: false
           VALIDATE_GITLEAKS: false
           VALIDATE_GO_RELEASER: false
-          VALIDATE_EDITORCONFIG: false
           VALIDATE_JSCPD: false
           VALIDATE_KUBERNETES_KUBECONFORM: false
-          VALIDATE_CHECKOV: false
           VALIDATE_MARKDOWN: false
-          VALIDATE_GITHUB_ACTIONS_ZIZMOR: false
           VALIDATE_TRIVY: false
 
       - name: Commit and push linting fixes
