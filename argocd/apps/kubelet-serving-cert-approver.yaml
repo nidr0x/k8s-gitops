@@ -8,7 +8,7 @@ spec:
     repoURL: https://github.com/alex1989hu/kubelet-serving-cert-approver.git
     path: deploy
     # renovate: datasource=github-releases depName=alex1989hu/kubelet-serving-cert-approver
-    targetRevision: v0.9.3
+    targetRevision: v0.10.0
   destination:
     namespace: kube-system
     server: https://kubernetes.default.svc
