@@ -8,7 +8,7 @@ spec:
     repoURL: https://github.com/kubernetes-sigs/gateway-api.git
     path: config/crd
     # renovate: datasource=github-releases depName=kubernetes-sigs/gateway-api
-    targetRevision: v1.4.0
+    targetRevision: v1.4.1
   destination:
     namespace: kube-system
     server: https://kubernetes.default.svc
