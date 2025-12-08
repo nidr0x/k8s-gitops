@@ -15,4 +15,4 @@ spec:
     volumeHandle: uptime-kuma-config
     volumeAttributes:
       server: 192.168.1.10
-      share: /mnt/main/nfs/uptime-kuma
+      share: /volume/d73ade95-0807-4799-aa9b-ad45cbc0d598/.srv/.unifi-drive/nfs/.data/uptime-kuma
