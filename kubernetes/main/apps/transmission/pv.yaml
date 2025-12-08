@@ -14,8 +14,8 @@ spec:
     readOnly: false
     volumeHandle: transmission-config
     volumeAttributes:
-      server: 192.168.1.10
-      share: /mnt/main/nfs/transmission/config
+      server: 192.168.1.168
+      share: /var/nfs/shared/nfs/transmission/config
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -33,5 +33,5 @@ spec:
     readOnly: false
     volumeHandle: transmission-downloads
     volumeAttributes:
-      server: 192.168.1.10
-      share: /mnt/main/nfs/transmission/downloads
+      server: 192.168.1.168
+      share: /var/nfs/shared/nfs/transmission/downloads
