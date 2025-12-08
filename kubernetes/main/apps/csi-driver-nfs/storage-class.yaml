@@ -5,12 +5,13 @@ metadata:
 provisioner: nfs.csi.k8s.io
 parameters:
   server: 192.168.1.10
-  share: /mnt/main/nfs
+  share: /volume/d73ade95-0807-4799-aa9b-ad45cbc0d598/.srv/.unifi-drive/nfs/.data
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
 mountOptions:
-  - nfsvers=4.1
-  - nconnect=8
+  - nfsvers=3
+  - nolock
+  - tcp
   - hard
   - noatime
   - rsize=1048576
