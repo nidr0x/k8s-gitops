@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: homebridge-config-pv
+  name: homebridge-config
 spec:
   capacity:
     storage: 768Mi
@@ -9,10 +9,14 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   storageClassName: nfs
+  mountOptions:
+    - nfsvers=3
+    - nolock
+    - tcp
   csi:
     driver: nfs.csi.k8s.io
     readOnly: false
     volumeHandle: homebridge-config
     volumeAttributes:
       server: 192.168.1.10
-      share: /volume/d73ade95-0807-4799-aa9b-ad45cbc0d598/.srv/.unifi-drive/nfs/.data/homebridge/config
+      share: /volume/d73ade95-0807-4799-aa9b-ad45cbc0d598/.srv/.unifi-drive/homelab/.data/homebridge

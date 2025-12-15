@@ -17,6 +17,9 @@ spec:
       labels:
         app: homebridge
     spec:
+      securityContext:
+        fsGroup: 988
+        fsGroupChangePolicy: "OnRootMismatch"
       hostNetwork: true
       containers:
         - name: homebridge
@@ -35,8 +38,8 @@ spec:
               value: "8090"
             - name: PUID
               value: "1000"
-            - name: PUID
-              value: "1000"
+            - name: PGID
+              value: "988"
           resources:
             requests:
               cpu: 50m

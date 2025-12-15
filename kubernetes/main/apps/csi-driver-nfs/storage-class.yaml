@@ -5,7 +5,8 @@ metadata:
 provisioner: nfs.csi.k8s.io
 parameters:
   server: 192.168.1.10
-  share: /volume/d73ade95-0807-4799-aa9b-ad45cbc0d598/.srv/.unifi-drive/nfs/.data
+  share: /volume/d73ade95-0807-4799-aa9b-ad45cbc0d598/.srv/.unifi-drive/homelab/.data
+  subDir: ${pvc.metadata.name}
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
 mountOptions:
