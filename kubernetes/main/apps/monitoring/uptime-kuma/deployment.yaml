@@ -55,6 +55,7 @@ spec:
           volumeMounts:
             - mountPath: /app/data
               name: uptime-kuma-config
+              subPath: uptime-kuma
           readinessProbe:
             httpGet:
               path: /
