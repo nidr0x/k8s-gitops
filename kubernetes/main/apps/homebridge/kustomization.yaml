@@ -3,7 +3,6 @@ kind: Kustomization
 namespace: homebridge
 resources:
   - pvc.yaml
-  - pv.yaml
   - deployment.yaml
   - ingress.yaml
   - service.yaml

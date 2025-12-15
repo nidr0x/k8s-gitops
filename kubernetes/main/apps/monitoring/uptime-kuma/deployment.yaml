@@ -18,6 +18,8 @@ spec:
         app: uptime-kuma
     spec:
       securityContext:
+        fsGroup: 988
+        fsGroupChangePolicy: "OnRootMismatch"
         #fsGroup: 2002
         #runAsGroup: 2002
         #runAsNonRoot: true
@@ -39,7 +41,7 @@ spec:
             - name: PUID
               value: "1001"
             - name: PGID
-              value: "2002"
+              value: "988"
           ports:
             - name: http
               protocol: TCP
@@ -55,6 +57,7 @@ spec:
           volumeMounts:
             - mountPath: /app/data
               name: uptime-kuma-config
+              subPath: uptime-kuma
           readinessProbe:
             httpGet:
               path: /
