@@ -17,6 +17,9 @@ spec:
       labels:
         app: homeassistant
     spec:
+      securityContext:
+        fsGroup: 988
+        fsGroupChangePolicy: "OnRootMismatch"
       containers:
         - name: homeassistant
           image: homeassistant/home-assistant:2025.12
@@ -24,8 +27,9 @@ spec:
           securityContext:
             privileged: false
             allowPrivilegeEscalation: false
-            #runAsGroup: 2002
-            #runAsUser: 1001
+          env:
+            - name: TZ
+              value: "Europe/Madrid"
           resources:
             requests:
               cpu: 50m
