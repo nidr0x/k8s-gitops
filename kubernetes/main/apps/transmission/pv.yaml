@@ -15,7 +15,7 @@ spec:
     volumeHandle: transmission-config
     volumeAttributes:
       server: 192.168.1.10
-      share: /volume/d73ade95-0807-4799-aa9b-ad45cbc0d598/.srv/.unifi-drive/nfs/.data/transmission/config
+      share: /var/nfs/shared/homelab/transmission/config
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -34,4 +34,4 @@ spec:
     volumeHandle: transmission-downloads
     volumeAttributes:
       server: 192.168.1.10
-      share: /volume/d73ade95-0807-4799-aa9b-ad45cbc0d598/.srv/.unifi-drive/nfs/.data/transmission/downloads
+      share: /var/nfs/shared/homelab/transmission/downloads
