@@ -15,4 +15,4 @@ spec:
     volumeHandle: homeassistant-config
     volumeAttributes:
       server: 192.168.1.10
-      share: /volume/d73ade95-0807-4799-aa9b-ad45cbc0d598/.srv/.unifi-drive/nfs/.data/homeassistant/config
+      share: /var/nfs/shared/homelab/homeassistant/config
