@@ -20,10 +20,10 @@ spec:
       volumes:
         - name: transmission-config
           persistentVolumeClaim:
-            claimName: transmission-config-pvc
+            claimName: transmission
         - name: transmission-downloads
           persistentVolumeClaim:
-            claimName: transmission-downloads-pvc
+            claimName: transmission
       containers:
         - name: transmission
           image: ghcr.io/linuxserver/transmission:4.0.6
@@ -41,8 +41,10 @@ spec:
           volumeMounts:
             - name: transmission-config
               mountPath: /config
+              subPath: transmission/config
             - name: transmission-downloads
               mountPath: /downloads
+              subPath: tranmission/downloads
           env:
             - name: TZ
               value: "UTC"
