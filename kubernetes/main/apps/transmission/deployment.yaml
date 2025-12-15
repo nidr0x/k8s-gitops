@@ -17,13 +17,17 @@ spec:
       labels:
         app: transmission
     spec:
+      securityContext:
+        fsGroup: 988
+        fsGroupChangePolicy: "OnRootMismatch"
       volumes:
         - name: transmission-config
           persistentVolumeClaim:
-            claimName: transmission-config-pvc
+            claimName: transmission
         - name: transmission-downloads
           persistentVolumeClaim:
-            claimName: transmission-downloads-pvc
+            claimName: transmission
+
       containers:
         - name: transmission
           image: ghcr.io/linuxserver/transmission:4.0.6
@@ -41,12 +45,14 @@ spec:
           volumeMounts:
             - name: transmission-config
               mountPath: /config
+              subPath: transmission/config
             - name: transmission-downloads
               mountPath: /downloads
+              subPath: transmission/downloads
           env:
             - name: TZ
               value: "UTC"
             - name: PUID
               value: "1001"
             - name: PGID
-              value: "2002"
+              value: "988"
