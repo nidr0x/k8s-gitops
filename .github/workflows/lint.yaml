@@ -23,7 +23,7 @@ jobs:
           fetch-depth: 0
 
       - name: Super-linter
-        uses: super-linter/super-linter/slim@502f4fe48a81a392756e173e39a861f8c8efe056 # v8
+        uses: super-linter/super-linter/slim@47984f49b4e87383eed97890fe2dca6063bbd9c3 # v8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_BIOME_FORMAT: false
@@ -42,7 +42,7 @@ jobs:
         if: >
           github.event_name == 'pull_request' &&
           github.ref_name != github.event.repository.default_branch
-        uses: stefanzweifel/git-auto-commit-action@28e16e81777b558cc906c8750092100bbb34c5e3 # v7
+        uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 # v7
         with:
           branch: ${{ github.event.pull_request.head.ref || github.head_ref || github.ref }}
           commit_message: "chore: fix linting issues"
