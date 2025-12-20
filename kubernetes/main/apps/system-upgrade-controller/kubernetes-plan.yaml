@@ -7,7 +7,7 @@ metadata:
   namespace: system-upgrade
 spec:
   # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-  version: v1.34.2
+  version: v1.35.0
   concurrency: 1
   postCompleteDelay: 30s
   exclusive: true
@@ -28,7 +28,7 @@ spec:
       }
   upgrade:
     # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-    image: ghcr.io/siderolabs/talosctl:v1.11.5
+    image: ghcr.io/siderolabs/talosctl:v1.11.6
     args:
       - --nodes=$(SYSTEM_UPGRADE_NODE_NAME)
       - upgrade-k8s
