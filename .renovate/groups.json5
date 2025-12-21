@@ -17,11 +17,7 @@
         "kubectl",
         "rancher/system-upgrade-controller",
       ],
-      matchPackagePrefixes: [
-        "ghcr.io/siderolabs/",
-        "siderolabs/",
-        "talos",
-      ],
+      matchPackagePrefixes: ["ghcr.io/siderolabs/", "siderolabs/", "talos"],
       groupName: "kubernetes-core",
       automerge: false,
     },
@@ -37,11 +33,7 @@
         "prometheus-operator",
         "victoria-metrics-k8s-stack",
       ],
-      matchPackagePrefixes: [
-        "prometheus",
-        "grafana",
-        "victoria-metrics",
-      ],
+      matchPackagePrefixes: ["prometheus", "grafana", "victoria-metrics"],
       groupName: "monitoring",
     },
     {

@@ -29,12 +29,12 @@ spec:
   upgrade:
     image: ghcr.io/jfroy/tnu:0.4.4
     envs:
-    - name: TALOSCONFIG
-      value: /var/run/secrets/talos.dev/talosconfig
-    - name: NODE_IP
-      valueFrom:
-        fieldRef:
-          fieldPath: status.hostIP
+      - name: TALOSCONFIG
+        value: /var/run/secrets/talos.dev/talosconfig
+      - name: NODE_IP
+        valueFrom:
+          fieldRef:
+            fieldPath: status.hostIP
     args:
       - --node=$(NODE_IP)
       - --tag=$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)
