@@ -16,7 +16,7 @@ spec:
       targetRevision: master
       path: kubernetes/main/apps/system-upgrade-controller/
     - repoURL: https://bjw-s-labs.github.io/helm-charts/
-      targetRevision: 3.7.3
+      targetRevision: 4.5.0
       chart: app-template
       helm:
         valueFiles:
