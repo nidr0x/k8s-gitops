@@ -4,3 +4,5 @@ namespace: kube-system
 resources:
   - kubernetes-plan.yaml
   - talos-plan.yaml
+  # renovate: datasource=docker image=rancher/system-upgrade-controller
+  - https://github.com/rancher/system-upgrade-controller/releases/download/v0.18.0/crd.yaml
