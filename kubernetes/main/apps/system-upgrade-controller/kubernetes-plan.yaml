@@ -27,16 +27,26 @@ spec:
         operator: Exists,
       }
   upgrade:
-    # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-    image: ghcr.io/siderolabs/talosctl:v1.11.6
+    image: alpine:3.19
     command:
       - sh
       - -c
     args:
       - >-
+        wget -q -O /usr/local/bin/talosctl https://github.com/siderolabs/talos/releases/download/${TALOS_VERSION}/talosctl-linux-amd64 &&
+        chmod +x /usr/local/bin/talosctl &&
+        export NODE_IP=${NODE_IP:-$(hostname -i)} &&
         cp /var/run/secrets/talos.dev/talosconfig /tmp/talosconfig &&
         talosctl
         --talosconfig=/tmp/talosconfig
-        --nodes=$(SYSTEM_UPGRADE_NODE_NAME)
+        --nodes=$(NODE_IP)
         upgrade-k8s
         --to=$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)
+    envs:
+      - name: TALOS_VERSION
+        # renovate: datasource=github-releases depName=siderolabs/talos
+        value: v1.11.6
+      - name: NODE_IP
+        valueFrom:
+          fieldRef:
+            fieldPath: status.hostIP
