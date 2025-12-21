@@ -4,7 +4,7 @@ apiVersion: upgrade.cattle.io/v1
 kind: Plan
 metadata:
   name: talos
-  namespace: system-upgrade
+  namespace: kube-system
 spec:
   # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
   version: v1.11.6
@@ -28,6 +28,9 @@ spec:
       }
   upgrade:
     image: ghcr.io/jfroy/tnu:0.4.4
+    envs:
+    - name: TALOSCONFIG
+      value: /var/run/secrets/talos.dev/talosconfig
     args:
       - --node=$(SYSTEM_UPGRADE_NODE_NAME)
       - --tag=$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)
