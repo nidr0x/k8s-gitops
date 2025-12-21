@@ -1,8 +1,23 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/library/common/values.schema.json
+
+rbac:
+  bindings:
+    system-upgrade-controller:
+      type: ClusterRoleBinding
+      roleRef:
+        kind: ClusterRole
+        name: cluster-admin
+      subjects:
+        - identifier: system-upgrade-controller
+
+serviceAccount:
+  system-upgrade-controller: {}
+
 controllers:
-  system-upgrade-controller:
+  main:
     strategy: RollingUpdate
     replicas: 1
-    type: deployment
     pod:
       securityContext:
         runAsNonRoot: true
@@ -18,7 +33,7 @@ controllers:
           operator: Exists
           effect: NoSchedule
     containers:
-      app:
+      main:
         image:
           repository: docker.io/rancher/system-upgrade-controller
           tag: v0.18.0
@@ -53,16 +68,3 @@ rawResources:
     spec:
       roles:
         - os:admin
-
-rbac:
-  bindings:
-    system-upgrade-controller:
-      type: ClusterRoleBinding
-      roleRef:
-        kind: ClusterRole
-        name: cluster-admin
-      subjects:
-        - identifier: system-upgrade-controller
-
-serviceAccount:
-  system-upgrade-controller: {}
