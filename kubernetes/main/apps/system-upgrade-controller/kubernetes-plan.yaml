@@ -4,7 +4,7 @@ apiVersion: upgrade.cattle.io/v1
 kind: Plan
 metadata:
   name: kubernetes
-  namespace: system-upgrade
+  namespace: kube-system
 spec:
   # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
   version: v1.35.0
@@ -29,7 +29,14 @@ spec:
   upgrade:
     # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
     image: ghcr.io/siderolabs/talosctl:v1.11.6
+    command:
+      - sh
+      - -c
     args:
-      - --nodes=$(SYSTEM_UPGRADE_NODE_NAME)
-      - upgrade-k8s
-      - --to=$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)
+      - >-
+        cp /var/run/secrets/talos.dev/talosconfig /tmp/talosconfig &&
+        talosctl
+        --talosconfig=/tmp/talosconfig
+        --nodes=$(SYSTEM_UPGRADE_NODE_NAME)
+        upgrade-k8s
+        --to=$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)
