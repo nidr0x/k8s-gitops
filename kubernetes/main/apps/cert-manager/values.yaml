@@ -1,7 +1,9 @@
 fullnameOverride: cert-manager
-maxConcurrentChallenges: 10
+maxConcurrentChallenges: 60
 
-installCRDs: true
+crds:
+  enabled: false
+  keep: true
 
 resources:
   limits:
@@ -12,12 +14,13 @@ resources:
     memory: 64Mi
 webhook:
   resources:
-    limits:
-      cpu: 100m
-      memory: 64Mi
     requests:
       cpu: 10m
       memory: 32Mi
+  replicaCount: 3
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 1
 cainjector:
   resources:
     limits:
@@ -26,7 +29,11 @@ cainjector:
     requests:
       cpu: 10m
       memory: 64Mi
-
+config:
+  apiVersion: controller.config.cert-manager.io/v1alpha1
+  kind: ControllerConfiguration
+  kubernetesAPIQPS: 100
+  kubernetesAPIBurst: 200
 global:
   logLevel: 2
   leaderElection:

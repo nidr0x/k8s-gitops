@@ -23,6 +23,18 @@ spec:
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
+      - RespectIgnoreDifferences=true
     automated:
-      prune: true
-      selfHeal: true
+      prune: false
+      selfHeal: false
+  ignoreDifferences:
+    - group: cert-manager.io
+      kind: Certificate
+      jsonPointers:
+        - /status
+    - group: ""
+      kind: Secret
+      name: cert-manager-webhook-ca
+      namespace: cert-manager
+      jsonPointers:
+        - /data
