@@ -12,9 +12,12 @@
     "github>nidr0x/k8s-gitops//.renovate/customManagers.json5",
     "github>nidr0x/k8s-gitops//.renovate/automerge.json5",
     "github>nidr0x/k8s-gitops//.renovate/commitMessage.json5",
+    "github>nidr0x/k8s-gitops//.renovate/groups.json5",
   ],
   dependencyDashboardTitle: "Renovate Dashboard 🤖",
   branchTopic: "{{depName}}-{{newVersion}}",
+  assignees: ["nidr0x"],
+  reviewers: ["nidr0x"],
   argocd: {
     managerFilePatterns: ["/^.*\\.ya?ml$/"],
   },
@@ -27,13 +30,9 @@
   commitMessageSuffix: "",
   packageRules: [
     {
-      matchDatasources: ["docker"],
-      commitMessageTopic: "image {{depName}}",
-      groupName: "docker",
-    },
-    {
-      matchManagers: ["github-actions"],
-      groupName: "github-actions",
+      description: "Wait 3 days for minor/patch updates to ensure stability",
+      matchUpdateTypes: ["minor", "patch"],
+      minimumReleaseAge: "3 days",
     },
   ],
   rangeStrategy: "auto",
