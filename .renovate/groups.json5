@@ -1,0 +1,63 @@
+{
+  packageRules: [
+    {
+      matchDatasources: ["docker"],
+      commitMessageTopic: "image {{depName}}",
+      groupName: "docker",
+    },
+    {
+      matchManagers: ["github-actions"],
+      groupName: "github-actions",
+    },
+    {
+      description: "Kubernetes Core & Talos (Critical - No Automerge)",
+      matchPackageNames: [
+        "kubernetes",
+        "kubelet",
+        "kubectl",
+        "rancher/system-upgrade-controller",
+      ],
+      matchPackagePrefixes: [
+        "ghcr.io/siderolabs/",
+        "siderolabs/",
+        "talos",
+      ],
+      groupName: "kubernetes-core",
+      automerge: false,
+    },
+    {
+      description: "ArgoCD",
+      matchPackagePrefixes: ["quay.io/argoproj/", "argoproj/"],
+      groupName: "argocd",
+    },
+    {
+      description: "Monitoring Stack",
+      matchPackageNames: [
+        "kube-prometheus-stack",
+        "prometheus-operator",
+        "victoria-metrics-k8s-stack",
+      ],
+      matchPackagePrefixes: [
+        "prometheus",
+        "grafana",
+        "victoria-metrics",
+      ],
+      groupName: "monitoring",
+    },
+    {
+      description: "Cert Manager",
+      matchPackageNames: ["cert-manager", "jetstack/cert-manager"],
+      groupName: "cert-manager",
+    },
+    {
+      description: "Networking",
+      matchPackageNames: [
+        "cilium",
+        "external-dns",
+        "cloudflared",
+        "cloudflare/cloudflared",
+      ],
+      groupName: "networking",
+    },
+  ],
+}
