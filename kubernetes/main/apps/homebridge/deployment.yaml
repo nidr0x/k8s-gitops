@@ -23,7 +23,8 @@ spec:
       hostNetwork: true
       containers:
         - name: homebridge
-          image: homebridge/homebridge:2024-12-19
+          # renovate: datasource=docker depName=homebridge/homebridge
+          image: homebridge/homebridge:2025-12-16
           imagePullPolicy: Always
           securityContext:
             readOnlyRootFilesystem: false
@@ -49,7 +50,7 @@ spec:
           ports:
             - name: http
               protocol: TCP
-              containerPort: 8581
+              containerPort: 8090
           volumeMounts:
             - name: homebridge-config
               mountPath: /homebridge
@@ -59,27 +60,27 @@ spec:
               port: http
             initialDelaySeconds: 10
             timeoutSeconds: 5
-            periodSeconds: 5
+            periodSeconds: 10
             successThreshold: 1
             failureThreshold: 30
           livenessProbe:
             httpGet:
               path: /
               port: http
-            initialDelaySeconds: 30
+            initialDelaySeconds: 0
             timeoutSeconds: 5
             periodSeconds: 10
             successThreshold: 1
-            failureThreshold: 5
+            failureThreshold: 3
           readinessProbe:
             httpGet:
               path: /
               port: http
-            initialDelaySeconds: 10
+            initialDelaySeconds: 0
             timeoutSeconds: 5
-            periodSeconds: 5
+            periodSeconds: 10
             successThreshold: 1
-            failureThreshold: 5
+            failureThreshold: 3
       volumes:
         - name: homebridge-config
           persistentVolumeClaim:
