@@ -45,7 +45,7 @@ spec:
     envs:
       - name: TALOS_VERSION
         # renovate: datasource=github-releases depName=siderolabs/talos
-        value: v1.11.6
+        value: v1.12.0
       - name: NODE_IP
         valueFrom:
           fieldRef:
