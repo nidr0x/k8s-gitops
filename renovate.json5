@@ -34,6 +34,15 @@
       matchUpdateTypes: ["minor", "patch"],
       minimumReleaseAge: "3 days",
     },
+    {
+      matchPackageNames: ["homebridge/homebridge"],
+      versioning: "regex:^(?<major>\\d{4})-(?<minor>\\d{2})-(?<patch>\\d{2})$",
+    },
+    {
+      description: "Process Talos and Kubelet updates immediately",
+      matchPackagePatterns: ["siderolabs/.*"],
+      minimumReleaseAge: "0 days",
+    },
   ],
   rangeStrategy: "auto",
   prHourlyLimit: 2,
