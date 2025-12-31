@@ -24,7 +24,7 @@ spec:
       containers:
         - name: homebridge
           # renovate: datasource=docker depName=homebridge/homebridge
-          image: homebridge/homebridge:2025-12-16
+          image: homebridge/homebridge:2025-12-28
           imagePullPolicy: Always
           securityContext:
             readOnlyRootFilesystem: false
