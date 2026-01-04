@@ -6,13 +6,13 @@ defaultDatasources:
     - name: TeslaMate
       type: postgres
       url: teslamate-database-rw.teslamate.svc.cluster.local
-      database: teslamate
       user: postgres
       secureJsonData:
         password: $__env{TESLAMATE_POSTGRESQL_PASSWORD}
       jsonData:
+        database: teslamate
         sslmode: "disable"
-        postgresVersion: 1000
+        postgresVersion: 1500
       editable: true
       isDefault: false
     - name: VictoriaLogs
