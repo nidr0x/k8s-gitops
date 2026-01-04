@@ -209,6 +209,12 @@ grafana:
 
 vmagent:
   enabled: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 256Mi
   persistentVolume:
     storageClass: proxmox-k8s-zfs
     size: 10Gi
@@ -226,12 +232,25 @@ vmsingle:
 
 vmalert:
   enabled: true
+  resources:
+    requests:
+      cpu: 20m
+      memory: 64Mi
+    limits:
+      memory: 128Mi
   persistentVolume:
     storageClass: proxmox-k8s-zfs
     size: 1Gi
 
 alertmanager:
   enabled: true
+  replicaCount: 2
+  resources:
+    requests:
+      cpu: 20m
+      memory: 64Mi
+    limits:
+      memory: 128Mi
 
 # Enable default dashboards (including vmstat)
 dashboard:
