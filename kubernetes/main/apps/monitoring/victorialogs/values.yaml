@@ -1,6 +1,7 @@
 nameOverride: "victorialogs"
 
 server:
+  retentionPeriod: "7d"
   persistentVolume:
     enabled: true
     size: 10Gi
