@@ -16,7 +16,7 @@ defaultDatasources:
       editable: true
       isDefault: false
     - name: VictoriaLogs
-      type: loki
+      type: victoriametrics-logs-datasource
       url: http://victorialogs-server.kube-monitoring.svc.cluster.local:9428
       access: proxy
       jsonData:
@@ -47,6 +47,9 @@ victoria-metrics-operator:
 grafana:
   enabled: true
   defaultDashboardsTimezone: Europe/Madrid
+  plugins:
+    - victoriametrics-metrics-datasource
+    - victoriametrics-logs-datasource
   sidecar:
     dashboards:
       enabled: false
