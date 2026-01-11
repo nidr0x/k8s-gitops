@@ -1,20 +1,30 @@
 apiVersion: apps/v1
-kind: DaemonSet
+kind: Deployment
 metadata:
   labels:
     app: cloudflared
   name: cloudflared
   namespace: cloudflared
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: cloudflared
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
   template:
     metadata:
       labels:
         app: cloudflared
     spec:
       priorityClassName: system-cluster-critical
+      securityContext:
+        runAsUser: 65532
+        runAsGroup: 65532
+        runAsNonRoot: true
+        fsGroup: 65532
       containers:
         - name: cloudflared
           image: cloudflare/cloudflared:2025.11.1
@@ -31,19 +41,45 @@ spec:
             initialDelaySeconds: 60
             failureThreshold: 5
             periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 2000
+            initialDelaySeconds: 10
+            failureThreshold: 2
+            periodSeconds: 10
           resources:
             requests:
               cpu: 100m
               memory: 64Mi
             limits:
               memory: 128Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
           volumeMounts:
             - name: config
               mountPath: /etc/cloudflared/config/config.yaml
               subPath: config.yaml
+              readOnly: true
             - name: credentials
               mountPath: /etc/cloudflared/credentials
               readOnly: true
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - cloudflared
+                topologyKey: kubernetes.io/hostname
       restartPolicy: Always
       volumes:
         - name: config
