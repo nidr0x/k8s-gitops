@@ -20,11 +20,6 @@ spec:
         app: cloudflared
     spec:
       priorityClassName: system-cluster-critical
-      securityContext:
-        runAsUser: 65532
-        runAsGroup: 65532
-        runAsNonRoot: true
-        fsGroup: 65532
       containers:
         - name: cloudflared
           image: cloudflare/cloudflared:2025.11.1
@@ -54,12 +49,6 @@ spec:
               memory: 64Mi
             limits:
               memory: 128Mi
-          securityContext:
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
-            capabilities:
-              drop:
-                - ALL
           volumeMounts:
             - name: config
               mountPath: /etc/cloudflared/config/config.yaml
