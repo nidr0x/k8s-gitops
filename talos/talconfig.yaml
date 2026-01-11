@@ -38,6 +38,16 @@ nodes:
 worker:
   schematic:
     customization:
+      extraKernelArgs:
+        - net.ifnames=1
+        - i915.enable_guc=3
+        - init_on_alloc=0
+        - init_on_free=0
+        - intel_iommu=on
+        - iommu=pt
+        - mitigations=off
+        - sysctl.kernel.kexec_load_disabled=1
+        - talos.auditd.disabled=1
       systemExtensions:
         officialExtensions:
           - siderolabs/amd-ucode
@@ -47,6 +57,16 @@ worker:
 controlPlane:
   schematic:
     customization:
+      extraKernelArgs:
+        - net.ifnames=1
+        - i915.enable_guc=3
+        - init_on_alloc=0
+        - init_on_free=0
+        - intel_iommu=on
+        - iommu=pt
+        - mitigations=off
+        - sysctl.kernel.kexec_load_disabled=1
+        - talos.auditd.disabled=1
       systemExtensions:
         officialExtensions:
           - siderolabs/amd-ucode
@@ -58,5 +78,4 @@ patches:
   - "@./patches/global/machine-kubelet.yaml"
   - "@./patches/global/machine-network.yaml"
   - "@./patches/global/machine-sysctls.yaml"
-  - "@./patches/global/machine-install.yaml"
   - "@./patches/global/machine-time.yaml"
