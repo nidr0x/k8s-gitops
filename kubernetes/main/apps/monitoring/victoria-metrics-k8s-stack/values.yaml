@@ -79,8 +79,9 @@ grafana:
     runAsGroup: 2002
     runAsNonRoot: true
     runAsUser: 1001
+  replicas: 2
   deploymentStrategy:
-    type: Recreate
+    type: RollingUpdate
   fullnameOverride: "victoriametrics-grafana"
   dashboardProviders:
     dashboardproviders.yaml:
@@ -226,6 +227,14 @@ vmsingle:
   enabled: true
   spec:
     retentionPeriod: "14d"
+    extraArgs:
+      dedup.minScrapeInterval: "1m"
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+      limits:
+        memory: 1Gi
     storage:
       storageClassName: "proxmox-k8s-zfs"
       resources:
