@@ -9,5 +9,7 @@ configMapGenerator:
       - config.yaml
 
 resources:
+  - deployment.yaml
   - secret.yaml
-  - daemon-set.yaml
+  - service.yaml
+  - service-monitor.yaml
