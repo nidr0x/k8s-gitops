@@ -225,11 +225,12 @@ vmagent:
 vmsingle:
   enabled: true
   spec:
+    retentionPeriod: "14d"
     storage:
       storageClassName: "proxmox-k8s-zfs"
       resources:
         requests:
-          storage: 5Gi
+          storage: 10Gi
   ingress:
     enabled: false
 
