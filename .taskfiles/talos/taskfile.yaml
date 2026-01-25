@@ -3,9 +3,9 @@
 version: "3"
 
 vars:
-  TALHELPER_CLUSTER_DIR: "{{.ROOT_DIR}}/bootstrap/talos/clusterconfig"
-  TALHELPER_CONFIG_FILE: "{{.ROOT_DIR}}/bootstrap/talos/talconfig.yaml"
-  TALHELPER_SECRET_FILE: "{{.ROOT_DIR}}/bootstrap/talos/talsecret.yaml"
+  TALHELPER_CLUSTER_DIR: "{{.ROOT_DIR}}/talos/clusterconfig"
+  TALHELPER_CONFIG_FILE: "{{.ROOT_DIR}}/talos/talconfig.yaml"
+  TALHELPER_SECRET_FILE: "{{.ROOT_DIR}}/talos/talsecret.yaml"
   TALOSCONFIG: "{{.TALHELPER_CLUSTER_DIR}}/talosconfig"
 
 env:
@@ -34,16 +34,18 @@ tasks:
   apply-node:
     desc: Apply Talos config to a node [HOSTNAME=required]
     cmds:
-      - talosctl --nodes {{.HOSTNAME}} apply-config --mode={{.MODE}} --file {{.TALHELPER_CLUSTER_DIR}}/{{.CLUSTER_NAME}}-{{.HOSTNAME}}.yaml
-      - talosctl --nodes {{.HOSTNAME}} health --wait-timeout=10m --server=false
+      - talosctl --nodes {{.IP}} apply-config --mode={{.MODE}} --file {{.TALHELPER_CLUSTER_DIR}}/{{.CLUSTER_NAME}}-{{.HOSTNAME}}.yaml
+      - talosctl --nodes {{.IP}} health --wait-timeout=10m --server=false
     vars:
       CLUSTER_NAME:
         sh: yq '.clusterName' {{.TALHELPER_CONFIG_FILE}}
       MODE: '{{.MODE | default "auto"}}'
+      IP:
+        sh: yq '.nodes[] | select(.hostname == "{{.HOSTNAME}}") | .ipAddress' {{.TALHELPER_CONFIG_FILE}}
     requires:
       vars: [HOSTNAME]
     preconditions:
-      - talosctl --nodes {{.HOSTNAME}} get machineconfig
+      - talosctl --nodes {{.IP}} get machineconfig
       - talosctl config info
       - test -f {{.TALHELPER_CLUSTER_DIR}}/{{.CLUSTER_NAME}}-{{.HOSTNAME}}.yaml
       - test -f {{.TALOSCONFIG}}
