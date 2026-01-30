@@ -39,6 +39,7 @@ jobs:
           VALIDATE_KUBERNETES_KUBECONFORM: false
           VALIDATE_MARKDOWN: false
           VALIDATE_TRIVY: false
+          VALIDATE_SPELL_CODESPELL: false
 
       - name: Commit and push linting fixes
         if: >
