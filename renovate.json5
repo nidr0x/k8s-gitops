@@ -40,7 +40,7 @@
     },
     {
       description: "Process Talos and Kubelet updates immediately",
-      matchPackagePatterns: ["siderolabs/.*"],
+      matchPackageNames: ["/siderolabs/.*/"],
       minimumReleaseAge: "0 days",
     },
   ],
