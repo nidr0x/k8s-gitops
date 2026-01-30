@@ -23,6 +23,11 @@ defaultDatasources:
         maxLines: 1000
       editable: true
       isDefault: false
+    - name: VictoriaMetrics
+      type: victoriametrics-metrics-datasource
+      url: http://vmsingle-victoria-metrics-k8s-stack.kube-monitoring.svc.cluster.local:8428
+      access: proxy
+      isDefault: true
 
 victoria-metrics-operator:
   enabled: true
@@ -165,6 +170,24 @@ grafana:
       coredns:
         gnetId: 13602
         revision: 1
+        datasource: VictoriaMetrics
+      k8s-views-global:
+        url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-global.json
+        datasource: VictoriaMetrics
+      k8s-views-namespaces:
+        url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-namespaces.json
+        datasource: VictoriaMetrics
+      k8s-views-nodes:
+        url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-nodes.json
+        datasource: VictoriaMetrics
+      k8s-views-pods:
+        url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
+        datasource: VictoriaMetrics
+      k8s-system-api-server:
+        url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-api-server.json
+        datasource: VictoriaMetrics
+      k8s-system-coredns:
+        url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-coredns.json
         datasource: VictoriaMetrics
   grafana.ini:
     database:
