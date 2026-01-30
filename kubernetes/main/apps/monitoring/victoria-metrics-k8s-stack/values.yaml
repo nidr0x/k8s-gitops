@@ -55,6 +55,10 @@ grafana:
   plugins:
     - victoriametrics-metrics-datasource
     - victoriametrics-logs-datasource
+  downloadDashboardsImage:
+    repository: curlimages/curl
+    tag: 7.85.0
+    pullPolicy: IfNotPresent
   sidecar:
     dashboards:
       enabled: false
