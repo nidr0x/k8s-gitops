@@ -91,6 +91,9 @@ grafana:
   replicas: 2
   deploymentStrategy:
     type: RollingUpdate
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 1
   fullnameOverride: "victoriametrics-grafana"
   dashboardProviders:
     dashboardproviders.yaml:

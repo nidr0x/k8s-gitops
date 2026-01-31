@@ -56,7 +56,9 @@ hubble:
     enabled: true
 
 prometheus:
-  enabled: false
+  enabled: true
+  serviceMonitor:
+    enabled: true
 
 envoy:
   securityContext:
