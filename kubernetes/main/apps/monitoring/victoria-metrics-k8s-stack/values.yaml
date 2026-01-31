@@ -57,7 +57,7 @@ grafana:
     - victoriametrics-logs-datasource
   downloadDashboardsImage:
     repository: curlimages/curl
-    tag: 7.88.1
+    tag: 8.18.0
     pullPolicy: IfNotPresent
   sidecar:
     dashboards:
