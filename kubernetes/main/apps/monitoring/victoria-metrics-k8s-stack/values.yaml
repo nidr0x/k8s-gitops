@@ -243,6 +243,9 @@ grafana:
 
 vmagent:
   enabled: true
+  spec:
+    externalLabels:
+      cluster: everest
   resources:
     requests:
       cpu: 50m
@@ -309,14 +312,12 @@ kubelet:
   enabled: true
   vmScrape:
     spec:
+      honorLabels: true
       metricRelabelConfigs:
         - action: labeldrop
           regex: (uid)
         - action: labeldrop
-          regex: (id|name)
-        - action: labeldrop
           regex: "extensions_talos_dev_.*"
-        - action: labeldrop
 
 kubeApiserver:
   enabled: true
