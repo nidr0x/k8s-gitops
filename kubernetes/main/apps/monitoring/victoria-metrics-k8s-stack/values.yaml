@@ -265,9 +265,9 @@ vmsingle:
     resources:
       requests:
         cpu: 100m
-        memory: 512Mi
-      limits:
         memory: 1Gi
+      limits:
+        memory: 2Gi
     storage:
       storageClassName: "proxmox-k8s-zfs"
       resources:
