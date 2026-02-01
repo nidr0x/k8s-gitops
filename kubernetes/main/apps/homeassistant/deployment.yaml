@@ -43,6 +43,9 @@ spec:
           volumeMounts:
             - name: homeassistant-config
               mountPath: /config
+            - name: homeassistant-config-file
+              mountPath: /config/configuration.yaml
+              subPath: configuration.yaml
           startupProbe:
             tcpSocket:
               port: http
@@ -71,3 +74,6 @@ spec:
         - name: homeassistant-config
           persistentVolumeClaim:
             claimName: homeassistant-config-pvc
+        - name: homeassistant-config-file
+          configMap:
+            name: homeassistant-configmap
