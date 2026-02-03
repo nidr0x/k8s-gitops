@@ -3,6 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: transmission
 spec:
+  volumeName: transmission
   storageClassName: nfs
   accessModes:
     - ReadWriteMany
