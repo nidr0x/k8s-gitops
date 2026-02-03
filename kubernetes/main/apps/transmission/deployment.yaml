@@ -40,7 +40,11 @@ spec:
               containerPort: 9091
           volumeMounts:
             - name: transmission
-              mountPath: /data
+              mountPath: /config
+              subPath: config
+            - name: transmission
+              mountPath: /downloads
+              subPath: downloads
           env:
             - name: TZ
               value: "UTC"
