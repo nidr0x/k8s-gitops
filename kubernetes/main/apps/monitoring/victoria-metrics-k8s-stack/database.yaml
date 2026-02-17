@@ -19,7 +19,7 @@ spec:
       archive_timeout: "10min"
       checkpoint_timeout: "15min"
       checkpoint_completion_target: "0.9"
-      wal_keep_size: "256MB"
+      wal_keep_size: "128MB"
 
   backup:
     barmanObjectStore:
@@ -40,7 +40,7 @@ spec:
         compression: bzip2
         maxParallel: 4
         encryption: AES256
-    retentionPolicy: "7d"
+    retentionPolicy: "3d"
 
   logLevel: info
   primaryUpdateStrategy: unsupervised
@@ -60,7 +60,7 @@ spec:
         - ReadWriteOnce
       resources:
         requests:
-          storage: 4Gi
+          storage: 6Gi
       storageClassName: proxmox-k8s-zfs
 
   monitoring:
