@@ -72,10 +72,48 @@ As part of my commitment to open-source communities, I offer these public servic
 
 It is powered by [AdGuard Home](https://github.com/AdguardTeam/AdGuardHome) + [Cloudflare](https://www.cloudflare.com). The configuration that uses is available [here](https://github.com/nidr0x/k8s-gitops/blob/master/kubernetes/main/apps/adguardhome/config/AdGuardHome.yaml)
 
+## 🏗️ Architecture Diagram
+
+```mermaid
+flowchart LR
+    U["Users / Clients"] --> CF["Cloudflare (DNS, Tunnel, R2, Zero Trust)"]
+    GH["GitHub Repository"] --> ARGO["Argo CD"]
+    REN["Renovate + GitHub Actions"] --> GH
+    CF --> CFLT["cloudflared"]
+
+    subgraph INFRA["Homelab Infrastructure"]
+      PVE["Proxmox Nodes"] --> TAL["Talos Kubernetes Cluster"]
+    end
+
+    ARGO --> TAL
+    CFLT --> ING["Ingress + Cilium"]
+
+    subgraph PLATFORM["Core Platform Services"]
+      ING
+      CERT["cert-manager"]
+      EXTDNS["external-dns"]
+      EXTS["external-secrets"]
+      NFS["CSI Driver NFS / Proxmox CSI"]
+      PG["CloudNativePG"]
+      MON["VictoriaMetrics + VictoriaLogs + Grafana"]
+    end
+
+    TAL --> PLATFORM
+
+    subgraph APPS["Workloads"]
+      APP1["Vaultwarden / FreshRSS / Home Assistant / Transmission / TeslaMate"]
+    end
+
+    PLATFORM --> APPS
+    APPS --> PG
+    MON --> TAL
+    PG --> R2["Cloudflare R2 (DB backups via Barman)"]
+```
+
 ## TO-DO
 
 - [ ] Move to a dedicated VLAN
 - [ ] Improve observability stack
 - [ ] Refactor ArgoCD setup
 - [ ] Define and implement Network Policies
-- [ ] Create an architecture diagram
+- [x] Create an architecture diagram
