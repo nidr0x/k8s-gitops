@@ -6,7 +6,7 @@ endpoint: "https://192.168.1.90:6443"
 # renovate: datasource=github-releases depName=siderolabs/talos
 talosVersion: v1.12.4
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-kubernetesVersion: v1.35.1
+kubernetesVersion: v1.35.2
 allowSchedulingOnControlPlanes: false
 
 cniConfig:
