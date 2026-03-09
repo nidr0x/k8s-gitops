@@ -22,7 +22,7 @@ spec:
         fsGroupChangePolicy: "OnRootMismatch"
       containers:
         - name: homeassistant
-          image: homeassistant/home-assistant:2026.2
+          image: homeassistant/home-assistant:2026.3
           imagePullPolicy: Always
           securityContext:
             privileged: false
