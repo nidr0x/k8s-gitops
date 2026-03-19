@@ -263,15 +263,15 @@ filtering:
   allow_unencrypted_doh: true
   parental_block_host: family-block.dns.adguard.com
   safebrowsing_block_host: standard-block.dns.adguard.com
-    rewrites:
-      - domain: unifi
-        answer: 192.168.1.1
-      - domain: truenas
-        answer: 192.168.1.10
-      - domain: everest
-        answer: 192.168.1.11
-      - domain: dns.nidr0x.win
-        answer: 192.168.1.222
+  rewrites:
+    - domain: unifi
+      answer: 192.168.1.1
+    - domain: truenas
+      answer: 192.168.1.10
+    - domain: everest
+      answer: 192.168.1.11
+    - domain: dns.nidr0x.win
+      answer: 192.168.1.222
   safe_fs_patterns:
     - /opt/adguardhome/work/data/userfilters/*
   safebrowsing_cache_size: 1048576
