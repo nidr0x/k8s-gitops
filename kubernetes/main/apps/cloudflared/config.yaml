@@ -11,12 +11,12 @@ originRequest:
 
 ingress:
   - hostname: "*.nidr0x.win"
-    service: "https://cilium-ingress.kube-system:443"
+    service: "https://cilium-gateway-internal.gateway:443"
     originRequest:
       noTLSVerify: true
       originServerName: "*.nidr0x.win"
   - hostname: "nidr0x.win"
-    service: "https://cilium-ingress.kube-system:443"
+    service: "https://cilium-gateway-internal.gateway:443"
     originRequest:
       noTLSVerify: true
       originServerName: "*.nidr0x.win"

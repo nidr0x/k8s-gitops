@@ -10,6 +10,9 @@ spec:
     - name: external
       namespace: gateway
       sectionName: https-gateway
+    - name: internal
+      namespace: gateway
+      sectionName: https-gateway
   hostnames:
     - "rss.nidr0x.win"
   rules:

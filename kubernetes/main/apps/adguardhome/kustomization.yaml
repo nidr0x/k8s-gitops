@@ -9,7 +9,7 @@ configMapGenerator:
 
 resources:
   - deployment.yaml
-  - ingress.yaml
+  - http-route.yaml
   - service.yaml
   - secret.yaml
   - pdb.yaml
