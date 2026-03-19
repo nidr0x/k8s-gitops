@@ -3,10 +3,13 @@ kind: HTTPRoute
 metadata:
   name: freshrss
   namespace: freshrss
+  annotations:
+    external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
 spec:
   parentRefs:
     - name: external
       namespace: gateway
+      sectionName: https-gateway
   hostnames:
     - "rss.nidr0x.win"
   rules:
