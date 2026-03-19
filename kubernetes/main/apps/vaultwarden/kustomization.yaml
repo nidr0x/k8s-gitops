@@ -5,7 +5,7 @@ resources:
   - configmap.yaml
   - rbac.yaml
   - service.yaml
-  - ingress.yaml
+  - http-route.yaml
   - secret.yaml
   - deployment.yaml
   - pv.yaml
