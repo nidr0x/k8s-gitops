@@ -38,7 +38,6 @@ The primary goal of this repository, beyond self-hosting services on my own infr
 - [Teslamate](https://github.com/teslamate-org/teslamate)
 - [Transmission](https://github.com/transmission/transmission)
 - [Uptime Kuma](https://github.com/louislam/uptime-kuma)
-- [Vaultwarden](https://github.com/dani-garcia/vaultwarden)
 - [Victoria Metrics K8s Stack](https://github.com/VictoriaMetrics/helm-charts/tree/master/charts/victoria-metrics-k8s-stack)
 - [Victorialogs](https://github.com/VictoriaMetrics/VictoriaMetrics/tree/master/app/victorialogs)
 
@@ -101,7 +100,7 @@ flowchart LR
     TAL --> PLATFORM
 
     subgraph APPS["Workloads"]
-      APP1["Vaultwarden / FreshRSS / Home Assistant / Transmission / TeslaMate"]
+      APP1["FreshRSS / Home Assistant / Transmission / TeslaMate"]
     end
 
     PLATFORM --> APPS
