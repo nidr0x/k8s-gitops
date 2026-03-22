@@ -25,7 +25,7 @@ spec:
     barmanObjectStore:
       destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
       endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
-      serverName: grafana-database-v2
+      serverName: grafana-database-v3
       s3Credentials:
         accessKeyId:
           name: victoriametricsstack-oauth2
@@ -60,7 +60,7 @@ spec:
         - ReadWriteOnce
       resources:
         requests:
-          storage: 6Gi
+          storage: 8Gi
       storageClassName: proxmox-k8s-zfs
 
   monitoring:
