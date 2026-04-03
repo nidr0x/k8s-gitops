@@ -15,7 +15,7 @@ spec:
       targetRevision: master
       path: kubernetes/main/apps/openwebui/
     - repoURL: https://helm.openwebui.com
-      targetRevision: 12.13.0
+      targetRevision: 13.0.1
       chart: open-webui
       helm:
         valueFiles:
