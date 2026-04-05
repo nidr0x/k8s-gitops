@@ -6,6 +6,7 @@ resources:
   - pvc.yaml
   - deployment.yaml
   - http-route.yaml
+  - network-policies.yaml
   - service.yaml
   - pdb.yaml
   - configmap.yaml
