@@ -32,6 +32,7 @@ The primary goal of this repository, beyond self-hosting services on my own infr
 - [Metrics Server](https://github.com/kubernetes-sigs/metrics-server)
 - [Node Local DNS](https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/)
 - [Node Problem Detector](https://github.com/kubernetes/node-problem-detector)
+- [Open WebUI](https://github.com/open-webui/open-webui)
 - [Proxmox CSI Plugin](https://github.com/sergelogvinov/proxmox-csi-plugin)
 - [Secret Reloader](https://github.com/stakater/Reloader)
 - [Spegel](https://github.com/spegel-sd/spegel)
