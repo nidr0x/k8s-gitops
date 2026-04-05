@@ -4,3 +4,4 @@ namespace: openwebui
 resources:
   - secret.yaml
   - database.yaml
+  - network-policies.yaml
