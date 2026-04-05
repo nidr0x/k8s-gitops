@@ -4,6 +4,7 @@ namespace: teslamate
 resources:
   - service.yaml
   - http-route.yaml
+  - network-policies.yaml
   - secret.yaml
   - deployment.yaml
   #  - database.yaml
