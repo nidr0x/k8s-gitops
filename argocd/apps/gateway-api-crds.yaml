@@ -6,7 +6,7 @@ spec:
   project: everest
   source:
     repoURL: https://github.com/kubernetes-sigs/gateway-api.git
-    path: config/crd
+    path: config/crd/standard
     # renovate: datasource=github-releases depName=kubernetes-sigs/gateway-api
     targetRevision: v1.4.1
   destination:
