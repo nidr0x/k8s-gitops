@@ -18,13 +18,6 @@ spec:
   policyTypes:
     - Ingress
   ingress:
-    - from:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: kube-system
-          podSelector:
-            matchLabels:
-              k8s-app: cilium-envoy
-      ports:
+    - ports:
         - protocol: TCP
           port: 8123
