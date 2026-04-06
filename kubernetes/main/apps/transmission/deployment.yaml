@@ -24,10 +24,18 @@ spec:
         - name: transmission
           persistentVolumeClaim:
             claimName: transmission
+        - name: runtime
+          emptyDir:
+            medium: Memory
       containers:
         - name: transmission
-          image: ghcr.io/linuxserver/transmission:4.0.6
+          image: lscr.io/linuxserver/transmission:4.0.6-r4-ls320
           imagePullPolicy: Always
+          securityContext:
+            runAsUser: 1001
+            runAsGroup: 988
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
           resources:
             requests:
               cpu: 50m
@@ -45,13 +53,11 @@ spec:
             - name: transmission
               mountPath: /downloads
               subPath: downloads
+            - name: runtime
+              mountPath: /run
           env:
             - name: TZ
               value: "UTC"
-            - name: PUID
-              value: "1001"
-            - name: PGID
-              value: "988"
             - name: TRANSMISSION_CONFIG_DIR
               value: "/data/config"
             - name: TRANSMISSION_DOWNLOAD_DIR
