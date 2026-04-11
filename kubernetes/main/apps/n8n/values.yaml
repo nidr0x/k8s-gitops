@@ -1,0 +1,48 @@
+fullnameOverride: n8n
+
+db:
+  type: postgresdb
+
+externalPostgresql:
+  host: n8n-database-rw
+  port: 5432
+  username: n8n
+  database: n8n
+
+existingEncryptionKeySecret: n8n
+
+timezone: UTC
+
+binaryData:
+  mode: filesystem
+
+main:
+  editorBaseUrl: https://n8n.nidr0x.win
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    limits:
+      memory: 1Gi
+
+  persistence:
+    enabled: true
+    storageClass: proxmox-k8s-zfs
+    size: 2Gi
+
+  extraEnvVars:
+    WEBHOOK_URL: https://n8n.nidr0x.win
+    N8N_PROXY_HOPS: "1"
+    DB_POSTGRESDB_PASSWORD_FILE: /var/run/secrets/n8n-database/password
+
+  volumes:
+    - name: database-app-secret
+      secret:
+        secretName: n8n-database-app
+        optional: false
+
+  volumeMounts:
+    - name: database-app-secret
+      mountPath: /var/run/secrets/n8n-database
+      readOnly: true
