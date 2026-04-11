@@ -8,6 +8,7 @@ externalPostgresql:
   port: 5432
   username: n8n
   database: n8n
+  existingSecret: n8n-database-app
 
 existingEncryptionKeySecret: n8n
 
