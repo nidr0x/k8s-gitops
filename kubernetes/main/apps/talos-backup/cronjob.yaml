@@ -1,0 +1,96 @@
+apiVersion: talos.dev/v1alpha1
+kind: ServiceAccount
+metadata:
+  name: talos-backup-secrets
+spec:
+  roles:
+    - os:etcd:backup
+---
+apiVersion: talos.dev/v1alpha1
+kind: ServiceAccount
+metadata:
+  name: talos-backup-talos-secrets
+spec:
+  roles:
+    - os:etcd:backup
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: talos-backup
+spec:
+  schedule: "0 */6 * * *"
+  timeZone: UTC
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      ttlSecondsAfterFinished: 86400
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: talos-backup
+              image: ghcr.io/siderolabs/talos-backup:v0.1.0-beta.3
+              imagePullPolicy: IfNotPresent
+              workingDir: /tmp
+              command:
+                - /talos-backup
+              env:
+                - name: AWS_ACCESS_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: talos-backup
+                      key: AWS_ACCESS_KEY_ID
+                - name: AWS_SECRET_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: talos-backup
+                      key: AWS_SECRET_ACCESS_KEY
+                - name: AWS_REGION
+                  value: auto
+                - name: CUSTOM_S3_ENDPOINT
+                  value: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
+                - name: BUCKET
+                  value: nidr0x-homelab-backups
+                - name: CLUSTER_NAME
+                  value: everest
+                - name: S3_PREFIX
+                  value: talos/everest/etcd
+                - name: ENABLE_COMPRESSION
+                  value: "true"
+                - name: DISABLE_ENCRYPTION
+                  value: "true"
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  memory: 256Mi
+              securityContext:
+                runAsUser: 1000
+                runAsGroup: 1000
+                runAsNonRoot: true
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                seccompProfile:
+                  type: RuntimeDefault
+              volumeMounts:
+                - name: tmp
+                  mountPath: /tmp
+                - name: talos
+                  mountPath: /.talos
+                - name: talos-secrets
+                  mountPath: /var/run/secrets/talos.dev
+          volumes:
+            - name: tmp
+              emptyDir: {}
+            - name: talos
+              emptyDir: {}
+            - name: talos-secrets
+              secret:
+                secretName: talos-backup-talos-secrets
