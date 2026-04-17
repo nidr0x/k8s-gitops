@@ -4,3 +4,4 @@ namespace: kube-monitoring
 resources:
   - secret.yaml
   - database.yaml
+  - http-route.yaml

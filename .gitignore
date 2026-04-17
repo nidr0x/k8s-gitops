@@ -43,6 +43,7 @@ Temporary Items
 *.icloud
 
 # Other stuff
+.worktrees/
 .terraform/
 *terraform.tfstate*
 tfplan

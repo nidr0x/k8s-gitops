@@ -5,15 +5,17 @@ server:
   persistentVolume:
     enabled: true
     size: 10Gi
-    storageClassName: "proxmox-k8s-zfs"
+    storageClassName: "nfs"
   resources:
     requests:
       cpu: "250m"
       memory: "512Mi"
     limits:
       memory: "1Gi"
+  extraArgs:
+    http.pathPrefix: /victorialogs
   ingress:
-    enabled: true
+    enabled: false
     hosts:
       - name: monitoring.nidr0x.win
         path:
