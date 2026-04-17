@@ -18,6 +18,9 @@ spec:
       targetRevision: 0.11.31
       chart: victoria-logs-single
       helm:
+        parameters:
+          - name: server.persistentVolume.storageClassName
+            value: nfs
         valueFiles:
           - $nidr0x-k8s-gitops/kubernetes/main/apps/monitoring/victorialogs/values.yaml
   syncPolicy:

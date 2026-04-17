@@ -66,7 +66,7 @@ grafana:
     - name: victoriametricsstack-oauth2
     - name: grafana-database-app
   ingress:
-    enabled: true
+    enabled: false
     hosts:
       - monitoring.nidr0x.win
     annotations:
@@ -167,8 +167,7 @@ grafana:
         revision: 7
         datasource: VictoriaMetrics
       victoria-metrics-vmalert:
-        gnetId: 12684
-        revision: 7
+        url: https://raw.githubusercontent.com/VictoriaMetrics/VictoriaMetrics/master/dashboards/vmalert.json
         datasource: VictoriaMetrics
       kubernetes:
         gnetId: 14205

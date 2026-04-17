@@ -3,7 +3,7 @@ kind: Application
 metadata:
   name: cloudnative-pg
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "4"
 spec:
   destination:
     namespace: cloudnative-pg
@@ -16,9 +16,6 @@ spec:
     - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
       path: kubernetes/main/apps/cloudnative-pg
-    - repoURL: https://github.com/nidr0x/k8s-gitops
-      targetRevision: master
-      path: kubernetes/main/apps/cloudnative-pg/
     - repoURL: https://cloudnative-pg.github.io/charts
       targetRevision: 0.28.0
       chart: cloudnative-pg
@@ -28,6 +25,7 @@ spec:
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
+      - Replace=true
       - ServerSideApply=true
     automated:
       prune: true
