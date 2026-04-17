@@ -58,7 +58,7 @@ spec:
                 - name: CLUSTER_NAME
                   value: everest
                 - name: S3_PREFIX
-                  value: talos-etcd
+                  value: talos/everest/etcd
                 - name: ENABLE_COMPRESSION
                   value: "true"
                 - name: DISABLE_ENCRYPTION
