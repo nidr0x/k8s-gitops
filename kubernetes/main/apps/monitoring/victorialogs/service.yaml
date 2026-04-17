@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: victorialogs-server-gateway
+  namespace: kube-monitoring
+spec:
+  type: ClusterIP
+  selector:
+    app: server
+    app.kubernetes.io/instance: victorialogs
+    app.kubernetes.io/name: victorialogs
+  ports:
+    - name: http
+      port: 9428
+      targetPort: http

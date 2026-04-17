@@ -1,28 +1,23 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cert-manager
+  name: cert-manager-config
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   destination:
     namespace: cert-manager
     server: https://kubernetes.default.svc
   project: everest
-  sources:
-    - repoURL: https://github.com/nidr0x/k8s-gitops
-      targetRevision: master
-      ref: nidr0x-k8s-gitops
-    - repoURL: https://charts.jetstack.io
-      targetRevision: v1.20.2
-      chart: cert-manager
-      helm:
-        valueFiles:
-          - $nidr0x-k8s-gitops/kubernetes/main/apps/cert-manager/values.yaml
+  source:
+    repoURL: https://github.com/nidr0x/k8s-gitops
+    targetRevision: master
+    path: kubernetes/main/apps/cert-manager/
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
       - RespectIgnoreDifferences=true
+      - SkipDryRunOnMissingResource=true
     automated:
       prune: false
       selfHeal: false
