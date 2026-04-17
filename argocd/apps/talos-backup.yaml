@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: talos-backup
+spec:
+  destination:
+    namespace: talos-backup
+    server: https://kubernetes.default.svc
+  project: everest
+  source:
+    path: kubernetes/main/apps/talos-backup/
+    repoURL: https://github.com/nidr0x/k8s-gitops
+    targetRevision: master
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
