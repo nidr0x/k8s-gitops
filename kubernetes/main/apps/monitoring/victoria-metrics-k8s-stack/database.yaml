@@ -60,7 +60,7 @@ spec:
         - ReadWriteOnce
       resources:
         requests:
-          storage: 8Gi
+          storage: 12Gi
       storageClassName: proxmox-k8s-zfs
 
   monitoring:
