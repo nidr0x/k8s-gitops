@@ -1,0 +1,152 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+
+vars:
+  BOOTSTRAP_NODE: '{{.BOOTSTRAP_NODE | default "controlplane-01"}}'
+  ARGOCD_BOOTSTRAP_DIR: "{{.ROOT_DIR}}/argocd/bootstrap"
+  ARGOCD_SECRET_FILE: "{{.ROOT_DIR}}/argocd/secret.yaml.dec"
+  KUBECONFIG_FILE: "{{.ROOT_DIR}}/talos/clusterconfig/kubeconfig"
+
+env:
+  KUBECONFIG: "{{.KUBECONFIG_FILE}}"
+
+tasks:
+  label-argocd-node:
+    desc: Label a control-plane node so Argo CD prefers it during bootstrap [BOOTSTRAP_NODE=controlplane-01]
+    cmd: kubectl label node {{.BOOTSTRAP_NODE}} bootstrap.argocd/enabled=true --overwrite
+    preconditions:
+      - kubectl get node {{.BOOTSTRAP_NODE}}
+
+  unlabel-argocd-node:
+    desc: Remove the temporary Argo CD bootstrap label [BOOTSTRAP_NODE=controlplane-01]
+    cmd: kubectl label node {{.BOOTSTRAP_NODE}} bootstrap.argocd/enabled-
+    preconditions:
+      - kubectl get node {{.BOOTSTRAP_NODE}}
+
+  rebalance-argocd:
+    desc: Restart Argo CD core after bootstrap so it re-schedules onto the normal node pool
+    cmds:
+      - kubectl rollout restart deployment/argocd-server -n argocd
+      - kubectl rollout restart deployment/argocd-repo-server -n argocd
+      - kubectl rollout restart deployment/argocd-redis -n argocd
+      - kubectl rollout restart deployment/argocd-dex-server -n argocd
+      - kubectl rollout restart statefulset/argocd-application-controller -n argocd
+      - kubectl rollout status --timeout=300s deployment/argocd-server -n argocd
+      - kubectl rollout status --timeout=300s deployment/argocd-repo-server -n argocd
+      - kubectl rollout status --timeout=300s deployment/argocd-redis -n argocd
+      - kubectl rollout status --timeout=300s deployment/argocd-dex-server -n argocd
+      - kubectl rollout status --timeout=300s statefulset/argocd-application-controller -n argocd
+    preconditions:
+      - kubectl get deployment/argocd-server -n argocd
+      - kubectl get deployment/argocd-repo-server -n argocd
+      - kubectl get deployment/argocd-redis -n argocd
+      - kubectl get deployment/argocd-dex-server -n argocd
+      - kubectl get statefulset/argocd-application-controller -n argocd
+
+  summary:
+    desc: Print a post-bootstrap summary for Argo CD placement, Cilium state, and node readiness
+    cmds:
+      - |
+        echo "== Argo CD pod placement =="
+        kubectl get pods -n argocd -o wide
+      - |
+        echo
+        echo "== Cilium application state =="
+        kubectl get application.argoproj.io cilium -n argocd -o wide
+      - |
+        echo
+        echo "== Cilium workloads =="
+        kubectl get daemonset cilium -n kube-system -o wide
+        kubectl get deployment cilium-operator -n kube-system -o wide
+      - |
+        echo
+        echo "== Node readiness =="
+        kubectl get nodes -o wide
+      - |
+        echo
+        echo "== Argo CD pods still on control planes =="
+        kubectl get pods -n argocd -o wide --no-headers | awk '$7 ~ /^controlplane-/ { print } END { if (NR == 0) print "none" }'
+    preconditions:
+      - kubectl get pods -n argocd
+      - kubectl get application.argoproj.io cilium -n argocd
+      - kubectl get daemonset cilium -n kube-system
+      - kubectl get deployment cilium-operator -n kube-system
+      - kubectl get nodes
+
+  apply-argocd-core:
+    desc: Install Argo CD core directly from the local bootstrap kustomization
+    cmds:
+      - kubectl apply -f {{.ROOT_DIR}}/argocd/namespace.yaml
+      - kubectl apply -f {{.ARGOCD_SECRET_FILE}}
+      - kustomize build --enable-helm --load-restrictor LoadRestrictionsNone {{.ARGOCD_BOOTSTRAP_DIR}} | kubectl apply -f -
+      - kubectl wait --for=condition=established --timeout=120s crd/applications.argoproj.io
+      - kubectl wait --for=condition=established --timeout=120s crd/appprojects.argoproj.io
+      - kubectl wait --for=condition=Available --timeout=300s deployment/argocd-server -n argocd
+      - kubectl wait --for=condition=Available --timeout=300s deployment/argocd-repo-server -n argocd
+      - kubectl wait --for=condition=Available --timeout=300s deployment/argocd-redis -n argocd
+      - kubectl wait --for=condition=Available --timeout=300s deployment/argocd-dex-server -n argocd
+      - kubectl rollout status --timeout=300s statefulset/argocd-application-controller -n argocd
+    preconditions:
+      - test -f {{.ARGOCD_SECRET_FILE}}
+      - which kubectl kustomize
+
+  apply-argocd-apps:
+    desc: Apply the Argo CD project and app-of-apps objects
+    cmds:
+      - kubectl apply -f {{.ROOT_DIR}}/argocd/argocd-project-everest.yaml
+      - kubectl apply -f {{.ROOT_DIR}}/argocd/argocd-setup.yaml
+      - kubectl apply -f {{.ROOT_DIR}}/argocd/argocd-apps.yaml
+    preconditions:
+      - kubectl get crd applications.argoproj.io
+      - kubectl get crd appprojects.argoproj.io
+
+  wait-cilium:
+    desc: Wait for the Argo-managed Cilium handoff to complete, including Argo application state
+    cmds:
+      - |
+        for _ in $(seq 1 120); do
+          sync_status=$(kubectl get application.argoproj.io cilium -n argocd -o jsonpath='{.status.sync.status}' 2>/dev/null || true)
+          health_status=$(kubectl get application.argoproj.io cilium -n argocd -o jsonpath='{.status.health.status}' 2>/dev/null || true)
+          if [ "$sync_status" = "Synced" ] && [ "$health_status" != "Degraded" ] && [ "$health_status" != "Missing" ] && [ -n "$health_status" ]; then
+            exit 0
+          fi
+          sleep 5
+        done
+        echo "Timed out waiting for Argo CD application/cilium to become synced and non-degraded" >&2
+        kubectl get application.argoproj.io cilium -n argocd -o yaml >&2 || true
+        exit 1
+      - kubectl rollout status --timeout=600s daemonset/cilium -n kube-system
+      - kubectl rollout status --timeout=600s deployment/cilium-operator -n kube-system
+      - kubectl wait --for=condition=Ready --timeout=600s node/{{.BOOTSTRAP_NODE}}
+    preconditions:
+      - kubectl get application.argoproj.io cilium -n argocd
+      - kubectl get daemonset cilium -n kube-system
+      - kubectl get deployment cilium-operator -n kube-system
+      - kubectl get node {{.BOOTSTRAP_NODE}}
+
+  argocd:
+    desc: Bootstrap Argo CD, apply app-of-apps, wait for Cilium, remove the bootstrap label, rebalance Argo CD, and print a summary [BOOTSTRAP_NODE=controlplane-01]
+    cmds:
+      - task: label-argocd-node
+      - task: apply-argocd-core
+      - task: apply-argocd-apps
+      - task: wait-cilium
+      - task: unlabel-argocd-node
+      - task: rebalance-argocd
+      - task: summary
+
+  e2e:
+    desc: End-to-end Talos plus Argo bootstrap [BOOTSTRAP_NODE=controlplane-01]
+    cmds:
+      - task: talos:generate-config
+      - task: talos:apply-all-bootstrap
+      - task: talos:bootstrap-controlplane
+        vars:
+          BOOTSTRAP_NODE: "{{.BOOTSTRAP_NODE}}"
+      - task: talos:kubeconfig
+        vars:
+          BOOTSTRAP_NODE: "{{.BOOTSTRAP_NODE}}"
+      - task: argocd
+        vars:
+          BOOTSTRAP_NODE: "{{.BOOTSTRAP_NODE}}"

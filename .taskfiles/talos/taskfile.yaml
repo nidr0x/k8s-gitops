@@ -7,11 +7,50 @@ vars:
   TALHELPER_CONFIG_FILE: "{{.ROOT_DIR}}/talos/talconfig.yaml"
   TALHELPER_SECRET_FILE: "{{.ROOT_DIR}}/talos/talsecret.yaml"
   TALOSCONFIG: "{{.TALHELPER_CLUSTER_DIR}}/talosconfig"
+  KUBECONFIG: "{{.TALHELPER_CLUSTER_DIR}}/kubeconfig"
 
 env:
   TALOSCONFIG: "{{.TALOSCONFIG}}"
 
 tasks:
+  bootstrap-controlplane:
+    desc: Bootstrap the Talos control plane on one node [BOOTSTRAP_NODE=controlplane-01]
+    cmd: talosctl --nodes {{.BOOTSTRAP_IP}} --endpoints {{.BOOTSTRAP_IP}} bootstrap
+    vars:
+      BOOTSTRAP_NODE: '{{.BOOTSTRAP_NODE | default "controlplane-01"}}'
+      BOOTSTRAP_IP:
+        sh: yq '.nodes[] | select(.hostname == "{{.BOOTSTRAP_NODE}}") | .ipAddress' {{.TALHELPER_CONFIG_FILE}}
+    preconditions:
+      - test -f {{.TALOSCONFIG}}
+      - talosctl --nodes {{.BOOTSTRAP_IP}} get machineconfig
+      - which talosctl yq
+
+  kubeconfig:
+    desc: Download kubeconfig from one Talos control-plane node [BOOTSTRAP_NODE=controlplane-01]
+    cmd: talosctl kubeconfig {{.KUBECONFIG}} --nodes {{.BOOTSTRAP_IP}} --endpoints {{.BOOTSTRAP_IP}} --force --merge=false
+    vars:
+      BOOTSTRAP_NODE: '{{.BOOTSTRAP_NODE | default "controlplane-01"}}'
+      BOOTSTRAP_IP:
+        sh: yq '.nodes[] | select(.hostname == "{{.BOOTSTRAP_NODE}}") | .ipAddress' {{.TALHELPER_CONFIG_FILE}}
+    preconditions:
+      - test -f {{.TALOSCONFIG}}
+      - talosctl --nodes {{.BOOTSTRAP_IP}} get machineconfig
+      - which talosctl yq
+
+  apply-all-bootstrap:
+    desc: Apply generated Talos configs to all nodes for a fresh bootstrap
+    cmds:
+      - |
+        CLUSTER_NAME=$(yq '.clusterName' {{.TALHELPER_CONFIG_FILE}})
+        yq -r '.nodes[].hostname' {{.TALHELPER_CONFIG_FILE}} | while read -r hostname; do
+          ip=$(yq -r '.nodes[] | select(.hostname == "'"${hostname}"'") | .ipAddress' {{.TALHELPER_CONFIG_FILE}})
+          echo "Applying Talos config to ${hostname} (${ip})"
+          talosctl --nodes "${ip}" apply-config --mode=auto --file {{.TALHELPER_CLUSTER_DIR}}/${CLUSTER_NAME}-${hostname}.yaml
+        done
+    preconditions:
+      - test -f {{.TALOSCONFIG}}
+      - which talosctl yq
+
   reset-node:
     desc: Reset Talos on a single node [CLUSTER=main] [HOSTNAME=required]
     prompt: Reset Talos node '{{.HOSTNAME}}' on the '{{.CLUSTER}}' cluster ... continue?

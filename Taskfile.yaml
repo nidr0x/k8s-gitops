@@ -8,6 +8,9 @@ vars:
   SOPS_CONFIG_FILE: "{{.ROOT_DIR}}/.sops.yaml"
 
 includes:
+  bootstrap:
+    taskfile: .taskfiles/bootstrap
+    dir: .taskfiles/bootstrap
   pre-commit:
     taskfile: .taskfiles/pre-commit
     dir: .taskfiles/pre-commit
