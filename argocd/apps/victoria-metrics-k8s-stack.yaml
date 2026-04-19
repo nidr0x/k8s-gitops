@@ -27,3 +27,21 @@ spec:
     automated:
       prune: true
       selfHeal: true
+  ignoreDifferences:
+    - group: ""
+      kind: Secret
+      name: victoria-metrics-k8s-stack-victoria-metrics-operator-validation
+      namespace: kube-monitoring
+      jqPathExpressions:
+        - .data
+    - group: ""
+      kind: Secret
+      name: victoriametrics-grafana
+      namespace: kube-monitoring
+      jqPathExpressions:
+        - .data
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      name: victoria-metrics-k8s-stack-victoria-metrics-operator-admission
+      jqPathExpressions:
+        - .webhooks[]?.clientConfig.caBundle

@@ -20,11 +20,6 @@ spec:
       targetRevision: 1.19.2
       chart: cilium
       helm:
-        parameters:
-          - name: prometheus.serviceMonitor.enabled
-            value: "false"
-          - name: prometheus.serviceMonitor.trustCRDsExist
-            value: "true"
         valueFiles:
           - $nidr0x-k8s-gitops/kubernetes/main/apps/cilium/values.yaml
   syncPolicy:
