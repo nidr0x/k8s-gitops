@@ -58,7 +58,8 @@ hubble:
 prometheus:
   enabled: true
   serviceMonitor:
-    enabled: true
+    enabled: false
+    trustCRDsExist: true
 
 envoy:
   securityContext:
