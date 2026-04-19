@@ -45,3 +45,21 @@ spec:
       name: victoria-metrics-k8s-stack-victoria-metrics-operator-admission
       jqPathExpressions:
         - .webhooks[]?.clientConfig.caBundle
+    - group: apps
+      kind: Deployment
+      name: victoriametrics-grafana
+      namespace: kube-monitoring
+      jqPathExpressions:
+        - .spec.template.metadata.annotations["kubectl.kubernetes.io/restartedAt"]
+    - group: external-secrets.io
+      kind: ExternalSecret
+      name: victoriametricsstack-oauth2
+      namespace: kube-monitoring
+      jqPathExpressions:
+        - .spec.refreshInterval
+        - .spec.target.creationPolicy
+        - .spec.target.deletionPolicy
+        - .spec.data[]?.remoteRef.conversionStrategy
+        - .spec.data[]?.remoteRef.decodingStrategy
+        - .spec.data[]?.remoteRef.metadataPolicy
+        - .spec.data[]?.remoteRef.nullBytePolicy
