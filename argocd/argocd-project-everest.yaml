@@ -13,6 +13,7 @@ spec:
       server: https://kubernetes.default.svc
   sourceRepos:
     - https://github.com/nidr0x/homelab
+    - https://community-charts.github.io/helm-charts
     - https://github.com/cert-manager/cert-manager.git
     - https://github.com/nidr0x/k8s-gitops
     - https://cloudnative-pg.github.io/charts
