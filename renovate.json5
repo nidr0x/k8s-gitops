@@ -24,16 +24,18 @@
   kubernetes: {
     managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"],
   },
-  ignorePaths: [
-    "**/*.sops.*",
-    "talos/clusterconfig/**",
-    "talos/db/**",
-  ],
+  ignorePaths: ["**/*.sops.*", "talos/clusterconfig/**", "talos/db/**"],
   packageRules: [
     {
       description: "Disable broad automerge for non-GitHub-Actions updates",
       matchUpdateTypes: ["minor", "patch", "pin", "digest"],
-      matchManagers: ["argocd", "dockerfile", "helm-values", "kubernetes", "regex"],
+      matchManagers: [
+        "argocd",
+        "dockerfile",
+        "helm-values",
+        "kubernetes",
+        "custom.regex",
+      ],
       automerge: false,
     },
     {
