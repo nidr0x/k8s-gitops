@@ -203,6 +203,110 @@ configs:
         hs.status = "Healthy"
       end
       return hs
+    resource.customizations.health.postgresql.cnpg.io_Cluster: |
+      hs = {}
+      hs.status = "Progressing"
+      hs.message = ""
+      if obj.status ~= nil then
+        if obj.status.phase ~= nil then
+          hs.message = obj.status.phase
+        end
+        if obj.status.conditions ~= nil then
+          for _, condition in ipairs(obj.status.conditions) do
+            if condition.type == "Ready" then
+              if condition.status == "True" then
+                hs.status = "Healthy"
+              elseif condition.status == "False" then
+                hs.status = "Degraded"
+              end
+              if condition.message ~= nil and condition.message ~= "" then
+                hs.message = condition.message
+              end
+              return hs
+            end
+          end
+        end
+      end
+      return hs
+    resource.customizations.health.postgresql.cnpg.io_Backup: |
+      hs = {}
+      hs.status = "Progressing"
+      hs.message = ""
+      if obj.status ~= nil then
+        if obj.status.phase ~= nil then
+          hs.message = obj.status.phase
+          if obj.status.phase == "completed" or obj.status.phase == "Completed" then
+            hs.status = "Healthy"
+          elseif obj.status.phase == "failed" or obj.status.phase == "Failed" then
+            hs.status = "Degraded"
+          end
+        end
+      end
+      return hs
+    resource.customizations.health.postgresql.cnpg.io_ScheduledBackup: |
+      hs = {}
+      hs.status = "Progressing"
+      hs.message = ""
+      if obj.status ~= nil then
+        if obj.status.nextScheduleTime ~= nil and obj.status.nextScheduleTime ~= "" then
+          hs.status = "Healthy"
+          hs.message = "Next schedule: " .. obj.status.nextScheduleTime
+        elseif obj.status.lastCheckTime ~= nil and obj.status.lastCheckTime ~= "" then
+          hs.status = "Healthy"
+          hs.message = "Last check: " .. obj.status.lastCheckTime
+        end
+      end
+      return hs
+    resource.customizations.health.external-secrets.io_ExternalSecret: |
+      hs = {}
+      hs.status = "Progressing"
+      hs.message = ""
+      if obj.status ~= nil and obj.status.conditions ~= nil then
+        for _, condition in ipairs(obj.status.conditions) do
+          if condition.type == "Ready" then
+            if condition.status == "True" then
+              hs.status = "Healthy"
+            elseif condition.status == "False" then
+              hs.status = "Degraded"
+            end
+            if condition.message ~= nil and condition.message ~= "" then
+              hs.message = condition.message
+            end
+            return hs
+          end
+        end
+      end
+      return hs
+    resource.customizations.health.gateway.networking.k8s.io_HTTPRoute: |
+      hs = {}
+      hs.status = "Progressing"
+      hs.message = ""
+      if obj.status ~= nil and obj.status.parents ~= nil then
+        local accepted = false
+        local resolved = false
+        for _, parent in ipairs(obj.status.parents) do
+          if parent.conditions ~= nil then
+            for _, condition in ipairs(parent.conditions) do
+              if condition.type == "Accepted" and condition.status == "True" then
+                accepted = true
+              end
+              if condition.type == "ResolvedRefs" and condition.status == "True" then
+                resolved = true
+              end
+              if condition.status == "False" and condition.message ~= nil and condition.message ~= "" then
+                hs.status = "Degraded"
+                hs.message = condition.message
+                return hs
+              end
+            end
+          end
+        end
+        if accepted and resolved then
+          hs.status = "Healthy"
+          hs.message = "Route accepted"
+        end
+      end
+      return hs
 
     resource.customizations.ignoreDifferences.all: |+
       jqPathExpressions:
