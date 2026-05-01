@@ -18,6 +18,9 @@ spec:
       targetRevision: 0.6.0
       chart: spegel
       helm:
+        parameters:
+          - name: serviceMonitor.enabled
+            value: "false"
         valueFiles:
           - $nidr0x-k8s-gitops/kubernetes/main/apps/spegel/values.yaml
   syncPolicy:
