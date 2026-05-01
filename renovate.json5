@@ -19,20 +19,30 @@
   assignees: ["nidr0x"],
   reviewers: ["nidr0x"],
   argocd: {
-    managerFilePatterns: ["/^.*\\.ya?ml$/"],
+    managerFilePatterns: ["/(^|/)argocd/.+\\.ya?ml$/"],
   },
   kubernetes: {
-    managerFilePatterns: ["/^.*\\.ya?ml$/"],
+    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"],
   },
-  ignorePaths: ["**/*.sops.*"],
-  commitMessageTopic: "{{depName}}",
-  commitMessageExtra: "to {{newVersion}}",
-  commitMessageSuffix: "",
+  ignorePaths: [
+    "**/*.sops.*",
+    "talos/clusterconfig/**",
+    "talos/db/**",
+  ],
   packageRules: [
     {
-      description: "Wait 3 days for minor/patch updates to ensure stability",
-      matchUpdateTypes: ["minor", "patch"],
-      minimumReleaseAge: "3 days",
+      description: "Disable broad automerge for non-GitHub-Actions updates",
+      matchUpdateTypes: ["minor", "patch", "pin", "digest"],
+      matchManagers: ["argocd", "dockerfile", "helm-values", "kubernetes", "regex"],
+      automerge: false,
+    },
+    {
+      description: "Keep GitHub Actions automerge enabled",
+      matchManagers: ["github-actions"],
+      matchUpdateTypes: ["minor", "patch", "pin", "digest"],
+      automerge: true,
+      automergeType: "branch",
+      ignoreTests: true,
     },
     {
       matchPackageNames: ["homebridge/homebridge"],
