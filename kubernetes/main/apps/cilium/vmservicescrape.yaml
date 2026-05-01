@@ -1,0 +1,16 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMServiceScrape
+metadata:
+  name: cilium-envoy
+  namespace: kube-monitoring
+spec:
+  endpoints:
+    - port: envoy-metrics
+  namespaceSelector:
+    matchNames:
+      - kube-system
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: cilium-envoy
+      app.kubernetes.io/part-of: cilium
+      io.cilium/app: proxy
