@@ -1,0 +1,16 @@
+extends: default
+
+ignore: |
+  .sops.yaml
+  **/*.dec
+  argocd/charts/**
+  talos/clusterconfig/**
+  talos/db/**
+
+rules:
+  braces: disable
+  comments: disable
+  comments-indentation: disable
+  document-start: disable
+  line-length: disable
+  truthy: disable
