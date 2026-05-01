@@ -41,6 +41,8 @@ spec:
     retentionPolicy: "7d"
 
   enableSuperuserAccess: true
+  superuserSecret:
+    name: teslamate-database-superuser
   logLevel: info
 
   storage:

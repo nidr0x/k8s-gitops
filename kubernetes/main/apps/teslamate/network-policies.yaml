@@ -43,6 +43,13 @@ spec:
     - from:
         - namespaceSelector:
             matchLabels:
+              kubernetes.io/metadata.name: kube-monitoring
+      ports:
+        - protocol: TCP
+          port: 5432
+    - from:
+        - namespaceSelector:
+            matchLabels:
               kubernetes.io/metadata.name: cloudnative-pg
       ports:
         - protocol: TCP
