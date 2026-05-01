@@ -50,6 +50,8 @@ spec:
       name: victoriametrics-grafana
       namespace: kube-monitoring
       jqPathExpressions:
+        - .metadata.annotations["deployment.kubernetes.io/revision"]
+        - .spec.template.metadata.annotations["checksum/secret"]
         - .spec.template.metadata.annotations["kubectl.kubernetes.io/restartedAt"]
     - group: external-secrets.io
       kind: ExternalSecret

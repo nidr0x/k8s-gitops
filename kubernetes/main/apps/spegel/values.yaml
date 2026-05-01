@@ -5,7 +5,7 @@ service:
   registry:
     hostPort: 29999
 serviceMonitor:
-  enabled: true
+  enabled: false
 grafanaDashboard:
   enabled: true
 podLabels:
