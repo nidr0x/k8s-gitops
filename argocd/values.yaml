@@ -207,9 +207,22 @@ configs:
     resource.customizations.ignoreDifferences.all: |+
       jqPathExpressions:
       - '.metadata.labels."helm.sh/chart"'
+      - '.metadata.annotations."deployment.kubernetes.io/revision"'
     resource.customizations.ignoreDifferences.external-secrets.io_ExternalSecret:
       |+
       jqPathExpressions:
+      - '.metadata.finalizers'
+      - '.spec.refreshInterval'
+      - '.spec.target.creationPolicy'
+      - '.spec.target.deletionPolicy'
       - '.spec.data[].remoteRef.conversionStrategy'
       - '.spec.data[].remoteRef.decodingStrategy'
       - '.spec.data[].remoteRef.metadataPolicy'
+      - '.spec.data[].remoteRef.nullBytePolicy'
+      - '.status'
+    resource.customizations.ignoreDifferences.cert-manager.io_Certificate: |+
+      jqPathExpressions:
+      - '.status'
+    resource.customizations.ignoreDifferences.cert-manager.io_ClusterIssuer: |+
+      jqPathExpressions:
+      - '.status'

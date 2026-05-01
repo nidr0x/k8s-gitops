@@ -921,7 +921,9 @@ metadata:
   name: barman-cloud
   namespace: cnpg-system
 spec:
+  progressDeadlineSeconds: 600
   replicas: 1
+  revisionHistoryLimit: 10
   selector:
     matchLabels:
       app: barman-cloud
@@ -948,15 +950,19 @@ spec:
                   key: SIDECAR_IMAGE
                   name: plugin-barman-cloud-gt85cmh99d
           image: ghcr.io/cloudnative-pg/plugin-barman-cloud:v0.9.0
+          imagePullPolicy: IfNotPresent
           name: barman-cloud
           ports:
             - containerPort: 9090
               protocol: TCP
           readinessProbe:
+            failureThreshold: 3
             initialDelaySeconds: 10
             periodSeconds: 10
+            successThreshold: 1
             tcpSocket:
               port: 9090
+            timeoutSeconds: 1
           resources: {}
           securityContext:
             allowPrivilegeEscalation: false
@@ -973,17 +979,26 @@ spec:
               name: server
             - mountPath: /client
               name: client
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      serviceAccount: plugin-barman-cloud
       securityContext:
         runAsNonRoot: true
         seccompProfile:
           type: RuntimeDefault
       serviceAccountName: plugin-barman-cloud
+      terminationGracePeriodSeconds: 30
       volumes:
         - name: server
           secret:
+            defaultMode: 420
             secretName: barman-cloud-server-tls
         - name: client
           secret:
+            defaultMode: 420
             secretName: barman-cloud-client-tls
 ---
 apiVersion: cert-manager.io/v1

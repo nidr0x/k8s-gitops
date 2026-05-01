@@ -27,6 +27,14 @@ spec:
       - CreateNamespace=true
       - Replace=true
       - ServerSideApply=true
+      - RespectIgnoreDifferences=true
     automated:
       prune: true
       selfHeal: true
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      name: barman-cloud
+      namespace: cloudnative-pg
+      jqPathExpressions:
+        - .metadata.annotations["deployment.kubernetes.io/revision"]
