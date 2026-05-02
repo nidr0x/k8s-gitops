@@ -27,6 +27,12 @@
   ignorePaths: ["**/*.sops.*", "talos/clusterconfig/**", "talos/db/**"],
   packageRules: [
     {
+      description: "Keep docker datasource updates separate",
+      matchDatasources: ["docker"],
+      groupName: null,
+      groupSlug: null,
+    },
+    {
       description: "Disable broad automerge for non-GitHub-Actions updates",
       matchUpdateTypes: ["minor", "patch", "pin", "digest"],
       matchManagers: [
