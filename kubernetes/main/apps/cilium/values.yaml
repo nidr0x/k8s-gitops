@@ -3,6 +3,8 @@ k8sServicePort: 7445
 
 kubeProxyReplacement: true
 
+localRedirectPolicy: true
+
 ipam:
   mode: kubernetes
 
@@ -16,7 +18,7 @@ k8sClientRateLimit:
 gatewayAPI:
   enabled: true
   gatewayClass:
-    create: false
+    create: "false"
 
 externalIPs:
   enabled: true

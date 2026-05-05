@@ -2,4 +2,6 @@ serviceMonitor:
   enabled: false
 
 config:
-  bindIp: true
+  bindIp: false
+  setupIptables: false
+  setupInterface: false
