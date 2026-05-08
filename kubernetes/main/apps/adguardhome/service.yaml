@@ -3,6 +3,7 @@ kind: Service
 metadata:
   labels:
     app: adguardhome
+    homelab.nidr0x.dev/l2-announce: "true"
   name: adguardhome-http
   annotations:
     "io.cilium/lb-ipam-sharing-key": "dns"
@@ -22,6 +23,7 @@ kind: Service
 metadata:
   labels:
     app: adguardhome
+    homelab.nidr0x.dev/l2-announce: "true"
   name: adguardhome-admin
   annotations:
     "io.cilium/lb-ipam-sharing-key": "dns"
@@ -41,6 +43,7 @@ kind: Service
 metadata:
   labels:
     app: adguardhome
+    homelab.nidr0x.dev/l2-announce: "true"
   name: dns-over-tls
   annotations:
     "io.cilium/lb-ipam-sharing-key": "dns"
@@ -64,6 +67,7 @@ kind: Service
 metadata:
   labels:
     app: adguardhome
+    homelab.nidr0x.dev/l2-announce: "true"
   name: dns-tcp-udp
   annotations:
     "io.cilium/lb-ipam-sharing-key": "dns"
@@ -87,6 +91,7 @@ kind: Service
 metadata:
   labels:
     app: adguardhome
+    homelab.nidr0x.dev/l2-announce: "true"
   name: dnscrypt
   annotations:
     "io.cilium/lb-ipam-sharing-key": "dns"
