@@ -7,3 +7,6 @@ metadata:
 spec:
   externalIPs: true
   loadBalancerIPs: true
+  serviceSelector:
+    matchLabels:
+      homelab.nidr0x.dev/l2-announce: "true"
