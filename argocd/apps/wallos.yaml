@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: wallos
+spec:
+  destination:
+    namespace: wallos
+    server: https://kubernetes.default.svc
+  project: everest
+  source:
+    path: kubernetes/main/apps/wallos/
+    repoURL: https://github.com/nidr0x/k8s-gitops
+    targetRevision: master
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
