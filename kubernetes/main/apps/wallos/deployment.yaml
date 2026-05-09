@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wallos
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: wallos
+  template:
+    metadata:
+      labels:
+        app: wallos
+    spec:
+      initContainers:
+        - name: prepare-data
+          image: public.ecr.aws/docker/library/busybox:1.37.0
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - mkdir -p /data/db /data/logos
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - name: wallos-data
+              mountPath: /data
+      containers:
+        - name: wallos
+          image: bellamy/wallos:4.8.2
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            allowPrivilegeEscalation: false
+          env:
+            - name: TZ
+              value: "UTC"
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              memory: 256Mi
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - name: wallos-data
+              mountPath: /var/www/html/db
+              subPath: db
+            - name: wallos-data
+              mountPath: /var/www/html/images/uploads/logos
+              subPath: logos
+      volumes:
+        - name: wallos-data
+          persistentVolumeClaim:
+            claimName: wallos-data
