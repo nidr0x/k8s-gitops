@@ -21,7 +21,7 @@ dns:
   refuse_any: true
   upstream_dns:
     - https://dns.cloudflare.com/dns-query
-    - https://dns4eu.eu/dns-query
+    - https://dns.quad9.net/dns-query
   upstream_dns_file: ""
   bootstrap_dns:
     - 1.1.1.1
