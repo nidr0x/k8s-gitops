@@ -7,9 +7,9 @@ tolerations:
     effect: NoSchedule
 
 storageClass:
-  - name: proxmox-k8s-zfs
+  - name: proxmox-k8s-lvm
     cache: writethrough
-    storage: k8s-storage
+    storage: local-lvm
     reclaimPolicy: Retain
     fstype: ext4
     ssd: true
