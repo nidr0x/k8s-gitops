@@ -1,12 +1,14 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
 clusterName: everest
-endpoint: "https://192.168.1.90:6443"
+endpoint: "https://192.168.1.5:6443"
 
 # renovate: datasource=github-releases depName=siderolabs/talos
 talosVersion: v1.13.0
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.36.0
+additionalApiServerCertSans:
+  - 192.168.1.5
 allowSchedulingOnControlPlanes: false
 
 cniConfig:
@@ -17,6 +19,12 @@ nodes:
     ipAddress: 192.168.1.90
     installDisk: /dev/sda
     controlPlane: true
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: bc:24:11:9c:06:43
+        dhcp: true
+        vip:
+          ip: 192.168.1.5
     nodeLabels:
       topology.kubernetes.io/region: homelab
       topology.kubernetes.io/zone: annapurna
@@ -24,6 +32,12 @@ nodes:
     ipAddress: 192.168.1.91
     installDisk: /dev/sda
     controlPlane: true
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: bc:24:11:75:dd:27
+        dhcp: true
+        vip:
+          ip: 192.168.1.5
     nodeLabels:
       topology.kubernetes.io/region: homelab
       topology.kubernetes.io/zone: annapurna
@@ -31,24 +45,42 @@ nodes:
     ipAddress: 192.168.1.92
     installDisk: /dev/sda
     controlPlane: true
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: bc:24:11:fa:05:75
+        dhcp: true
+        vip:
+          ip: 192.168.1.5
     nodeLabels:
       topology.kubernetes.io/region: homelab
       topology.kubernetes.io/zone: annapurna
   - hostname: worker-01
     ipAddress: 192.168.1.100
     installDisk: /dev/sda
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: bc:24:11:85:fb:fc
+        dhcp: true
     nodeLabels:
       topology.kubernetes.io/region: homelab
       topology.kubernetes.io/zone: annapurna
   - hostname: worker-02
     ipAddress: 192.168.1.103
     installDisk: /dev/sda
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: bc:24:11:ca:61:a3
+        dhcp: true
     nodeLabels:
       topology.kubernetes.io/region: homelab
       topology.kubernetes.io/zone: annapurna
   - hostname: worker-03
     ipAddress: 192.168.1.102
     installDisk: /dev/sda
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: bc:24:11:b0:90:fc
+        dhcp: true
     nodeLabels:
       topology.kubernetes.io/region: homelab
       topology.kubernetes.io/zone: annapurna
@@ -77,24 +109,20 @@ controlPlane:
     customization:
       extraKernelArgs:
         - net.ifnames=1
-        - i915.enable_guc=3
         - init_on_alloc=0
         - init_on_free=0
-        - intel_iommu=on
-        - iommu=pt
         - mitigations=off
         - sysctl.kernel.kexec_load_disabled=1
         - talos.auditd.disabled=1
       systemExtensions:
         officialExtensions:
           - siderolabs/amd-ucode
-          - siderolabs/amdgpu
           - siderolabs/qemu-guest-agent
+  patches:
+    - "@./patches/global/machine-talos-api.yaml"
 
 patches:
   - "@./patches/global/machine-files.yaml"
   - "@./patches/global/machine-kubelet.yaml"
-  - "@./patches/global/machine-network.yaml"
   - "@./patches/global/machine-sysctls.yaml"
-  - "@./patches/global/machine-talos-api.yaml"
   - "@./patches/global/machine-time.yaml"
