@@ -93,7 +93,8 @@ flowchart LR
       CERT["cert-manager"]
       EXTDNS["external-dns"]
       EXTS["external-secrets"]
-      NFS["CSI Driver NFS / Proxmox CSI"]
+      NFS["CSI Driver NFS / NAS-backed app storage"]
+      PXC["Proxmox CSI / local-lvm dynamic PVCs"]
       PG["CloudNativePG"]
       MON["VictoriaMetrics + VictoriaLogs + Grafana"]
     end

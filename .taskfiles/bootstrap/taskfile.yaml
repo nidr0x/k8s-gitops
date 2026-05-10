@@ -79,7 +79,7 @@ tasks:
     cmds:
       - kubectl apply -f {{.ROOT_DIR}}/argocd/namespace.yaml
       - kubectl apply -f {{.ARGOCD_SECRET_FILE}}
-      - kustomize build --enable-helm --load-restrictor LoadRestrictionsNone {{.ARGOCD_BOOTSTRAP_DIR}} | kubectl apply -f -
+      - kustomize build --enable-helm --load-restrictor LoadRestrictionsNone {{.ARGOCD_BOOTSTRAP_DIR}} | kubectl apply --server-side -f -
       - kubectl wait --for=condition=established --timeout=120s crd/applications.argoproj.io
       - kubectl wait --for=condition=established --timeout=120s crd/appprojects.argoproj.io
       - kubectl wait --for=condition=Available --timeout=300s deployment/argocd-server -n argocd
@@ -102,25 +102,23 @@ tasks:
       - kubectl get crd appprojects.argoproj.io
 
   wait-cilium:
-    desc: Wait for the Argo-managed Cilium handoff to complete, including Argo application state
+    desc: Wait for the Cilium datapath handoff to complete without depending on unrelated Argo app sync status
     cmds:
-      - |
-        for _ in $(seq 1 120); do
-          sync_status=$(kubectl get application.argoproj.io cilium -n argocd -o jsonpath='{.status.sync.status}' 2>/dev/null || true)
-          health_status=$(kubectl get application.argoproj.io cilium -n argocd -o jsonpath='{.status.health.status}' 2>/dev/null || true)
-          if [ "$sync_status" = "Synced" ] && [ "$health_status" != "Degraded" ] && [ "$health_status" != "Missing" ] && [ -n "$health_status" ]; then
-            exit 0
-          fi
-          sleep 5
-        done
-        echo "Timed out waiting for Argo CD application/cilium to become synced and non-degraded" >&2
-        kubectl get application.argoproj.io cilium -n argocd -o yaml >&2 || true
-        exit 1
+      - kubectl wait --for=condition=established --timeout=120s crd/gatewayclasses.gateway.networking.k8s.io
+      - kubectl wait --for=condition=established --timeout=120s crd/gateways.gateway.networking.k8s.io
+      - kubectl wait --for=condition=established --timeout=120s crd/httproutes.gateway.networking.k8s.io
       - kubectl rollout status --timeout=600s daemonset/cilium -n kube-system
       - kubectl rollout status --timeout=600s deployment/cilium-operator -n kube-system
       - kubectl wait --for=condition=Ready --timeout=600s node/{{.BOOTSTRAP_NODE}}
+      - |
+        sync_status=$(kubectl get application.argoproj.io cilium -n argocd -o jsonpath='{.status.sync.status}' 2>/dev/null || true)
+        health_status=$(kubectl get application.argoproj.io cilium -n argocd -o jsonpath='{.status.health.status}' 2>/dev/null || true)
+        echo "Argo CD application/cilium status: sync=${sync_status:-unknown} health=${health_status:-unknown}"
     preconditions:
       - kubectl get application.argoproj.io cilium -n argocd
+      - kubectl get crd gatewayclasses.gateway.networking.k8s.io
+      - kubectl get crd gateways.gateway.networking.k8s.io
+      - kubectl get crd httproutes.gateway.networking.k8s.io
       - kubectl get daemonset cilium -n kube-system
       - kubectl get deployment cilium-operator -n kube-system
       - kubectl get node {{.BOOTSTRAP_NODE}}

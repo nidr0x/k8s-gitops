@@ -56,7 +56,7 @@ spec:
       resources:
         requests:
           storage: 2Gi
-      storageClassName: proxmox-k8s-zfs
+      storageClassName: proxmox-k8s-lvm
 
   walStorage:
     pvcTemplate:
@@ -65,7 +65,7 @@ spec:
       resources:
         requests:
           storage: 2Gi
-      storageClassName: proxmox-k8s-zfs
+      storageClassName: proxmox-k8s-lvm
 
   monitoring:
     enablePodMonitor: true

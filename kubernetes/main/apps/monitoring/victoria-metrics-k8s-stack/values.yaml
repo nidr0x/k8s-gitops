@@ -252,7 +252,7 @@ vmagent:
     limits:
       memory: 256Mi
   persistentVolume:
-    storageClass: proxmox-k8s-zfs
+    storageClass: proxmox-k8s-lvm
     size: 10Gi
 
 vmsingle:
@@ -268,7 +268,7 @@ vmsingle:
       limits:
         memory: 2Gi
     storage:
-      storageClassName: "proxmox-k8s-zfs"
+      storageClassName: "proxmox-k8s-lvm"
       resources:
         requests:
           storage: 10Gi
@@ -284,7 +284,7 @@ vmalert:
     limits:
       memory: 128Mi
   persistentVolume:
-    storageClass: proxmox-k8s-zfs
+    storageClass: proxmox-k8s-lvm
     size: 1Gi
 
 alertmanager:
