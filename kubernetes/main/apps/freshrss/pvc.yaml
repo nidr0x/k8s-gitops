@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: freshrss-data
 spec:
-  storageClassName: proxmox-k8s-zfs
+  storageClassName: proxmox-k8s-lvm
   accessModes:
     - ReadWriteOnce
   resources:
