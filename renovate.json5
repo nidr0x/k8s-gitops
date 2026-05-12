@@ -27,8 +27,13 @@
   ignorePaths: ["**/*.sops.*", "talos/clusterconfig/**", "talos/db/**"],
   packageRules: [
     {
-      description: "Keep docker datasource updates separate",
-      matchDatasources: ["docker"],
+      description: "Keep selected docker updates separate",
+      matchPackageNames: [
+        "curlimages/curl",
+        "ghcr.io/cloudnative-pg/plugin-barman-cloud",
+        "ghcr.io/sergelogvinov/charts/proxmox-csi-plugin",
+        "ghcr.io/spegel-org/helm-charts/spegel",
+      ],
       groupName: null,
       groupSlug: null,
     },
