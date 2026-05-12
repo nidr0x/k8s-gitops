@@ -307,6 +307,62 @@ configs:
         end
       end
       return hs
+    resource.customizations.health.operator.victoriametrics.com_VMSingle: |
+      hs = {}
+      hs.status = "Progressing"
+      hs.message = ""
+      if obj.status ~= nil and obj.status.updateStatus ~= nil then
+        hs.message = obj.status.updateStatus
+        if obj.status.updateStatus == "operational" then
+          hs.status = "Healthy"
+        end
+      end
+      return hs
+    resource.customizations.health.cilium.io_CiliumL2AnnouncementPolicy: |
+      hs = {}
+      hs.status = "Healthy"
+      hs.message = "Policy configured"
+      if obj.status ~= nil and obj.status.conditions ~= nil then
+        for _, condition in ipairs(obj.status.conditions) do
+          if condition.status == "False" and condition.message ~= nil and condition.message ~= "" then
+            hs.status = "Degraded"
+            hs.message = condition.message
+            return hs
+          end
+        end
+      end
+      return hs
+    resource.customizations.health.cilium.io_CiliumLoadBalancerIPPool: |
+      hs = {}
+      hs.status = "Progressing"
+      hs.message = ""
+      local total = nil
+      local available = nil
+      local used = nil
+      if obj.status ~= nil and obj.status.conditions ~= nil then
+        for _, condition in ipairs(obj.status.conditions) do
+          if condition.type == "cilium.io/PoolConflict" then
+            if condition.status == "True" then
+              hs.status = "Degraded"
+              hs.message = condition.message or "Pool conflict"
+              return hs
+            end
+          elseif condition.type == "cilium.io/IPsTotal" then
+            total = condition.message
+          elseif condition.type == "cilium.io/IPsAvailable" then
+            available = condition.message
+          elseif condition.type == "cilium.io/IPsUsed" then
+            used = condition.message
+          end
+        end
+        hs.status = "Healthy"
+        if total ~= nil and available ~= nil and used ~= nil then
+          hs.message = "IPs available: " .. available .. "/" .. total .. " (used " .. used .. ")"
+        else
+          hs.message = "Pool ready"
+        end
+      end
+      return hs
 
     resource.customizations.ignoreDifferences.all: |+
       jqPathExpressions:
