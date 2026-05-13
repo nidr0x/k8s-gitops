@@ -1,5 +1,8 @@
 admissionController:
   replicas: 3
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 1
 backgroundController:
   replicas: 1
 cleanupController:
