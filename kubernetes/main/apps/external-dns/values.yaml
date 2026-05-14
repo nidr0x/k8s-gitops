@@ -1,3 +1,13 @@
+replicaCount: 2
+
+topologySpreadConstraints:
+  - maxSkew: 1
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: ScheduleAnyway
+    labelSelector:
+      matchLabels:
+        app.kubernetes.io/name: external-dns
+
 resources:
   requests:
     memory: 100Mi

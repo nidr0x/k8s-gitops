@@ -69,6 +69,13 @@ spec:
                       values:
                         - cloudflared
                 topologyKey: kubernetes.io/hostname
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: cloudflared
       restartPolicy: Always
       volumes:
         - name: config

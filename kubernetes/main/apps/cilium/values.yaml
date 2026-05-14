@@ -26,6 +26,13 @@ externalIPs:
 operator:
   replicas: 3
   rollOutPods: true
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: ScheduleAnyway
+      labelSelector:
+        matchLabels:
+          io.cilium/app: operator
 
 rollOutCiliumPods: true
 
