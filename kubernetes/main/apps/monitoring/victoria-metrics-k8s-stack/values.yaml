@@ -34,6 +34,13 @@ victoria-metrics-operator:
   operator:
     disable_prometheus_converter: true
     enable_converter_ownership: true
+    topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/name: victoria-metrics-operator
   resources:
     requests:
       cpu: 10m
@@ -94,6 +101,13 @@ grafana:
   podDisruptionBudget:
     enabled: true
     minAvailable: 1
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: ScheduleAnyway
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/name: grafana
   fullnameOverride: "victoriametrics-grafana"
   dashboardProviders:
     dashboardproviders.yaml:
@@ -290,6 +304,13 @@ vmalert:
 alertmanager:
   enabled: true
   replicaCount: 2
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: ScheduleAnyway
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/name: alertmanager
   resources:
     requests:
       cpu: 20m

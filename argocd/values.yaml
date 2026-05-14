@@ -20,6 +20,13 @@ repoServer:
                 operator: In
                 values:
                   - "true"
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: ScheduleAnyway
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/name: argocd-repo-server
   autoscaling:
     enabled: true
     minReplicas: 1
@@ -54,6 +61,13 @@ controller:
                 operator: In
                 values:
                   - "true"
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: ScheduleAnyway
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/name: argocd-application-controller
   replicas: 2
   resources:
     requests:
@@ -83,6 +97,13 @@ server:
                 operator: In
                 values:
                   - "true"
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: ScheduleAnyway
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/name: argocd-server
   ingress:
     enabled: true
     https: false
@@ -133,6 +154,13 @@ dex:
                 operator: In
                 values:
                   - "true"
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: ScheduleAnyway
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/name: argocd-dex-server
 
 redis:
   nodeSelector:
@@ -154,6 +182,13 @@ redis:
                 operator: In
                 values:
                   - "true"
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: ScheduleAnyway
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/name: argocd-redis
 
 configs:
   params:
