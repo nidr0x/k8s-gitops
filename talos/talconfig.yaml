@@ -97,7 +97,6 @@ worker:
         - iommu=pt
         - mitigations=off
         - sysctl.kernel.kexec_load_disabled=1
-        - talos.auditd.disabled=1
       systemExtensions:
         officialExtensions:
           - siderolabs/amd-ucode
@@ -113,7 +112,6 @@ controlPlane:
         - init_on_free=0
         - mitigations=off
         - sysctl.kernel.kexec_load_disabled=1
-        - talos.auditd.disabled=1
       systemExtensions:
         officialExtensions:
           - siderolabs/amd-ucode
