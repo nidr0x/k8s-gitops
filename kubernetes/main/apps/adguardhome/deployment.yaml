@@ -27,9 +27,6 @@ spec:
         - name: users
           secret:
             secretName: users
-        - name: adguardhome-sync
-          secret:
-            secretName: adguardhome-sync
         - name: config-folder
           emptyDir: {}
         - name: work-folder
