@@ -10,6 +10,17 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
+  name: default-deny-egress
+spec:
+  podSelector:
+    matchLabels:
+      app: adguardhome
+  policyTypes:
+    - Egress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
   name: allow-from-cilium-gateway
 spec:
   podSelector:
@@ -42,3 +53,22 @@ spec:
           port: 853
         - protocol: UDP
           port: 853
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-upstream-dns-egress
+spec:
+  podSelector:
+    matchLabels:
+      app: adguardhome
+  policyTypes:
+    - Egress
+  egress:
+    - ports:
+        - protocol: TCP
+          port: 53
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 443
