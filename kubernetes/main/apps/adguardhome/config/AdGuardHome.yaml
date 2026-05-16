@@ -44,7 +44,6 @@ dns:
   trusted_proxies:
     - 127.0.0.0/8
     - ::1/128
-    - 192.168.1.0/24
     - 10.244.0.0/16
   cache_size: 4194304
   cache_ttl_min: 600

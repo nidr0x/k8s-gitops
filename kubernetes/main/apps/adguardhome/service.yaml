@@ -85,27 +85,3 @@ spec:
       targetPort: dns-udp
   selector:
     app: adguardhome
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: adguardhome
-    homelab.nidr0x.dev/l2-announce: "true"
-  name: dnscrypt
-  annotations:
-    "io.cilium/lb-ipam-sharing-key": "dns"
-    "io.cilium/lb-ipam-ips": "192.168.1.241"
-spec:
-  type: LoadBalancer
-  ports:
-    - name: dnscrypt
-      port: 5443
-      protocol: TCP
-      targetPort: dnscrypt
-    - name: dnscrypt-udp
-      port: 5443
-      protocol: UDP
-      targetPort: dnscrypt-udp
-  selector:
-    app: adguardhome
