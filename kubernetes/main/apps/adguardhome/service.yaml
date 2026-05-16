@@ -24,26 +24,6 @@ metadata:
   labels:
     app: adguardhome
     homelab.nidr0x.dev/l2-announce: "true"
-  name: adguardhome-admin
-  annotations:
-    "io.cilium/lb-ipam-sharing-key": "dns"
-    "io.cilium/lb-ipam-ips": "192.168.1.241"
-spec:
-  type: LoadBalancer
-  ports:
-    - name: admin
-      port: 3000
-      protocol: TCP
-      targetPort: admin
-  selector:
-    app: adguardhome
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: adguardhome
-    homelab.nidr0x.dev/l2-announce: "true"
   name: dns-over-tls
   annotations:
     "io.cilium/lb-ipam-sharing-key": "dns"
