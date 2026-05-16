@@ -42,7 +42,3 @@ spec:
           port: 853
         - protocol: UDP
           port: 853
-        - protocol: TCP
-          port: 5443
-        - protocol: UDP
-          port: 5443
