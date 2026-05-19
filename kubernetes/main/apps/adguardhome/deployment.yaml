@@ -75,7 +75,7 @@ spec:
       priorityClassName: system-cluster-critical
       containers:
         - name: adguardhome
-          image: adguard/adguardhome:v0.107.74
+          image: adguard/adguardhome:v0.107.75
           resources:
             limits:
               memory: 256Mi
