@@ -18,6 +18,10 @@ spec:
       labels:
         app: teslamate
     spec:
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "2"
       containers:
         - name: teslamate
           image: teslamate/teslamate:3.0.0
