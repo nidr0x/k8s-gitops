@@ -17,6 +17,10 @@ spec:
       labels:
         app: adguardhome
     spec:
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "2"
       volumes:
         - name: tls-cert-secret
           secret:

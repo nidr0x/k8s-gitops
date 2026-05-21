@@ -19,6 +19,10 @@ spec:
       labels:
         app: cloudflared
     spec:
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "2"
       priorityClassName: system-cluster-critical
       containers:
         - name: cloudflared
