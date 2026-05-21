@@ -934,6 +934,10 @@ spec:
       labels:
         app: barman-cloud
     spec:
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "2"
       containers:
         - args:
             - operator

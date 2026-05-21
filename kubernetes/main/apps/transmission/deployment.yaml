@@ -17,6 +17,10 @@ spec:
       labels:
         app: transmission
     spec:
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "2"
       securityContext:
         fsGroup: 988
         fsGroupChangePolicy: "OnRootMismatch"

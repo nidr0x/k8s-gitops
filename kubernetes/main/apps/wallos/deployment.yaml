@@ -17,6 +17,10 @@ spec:
       labels:
         app: wallos
     spec:
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "2"
       initContainers:
         - name: prepare-data
           image: public.ecr.aws/docker/library/busybox:1.37.0
