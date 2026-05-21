@@ -30,6 +30,10 @@ spec:
       ttlSecondsAfterFinished: 86400
       template:
         spec:
+          dnsConfig:
+            options:
+              - name: ndots
+                value: "2"
           restartPolicy: OnFailure
           containers:
             - name: talos-backup

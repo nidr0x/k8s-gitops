@@ -17,6 +17,10 @@ spec:
       labels:
         app: freshrss
     spec:
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "2"
       containers:
         - name: freshrss
           image: freshrss/freshrss:1.29.0-alpine
