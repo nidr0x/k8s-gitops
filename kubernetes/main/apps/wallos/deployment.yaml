@@ -23,7 +23,7 @@ spec:
             value: "2"
       initContainers:
         - name: prepare-data
-          image: public.ecr.aws/docker/library/busybox:1.37.0
+          image: public.ecr.aws/docker/library/busybox:1.38.0
           imagePullPolicy: IfNotPresent
           command:
             - sh
