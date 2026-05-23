@@ -37,7 +37,7 @@ spec:
           emptyDir: {}
       initContainers:
         - name: copy-base-config-adguardhome
-          image: public.ecr.aws/docker/library/busybox:1.37.0
+          image: public.ecr.aws/docker/library/busybox:1.38.0
           imagePullPolicy: IfNotPresent
           command:
             [
@@ -57,7 +57,7 @@ spec:
             - name: config-folder
               mountPath: /opt/adguardhome/conf
         - name: append-users
-          image: public.ecr.aws/docker/library/busybox:1.37.0
+          image: public.ecr.aws/docker/library/busybox:1.38.0
           imagePullPolicy: IfNotPresent
           command:
             [
