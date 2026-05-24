@@ -17,7 +17,7 @@ defaultDatasources:
       isDefault: false
     - name: VictoriaLogs
       type: victoriametrics-logs-datasource
-      url: http://victorialogs-server.kube-monitoring.svc.cluster.local:9428
+      url: http://victorialogs-server.kube-monitoring.svc.cluster.local:9428/victorialogs
       access: proxy
       jsonData:
         maxLines: 1000
