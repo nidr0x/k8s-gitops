@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: teslamate
   namespace: teslamate
+  labels:
+    alerts.nidr0x.win/enabled: "true"
 spec:
   replicas: 1
   strategy:
@@ -17,6 +19,7 @@ spec:
     metadata:
       labels:
         app: teslamate
+        alerts.nidr0x.win/enabled: "true"
     spec:
       dnsConfig:
         options:

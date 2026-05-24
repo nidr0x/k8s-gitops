@@ -5,3 +5,4 @@ resources:
   - secret.yaml
   - database.yaml
   - http-route.yaml
+  - vmrule-homelab-apps.yaml
