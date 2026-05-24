@@ -1,0 +1,73 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMRule
+metadata:
+  name: homelab-apps
+spec:
+  groups:
+    - name: homelab-apps
+      rules:
+        - alert: HomelabAppNoReadyPods
+          annotations:
+            description: App {{ if $labels.label_app_kubernetes_io_name }}{{ $labels.label_app_kubernetes_io_name }}{{ else }}{{ $labels.label_app }}{{ end }} in namespace {{ $labels.namespace }} has no ready pods for longer than 10 minutes.
+            summary: Homelab app has no ready pods.
+          expr: |
+            sum by (namespace, cluster, label_app, label_app_kubernetes_io_name) (
+              max by (namespace, pod, cluster) (
+                kube_pod_status_ready{
+                  condition="true",
+                  job="kube-state-metrics"
+                }
+              )
+              * on (namespace, pod, cluster) group_left(label_app, label_app_kubernetes_io_name)
+              kube_pod_labels{
+                job="kube-state-metrics",
+                label_alerts_nidr0x_win_enabled="true"
+              }
+            ) < 1
+          for: 10m
+          labels:
+            severity: critical
+            scope: homelab-apps
+        - alert: HomelabAppCrashLooping
+          annotations:
+            description: App {{ if $labels.label_app_kubernetes_io_name }}{{ $labels.label_app_kubernetes_io_name }}{{ else }}{{ $labels.label_app }}{{ end }} in namespace {{ $labels.namespace }} has one or more pods crash looping for longer than 10 minutes.
+            summary: Homelab app pod is crash looping.
+          expr: |
+            sum by (namespace, cluster, label_app, label_app_kubernetes_io_name) (
+              max_over_time(
+                kube_pod_container_status_waiting_reason{
+                  job="kube-state-metrics",
+                  reason="CrashLoopBackOff"
+                }[5m]
+              )
+              * on (namespace, pod, cluster) group_left(label_app, label_app_kubernetes_io_name)
+              kube_pod_labels{
+                job="kube-state-metrics",
+                label_alerts_nidr0x_win_enabled="true"
+              }
+            ) >= 1
+          for: 10m
+          labels:
+            severity: critical
+            scope: homelab-apps
+        - alert: HomelabAppRestartsHigh
+          annotations:
+            description: App {{ if $labels.label_app_kubernetes_io_name }}{{ $labels.label_app_kubernetes_io_name }}{{ else }}{{ $labels.label_app }}{{ end }} in namespace {{ $labels.namespace }} has restarted more than 3 times in the last 30 minutes.
+            summary: Homelab app pod is restarting repeatedly.
+          expr: |
+            sum by (namespace, cluster, label_app, label_app_kubernetes_io_name) (
+              increase(
+                kube_pod_container_status_restarts_total{
+                  job="kube-state-metrics"
+                }[30m]
+              )
+              * on (namespace, pod, cluster) group_left(label_app, label_app_kubernetes_io_name)
+              kube_pod_labels{
+                job="kube-state-metrics",
+                label_alerts_nidr0x_win_enabled="true"
+              }
+            ) > 3
+          for: 5m
+          labels:
+            severity: warning
+            scope: homelab-apps

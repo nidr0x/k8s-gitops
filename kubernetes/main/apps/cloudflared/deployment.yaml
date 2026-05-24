@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: cloudflared
+    alerts.nidr0x.win/enabled: "true"
   name: cloudflared
   namespace: cloudflared
 spec:
@@ -18,6 +19,7 @@ spec:
     metadata:
       labels:
         app: cloudflared
+        alerts.nidr0x.win/enabled: "true"
     spec:
       dnsConfig:
         options:
