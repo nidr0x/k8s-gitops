@@ -1,5 +1,8 @@
 fullnameOverride: n8n
 
+strategy:
+  type: Recreate
+
 podLabels:
   alerts.nidr0x.win/enabled: "true"
 
