@@ -68,7 +68,7 @@ grafana:
     pullPolicy: IfNotPresent
   sidecar:
     dashboards:
-      enabled: true
+      enabled: false
   envFromSecrets:
     - name: victoriametricsstack-oauth2
     - name: grafana-database-app
