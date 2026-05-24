@@ -327,6 +327,9 @@ nodeExporter:
   enabled: true
 kubeStateMetrics:
   enabled: true
+kube-state-metrics:
+  metricLabelsAllowlist:
+    - pods=[alerts.nidr0x.win/enabled,app,app.kubernetes.io/name]
 
 kubelet:
   enabled: true
