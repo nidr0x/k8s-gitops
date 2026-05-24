@@ -1,6 +1,10 @@
 serviceMonitor:
   enabled: false
 
+dashboard:
+  enabled: true
+  namespace: kube-monitoring
+
 config:
   bindIp: false
   setupIptables: false
