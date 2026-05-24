@@ -68,3 +68,53 @@ spec:
         - .spec.data[]?.remoteRef.decodingStrategy
         - .spec.data[]?.remoteRef.metadataPolicy
         - .spec.data[]?.remoteRef.nullBytePolicy
+    - group: postgresql.cnpg.io
+      kind: Cluster
+      name: grafana-database
+      namespace: kube-monitoring
+      jqPathExpressions:
+        - .spec.affinity
+        - .spec.bootstrap.initdb.encoding
+        - .spec.bootstrap.initdb.localeCType
+        - .spec.bootstrap.initdb.localeCollate
+        - .spec.enablePDB
+        - .spec.enableSuperuserAccess
+        - .spec.failoverDelay
+        - .spec.maxSyncReplicas
+        - .spec.minSyncReplicas
+        - .spec.monitoring.customQueriesConfigMap
+        - .spec.monitoring.disableDefaultQueries
+        - .spec.plugins[]?.enabled
+        - .spec.postgresGID
+        - .spec.postgresUID
+        - .spec.postgresql.parameters["archive_mode"]
+        - .spec.postgresql.parameters["dynamic_shared_memory_type"]
+        - .spec.postgresql.parameters["full_page_writes"]
+        - .spec.postgresql.parameters["log_destination"]
+        - .spec.postgresql.parameters["log_directory"]
+        - .spec.postgresql.parameters["log_filename"]
+        - .spec.postgresql.parameters["log_rotation_age"]
+        - .spec.postgresql.parameters["log_rotation_size"]
+        - .spec.postgresql.parameters["log_truncate_on_rotation"]
+        - .spec.postgresql.parameters["logging_collector"]
+        - .spec.postgresql.parameters["max_parallel_workers"]
+        - .spec.postgresql.parameters["max_replication_slots"]
+        - .spec.postgresql.parameters["max_worker_processes"]
+        - .spec.postgresql.parameters["shared_memory_type"]
+        - .spec.postgresql.parameters["shared_preload_libraries"]
+        - .spec.postgresql.parameters["ssl_max_protocol_version"]
+        - .spec.postgresql.parameters["ssl_min_protocol_version"]
+        - .spec.postgresql.parameters["wal_level"]
+        - .spec.postgresql.parameters["wal_log_hints"]
+        - .spec.postgresql.parameters["wal_receiver_timeout"]
+        - .spec.postgresql.parameters["wal_sender_timeout"]
+        - .spec.postgresql.syncReplicaElectionConstraint
+        - .spec.primaryUpdateMethod
+        - .spec.probes
+        - .spec.replicationSlots
+        - .spec.smartShutdownTimeout
+        - .spec.startDelay
+        - .spec.stopDelay
+        - .spec.storage.resizeInUseVolumes
+        - .spec.switchoverDelay
+        - .spec.walStorage.resizeInUseVolumes
