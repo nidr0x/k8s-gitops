@@ -24,26 +24,12 @@ spec:
       database: n8n
       owner: n8n
 
-  backup:
-    barmanObjectStore:
-      destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
-      endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
-      serverName: n8n-database-v1
-      s3Credentials:
-        accessKeyId:
-          name: n8n
-          key: ACCESS_KEY_ID
-        secretAccessKey:
-          name: n8n
-          key: SECRET_ACCESS_KEY
-      data:
-        compression: bzip2
-        encryption: AES256
-      wal:
-        compression: bzip2
-        maxParallel: 4
-        encryption: AES256
-    retentionPolicy: "7d"
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: n8n-database
+        serverName: n8n-database-v1
 
   logLevel: info
   primaryUpdateStrategy: unsupervised
@@ -63,7 +49,7 @@ spec:
         - ReadWriteOnce
       resources:
         requests:
-          storage: 1Gi
+          storage: 4Gi
       storageClassName: proxmox-k8s-lvm
 
   monitoring:
@@ -76,14 +62,30 @@ spec:
     limits:
       memory: "768Mi"
 ---
-apiVersion: postgresql.cnpg.io/v1
-kind: Backup
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
 metadata:
-  name: n8n
+  name: n8n-database
   namespace: n8n
 spec:
-  cluster:
-    name: n8n-database
+  configuration:
+    destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
+    endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
+    s3Credentials:
+      accessKeyId:
+        name: n8n
+        key: ACCESS_KEY_ID
+      secretAccessKey:
+        name: n8n
+        key: SECRET_ACCESS_KEY
+    data:
+      compression: bzip2
+      encryption: AES256
+    wal:
+      compression: bzip2
+      maxParallel: 4
+      encryption: AES256
+  retentionPolicy: "7d"
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
@@ -95,3 +97,6 @@ spec:
   backupOwnerReference: self
   cluster:
     name: n8n-database
+  method: plugin
+  pluginConfiguration:
+    name: barman-cloud.cloudnative-pg.io
