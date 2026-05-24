@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: adguardhome
+  labels:
+    alerts.nidr0x.win/enabled: "true"
 spec:
   selector:
     matchLabels:
@@ -16,6 +18,7 @@ spec:
     metadata:
       labels:
         app: adguardhome
+        alerts.nidr0x.win/enabled: "true"
     spec:
       dnsConfig:
         options:

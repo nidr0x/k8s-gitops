@@ -1,5 +1,11 @@
 replicaCount: 2
 
+commonLabels:
+  alerts.nidr0x.win/enabled: "true"
+
+podLabels:
+  alerts.nidr0x.win/enabled: "true"
+
 topologySpreadConstraints:
   - maxSkew: 1
     topologyKey: kubernetes.io/hostname

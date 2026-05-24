@@ -1,5 +1,8 @@
 fullnameOverride: n8n
 
+podLabels:
+  alerts.nidr0x.win/enabled: "true"
+
 db:
   type: postgresdb
 
