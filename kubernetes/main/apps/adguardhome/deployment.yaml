@@ -25,9 +25,6 @@ spec:
           - name: ndots
             value: "2"
       volumes:
-        - name: tls-cert-secret
-          secret:
-            secretName: prod-cert-zerossl
         - name: config
           configMap:
             name: adguard-config
@@ -82,7 +79,7 @@ spec:
       priorityClassName: system-cluster-critical
       containers:
         - name: adguardhome
-          image: adguard/adguardhome:v0.107.76
+          image: adguard/adguardhome:v0.107.77
           resources:
             limits:
               memory: 256Mi
@@ -118,15 +115,7 @@ spec:
             - name: admin
               containerPort: 3000
               protocol: TCP
-            - name: dns-over-tls
-              containerPort: 853
-              protocol: TCP
-            - name: dns-over-quic-2
-              containerPort: 853
-              protocol: UDP
           volumeMounts:
-            - name: tls-cert-secret
-              mountPath: /certs
             - name: config-folder
               mountPath: /opt/adguardhome/conf
             - name: work-folder
