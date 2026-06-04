@@ -2,9 +2,37 @@
 name: Lint
 
 on: # yamllint disable-line rule:truthy
-  push: null
-  pull_request: null
+  push:
+    paths:
+      - ".github/workflows/**"
+      - ".pre-commit-config.yaml"
+      - ".taskfiles/**"
+      - ".sops.yaml"
+      - "Taskfile.yaml"
+      - "argocd/**"
+      - "kubernetes/**"
+      - "renovate.json5"
+      - "talos/**"
+      - "terraform/**"
+      - "tofu/**"
+  pull_request:
+    paths:
+      - ".github/workflows/**"
+      - ".pre-commit-config.yaml"
+      - ".taskfiles/**"
+      - ".sops.yaml"
+      - "Taskfile.yaml"
+      - "argocd/**"
+      - "kubernetes/**"
+      - "renovate.json5"
+      - "talos/**"
+      - "terraform/**"
+      - "tofu/**"
 permissions: {}
+
+concurrency:
+  group: lint-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -12,11 +40,8 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write
-      packages: read
+      contents: read
       statuses: write
-      issues: write
-      pull-requests: write
 
     steps:
       - name: Checkout code
@@ -40,14 +65,3 @@ jobs:
           VALIDATE_MARKDOWN: false
           VALIDATE_TRIVY: false
           VALIDATE_SPELL_CODESPELL: false
-
-      - name: Commit and push linting fixes
-        if: >
-          github.event_name == 'pull_request' &&
-          github.ref_name != github.event.repository.default_branch
-        uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 # v7
-        with:
-          branch: ${{ github.event.pull_request.head.ref || github.head_ref || github.ref }}
-          commit_message: "chore: fix linting issues"
-          commit_user_name: super-linter
-          commit_user_email: super-linter@super-linter.dev
