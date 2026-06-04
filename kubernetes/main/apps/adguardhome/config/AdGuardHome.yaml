@@ -72,7 +72,7 @@ dns:
   serve_plain_dns: true
   hostsfile_enabled: true
 tls:
-  enabled: true
+  enabled: false
   server_name: dns.nidr0x.win
   force_https: false
   port_https: 443
@@ -83,8 +83,8 @@ tls:
   allow_unencrypted_doh: true
   certificate_chain: ""
   private_key: ""
-  certificate_path: /certs/tls.crt
-  private_key_path: /certs/tls.key
+  certificate_path: ""
+  private_key_path: ""
   strict_sni_check: false
 querylog:
   dir_path: ""
