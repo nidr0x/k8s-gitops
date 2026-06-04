@@ -3,10 +3,20 @@ name: gitleaks
 
 on:
   pull_request:
+    paths-ignore:
+      - "**/*.md"
+      - "docs/**"
   push:
+    paths-ignore:
+      - "**/*.md"
+      - "docs/**"
   workflow_dispatch:
   schedule:
     - cron: "0 0 * * *"
+
+concurrency:
+  group: gitleaks-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   scan:
