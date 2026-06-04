@@ -49,10 +49,6 @@ spec:
           port: 53
         - protocol: UDP
           port: 53
-        - protocol: TCP
-          port: 853
-        - protocol: UDP
-          port: 853
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
