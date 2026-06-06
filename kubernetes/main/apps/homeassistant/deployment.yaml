@@ -30,7 +30,7 @@ spec:
         fsGroupChangePolicy: "OnRootMismatch"
       initContainers:
         - name: check-config
-          image: homeassistant/home-assistant:2026.5
+          image: homeassistant/home-assistant:2026.6
           imagePullPolicy: Always
           command:
             - python
