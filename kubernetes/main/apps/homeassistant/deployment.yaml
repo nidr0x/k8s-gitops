@@ -20,6 +20,7 @@ spec:
         app: homeassistant
         alerts.nidr0x.win/enabled: "true"
     spec:
+      terminationGracePeriodSeconds: 90
       dnsConfig:
         options:
           - name: ndots
@@ -27,6 +28,30 @@ spec:
       securityContext:
         fsGroup: 988
         fsGroupChangePolicy: "OnRootMismatch"
+      initContainers:
+        - name: check-config
+          image: homeassistant/home-assistant:2026.5
+          imagePullPolicy: Always
+          command:
+            - python
+            - -m
+            - homeassistant
+            - --script
+            - check_config
+            - --config
+            - /config
+          securityContext:
+            privileged: false
+            allowPrivilegeEscalation: false
+          env:
+            - name: TZ
+              value: "Europe/Madrid"
+          volumeMounts:
+            - name: homeassistant-config
+              mountPath: /config
+            - name: homeassistant-config-file
+              mountPath: /config/configuration.yaml
+              subPath: configuration.yaml
       containers:
         - name: homeassistant
           image: homeassistant/home-assistant:2026.6
@@ -70,7 +95,8 @@ spec:
             successThreshold: 1
             failureThreshold: 30
           readinessProbe:
-            tcpSocket:
+            httpGet:
+              path: /
               port: http
             initialDelaySeconds: 0
             timeoutSeconds: 3
