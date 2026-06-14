@@ -27,7 +27,7 @@ spec:
             value: "2"
       containers:
         - name: teslamate
-          image: teslamate/teslamate:4.0.0
+          image: ghcr.io/teslamate-org/teslamate:pr-5406
           imagePullPolicy: Always
           resources:
             requests:
