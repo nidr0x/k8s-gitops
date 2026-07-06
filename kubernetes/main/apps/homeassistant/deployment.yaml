@@ -30,7 +30,7 @@ spec:
         fsGroupChangePolicy: "OnRootMismatch"
       initContainers:
         - name: check-config
-          image: homeassistant/home-assistant:2026.6
+          image: homeassistant/home-assistant:2026.7
           imagePullPolicy: Always
           command:
             - python
@@ -54,7 +54,7 @@ spec:
               subPath: configuration.yaml
       containers:
         - name: homeassistant
-          image: homeassistant/home-assistant:2026.6
+          image: homeassistant/home-assistant:2026.7
           imagePullPolicy: Always
           securityContext:
             privileged: false
