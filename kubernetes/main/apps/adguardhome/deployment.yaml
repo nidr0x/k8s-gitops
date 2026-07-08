@@ -82,10 +82,10 @@ spec:
           image: adguard/adguardhome:v0.107.77
           resources:
             limits:
-              memory: 256Mi
+              memory: 512Mi
             requests:
               cpu: 80m
-              memory: 64Mi
+              memory: 128Mi
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
