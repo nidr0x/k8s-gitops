@@ -14,7 +14,7 @@ spec:
       targetRevision: master
       ref: nidr0x-k8s-gitops
     - repoURL: https://charts.jetstack.io
-      targetRevision: v1.20.2
+      targetRevision: v1.21.0
       chart: cert-manager
       helm:
         valueFiles:
