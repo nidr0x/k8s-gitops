@@ -17,7 +17,7 @@ spec:
       targetRevision: master
       path: kubernetes/main/apps/n8n/
     - repoURL: https://community-charts.github.io/helm-charts
-      targetRevision: 1.22.2
+      targetRevision: 1.24.8
       chart: n8n
       helm:
         valueFiles:
