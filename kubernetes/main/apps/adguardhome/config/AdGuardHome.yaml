@@ -224,6 +224,7 @@ user_rules:
   - "@@||www.googleadservices.com^"
   - "||awmdm.com^$important"
   - "||raw.githubusercontent.com^$dnstype=~A"
+  - '/^.*sn-uxax4vopj5xn.*\.googlevideo\.com$/'
 dhcp:
   enabled: false
   interface_name: ""
