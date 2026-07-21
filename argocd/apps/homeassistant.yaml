@@ -14,6 +14,19 @@ spec:
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
+      - RespectIgnoreDifferences=true
     automated:
       prune: true
       selfHeal: true
+  ignoreDifferences:
+    - group: ""
+      kind: PersistentVolume
+      name: homeassistant-config
+      jsonPointers:
+        - /spec/claimRef
+    - group: ""
+      kind: PersistentVolumeClaim
+      name: homeassistant-config-pvc
+      namespace: homeassistant
+      jsonPointers:
+        - /spec/volumeName
