@@ -7,10 +7,30 @@ data:
   configuration.yaml: |
     default_config:
 
+    homeassistant:
+      name: Everest
+      country: ES
+      currency: EUR
+      time_zone: Europe/Madrid
+      unit_system: metric
+
     http:
       use_x_forwarded_for: true
       trusted_proxies:
         - 10.244.0.0/16
+      ip_ban_enabled: true
+      login_attempts_threshold: 5
+
+    recorder:
+      auto_purge: true
+      purge_keep_days: 14
+      exclude:
+        domains:
+          # These domains are orchestration/bookkeeping state rather than useful history.
+          - automation
+          - script
+          - scene
+          - persistent_notification
 
     frontend:
       themes: !include_dir_merge_named themes
@@ -18,3 +38,25 @@ data:
     automation: !include automations.yaml
     script: !include scripts.yaml
     scene: !include scenes.yaml
+
+  everest.yaml: |
+    everest:
+      modes:
+        light:
+          primary-color: "#1976D2"
+          accent-color: "#00A6A6"
+          primary-background-color: "#F5F7FA"
+          card-background-color: "#FFFFFF"
+          primary-text-color: "#17202A"
+          secondary-text-color: "#5F6B76"
+          state-active-color: "#00A6A6"
+          state-inactive-color: "#87909A"
+        dark:
+          primary-color: "#64B5F6"
+          accent-color: "#4DD0C8"
+          primary-background-color: "#11161B"
+          card-background-color: "#1B232A"
+          primary-text-color: "#F4F7F9"
+          secondary-text-color: "#AAB6C0"
+          state-active-color: "#4DD0C8"
+          state-inactive-color: "#75818C"
