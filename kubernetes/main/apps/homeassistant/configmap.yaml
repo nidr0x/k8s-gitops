@@ -52,11 +52,59 @@ data:
           state-active-color: "#00A6A6"
           state-inactive-color: "#87909A"
         dark:
-          primary-color: "#64B5F6"
-          accent-color: "#4DD0C8"
-          primary-background-color: "#11161B"
-          card-background-color: "#1B232A"
-          primary-text-color: "#F4F7F9"
-          secondary-text-color: "#AAB6C0"
-          state-active-color: "#4DD0C8"
-          state-inactive-color: "#75818C"
+          # Frosted Glass Dark Lite palette, vendored under the Everest theme name.
+          primary-color: "rgb(106, 116, 211)"
+          accent-color: "rgb(106, 116, 211)"
+          primary-background-color: "rgba(30, 30, 30, 1)"
+          secondary-background-color: "rgba(30, 33, 54, 0.6)"
+          card-background-color: "rgba(30, 30, 30, 0.85)"
+          primary-text-color: "rgba(234, 235, 238, 0.98)"
+          secondary-text-color: "rgba(234, 235, 238, 0.8)"
+          disabled-text-color: "rgba(234, 235, 238, 0.45)"
+          divider-color: "rgba(84, 84, 98, 0.28)"
+          state-active-color: "rgb(118, 214, 152)"
+          state-inactive-color: "rgba(234, 235, 238, 0.8)"
+          state-icon-color: "rgba(234, 235, 238, 0.95)"
+          state-icon-active-color: "rgb(118, 214, 152)"
+          state-icon-unavailable-color: "rgba(234, 235, 238, 0.45)"
+          app-header-background-color: "rgba(30, 30, 30, 0.01)"
+          app-header-text-color: "rgba(240, 243, 255, 0.95)"
+          sidebar-background-color: "rgba(30, 30, 30, 0.8)"
+          sidebar-text-color: "rgba(234, 235, 238, 0.8)"
+          sidebar-icon-color: "rgba(234, 235, 238, 0.6)"
+          sidebar-selected-text-color: "rgba(234, 235, 238, 0.98)"
+          sidebar-selected-icon-color: "rgba(234, 235, 238, 0.95)"
+          paper-card-background-color: "rgba(30, 30, 30, 0.85)"
+          paper-listbox-background-color: "rgba(30, 33, 54, 0.7)"
+          paper-item-icon-color: "rgba(234, 235, 238, 0.95)"
+          paper-item-icon-active-color: "rgb(118, 214, 152)"
+          ha-card-background: "rgba(30, 30, 30, 0.9)"
+          ha-card-border-radius: "18px"
+          ha-card-border-width: "0.5px"
+          ha-card-border-color: "rgba(234, 235, 238, 0.22)"
+          ha-card-border-style: "solid"
+          ha-card-box-shadow: "0 12px 20px rgba(0, 0, 0, 0.28)"
+          background-image: "center / cover no-repeat fixed url('https://cdn.jsdelivr.net/gh/wessamlauf/homeassistant-frosted-glass-themes@refs/heads/main/themes/frosted-glass-dark-background.jpg')"
+          lovelace-background: "var(--background-image)"
+          card-mod-theme: "Frosted Glass Dark Lite"
+          card-mod-card: |
+            ha-card {
+              background: transparent;
+            }
+            ha-card::before {
+              content: '';
+              position: absolute;
+              inset: 0;
+              background: rgba(28, 29, 33, 0.18);
+              border-radius: inherit;
+              box-shadow: 3px 3px 0.5px -3.5px rgba(255, 255, 255, 0.15) inset,
+                -2px -2px 0.5px -2px rgba(255, 255, 255, 0.1) inset;
+              pointer-events: none;
+              z-index: -1;
+            }
+          card-mod-root: |
+            :host {
+              --ha-card-background: rgba(30, 30, 30, 0.1);
+              --ha-card-border-width: 0.5px;
+              --ha-card-border-color: rgba(234, 235, 238, 0.1);
+            }
