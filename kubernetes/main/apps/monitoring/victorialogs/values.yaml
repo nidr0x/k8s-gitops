@@ -28,7 +28,17 @@ vector:
   enabled: true
   resources:
     requests:
-      cpu: 100m
-      memory: 128Mi
-    limits:
       memory: 256Mi
+    limits:
+      memory: 512Mi
+  customConfig:
+    sources:
+      k8s:
+        # Avoid replaying a large backlog after Vector or the API server recovers.
+        read_from: end
+        ignore_older_secs: 86400
+        oldest_first: false
+        rotate_wait_secs: 300
+        # Namespace metadata is not needed by the current VictoriaLogs queries.
+        insert_namespace_fields: false
+        use_apiserver_cache: true
