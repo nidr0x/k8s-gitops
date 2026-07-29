@@ -120,6 +120,7 @@ controlPlane:
     - "@./patches/global/machine-talos-api.yaml"
 
 patches:
+  - "@./patches/global/machine-cluster.yaml"
   - "@./patches/global/machine-files.yaml"
   - "@./patches/global/machine-kubelet.yaml"
   - "@./patches/global/machine-sysctls.yaml"
