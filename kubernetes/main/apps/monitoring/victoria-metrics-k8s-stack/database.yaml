@@ -5,7 +5,7 @@ metadata:
   namespace: kube-monitoring
 spec:
   instances: 1
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.6-bookworm
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.4-standard-bookworm
 
   bootstrap:
     initdb:
@@ -26,7 +26,7 @@ spec:
       isWALArchiver: true
       parameters:
         barmanObjectName: grafana-database
-        serverName: grafana-database-v3
+        serverName: grafana-database-pg18
 
   logLevel: info
   primaryUpdateStrategy: unsupervised

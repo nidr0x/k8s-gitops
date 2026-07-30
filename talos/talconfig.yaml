@@ -4,9 +4,9 @@ clusterName: everest
 endpoint: "https://192.168.1.5:6443"
 
 # renovate: datasource=github-releases depName=siderolabs/talos
-talosVersion: v1.13.6
+talosVersion: v1.13.7
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-kubernetesVersion: v1.36.2
+kubernetesVersion: v1.36.3
 additionalApiServerCertSans:
   - 192.168.1.5
 allowSchedulingOnControlPlanes: false
@@ -120,6 +120,7 @@ controlPlane:
     - "@./patches/global/machine-talos-api.yaml"
 
 patches:
+  - "@./patches/global/machine-cluster.yaml"
   - "@./patches/global/machine-files.yaml"
   - "@./patches/global/machine-kubelet.yaml"
   - "@./patches/global/machine-sysctls.yaml"
