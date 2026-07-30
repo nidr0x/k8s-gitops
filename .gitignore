@@ -44,11 +44,20 @@ Temporary Items
 
 # Other stuff
 .worktrees/
+.tmp/
+.tmpcerts/
+tmp/
 .terraform/
 *terraform.tfstate*
 tfplan
+*.tfplan
+*.sql
+*.dec
 *.log
 talos-*-amd64.json
+talconfig.json
+talos/talconfig
+talos/db/
 talosconfig.yml
 kubeconfig.yml
 
