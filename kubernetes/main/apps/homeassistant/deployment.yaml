@@ -36,6 +36,7 @@ spec:
             - -c
             - >-
               mkdir -p /config/themes /config/packages &&
+              rm -f /config/packages/visionos-default.yaml &&
               cp /config/theme-source/everest.yaml /config/themes/everest.yaml &&
               cp /config/visionos-source/visionos.yaml /config/themes/visionos.yaml &&
               cp /config/visionos-source/liquid-glass.yaml /config/themes/liquid-glass.yaml &&
