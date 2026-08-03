@@ -6,7 +6,7 @@ configMapGenerator:
     files:
       - visionos.yaml=themes/visionos.yaml
       - liquid-glass.yaml=themes/liquid-glass.yaml
-      - visionos-default.yaml=packages/visionos-default.yaml
+      - visionos_default.yaml=packages/visionos_default.yaml
 resources:
   - pv.yaml
   - pvc.yaml
