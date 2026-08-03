@@ -1,0 +1,10 @@
+automation:
+  - id: set_visionos_default_theme
+    alias: Frontend - Set visionOS default theme
+    triggers:
+      - trigger: homeassistant
+        event: start
+    actions:
+      - action: frontend.set_theme
+        data:
+          name: visionos
