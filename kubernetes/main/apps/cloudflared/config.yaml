@@ -3,13 +3,17 @@ credentials-file: /etc/cloudflared/credentials/credentials.json
 metrics: 0.0.0.0:2000
 no-autoupdate: true
 
-warp-routing:
-  enabled: true
-
 originRequest:
   http2Origin: true
 
 ingress:
+  # Home Assistant Companion needs uninterrupted API and WebSocket access. Route
+  # it directly to the in-cluster service instead of through the wildcard
+  # gateway, while Cloudflare Tunnel remains the only public entry point.
+  - hostname: "ha.nidr0x.win"
+    service: "http://homeassistant.homeassistant.svc.cluster.local:8123"
+    originRequest:
+      http2Origin: false
   - hostname: "*.nidr0x.win"
     service: "https://cilium-gateway-internal.gateway.svc.cluster.local:443"
     originRequest:

@@ -11,6 +11,7 @@ data:
       name: Everest
       country: ES
       currency: EUR
+      external_url: "https://ha.nidr0x.win"
       time_zone: Europe/Madrid
       unit_system: metric
 

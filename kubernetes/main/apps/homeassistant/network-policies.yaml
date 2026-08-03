@@ -7,17 +7,29 @@ spec:
   policyTypes:
     - Ingress
 ---
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
 metadata:
-  name: allow-from-cilium-gateway
+  name: allow-from-homeassistant-proxies
 spec:
-  podSelector:
+  endpointSelector:
     matchLabels:
       app: homeassistant
-  policyTypes:
-    - Ingress
   ingress:
-    - ports:
-        - protocol: TCP
-          port: 8123
+    # Remote Companion traffic arrives directly from the Cloudflared pods.
+    - fromEndpoints:
+        - matchLabels:
+            k8s:app: cloudflared
+            k8s:io.kubernetes.pod.namespace: kube-system
+      toPorts:
+        - ports:
+            - port: "8123"
+              protocol: TCP
+    # LAN traffic using either Gateway API listener is represented by Cilium's
+    # reserved ingress identity, not by the host-networked Envoy pod identity.
+    - fromEntities:
+        - ingress
+      toPorts:
+        - ports:
+            - port: "8123"
+              protocol: TCP
