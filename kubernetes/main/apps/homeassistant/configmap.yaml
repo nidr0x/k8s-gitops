@@ -12,6 +12,7 @@ data:
       country: ES
       currency: EUR
       external_url: "https://ha.nidr0x.win"
+      packages: !include_dir_named packages
       time_zone: Europe/Madrid
       unit_system: metric
 
