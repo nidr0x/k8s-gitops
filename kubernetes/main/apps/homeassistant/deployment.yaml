@@ -39,7 +39,7 @@ spec:
               cp /config/theme-source/everest.yaml /config/themes/everest.yaml &&
               cp /config/visionos-source/visionos.yaml /config/themes/visionos.yaml &&
               cp /config/visionos-source/liquid-glass.yaml /config/themes/liquid-glass.yaml &&
-              cp /config/visionos-source/visionos-default.yaml /config/packages/visionos-default.yaml
+              cp /config/visionos-source/visionos_default.yaml /config/packages/visionos_default.yaml
           securityContext:
             privileged: false
             allowPrivilegeEscalation: false
