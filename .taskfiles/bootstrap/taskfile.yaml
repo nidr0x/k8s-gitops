@@ -6,12 +6,29 @@ vars:
   BOOTSTRAP_NODE: '{{.BOOTSTRAP_NODE | default "controlplane-01"}}'
   ARGOCD_BOOTSTRAP_DIR: "{{.ROOT_DIR}}/argocd/bootstrap"
   ARGOCD_SECRET_FILE: "{{.ROOT_DIR}}/argocd/secret.yaml.dec"
+  CILIUM_VALUES_FILE: "{{.ROOT_DIR}}/kubernetes/main/apps/cilium/values.yaml"
+  CILIUM_KUSTOMIZE_DIR: "{{.ROOT_DIR}}/kubernetes/main/apps/cilium"
   KUBECONFIG_FILE: "{{.ROOT_DIR}}/talos/clusterconfig/kubeconfig"
 
 env:
   KUBECONFIG: "{{.KUBECONFIG_FILE}}"
 
 tasks:
+  apply-cilium-bootstrap:
+    desc: Install Cilium directly before Argo CD so pod networking is ready during bootstrap
+    cmds:
+      - helm repo add cilium https://helm.cilium.io >/dev/null 2>&1 || true
+      - helm repo update cilium
+      - helm template cilium cilium/cilium --version 1.19.5 --namespace kube-system -f {{.CILIUM_VALUES_FILE}} | kubectl apply --server-side -f -
+      - kubectl apply -k {{.CILIUM_KUSTOMIZE_DIR}}
+      - kubectl rollout status --timeout=600s daemonset/cilium -n kube-system
+      - kubectl rollout status --timeout=600s deployment/cilium-operator -n kube-system
+      - kubectl wait --for=condition=Ready --timeout=600s node/{{.BOOTSTRAP_NODE}}
+    preconditions:
+      - test -f {{.CILIUM_VALUES_FILE}}
+      - test -f {{.CILIUM_KUSTOMIZE_DIR}}/kustomization.yaml
+      - which helm kubectl
+
   label-argocd-node:
     desc: Label a control-plane node so Argo CD prefers it during bootstrap [BOOTSTRAP_NODE=controlplane-01]
     cmd: kubectl label node {{.BOOTSTRAP_NODE}} bootstrap.argocd/enabled=true --overwrite
@@ -126,6 +143,9 @@ tasks:
   argocd:
     desc: Bootstrap Argo CD, apply app-of-apps, wait for Cilium, remove the bootstrap label, rebalance Argo CD, and print a summary [BOOTSTRAP_NODE=controlplane-01]
     cmds:
+      - task: apply-cilium-bootstrap
+        vars:
+          BOOTSTRAP_NODE: "{{.BOOTSTRAP_NODE}}"
       - task: label-argocd-node
       - task: apply-argocd-core
       - task: apply-argocd-apps
