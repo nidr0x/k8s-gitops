@@ -18,9 +18,6 @@ spec:
         app: homeassistant
         alerts.nidr0x.win/enabled: "true"
     spec:
-      # HomeKit relies on LAN multicast discovery and a direct HAP TCP connection.
-      hostNetwork: true
-      dnsPolicy: ClusterFirstWithHostNet
       terminationGracePeriodSeconds: 90
       automountServiceAccountToken: false
       dnsConfig:
