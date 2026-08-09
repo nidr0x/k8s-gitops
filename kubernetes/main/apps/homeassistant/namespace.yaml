@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: homeassistant
+  labels:
+    # HomeKit requires host networking for LAN discovery; scope this to HA only.
+    pod-security.kubernetes.io/enforce: privileged
