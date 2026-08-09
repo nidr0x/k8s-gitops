@@ -33,3 +33,21 @@ spec:
         - ports:
             - port: "8123"
               protocol: TCP
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-homeassistant-to-matter-server
+spec:
+  endpointSelector:
+    matchLabels:
+      app: matter-server
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:app: homeassistant
+            k8s:io.kubernetes.pod.namespace: homeassistant
+      toPorts:
+        - ports:
+            - port: "5580"
+              protocol: TCP
