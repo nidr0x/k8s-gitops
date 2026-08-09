@@ -18,6 +18,10 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    # HomeKit needs host networking for LAN discovery; scope this exemption to HA.
+    managedNamespaceMetadata:
+      labels:
+        pod-security.kubernetes.io/enforce: privileged
   ignoreDifferences:
     - group: ""
       kind: PersistentVolume
