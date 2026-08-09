@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matter-server
+  labels:
+    app: matter-server
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: matter-server
+  template:
+    metadata:
+      labels:
+        app: matter-server
+    spec:
+      # Matter-over-Thread relies on LAN mDNS advertisements and discovery.
+      hostNetwork: true
+      automountServiceAccountToken: false
+      securityContext:
+        fsGroup: 988
+        fsGroupChangePolicy: OnRootMismatch
+      containers:
+        - name: matter-server
+          # renovate: datasource=docker depName=ghcr.io/matter-js/python-matter-server
+          image: ghcr.io/matter-js/python-matter-server:stable
+          imagePullPolicy: Always
+          securityContext:
+            allowPrivilegeEscalation: false
+          resources:
+            requests:
+              cpu: 25m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+          ports:
+            - name: websocket
+              containerPort: 5580
+              protocol: TCP
+          volumeMounts:
+            - name: homeassistant-config
+              mountPath: /data
+              subPath: matter-server
+          startupProbe:
+            tcpSocket:
+              port: websocket
+            periodSeconds: 5
+            failureThreshold: 24
+          livenessProbe:
+            tcpSocket:
+              port: websocket
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: websocket
+            periodSeconds: 5
+      volumes:
+        - name: homeassistant-config
+          persistentVolumeClaim:
+            claimName: homeassistant-config-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: matter-server
+  labels:
+    app: matter-server
+spec:
+  type: ClusterIP
+  ports:
+    - name: websocket
+      port: 5580
+      protocol: TCP
+      targetPort: websocket
+  selector:
+    app: matter-server
