@@ -20,6 +20,8 @@ spec:
     spec:
       # HomeKit requires LAN multicast discovery and a direct HAP TCP connection.
       hostNetwork: true
+      # Keep Kubernetes service discovery available while using host networking.
+      dnsPolicy: ClusterFirstWithHostNet
       terminationGracePeriodSeconds: 90
       automountServiceAccountToken: false
       dnsConfig:
