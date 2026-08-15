@@ -1,0 +1,50 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMRule
+metadata:
+  name: controlplane-storage
+spec:
+  groups:
+    - name: controlplane-storage
+      rules:
+        - alert: ControlPlaneDiskWriteLatencyHigh
+          annotations:
+            description: Average write latency on {{ $labels.instance }} device {{ $labels.device }} has been above 250ms for 10 minutes ({{ $value | humanize }}ms).
+            summary: Control-plane disk write latency is high.
+          expr: |
+            1000 * rate(node_disk_write_time_seconds_total{
+              instance=~"192\\.168\\.1\\.9[012]:9100",
+              device=~"sd[a-z]+|nvme[0-9]+n[0-9]+"
+            }[5m])
+            /
+            clamp_min(
+              rate(node_disk_writes_completed_total{
+                instance=~"192\\.168\\.1\\.9[012]:9100",
+                device=~"sd[a-z]+|nvme[0-9]+n[0-9]+"
+              }[5m]),
+              0.001
+            ) > 250
+          for: 10m
+          labels:
+            severity: warning
+            scope: controlplane-storage
+        - alert: ControlPlaneDiskReadLatencyHigh
+          annotations:
+            description: Average read latency on {{ $labels.instance }} device {{ $labels.device }} has been above 250ms for 10 minutes ({{ $value | humanize }}ms).
+            summary: Control-plane disk read latency is high.
+          expr: |
+            1000 * rate(node_disk_read_time_seconds_total{
+              instance=~"192\\.168\\.1\\.9[012]:9100",
+              device=~"sd[a-z]+|nvme[0-9]+n[0-9]+"
+            }[5m])
+            /
+            clamp_min(
+              rate(node_disk_reads_completed_total{
+                instance=~"192\\.168\\.1\\.9[012]:9100",
+                device=~"sd[a-z]+|nvme[0-9]+n[0-9]+"
+              }[5m]),
+              0.001
+            ) > 250
+          for: 10m
+          labels:
+            severity: warning
+            scope: controlplane-storage
