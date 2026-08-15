@@ -6,12 +6,33 @@ vars:
   BOOTSTRAP_NODE: '{{.BOOTSTRAP_NODE | default "controlplane-01"}}'
   ARGOCD_BOOTSTRAP_DIR: "{{.ROOT_DIR}}/argocd/bootstrap"
   ARGOCD_SECRET_FILE: "{{.ROOT_DIR}}/argocd/secret.yaml.dec"
+  CILIUM_APPLICATION_FILE: "{{.ROOT_DIR}}/argocd/apps/cilium.yaml"
+  CILIUM_VALUES_FILE: "{{.ROOT_DIR}}/kubernetes/main/apps/cilium/values.yaml"
   KUBECONFIG_FILE: "{{.ROOT_DIR}}/talos/clusterconfig/kubeconfig"
 
 env:
   KUBECONFIG: "{{.KUBECONFIG_FILE}}"
 
 tasks:
+  apply-cilium-bootstrap:
+    desc: Install the Cilium datapath before Argo CD, then hand ownership to Argo CD
+    cmds:
+      - helm repo add cilium https://helm.cilium.io --force-update
+      - helm repo update cilium
+      - helm template cilium cilium/cilium --version {{.CILIUM_VERSION}} --namespace kube-system --include-crds --skip-tests -f {{.CILIUM_VALUES_FILE}} | kubectl apply --server-side -f -
+      - kubectl wait --for=condition=Established --timeout=120s crd/ciliuml2announcementpolicies.cilium.io
+      - kubectl wait --for=condition=Established --timeout=120s crd/ciliumloadbalancerippools.cilium.io
+      - kubectl rollout status --timeout=600s daemonset/cilium -n kube-system
+      - kubectl rollout status --timeout=600s deployment/cilium-operator -n kube-system
+      - kubectl wait --for=condition=Ready --timeout=600s node/{{.BOOTSTRAP_NODE}}
+    vars:
+      CILIUM_VERSION:
+        sh: yq -r '.spec.sources[] | select(.chart == "cilium") | .targetRevision' {{.CILIUM_APPLICATION_FILE}}
+    preconditions:
+      - test -f {{.CILIUM_APPLICATION_FILE}}
+      - test -f {{.CILIUM_VALUES_FILE}}
+      - which helm kubectl yq
+
   label-argocd-node:
     desc: Label a control-plane node so Argo CD prefers it during bootstrap [BOOTSTRAP_NODE=controlplane-01]
     cmd: kubectl label node {{.BOOTSTRAP_NODE}} bootstrap.argocd/enabled=true --overwrite
@@ -126,6 +147,9 @@ tasks:
   argocd:
     desc: Bootstrap Argo CD, apply app-of-apps, wait for Cilium, remove the bootstrap label, rebalance Argo CD, and print a summary [BOOTSTRAP_NODE=controlplane-01]
     cmds:
+      - task: apply-cilium-bootstrap
+        vars:
+          BOOTSTRAP_NODE: "{{.BOOTSTRAP_NODE}}"
       - task: label-argocd-node
       - task: apply-argocd-core
       - task: apply-argocd-apps
