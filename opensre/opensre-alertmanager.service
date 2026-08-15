@@ -1,0 +1,30 @@
+[Unit]
+Description=OpenSRE Alertmanager incident trigger
+After=alertmanager-port-forward.service
+Requires=alertmanager-port-forward.service
+
+[Service]
+Type=simple
+User=carlos
+WorkingDirectory=/home/carlos/opensre
+EnvironmentFile=/home/carlos/opensre/.env
+Environment=OPENSRE_ALERTMANAGER_URL=http://127.0.0.1:9093
+Environment=OPENSRE_ALERT_SEVERITIES=critical
+Environment=OPENSRE_INVESTIGATION_TIMEOUT_SECONDS=900
+Environment=OPENSRE_ALERT_MAX_CONCURRENCY=2
+Environment=OPENSRE_REPORT_RETENTION_DAYS=30
+Environment=OPENSRE_MAX_RETRY_SECONDS=3600
+Environment=OPENSRE_WEBHOOK_ENABLED=true
+Environment=OPENSRE_WEBHOOK_BIND=0.0.0.0
+Environment=OPENSRE_WEBHOOK_PORT=9094
+Environment=OPENSRE_WEBHOOK_PATH=/alertmanager
+ExecStart=/usr/bin/python3 /home/carlos/opensre/alertmanager-poller.py
+Restart=always
+RestartSec=10
+TimeoutStopSec=30
+KillMode=mixed
+TasksMax=16
+UMask=077
+
+[Install]
+WantedBy=multi-user.target

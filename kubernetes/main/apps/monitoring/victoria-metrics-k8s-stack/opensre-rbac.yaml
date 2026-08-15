@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: opensre-grafana-portforward
+  namespace: kube-monitoring
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: opensre-grafana-reader
+  namespace: kube-monitoring
+rules:
+  - apiGroups: [""]
+    resources:
+      - pods
+      - services
+      - endpoints
+    verbs: [get, list, watch]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: opensre-grafana-portforward
+  namespace: kube-monitoring
+rules:
+  - apiGroups: [""]
+    resources:
+      - pods/portforward
+    verbs: [create]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: opensre-grafana-portforward
+  namespace: kube-monitoring
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: opensre-grafana-reader
+subjects:
+  - kind: ServiceAccount
+    name: opensre-grafana-portforward
+    namespace: kube-monitoring
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: opensre-grafana-portforward-bind-portforward
+  namespace: kube-monitoring
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: opensre-grafana-portforward
+subjects:
+  - kind: ServiceAccount
+    name: opensre-grafana-portforward
+    namespace: kube-monitoring

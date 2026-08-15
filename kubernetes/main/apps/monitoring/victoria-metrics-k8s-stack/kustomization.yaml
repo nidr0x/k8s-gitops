@@ -5,6 +5,8 @@ resources:
   - secret.yaml
   - database.yaml
   - http-route.yaml
+  - opensre-rbac.yaml
+  - opensre-alertmanager-config.yaml
   - vmrule-controlplane-storage.yaml
   - vmservicescrape.yaml
   - vmrule-homelab-apps.yaml
