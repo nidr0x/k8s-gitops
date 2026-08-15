@@ -6,4 +6,5 @@ resources:
   - database.yaml
   - http-route.yaml
   - vmrule-controlplane-storage.yaml
+  - vmservicescrape.yaml
   - vmrule-homelab-apps.yaml
