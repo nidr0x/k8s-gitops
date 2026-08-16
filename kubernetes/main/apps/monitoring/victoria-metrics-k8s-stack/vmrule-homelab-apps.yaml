@@ -6,6 +6,58 @@ spec:
   groups:
     - name: homelab-apps
       rules:
+        - alert: HomeAssistantContainerOOMKilled
+          annotations:
+            description: Container {{ $labels.container }} in pod {{ $labels.pod }} in namespace {{ $labels.namespace }} was OOM-killed during the last 15 minutes.
+            summary: Home Assistant container was OOM-killed.
+          expr: |
+            increase(
+              kube_pod_container_status_restarts_total{
+                job="kube-state-metrics",
+                namespace="homeassistant",
+                container=~"homeassistant|matter-server"
+              }[15m]
+            ) > 0
+            and on (namespace, pod, container)
+            kube_pod_container_status_last_terminated_reason{
+              job="kube-state-metrics",
+              namespace="homeassistant",
+              container=~"homeassistant|matter-server",
+              reason="OOMKilled"
+            } == 1
+          for: 1m
+          labels:
+            severity: critical
+            scope: homelab-apps
+        - alert: HomeAssistantContainerMemoryHigh
+          annotations:
+            description: Container {{ $labels.container }} in pod {{ $labels.pod }} is using more than 80% of its memory limit for 10 minutes.
+            summary: Home Assistant container memory usage is high.
+          expr: |
+            (
+              max by (namespace, pod, container) (
+                container_memory_working_set_bytes{
+                  job="kubelet",
+                  metrics_path="/metrics/resource",
+                  namespace="homeassistant",
+                  container=~"homeassistant|matter-server"
+                }
+              )
+              /
+              on (namespace, pod, container)
+              max by (namespace, pod, container) (
+                kube_pod_container_resource_limits{
+                  job="kube-state-metrics",
+                  namespace="homeassistant",
+                  resource="memory",
+                  unit="byte"
+                }
+              )
+            ) > 0.8
+          for: 10m
+          labels:
+            severity: warning
+            scope: homelab-apps
         - alert: HomelabAppNoReadyPods
           annotations:
             description: App {{ if $labels.label_app_kubernetes_io_name }}{{ $labels.label_app_kubernetes_io_name }}{{ else }}{{ $labels.label_app }}{{ end }} in namespace {{ $labels.namespace }} has no ready pods for longer than 10 minutes.
