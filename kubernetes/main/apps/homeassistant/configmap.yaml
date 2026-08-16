@@ -25,6 +25,9 @@ data:
       login_attempts_threshold: 5
 
     recorder:
+      db_url: !env_var HOMEASSISTANT_RECORDER_DB_URL
+      db_max_retries: 30
+      db_retry_wait: 5
       auto_purge: true
       purge_keep_days: 14
       exclude:
