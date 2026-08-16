@@ -9,12 +9,15 @@ configMapGenerator:
       - visionos_default.yaml=packages/visionos_default.yaml
 resources:
   - namespace.yaml
+  - database.yaml
+  - secret.yaml
   - pv.yaml
   - pvc.yaml
   - deployment.yaml
   - matter-server.yaml
   - http-route.yaml
   - network-policies.yaml
+  - policy-exception.yaml
   - service.yaml
   - pdb.yaml
   - configmap.yaml
