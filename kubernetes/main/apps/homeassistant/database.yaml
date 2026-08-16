@@ -69,7 +69,7 @@ metadata:
 spec:
   configuration:
     destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
-    endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
+    endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.eu.r2.cloudflarestorage.com
     s3Credentials:
       accessKeyId:
         name: homeassistant-database
