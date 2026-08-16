@@ -65,3 +65,5 @@ jobs:
           VALIDATE_MARKDOWN: false
           VALIDATE_TRIVY: false
           VALIDATE_SPELL_CODESPELL: false
+          # Black is the canonical Python formatter in this repository.
+          VALIDATE_PYTHON_RUFF_FORMAT: false

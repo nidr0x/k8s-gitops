@@ -1,0 +1,10 @@
+[Unit]
+Description=Run the OpenSRE health check periodically
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=1min
+Unit=opensre-healthcheck.service
+
+[Install]
+WantedBy=timers.target
