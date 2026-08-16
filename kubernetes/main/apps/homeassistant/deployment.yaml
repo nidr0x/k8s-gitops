@@ -33,8 +33,8 @@ spec:
         fsGroupChangePolicy: "OnRootMismatch"
       initContainers:
         - name: install-theme
-          image: homeassistant/home-assistant:2026.8
-          imagePullPolicy: Always
+          image: homeassistant/home-assistant:2026.8@sha256:56690a89c79a0de98035e1719f8324a92d5859c1192ff45adb0230ea81cb42a5
+          imagePullPolicy: IfNotPresent
           command:
             - sh
             - -c
@@ -57,8 +57,8 @@ spec:
             - name: homeassistant-visionos-theme
               mountPath: /config/visionos-source
         - name: check-config
-          image: homeassistant/home-assistant:2026.8
-          imagePullPolicy: Always
+          image: homeassistant/home-assistant:2026.8@sha256:56690a89c79a0de98035e1719f8324a92d5859c1192ff45adb0230ea81cb42a5
+          imagePullPolicy: IfNotPresent
           command:
             - python
             - -m
@@ -81,8 +81,8 @@ spec:
               subPath: configuration.yaml
       containers:
         - name: homeassistant
-          image: homeassistant/home-assistant:2026.8
-          imagePullPolicy: Always
+          image: homeassistant/home-assistant:2026.8@sha256:56690a89c79a0de98035e1719f8324a92d5859c1192ff45adb0230ea81cb42a5
+          imagePullPolicy: IfNotPresent
           securityContext:
             privileged: false
             allowPrivilegeEscalation: false
@@ -92,9 +92,9 @@ spec:
           resources:
             requests:
               cpu: 50m
-              memory: 128Mi
+              memory: 256Mi
             limits:
-              memory: 512Mi
+              memory: 1Gi
           ports:
             - name: http
               protocol: TCP
@@ -114,7 +114,8 @@ spec:
             successThreshold: 1
             failureThreshold: 30
           livenessProbe:
-            tcpSocket:
+            httpGet:
+              path: /
               port: http
             initialDelaySeconds: 0
             timeoutSeconds: 1

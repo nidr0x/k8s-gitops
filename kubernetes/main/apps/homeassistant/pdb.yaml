@@ -4,7 +4,8 @@ metadata:
   name: homeassistant-pdb
   namespace: homeassistant
 spec:
-  maxUnavailable: 0
+  # HA is intentionally a singleton; allow node drains to evict it and restart it.
+  maxUnavailable: 1
   selector:
     matchLabels:
       app: homeassistant
