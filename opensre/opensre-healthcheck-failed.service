@@ -1,0 +1,6 @@
+[Unit]
+Description=Log OpenSRE health-check failures
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/logger -p daemon.err -t opensre-healthcheck OpenSRE health check failed; inspect systemctl status opensre-alertmanager.service and journalctl -u opensre-healthcheck.service

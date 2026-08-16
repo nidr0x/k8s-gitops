@@ -1,0 +1,12 @@
+[Unit]
+Description=OpenSRE health check
+After=network-online.target
+Wants=network-online.target
+OnFailure=opensre-healthcheck-failed.service
+
+[Service]
+Type=oneshot
+User=carlos
+Environment=OPENSRE_ALERTMANAGER_URL=http://127.0.0.1:9093
+Environment=OPENSRE_HEALTH_MAX_AGE_SECONDS=120
+ExecStart=/usr/bin/python3 /home/carlos/opensre/opensre-healthcheck.py

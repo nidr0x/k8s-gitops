@@ -1,0 +1,29 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMAlertmanagerConfig
+metadata:
+  name: opensre
+  namespace: kube-monitoring
+spec:
+  route:
+    receiver: opensre-webhook
+    matchers:
+      - severity="critical"
+    group_by:
+      - alertname
+      - namespace
+      - pod
+      - node
+    group_wait: 10s
+    group_interval: 5m
+    repeat_interval: 4h
+    continue: true
+  receivers:
+    - name: opensre-webhook
+      webhook_configs:
+        - url: http://192.168.1.209:9094/alertmanager
+          send_resolved: true
+          timeout: 10s
+          http_config:
+            bearer_token_secret:
+              name: opensre-alertmanager-webhook
+              key: token
