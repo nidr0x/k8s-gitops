@@ -38,6 +38,25 @@ spec:
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
+  name: allow-homeassistant-hostnetwork-to-database
+spec:
+  endpointSelector:
+    matchLabels:
+      cnpg.io/cluster: homeassistant-database
+  ingress:
+    # Home Assistant runs with hostNetwork, so Cilium identifies it as the
+    # local host or a remote node rather than as a Kubernetes pod.
+    - fromEntities:
+        - host
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
   name: allow-from-homeassistant-proxies
 spec:
   endpointSelector:
