@@ -1,0 +1,31 @@
+apiVersion: kyverno.io/v2
+kind: PolicyException
+metadata:
+  name: homeassistant-host-network
+  namespace: homeassistant
+  annotations:
+    policies.kyverno.io/description: >-
+      Home Assistant and Matter require host networking for HomeKit, Matter-over-Thread,
+      and LAN mDNS discovery. Keep this exception limited to these workloads.
+spec:
+  background: true
+  exceptions:
+    - policyName: disallow-host-namespaces
+      ruleNames:
+        - host-namespaces
+        - autogen-host-namespaces
+    - policyName: disallow-host-ports
+      ruleNames:
+        - host-ports-none
+  match:
+    any:
+      - resources:
+          kinds:
+            - Deployment
+            - ReplicaSet
+            - Pod
+          names:
+            - homeassistant
+            - homeassistant-*
+            - matter-server
+            - matter-server-*

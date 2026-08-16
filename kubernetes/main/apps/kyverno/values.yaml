@@ -3,6 +3,14 @@ admissionController:
   podDisruptionBudget:
     enabled: true
     minAvailable: 1
+
+# Allow only the Home Assistant namespace to declare narrowly scoped exceptions
+# for workloads that genuinely require host networking for LAN discovery.
+features:
+  policyExceptions:
+    enabled: true
+    namespace: homeassistant
+
 backgroundController:
   replicas: 1
 cleanupController:

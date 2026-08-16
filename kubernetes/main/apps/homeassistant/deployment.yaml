@@ -34,7 +34,7 @@ spec:
       initContainers:
         - name: install-theme
           image: homeassistant/home-assistant:2026.8
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           command:
             - sh
             - -c
@@ -58,7 +58,7 @@ spec:
               mountPath: /config/visionos-source
         - name: check-config
           image: homeassistant/home-assistant:2026.8
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           command:
             - python
             - -m
@@ -82,7 +82,7 @@ spec:
       containers:
         - name: homeassistant
           image: homeassistant/home-assistant:2026.8
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           securityContext:
             privileged: false
             allowPrivilegeEscalation: false
@@ -114,7 +114,8 @@ spec:
             successThreshold: 1
             failureThreshold: 30
           livenessProbe:
-            tcpSocket:
+            httpGet:
+              path: /
               port: http
             initialDelaySeconds: 0
             timeoutSeconds: 1
