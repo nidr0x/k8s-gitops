@@ -105,18 +105,9 @@ server:
         matchLabels:
           app.kubernetes.io/name: argocd-server
   ingress:
-    enabled: true
-    https: false
-    ingressClassName: "cilium"
-    annotations:
-      cert-manager.io/cluster-issuer: zerossl-prod
-      external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
-    hostname: argocd.nidr0x.win
-    extraTls:
-      - hosts:
-          - argocd.nidr0x.win
+    enabled: false
   service:
-    type: LoadBalancer
+    type: ClusterIP
 
   autoscaling:
     enabled: true
