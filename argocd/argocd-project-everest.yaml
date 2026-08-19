@@ -9,10 +9,8 @@ spec:
   description: Project for Everest
   destinations:
     - namespace: "*"
-      name: "*"
       server: https://kubernetes.default.svc
   sourceRepos:
-    - https://github.com/nidr0x/homelab
     - https://community-charts.github.io/helm-charts
     - https://github.com/cert-manager/cert-manager.git
     - https://github.com/nidr0x/k8s-gitops
@@ -30,10 +28,8 @@ spec:
     - https://stakater.github.io/stakater-charts
     - https://github.com/alex1989hu/kubelet-serving-cert-approver.git
     - ghcr.io/spegel-org/helm-charts
-    - raw.githubusercontent.com/deliveryhero/helm-charts/refs/heads/master
     - https://raw.githubusercontent.com/deliveryhero/helm-charts/refs/heads/master
     - https://charts.deliveryhero.io/
-    - https://helm.openwebui.com
     - https://argoproj.github.io/argo-helm
   clusterResourceWhitelist:
     - group: "*"
