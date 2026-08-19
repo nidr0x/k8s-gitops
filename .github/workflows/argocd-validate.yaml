@@ -1,0 +1,52 @@
+---
+name: Argo CD validation
+
+on: # yamllint disable-line rule:truthy
+  push:
+    paths:
+      - ".github/workflows/argocd-validate.yaml"
+      - "argocd/**"
+  pull_request:
+    paths:
+      - ".github/workflows/argocd-validate.yaml"
+      - "argocd/**"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: argocd-validate-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  manifests:
+    name: Validate Argo CD manifests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Validate Kubernetes object syntax
+        run: |
+          docker run --rm \
+            --volume "$GITHUB_WORKSPACE:/work:ro" \
+            --workdir /work \
+            ghcr.io/yannh/kubeconform:v0.6.7 \
+            -strict \
+            -summary \
+            -ignore-missing-schemas \
+            $(find argocd/apps argocd/route argocd/setup -type f -name '*.yaml' -print) \
+            argocd/argocd-apps.yaml \
+            argocd/argocd-project-everest.yaml \
+            argocd/argocd-setup.yaml \
+            argocd/namespace.yaml
+
+      - name: Check Argo CD source of truth
+        run: |
+          if grep -R -n --include='*.yaml' \
+            'repoURL: https://github.com/nidr0x/homelab' \
+            argocd/apps argocd/setup; then
+            echo "Argo CD applications must use k8s-gitops as their source repository."
+            exit 1
+          fi
