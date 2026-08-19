@@ -36,7 +36,9 @@ jobs:
             -strict \
             -summary \
             -ignore-missing-schemas \
-            $(find argocd/apps argocd/route argocd/setup -type f -name '*.yaml' -print) \
+            argocd/apps \
+            argocd/route \
+            argocd/setup \
             argocd/argocd-apps.yaml \
             argocd/argocd-project-everest.yaml \
             argocd/argocd-setup.yaml \
