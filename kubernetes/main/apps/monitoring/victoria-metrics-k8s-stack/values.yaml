@@ -259,6 +259,7 @@ vmagent:
   spec:
     externalLabels:
       cluster: everest
+    scrapeInterval: 60s
   resources:
     requests:
       cpu: 50m
