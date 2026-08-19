@@ -25,7 +25,8 @@ server:
       - hosts:
           - monitoring.nidr0x.win
 vector:
-  enabled: true
+  # Temporarily pause log ingestion while the Proxmox storage path is degraded.
+  enabled: false
   resources:
     requests:
       memory: 256Mi
