@@ -10,17 +10,32 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-from-cilium-gateway
+  name: allow-from-cilium-gateway-miniflux
 spec:
   podSelector:
     matchLabels:
-      app: freshrss
+      app: miniflux
   policyTypes:
     - Ingress
   ingress:
     - ports:
         - protocol: TCP
-          port: 80
+          port: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-from-cilium-gateway-nextflux
+spec:
+  podSelector:
+    matchLabels:
+      app: nextflux
+  policyTypes:
+    - Ingress
+  ingress:
+    - ports:
+        - protocol: TCP
+          port: 3000
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -29,14 +44,14 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      cnpg.io/cluster: freshrss-database
+      cnpg.io/cluster: miniflux-database
   policyTypes:
     - Ingress
   ingress:
     - from:
         - podSelector:
             matchLabels:
-              app: freshrss
+              app: miniflux
       ports:
         - protocol: TCP
           port: 5432

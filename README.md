@@ -24,7 +24,8 @@ The primary goal of this repository, beyond self-hosting services on my own infr
 - [CSI Driver NFS](https://github.com/kubernetes-csi/csi-driver-nfs)
 - [External DNS](https://github.com/kubernetes-sigs/external-dns)
 - [External Secrets](https://github.com/external-secrets/external-secrets)
-- [FreshRSS](https://freshrss.org/)
+- [Miniflux](https://miniflux.app/)
+- [Nextflux](https://github.com/electh/nextflux)
 - [Home Assistant](https://github.com/home-assistant/docker)
 - [Homebridge](https://homebridge.io/)
 - [Kubelet Serving Cert Approver](https://github.com/alex1989hu/kubelet-serving-cert-approver)
@@ -102,7 +103,7 @@ flowchart LR
     TAL --> PLATFORM
 
     subgraph APPS["Workloads"]
-      APP1["FreshRSS / Home Assistant / Transmission / TeslaMate"]
+      APP1["Miniflux / Nextflux / Home Assistant / Transmission / TeslaMate"]
     end
 
     PLATFORM --> APPS

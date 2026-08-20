@@ -1,0 +1,145 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: miniflux
+  labels:
+    alerts.nidr0x.win/enabled: "true"
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+    rollingUpdate: null
+  selector:
+    matchLabels:
+      app: miniflux
+  template:
+    metadata:
+      labels:
+        app: miniflux
+        alerts.nidr0x.win/enabled: "true"
+    spec:
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "2"
+      containers:
+        - name: miniflux
+          image: miniflux/miniflux:2.3.3
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: TZ
+              value: UTC
+            - name: LISTEN_ADDR
+              value: 0.0.0.0:8080
+            - name: BASE_URL
+              value: https://rss.nidr0x.win
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: miniflux-database-app
+                  key: username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: miniflux-database-app
+                  key: password
+            - name: DATABASE_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: miniflux-database-app
+                  key: host
+            - name: DATABASE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: miniflux-database-app
+                  key: dbname
+            - name: DATABASE_URL
+              value: >-
+                user=$(DATABASE_USER) password=$(DATABASE_PASSWORD)
+                host=$(DATABASE_HOST) dbname=$(DATABASE_NAME) sslmode=disable
+            - name: RUN_MIGRATIONS
+              value: "1"
+            - name: CREATE_ADMIN
+              value: "1"
+            - name: ADMIN_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: miniflux
+                  key: ADMIN_USERNAME
+            - name: ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: miniflux
+                  key: ADMIN_PASSWORD
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+      restartPolicy: Always
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextflux
+  labels:
+    alerts.nidr0x.win/enabled: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nextflux
+  template:
+    metadata:
+      labels:
+        app: nextflux
+        alerts.nidr0x.win/enabled: "true"
+    spec:
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "2"
+      containers:
+        - name: nextflux
+          image: electh/nextflux:sha-a9f97de654d00f62cbbad877d583fae7cd76ec59
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 128Mi
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      restartPolicy: Always
