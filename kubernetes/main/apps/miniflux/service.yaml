@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: miniflux
+  name: miniflux
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: http
+  selector:
+    app: miniflux
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nextflux
+  name: nextflux
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 3000
+      targetPort: http
+  selector:
+    app: nextflux
