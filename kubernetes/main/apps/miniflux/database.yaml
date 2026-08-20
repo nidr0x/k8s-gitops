@@ -1,8 +1,8 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: freshrss-database
-  namespace: freshrss
+  name: miniflux-database
+  namespace: miniflux
 spec:
   env:
     - name: TZ
@@ -21,8 +21,8 @@ spec:
 
   bootstrap:
     initdb:
-      database: freshrss
-      owner: freshrss
+      database: miniflux
+      owner: miniflux
 
   logLevel: info
 
@@ -30,8 +30,8 @@ spec:
     - name: barman-cloud.cloudnative-pg.io
       isWALArchiver: true
       parameters:
-        barmanObjectName: freshrss-database
-        serverName: freshrss-database-pg18
+        barmanObjectName: miniflux-database
+        serverName: miniflux-database-pg18
 
   primaryUpdateStrategy: unsupervised
 
@@ -66,18 +66,18 @@ spec:
 apiVersion: barmancloud.cnpg.io/v1
 kind: ObjectStore
 metadata:
-  name: freshrss-database
-  namespace: freshrss
+  name: miniflux-database
+  namespace: miniflux
 spec:
   configuration:
     destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
     endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
     s3Credentials:
       accessKeyId:
-        name: freshrss
+        name: miniflux
         key: ACCESS_KEY_ID
       secretAccessKey:
-        name: freshrss
+        name: miniflux
         key: SECRET_ACCESS_KEY
     data:
       compression: bzip2
@@ -91,13 +91,13 @@ spec:
 apiVersion: postgresql.cnpg.io/v1
 kind: ScheduledBackup
 metadata:
-  name: freshrss-backup
-  namespace: freshrss
+  name: miniflux-backup
+  namespace: miniflux
 spec:
   schedule: "0 0 0 * * *"
   backupOwnerReference: self
   cluster:
-    name: freshrss-database
+    name: miniflux-database
   method: plugin
   pluginConfiguration:
     name: barman-cloud.cloudnative-pg.io
