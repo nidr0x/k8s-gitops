@@ -43,6 +43,14 @@ spec:
               value: 0.0.0.0:8080
             - name: BASE_URL
               value: https://rss.nidr0x.win
+            - name: AUTH_PROXY_HEADER
+              value: Cf-Access-Authenticated-User-Email
+            - name: AUTH_PROXY_USER_CREATION
+              value: "1"
+            - name: DISABLE_LOCAL_AUTH
+              value: "1"
+            - name: TRUSTED_REVERSE_PROXY_NETWORKS
+              value: 0.0.0.0/0
             - name: DATABASE_USER
               valueFrom:
                 secretKeyRef:
