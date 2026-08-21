@@ -42,7 +42,7 @@ spec:
             - name: LISTEN_ADDR
               value: 0.0.0.0:8080
             - name: BASE_URL
-              value: https://rss.nidr0x.win
+              value: https://rss.nidr0x.win/miniflux/
             - name: AUTH_PROXY_HEADER
               value: Cf-Access-Authenticated-User-Email
             - name: AUTH_PROXY_USER_CREATION
