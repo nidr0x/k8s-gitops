@@ -58,6 +58,8 @@ victoria-metrics-operator:
 
 grafana:
   enabled: true
+  image:
+    tag: 13.0.1
   defaultDashboardsTimezone: Europe/Madrid
   plugins:
     - victoriametrics-metrics-datasource
