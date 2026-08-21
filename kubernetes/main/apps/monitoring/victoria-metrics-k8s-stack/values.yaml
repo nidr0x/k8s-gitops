@@ -2,6 +2,35 @@ crds:
   enabled: true
 
 defaultDatasources:
+  victoriametrics:
+    datasources:
+      - name: VictoriaMetrics
+        type: prometheus
+        access: proxy
+        uid: VictoriaMetrics
+        isDefault: true
+        editable: true
+      - name: VictoriaMetrics (DS)
+        access: proxy
+        uid: VictoriaMetricsDS
+        type: victoriametrics-metrics-datasource
+        isDefault: false
+        editable: true
+  victorialogs:
+    datasources:
+      - name: VictoriaLogs (DS)
+        access: proxy
+        uid: VictoriaLogs
+        type: victoriametrics-logs-datasource
+        editable: true
+  alertmanager:
+    datasources:
+      - name: Alertmanager
+        access: proxy
+        uid: Alertmanager
+        editable: true
+        jsonData:
+          implementation: prometheus
   extra:
     - name: TeslaMate
       type: postgres
@@ -224,8 +253,6 @@ grafana:
       enabled: true
       max_versions_to_keep: 20
       cleanup_interval: 10m
-    log:
-      filters: provisioning.datasources:debug,sqlstore:debug
     feature_toggles:
       ssoSettingsApi: true
     plugins:
