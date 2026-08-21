@@ -227,6 +227,7 @@ grafana:
     feature_toggles:
       ssoSettingsApi: true
     plugins:
+      disable_plugins: elasticsearch
       preinstall_async: false
     server:
       domain: monitoring.nidr0x.win
