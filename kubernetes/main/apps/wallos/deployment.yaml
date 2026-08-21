@@ -46,10 +46,10 @@ spec:
               value: "UTC"
           resources:
             requests:
-              cpu: 50m
-              memory: 128Mi
+              cpu: 10m
+              memory: 64Mi
             limits:
-              memory: 256Mi
+              memory: 128Mi
           ports:
             - name: http
               containerPort: 80
