@@ -23,12 +23,6 @@ defaultDatasources:
         maxLines: 1000
       editable: true
       isDefault: false
-    - name: VictoriaMetrics
-      type: victoriametrics-metrics-datasource
-      url: http://vmsingle-victoria-metrics-k8s-stack.kube-monitoring.svc.cluster.local:8428
-      access: proxy
-      isDefault: false
-
 victoria-metrics-operator:
   enabled: true
   operator:
