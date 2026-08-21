@@ -7,6 +7,7 @@ spec:
     - name: controlplane-storage
       rules:
         - alert: ControlPlaneDiskWriteLatencyHigh
+          record: ""
           annotations:
             description: Average write latency on {{ $labels.instance }} device {{ $labels.device }} has been above 250ms for 10 minutes ({{ $value | humanize }}ms).
             summary: Control-plane disk write latency is high.
@@ -28,6 +29,7 @@ spec:
             severity: warning
             scope: controlplane-storage
         - alert: ControlPlaneDiskReadLatencyHigh
+          record: ""
           annotations:
             description: Average read latency on {{ $labels.instance }} device {{ $labels.device }} has been above 250ms for 10 minutes ({{ $value | humanize }}ms).
             summary: Control-plane disk read latency is high.
