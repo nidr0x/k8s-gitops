@@ -71,6 +71,8 @@ grafana:
   sidecar:
     datasources:
       initDatasources: true
+      skipReload: true
+      watchMethod: LIST
     dashboards:
       enabled: false
   envFromSecrets:
