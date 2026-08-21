@@ -224,6 +224,8 @@ grafana:
       enabled: true
       max_versions_to_keep: 20
       cleanup_interval: 10m
+    log:
+      filters: provisioning.datasources:debug,sqlstore:debug
     feature_toggles:
       ssoSettingsApi: true
     plugins:
