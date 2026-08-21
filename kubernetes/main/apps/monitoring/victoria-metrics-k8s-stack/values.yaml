@@ -69,6 +69,8 @@ grafana:
     tag: 8.21.0
     pullPolicy: IfNotPresent
   sidecar:
+    datasources:
+      initDatasources: true
     dashboards:
       enabled: false
   envFromSecrets:
