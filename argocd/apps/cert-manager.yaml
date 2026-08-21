@@ -22,10 +22,19 @@ spec:
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
+      - ServerSideApply=true
       - RespectIgnoreDifferences=true
+      - FailOnSharedResource=true
+      - PruneLast=true
     automated:
-      prune: false
-      selfHeal: false
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 4
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 2m
   ignoreDifferences:
     - group: cert-manager.io
       kind: Certificate
