@@ -80,7 +80,7 @@ grafana:
   image:
     tag: 13.0.1
   podAnnotations:
-    nidr0x.win/grafana-datasource-rollout: deduplicate-v1
+    nidr0x.win/grafana-datasource-rollout: preserve-uid-v1
   defaultDashboardsTimezone: Europe/Madrid
   plugins:
     - victoriametrics-metrics-datasource
