@@ -7,6 +7,7 @@ spec:
     - name: homelab-apps
       rules:
         - alert: HomeAssistantContainerOOMKilled
+          record: ""
           annotations:
             description: Container {{ $labels.container }} in pod {{ $labels.pod }} in namespace {{ $labels.namespace }} was OOM-killed during the last 15 minutes.
             summary: Home Assistant container was OOM-killed.
@@ -30,6 +31,7 @@ spec:
             severity: critical
             scope: homelab-apps
         - alert: HomeAssistantContainerMemoryHigh
+          record: ""
           annotations:
             description: Container {{ $labels.container }} in pod {{ $labels.pod }} is using more than 80% of its memory limit for 10 minutes.
             summary: Home Assistant container memory usage is high.
@@ -59,6 +61,7 @@ spec:
             severity: warning
             scope: homelab-apps
         - alert: HomelabAppNoReadyPods
+          record: ""
           annotations:
             description: App {{ if $labels.label_app_kubernetes_io_name }}{{ $labels.label_app_kubernetes_io_name }}{{ else }}{{ $labels.label_app }}{{ end }} in namespace {{ $labels.namespace }} has no ready pods for longer than 10 minutes.
             summary: Homelab app has no ready pods.
@@ -81,6 +84,7 @@ spec:
             severity: critical
             scope: homelab-apps
         - alert: HomelabAppCrashLooping
+          record: ""
           annotations:
             description: App {{ if $labels.label_app_kubernetes_io_name }}{{ $labels.label_app_kubernetes_io_name }}{{ else }}{{ $labels.label_app }}{{ end }} in namespace {{ $labels.namespace }} has one or more pods crash looping for longer than 10 minutes.
             summary: Homelab app pod is crash looping.
@@ -103,6 +107,7 @@ spec:
             severity: critical
             scope: homelab-apps
         - alert: HomelabAppRestartsHigh
+          record: ""
           annotations:
             description: App {{ if $labels.label_app_kubernetes_io_name }}{{ $labels.label_app_kubernetes_io_name }}{{ else }}{{ $labels.label_app }}{{ end }} in namespace {{ $labels.namespace }} has restarted more than 3 times in the last 30 minutes.
             summary: Homelab app pod is restarting repeatedly.
