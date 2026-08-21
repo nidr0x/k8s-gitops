@@ -226,6 +226,8 @@ grafana:
       cleanup_interval: 10m
     feature_toggles:
       ssoSettingsApi: true
+    plugins:
+      preinstall_async: false
     server:
       domain: monitoring.nidr0x.win
       root_url: "https://monitoring.nidr0x.win/grafana"
