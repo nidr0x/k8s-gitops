@@ -48,6 +48,11 @@ defaultDatasources:
         maxLines: 1000
       editable: true
       isDefault: false
+
+syncJob:
+  # Keep completed Helm hook Jobs from appearing as stale Argo resources.
+  ttlSecondsAfterFinished: 60
+
 victoria-metrics-operator:
   enabled: true
   operator:
