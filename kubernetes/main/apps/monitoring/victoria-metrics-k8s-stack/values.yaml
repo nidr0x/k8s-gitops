@@ -7,12 +7,10 @@ defaultDatasources:
       - name: VictoriaMetrics
         type: prometheus
         access: proxy
-        uid: VictoriaMetrics
         isDefault: true
         editable: true
       - name: VictoriaMetrics (DS)
         access: proxy
-        uid: VictoriaMetricsDS
         type: victoriametrics-metrics-datasource
         isDefault: false
         editable: true
@@ -20,14 +18,12 @@ defaultDatasources:
     datasources:
       - name: VictoriaLogs (DS)
         access: proxy
-        uid: VictoriaLogs
         type: victoriametrics-logs-datasource
         editable: true
   alertmanager:
     datasources:
       - name: Alertmanager
         access: proxy
-        uid: Alertmanager
         editable: true
         jsonData:
           implementation: prometheus
