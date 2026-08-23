@@ -64,6 +64,10 @@ nodes:
       - deviceSelector:
           hardwareAddr: bc:24:11:85:fb:fc
         dhcp: true
+        routes:
+          - network: fd10:556:3013::/64
+            gateway: fe80::1850:5617:5d83:613e
+            metric: 100
     nodeLabels:
       topology.kubernetes.io/region: homelab
       topology.kubernetes.io/zone: annapurna
