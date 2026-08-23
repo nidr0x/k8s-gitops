@@ -4,6 +4,8 @@ metadata:
   name: homeassistant
   labels:
     alerts.nidr0x.win/enabled: "true"
+  annotations:
+    configmap.reloader.stakater.com/reload: homeassistant-configmap
 spec:
   replicas: 1
   revisionHistoryLimit: 3
