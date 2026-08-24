@@ -32,7 +32,7 @@
         "/(^|/)kubernetes/main/apps/homeassistant/localthings/install\\.py$/",
       ],
       matchStrings: [
-        "# renovate: datasource=git-refs depName=mbillow/localthings\\nCOMMIT = \\\"(?<currentDigest>[0-9a-f]{40})\\\"",
+        '# renovate: datasource=git-refs depName=mbillow/localthings\\nCOMMIT = \\"(?<currentDigest>[0-9a-f]{40})\\"',
       ],
       currentValueTemplate: "main",
       depNameTemplate: "mbillow/localthings",
@@ -47,7 +47,7 @@
         "/(^|/)kubernetes/main/apps/homeassistant/localthings/install\\.py$/",
       ],
       matchStrings: [
-        "# renovate: datasource=pypi depName=smartthings-local\\nDEPENDENCY = \\\"smartthings-local==(?<currentValue>[^\\\"\\s]+)\\\"",
+        '# renovate: datasource=pypi depName=smartthings-local\\nDEPENDENCY = \\"smartthings-local==(?<currentValue>[^\\"\\s]+)\\"',
       ],
       depNameTemplate: "smartthings-local",
       datasourceTemplate: "pypi",

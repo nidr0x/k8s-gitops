@@ -4,10 +4,10 @@ from __future__ import annotations
 
 import io
 import os
-from pathlib import Path
 import shutil
 import subprocess
 import tarfile
+from pathlib import Path
 from urllib.request import urlopen
 
 
@@ -33,7 +33,9 @@ with tarfile.open(fileobj=io.BytesIO(archive_data), mode="r:gz") as archive:
 
 source_candidates = list(config_dir.glob(f"localthings-{COMMIT}/custom_components/localthings"))
 if len(source_candidates) != 1:
-    raise RuntimeError("Pinned LocalThings archive did not contain one custom component")
+    raise RuntimeError(
+        "Pinned LocalThings archive did not contain one custom component"
+    )
 
 source_dir = source_candidates[0]
 shutil.rmtree(target_dir, ignore_errors=True)
