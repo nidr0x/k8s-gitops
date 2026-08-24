@@ -7,6 +7,9 @@ configMapGenerator:
       - visionos.yaml=themes/visionos.yaml
       - liquid-glass.yaml=themes/liquid-glass.yaml
       - visionos_default.yaml=packages/visionos_default.yaml
+  - name: homeassistant-localthings-installer
+    files:
+      - install_localthings.py=localthings/install.py
 resources:
   - namespace.yaml
   - database.yaml
