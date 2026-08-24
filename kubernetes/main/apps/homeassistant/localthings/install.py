@@ -10,7 +10,6 @@ import tarfile
 from pathlib import Path
 from urllib.request import urlopen
 
-
 # renovate: datasource=git-refs depName=mbillow/localthings
 COMMIT = "b5e25d72d3585dcc68f93d668aef404201fe9dbe"
 ARCHIVE_URL = f"https://github.com/mbillow/localthings/archive/{COMMIT}.tar.gz"
@@ -31,7 +30,9 @@ with urlopen(ARCHIVE_URL, timeout=60) as response:
 with tarfile.open(fileobj=io.BytesIO(archive_data), mode="r:gz") as archive:
     archive.extractall(config_dir, filter="data")
 
-source_candidates = list(config_dir.glob(f"localthings-{COMMIT}/custom_components/localthings"))
+source_candidates = list(
+    config_dir.glob(f"localthings-{COMMIT}/custom_components/localthings")
+)
 if len(source_candidates) != 1:
     raise RuntimeError(
         "Pinned LocalThings archive did not contain one custom component"
