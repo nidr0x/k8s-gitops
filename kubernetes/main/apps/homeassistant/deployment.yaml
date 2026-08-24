@@ -58,6 +58,20 @@ spec:
               subPath: everest.yaml
             - name: homeassistant-visionos-theme
               mountPath: /config/visionos-source
+        - name: install-localthings
+          image: homeassistant/home-assistant:2026.8
+          imagePullPolicy: IfNotPresent
+          command:
+            - python
+            - /installer/install_localthings.py
+          securityContext:
+            privileged: false
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - name: homeassistant-config
+              mountPath: /config
+            - name: homeassistant-localthings-installer
+              mountPath: /installer
         - name: check-config
           image: homeassistant/home-assistant:2026.8
           imagePullPolicy: IfNotPresent
@@ -75,6 +89,8 @@ spec:
           env:
             - name: TZ
               value: "Europe/Madrid"
+            - name: PYTHONPATH
+              value: /config/deps
             - name: HOMEASSISTANT_RECORDER_DB_URL
               valueFrom:
                 secretKeyRef:
@@ -96,6 +112,8 @@ spec:
           env:
             - name: TZ
               value: "Europe/Madrid"
+            - name: PYTHONPATH
+              value: /config/deps
             - name: HOMEASSISTANT_RECORDER_DB_URL
               valueFrom:
                 secretKeyRef:
@@ -153,3 +171,6 @@ spec:
         - name: homeassistant-visionos-theme
           configMap:
             name: homeassistant-visionos-theme
+        - name: homeassistant-localthings-installer
+          configMap:
+            name: homeassistant-localthings-installer
