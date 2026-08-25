@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homeassistant-aemet-package
+  namespace: homeassistant
+data:
+  aemet.yaml: |
+    template:
+      - binary_sensor:
+          - name: "AEMET sin datos"
+            unique_id: everest_aemet_sin_datos
+            default_entity_id: binary_sensor.aemet_sin_datos
+            device_class: problem
+            delay_on: "00:30:00"
+            delay_off: "00:10:00"
+            state: >-
+              {{ states('sensor.aemet_temperature') in ['unknown', 'unavailable'] }}
+            attributes:
+              source: AEMET OpenData
+              monitored_entity: sensor.aemet_temperature

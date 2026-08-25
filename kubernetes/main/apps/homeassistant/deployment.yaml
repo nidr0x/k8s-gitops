@@ -105,6 +105,9 @@ spec:
             - name: homeassistant-energy-package
               mountPath: /config/packages/energy.yaml
               subPath: energy.yaml
+            - name: homeassistant-aemet-package
+              mountPath: /config/packages/aemet.yaml
+              subPath: aemet.yaml
       containers:
         - name: homeassistant
           image: homeassistant/home-assistant:2026.8
@@ -141,6 +144,9 @@ spec:
             - name: homeassistant-energy-package
               mountPath: /config/packages/energy.yaml
               subPath: energy.yaml
+            - name: homeassistant-aemet-package
+              mountPath: /config/packages/aemet.yaml
+              subPath: aemet.yaml
           startupProbe:
             tcpSocket:
               port: http
@@ -183,3 +189,6 @@ spec:
         - name: homeassistant-energy-package
           configMap:
             name: homeassistant-energy-package
+        - name: homeassistant-aemet-package
+          configMap:
+            name: homeassistant-aemet-package
