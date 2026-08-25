@@ -1,0 +1,127 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: teslamate-mqtt
+  labels:
+    app: teslamate-mqtt
+    alerts.nidr0x.win/enabled: "true"
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: teslamate-mqtt
+  template:
+    metadata:
+      labels:
+        app: teslamate-mqtt
+        alerts.nidr0x.win/enabled: "true"
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        fsGroup: 1883
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      initContainers:
+        - name: create-password-file
+          image: eclipse-mosquitto:2.1.2-alpine
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -ec
+            - >-
+              mkdir -p /mosquitto/config/generated &&
+              mosquitto_passwd -b -c /mosquitto/config/generated/passwd
+              "$MQTT_USERNAME" "$MQTT_PASSWORD" &&
+              chmod 0640 /mosquitto/config/generated/passwd
+          env:
+            - name: MQTT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: teslamate-mqtt
+                  key: username
+            - name: MQTT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: teslamate-mqtt
+                  key: password
+          securityContext:
+            runAsUser: 1883
+            runAsGroup: 1883
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: generated-config
+              mountPath: /mosquitto/config/generated
+      containers:
+        - name: mosquitto
+          # renovate: datasource=docker depName=eclipse-mosquitto
+          image: eclipse-mosquitto:2.1.2-alpine
+          imagePullPolicy: IfNotPresent
+          command:
+            - mosquitto
+            - -c
+            - /mosquitto/config/mosquitto.conf
+          securityContext:
+            runAsUser: 1883
+            runAsGroup: 1883
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 128Mi
+          ports:
+            - name: mqtt
+              protocol: TCP
+              containerPort: 1883
+          volumeMounts:
+            - name: mqtt-config
+              mountPath: /mosquitto/config/mosquitto.conf
+              subPath: mosquitto.conf
+              readOnly: true
+            - name: generated-config
+              mountPath: /mosquitto/config/generated
+              readOnly: true
+            - name: mqtt-data
+              mountPath: /mosquitto/data
+          startupProbe:
+            tcpSocket:
+              port: mqtt
+            initialDelaySeconds: 2
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 12
+          readinessProbe:
+            tcpSocket:
+              port: mqtt
+            initialDelaySeconds: 2
+            timeoutSeconds: 2
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            tcpSocket:
+              port: mqtt
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 20
+            failureThreshold: 3
+      volumes:
+        - name: mqtt-config
+          configMap:
+            name: teslamate-mqtt-config
+        - name: generated-config
+          emptyDir: {}
+        - name: mqtt-data
+          persistentVolumeClaim:
+            claimName: teslamate-mqtt-data
