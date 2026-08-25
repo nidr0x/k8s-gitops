@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: teslamate-mqtt-config
+data:
+  mosquitto.conf: |
+    persistence true
+    persistence_location /mosquitto/data/
+    autosave_interval 1800
+    listener 1883 0.0.0.0
+    allow_anonymous false
+    password_file /mosquitto/config/generated/passwd
+    log_dest stdout
