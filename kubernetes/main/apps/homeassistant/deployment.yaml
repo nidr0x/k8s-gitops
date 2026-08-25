@@ -102,6 +102,9 @@ spec:
             - name: homeassistant-config-file
               mountPath: /config/configuration.yaml
               subPath: configuration.yaml
+            - name: homeassistant-energy-package
+              mountPath: /config/packages/energy.yaml
+              subPath: energy.yaml
       containers:
         - name: homeassistant
           image: homeassistant/home-assistant:2026.8
@@ -135,6 +138,9 @@ spec:
             - name: homeassistant-config-file
               mountPath: /config/configuration.yaml
               subPath: configuration.yaml
+            - name: homeassistant-energy-package
+              mountPath: /config/packages/energy.yaml
+              subPath: energy.yaml
           startupProbe:
             tcpSocket:
               port: http
@@ -174,3 +180,6 @@ spec:
         - name: homeassistant-localthings-installer
           configMap:
             name: homeassistant-localthings-installer
+        - name: homeassistant-energy-package
+          configMap:
+            name: homeassistant-energy-package

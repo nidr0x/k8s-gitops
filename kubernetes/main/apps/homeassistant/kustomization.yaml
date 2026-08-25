@@ -12,6 +12,7 @@ configMapGenerator:
       - install_localthings.py=localthings/install.py
 resources:
   - namespace.yaml
+  - energy-package-configmap.yaml
   - database.yaml
   - secret.yaml
   - pv.yaml
