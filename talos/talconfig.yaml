@@ -26,6 +26,11 @@ nodes:
       - deviceSelector:
           hardwareAddr: bc:24:11:9c:06:43
         dhcp: true
+        routes:
+          # Use the border router's ULA instead of its volatile link-local address.
+          - network: fd10:556:3013::/64
+            gateway: fd01:4aec:5997:4bbe:2:fd10:556:3013
+            metric: 100
         vip:
           ip: 192.168.1.5
     nodeLabels:
@@ -39,6 +44,10 @@ nodes:
       - deviceSelector:
           hardwareAddr: bc:24:11:75:dd:27
         dhcp: true
+        routes:
+          - network: fd10:556:3013::/64
+            gateway: fd01:4aec:5997:4bbe:2:fd10:556:3013
+            metric: 100
         vip:
           ip: 192.168.1.5
     nodeLabels:
@@ -52,6 +61,10 @@ nodes:
       - deviceSelector:
           hardwareAddr: bc:24:11:fa:05:75
         dhcp: true
+        routes:
+          - network: fd10:556:3013::/64
+            gateway: fd01:4aec:5997:4bbe:2:fd10:556:3013
+            metric: 100
         vip:
           ip: 192.168.1.5
     nodeLabels:
@@ -66,7 +79,8 @@ nodes:
         dhcp: true
         routes:
           - network: fd10:556:3013::/64
-            gateway: fe80::1850:5617:5d83:613e
+            # Use the border router's ULA instead of its volatile link-local address.
+            gateway: fd01:4aec:5997:4bbe:2:fd10:556:3013
             metric: 100
     nodeLabels:
       topology.kubernetes.io/region: homelab
@@ -78,6 +92,10 @@ nodes:
       - deviceSelector:
           hardwareAddr: bc:24:11:ca:61:a3
         dhcp: true
+        routes:
+          - network: fd10:556:3013::/64
+            gateway: fd01:4aec:5997:4bbe:2:fd10:556:3013
+            metric: 100
     nodeLabels:
       topology.kubernetes.io/region: homelab
       topology.kubernetes.io/zone: annapurna
@@ -88,6 +106,10 @@ nodes:
       - deviceSelector:
           hardwareAddr: bc:24:11:b0:90:fc
         dhcp: true
+        routes:
+          - network: fd10:556:3013::/64
+            gateway: fd01:4aec:5997:4bbe:2:fd10:556:3013
+            metric: 100
     nodeLabels:
       topology.kubernetes.io/region: homelab
       topology.kubernetes.io/zone: annapurna
