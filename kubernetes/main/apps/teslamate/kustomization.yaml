@@ -3,6 +3,12 @@ kind: Kustomization
 namespace: teslamate
 resources:
   - service.yaml
+  - mqtt-password-generator.yaml
+  - mqtt-secret.yaml
+  - mqtt-configmap.yaml
+  - mqtt-pvc.yaml
+  - mqtt-service.yaml
+  - mqtt-deployment.yaml
   - http-route.yaml
   - network-policies.yaml
   - secret.yaml

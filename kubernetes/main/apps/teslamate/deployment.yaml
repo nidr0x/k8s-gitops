@@ -57,4 +57,24 @@ spec:
             - name: DATABASE_HOST
               value: teslamate-database-rw
             - name: DISABLE_MQTT
+              value: "false"
+            - name: MQTT_HOST
+              value: teslamate-mqtt
+            - name: MQTT_PORT
+              value: "1883"
+            - name: MQTT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: teslamate-mqtt
+                  key: username
+            - name: MQTT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: teslamate-mqtt
+                  key: password
+            - name: MQTT_HOME_ASSISTANT_DISCOVERY
               value: "true"
+            - name: MQTT_HOME_ASSISTANT_DISCOVERY_URL
+              value: https://tesla.nidr0x.win/
+            - name: MQTT_HOME_ASSISTANT_DISCOVERY_PREFIX
+              value: homeassistant
