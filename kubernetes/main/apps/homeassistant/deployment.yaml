@@ -5,7 +5,7 @@ metadata:
   labels:
     alerts.nidr0x.win/enabled: "true"
   annotations:
-    configmap.reloader.stakater.com/reload: homeassistant-configmap
+    configmap.reloader.stakater.com/reload: homeassistant-configmap,homeassistant-health-package
 spec:
   replicas: 1
   revisionHistoryLimit: 3
@@ -108,6 +108,9 @@ spec:
             - name: homeassistant-aemet-package
               mountPath: /config/packages/aemet.yaml
               subPath: aemet.yaml
+            - name: homeassistant-health-package
+              mountPath: /config/packages/health.yaml
+              subPath: health.yaml
       containers:
         - name: homeassistant
           image: homeassistant/home-assistant:2026.8
@@ -147,6 +150,9 @@ spec:
             - name: homeassistant-aemet-package
               mountPath: /config/packages/aemet.yaml
               subPath: aemet.yaml
+            - name: homeassistant-health-package
+              mountPath: /config/packages/health.yaml
+              subPath: health.yaml
           startupProbe:
             tcpSocket:
               port: http
@@ -192,3 +198,6 @@ spec:
         - name: homeassistant-aemet-package
           configMap:
             name: homeassistant-aemet-package
+        - name: homeassistant-health-package
+          configMap:
+            name: homeassistant-health-package

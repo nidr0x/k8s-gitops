@@ -1,0 +1,131 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homeassistant-health-package
+  namespace: homeassistant
+data:
+  health.yaml: |
+    template:
+      - triggers:
+          - trigger: homeassistant
+            event: start
+        sensor:
+          - name: "Home Assistant último arranque"
+            unique_id: everest_home_assistant_ultimo_arranque
+            device_class: timestamp
+            state: "{{ now().isoformat() }}"
+
+      - binary_sensor:
+          - name: "Backup automático obsoleto"
+            unique_id: everest_backup_automatico_obsoleto
+            device_class: problem
+            state: >-
+              {% set value = states('sensor.backup_last_successful_automatic_backup') %}
+              {% if value in ['unknown', 'unavailable', ''] %}
+                true
+              {% else %}
+                {{ (as_timestamp(now()) - as_timestamp(value)) > 86400 }}
+              {% endif %}
+
+          - name: "Cámaras no disponibles"
+            unique_id: everest_camaras_no_disponibles
+            device_class: problem
+            state: >-
+              {% set ns = namespace(found=false) %}
+              {% for entity in states.camera %}
+                {% if entity.state in ['unknown', 'unavailable'] %}
+                  {% set ns.found = true %}
+                {% endif %}
+              {% endfor %}
+              {{ ns.found }}
+
+          - name: "Actualizaciones pendientes"
+            unique_id: everest_actualizaciones_pendientes
+            device_class: update
+            state: >-
+              {{ states.update | selectattr('state', 'eq', 'on') | list | count > 0 }}
+
+          - name: "i-DE histórico sin datos"
+            unique_id: everest_ide_historico_sin_datos
+            device_class: problem
+            state: >-
+              {{ states('sensor.es0021000043017330yj_historical_consumption') in ['unknown', 'unavailable', ''] }}
+
+          - name: "Home Assistant reinicio reciente"
+            unique_id: everest_home_assistant_reinicio_reciente
+            device_class: problem
+            state: >-
+              {% set value = states('sensor.home_assistant_ultimo_arranque') %}
+              {% if value in ['unknown', 'unavailable', ''] %}
+                false
+              {% else %}
+                {{ (as_timestamp(now()) - as_timestamp(value)) < 900 }}
+              {% endif %}
+
+    automation:
+      - id: homeassistant_health_backup_obsoleto
+        alias: Mantenimiento - Aviso de backup obsoleto
+        description: Avisa si no hay un backup automático correcto en las últimas 24 horas.
+        triggers:
+          - trigger: state
+            entity_id: binary_sensor.backup_automatico_obsoleto
+            to: "on"
+            for: "00:05:00"
+        actions:
+          - action: persistent_notification.create
+            data:
+              title: Mantenimiento - Backup obsoleto
+              message: Home Assistant no tiene un backup automático correcto en las últimas 24 horas.
+              notification_id: homeassistant_backup_obsoleto
+        mode: single
+
+      - id: homeassistant_health_camaras_no_disponibles
+        alias: Mantenimiento - Cámara no disponible
+        description: Avisa si una cámara permanece sin estado durante cinco minutos.
+        triggers:
+          - trigger: state
+            entity_id: binary_sensor.camaras_no_disponibles
+            to: "on"
+            for: "00:05:00"
+        actions:
+          - action: persistent_notification.create
+            data:
+              title: Mantenimiento - Cámara no disponible
+              message: Una o más cámaras llevan al menos cinco minutos sin estar disponibles.
+              notification_id: homeassistant_camaras_no_disponibles
+        mode: single
+
+      - id: homeassistant_health_baterias_criticas
+        alias: Mantenimiento - Batería crítica
+        description: Avisa si una de las baterías monitorizadas baja del 15 por ciento.
+        triggers:
+          - trigger: state
+            entity_id:
+              - binary_sensor.comedor_aqara_smart_lock_u200_bateria_critica_cerradura
+              - binary_sensor.escaleras_habitaciones_sensor_ocupacion_escaleras_habitaciones_bateria_critica_sensor_escaleras
+            to: "on"
+            for: "00:05:00"
+        actions:
+          - action: persistent_notification.create
+            data:
+              title: Mantenimiento - Batería crítica
+              message: >-
+                {{ state_attr(trigger.entity_id, 'friendly_name') }} está por debajo del 15 por ciento.
+              notification_id: "homeassistant_{{ trigger.entity_id }}"
+        mode: parallel
+
+      - id: homeassistant_health_ide_historico_sin_datos
+        alias: Mantenimiento - i-DE histórico sin datos
+        description: Avisa si el sensor histórico de i-DE no tiene estados disponibles.
+        triggers:
+          - trigger: state
+            entity_id: binary_sensor.i_de_historico_sin_datos
+            to: "on"
+            for: "00:05:00"
+        actions:
+          - action: persistent_notification.create
+            data:
+              title: Mantenimiento - i-DE histórico
+              message: El sensor histórico de i-DE no tiene estados disponibles.
+              notification_id: homeassistant_ide_historico_sin_datos
+        mode: single
