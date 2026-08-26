@@ -5,6 +5,13 @@ metadata:
   namespace: homeassistant
 data:
   health.yaml: |
+    group:
+      baterias_criticas:
+        name: Baterías críticas
+        entities:
+          - binary_sensor.comedor_aqara_smart_lock_u200_bateria_critica_cerradura
+          - binary_sensor.escaleras_habitaciones_sensor_ocupacion_escaleras_habitaciones_bateria_critica_sensor_escaleras
+
     template:
       - triggers:
           - trigger: homeassistant
@@ -62,6 +69,31 @@ data:
                 {{ (as_timestamp(now()) - as_timestamp(value)) < 900 }}
               {% endif %}
 
+          - name: "Entidades obligatorias no disponibles"
+            unique_id: everest_entidades_obligatorias_no_disponibles
+            default_entity_id: binary_sensor.entidades_obligatorias_no_disponibles
+            device_class: problem
+            state: >-
+              {% set required = [
+                'person.casa',
+                'lock.aqara_smart_lock_u200',
+                'camera.entrada_joan_fuster_5_high_resolution_channel',
+                'camera.g5_turret_ultra_high_resolution_channel',
+                'sensor.energia_red_ide_acumulada',
+                'sensor.energia_circuito_shelly_acumulada',
+                'sensor.energia_coche_tesla_acumulada',
+                'sensor.potencia_circuito_shelly',
+                'sensor.potencia_coche_tesla',
+                'group.baterias_criticas'
+              ] %}
+              {% set ns = namespace(unavailable=false) %}
+              {% for entity_id in required %}
+                {% if states(entity_id) in ['unknown', 'unavailable'] %}
+                  {% set ns.unavailable = true %}
+                {% endif %}
+              {% endfor %}
+              {{ ns.unavailable }}
+
     automation:
       - id: homeassistant_health_backup_obsoleto
         alias: Mantenimiento - Aviso de backup obsoleto
@@ -100,9 +132,7 @@ data:
         description: Avisa si una de las baterías monitorizadas baja del 15 por ciento.
         triggers:
           - trigger: state
-            entity_id:
-              - binary_sensor.comedor_aqara_smart_lock_u200_bateria_critica_cerradura
-              - binary_sensor.escaleras_habitaciones_sensor_ocupacion_escaleras_habitaciones_bateria_critica_sensor_escaleras
+            entity_id: group.baterias_criticas
             to: "on"
             for: "00:05:00"
         actions:
@@ -110,9 +140,28 @@ data:
             data:
               title: Mantenimiento - Batería crítica
               message: >-
-                {{ state_attr(trigger.entity_id, 'friendly_name') }} está por debajo del 15 por ciento.
-              notification_id: "homeassistant_{{ trigger.entity_id }}"
-        mode: parallel
+                Una o más baterías monitorizadas están por debajo del 15 por ciento.
+                Revisa el grupo Baterías críticas en Home Assistant.
+              notification_id: homeassistant_baterias_criticas
+        mode: single
+
+      - id: homeassistant_health_entidades_obligatorias
+        alias: Mantenimiento - Entidad obligatoria no disponible
+        description: Avisa si una entidad necesaria para seguridad, energía o mantenimiento falta o no está disponible durante cinco minutos.
+        triggers:
+          - trigger: state
+            entity_id: binary_sensor.entidades_obligatorias_no_disponibles
+            to: "on"
+            for: "00:05:00"
+        actions:
+          - action: persistent_notification.create
+            data:
+              title: Mantenimiento - Entidad obligatoria no disponible
+              message: >-
+                Falta o no está disponible una entidad necesaria para seguridad o energía.
+                Revisa el dashboard Mantenimiento y la configuración de dispositivos.
+              notification_id: homeassistant_entidades_obligatorias_no_disponibles
+        mode: single
 
       - id: homeassistant_health_ide_historico_sin_datos
         alias: Mantenimiento - i-DE histórico sin datos
