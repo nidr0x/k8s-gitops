@@ -74,6 +74,9 @@ data:
             default_entity_id: binary_sensor.entidades_obligatorias_no_disponibles
             device_class: problem
             state: >-
+              {% set startup = states('sensor.home_assistant_ultimo_arranque') %}
+              {% set grace_active = startup not in ['unknown', 'unavailable', ''] and
+                (as_timestamp(now()) - as_timestamp(startup, 0)) < 600 %}
               {% set required = [
                 'person.casa',
                 'lock.aqara_smart_lock_u200',
@@ -92,7 +95,52 @@ data:
                   {% set ns.unavailable = true %}
                 {% endif %}
               {% endfor %}
-              {{ ns.unavailable }}
+              {{ ns.unavailable and not grace_active }}
+            attributes:
+              unavailable_entities: >-
+                {% set required = [
+                  'person.casa',
+                  'lock.aqara_smart_lock_u200',
+                  'camera.entrada_joan_fuster_5_high_resolution_channel',
+                  'camera.g5_turret_ultra_high_resolution_channel',
+                  'sensor.energia_red_ide_acumulada',
+                  'sensor.energia_circuito_shelly_acumulada',
+                  'sensor.energia_coche_tesla_acumulada',
+                  'sensor.potencia_circuito_shelly',
+                  'sensor.potencia_coche_tesla',
+                  'group.baterias_criticas'
+                ] %}
+                {% set ns = namespace(entities=[]) %}
+                {% for entity_id in required %}
+                  {% if states(entity_id) in ['unknown', 'unavailable'] %}
+                    {% set ns.entities = ns.entities + [entity_id] %}
+                  {% endif %}
+                {% endfor %}
+                {{ ns.entities | join(', ') if ns.entities else 'ninguna' }}
+              unavailable_count: >-
+                {% set required = [
+                  'person.casa',
+                  'lock.aqara_smart_lock_u200',
+                  'camera.entrada_joan_fuster_5_high_resolution_channel',
+                  'camera.g5_turret_ultra_high_resolution_channel',
+                  'sensor.energia_red_ide_acumulada',
+                  'sensor.energia_circuito_shelly_acumulada',
+                  'sensor.energia_coche_tesla_acumulada',
+                  'sensor.potencia_circuito_shelly',
+                  'sensor.potencia_coche_tesla',
+                  'group.baterias_criticas'
+                ] %}
+                {% set ns = namespace(count=0) %}
+                {% for entity_id in required %}
+                  {% if states(entity_id) in ['unknown', 'unavailable'] %}
+                    {% set ns.count = ns.count + 1 %}
+                  {% endif %}
+                {% endfor %}
+                {{ ns.count }}
+              startup_grace_active: >-
+                {% set startup = states('sensor.home_assistant_ultimo_arranque') %}
+                {{ startup not in ['unknown', 'unavailable', ''] and
+                   (as_timestamp(now()) - as_timestamp(startup, 0)) < 600 }}
 
     automation:
       - id: homeassistant_health_backup_obsoleto
