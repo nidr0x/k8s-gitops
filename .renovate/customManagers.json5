@@ -3,16 +3,6 @@
   customManagers: [
     {
       customType: "regex",
-      description: "Process Talos and K8S upgrades",
-      matchStrings: [
-        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( repository=(?<registryUrl>\\S+))?\\n.+(:\\s|\\s)?(&\\S+\\s)?(?<currentValue>\\S+)",
-        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+/(?<currentValue>(v|\\d)[^/]+)",
-      ],
-      managerFilePatterns: ["(^|/)\\nbootstrap/.+\\.ya?ml$"],
-      datasourceTemplate: "github-releases",
-    },
-    {
-      customType: "regex",
       description: "Process annotated dependencies",
       managerFilePatterns: [
         "/(^|/).+\\.env$/",
@@ -20,10 +10,39 @@
         "/(^|/).+\\.ya?ml(?:\\.j2)?$/",
       ],
       matchStrings: [
-        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( repository=(?<registryUrl>\\S+))?\\n.+(:\\s|=)(&\\S+\\s)?(?<currentValue>\\S+)",
-        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+/(?<currentValue>(v|\\d)[^/]+)",
+        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( repository=(?<registryUrl>\\S+))?( versioning=(?<versioning>\\S+))?\\n.+(:\\s|=)(&\\S+\\s)?(?<currentValue>\\S+)",
+        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\\n.+/(?<currentValue>(v|\\d)[^/]+)",
       ],
       datasourceTemplate: "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
+      versioningTemplate: "{{#if versioning}}{{{versioning}}}{{else}}semver-coerced{{/if}}",
+    },
+    {
+      customType: "regex",
+      description: "Process the pinned LocalThings source commit",
+      managerFilePatterns: [
+        "/(^|/)kubernetes/main/apps/homeassistant/localthings/install\\.py$/",
+      ],
+      matchStrings: [
+        '# renovate: datasource=git-refs depName=mbillow/localthings\\nCOMMIT = \\"(?<currentDigest>[0-9a-f]{40})\\"',
+      ],
+      currentValueTemplate: "main",
+      depNameTemplate: "mbillow/localthings",
+      packageNameTemplate: "https://github.com/mbillow/localthings",
+      datasourceTemplate: "git-refs",
+      versioningTemplate: "git",
+    },
+    {
+      customType: "regex",
+      description: "Process the LocalThings Python dependency",
+      managerFilePatterns: [
+        "/(^|/)kubernetes/main/apps/homeassistant/localthings/install\\.py$/",
+      ],
+      matchStrings: [
+        '# renovate: datasource=pypi depName=smartthings-local\\nDEPENDENCY = \\"smartthings-local==(?<currentValue>[^\\"\\s]+)\\"',
+      ],
+      depNameTemplate: "smartthings-local",
+      datasourceTemplate: "pypi",
+      versioningTemplate: "pep440",
     },
     {
       customType: "regex",
