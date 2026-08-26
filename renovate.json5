@@ -1,23 +1,66 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: [
-    "config:recommended",
+    "config:best-practices",
     "docker:enableMajor",
-    ":disableRateLimiting",
     ":dependencyDashboard",
     ":semanticCommits",
     ":timezone(Europe/Madrid)",
-    "helpers:pinGitHubActionDigests",
-    "github>nidr0x/k8s-gitops//.renovate/labels.json5",
-    "github>nidr0x/k8s-gitops//.renovate/customManagers.json5",
-    "github>nidr0x/k8s-gitops//.renovate/automerge.json5",
-    "github>nidr0x/k8s-gitops//.renovate/commitMessage.json5",
-    "github>nidr0x/k8s-gitops//.renovate/groups.json5",
   ],
   dependencyDashboardTitle: "Renovate Dashboard 🤖",
-  branchTopic: "{{depName}}-{{newVersion}}",
+  commitMessageTopic: "{{depName}}",
+  commitMessageExtra: "to {{newVersion}}",
+  commitMessageSuffix: "",
   assignees: ["nidr0x"],
   reviewers: ["nidr0x"],
+  major: {
+    dependencyDashboardApproval: true,
+  },
+  customManagers: [
+    {
+      customType: "regex",
+      description: "Process annotated dependencies",
+      managerFilePatterns: [
+        "/(^|/).+\\.env$/",
+        "/(^|/).+\\.sh$/",
+        "/(^|/).+\\.ya?ml(?:\\.j2)?$/",
+      ],
+      matchStrings: [
+        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( repository=(?<registryUrl>\\S+))?( versioning=(?<versioning>\\S+))?\\n.+(:\\s|=)(&\\S+\\s)?(?<currentValue>\\S+)",
+        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\\n.+/(?<currentValue>(v|\\d)[^/]+)",
+      ],
+      datasourceTemplate: "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
+      versioningTemplate: "{{#if versioning}}{{{versioning}}}{{else}}semver-coerced{{/if}}",
+    },
+    {
+      customType: "regex",
+      description: "Process the pinned LocalThings source commit",
+      managerFilePatterns: [
+        "/(^|/)kubernetes/main/apps/homeassistant/localthings/install\\.py$/",
+      ],
+      matchStrings: [
+        '# renovate: datasource=git-refs depName=mbillow/localthings\\nCOMMIT = \\"(?<currentDigest>[0-9a-f]{40})\\"',
+      ],
+      currentValueTemplate: "main",
+      depNameTemplate: "mbillow/localthings",
+      packageNameTemplate: "https://github.com/mbillow/localthings",
+      datasourceTemplate: "git-refs",
+      versioningTemplate: "git",
+    },
+    {
+      customType: "regex",
+      description: "Process the LocalThings Python dependency",
+      managerFilePatterns: [
+        "/(^|/)kubernetes/main/apps/homeassistant/localthings/install\\.py$/",
+      ],
+      matchStrings: [
+        '# renovate: datasource=pypi depName=smartthings-local\\nDEPENDENCY = \\"smartthings-local==(?<currentValue>[^\\"\\s]+)\\"',
+      ],
+      depNameTemplate: "smartthings-local",
+      datasourceTemplate: "pypi",
+      versioningTemplate: "pep440",
+    },
+  ],
   argocd: {
     managerFilePatterns: ["/(^|/)argocd/.+\\.ya?ml$/"],
   },
@@ -26,6 +69,93 @@
   },
   ignorePaths: ["**/*.sops.*", "talos/clusterconfig/**", "talos/db/**"],
   packageRules: [
+    {
+      matchUpdateTypes: ["major"],
+      labels: ["type/major"],
+    },
+    {
+      matchUpdateTypes: ["digest"],
+      labels: ["type/digest"],
+    },
+    {
+      matchDatasources: ["docker"],
+      addLabels: ["renovate/container"],
+    },
+    {
+      matchDatasources: ["helm"],
+      addLabels: ["renovate/helm"],
+    },
+    {
+      matchDatasources: ["github-releases", "github-tags"],
+      addLabels: ["renovate/github-release"],
+    },
+    {
+      matchManagers: ["github-actions"],
+      addLabels: ["renovate/github-action"],
+    },
+    {
+      matchDatasources: ["pypi"],
+      addLabels: ["renovate/pip"],
+    },
+    {
+      matchDatasources: ["docker"],
+      commitMessageTopic: "image {{depName}}",
+      groupName: "docker",
+    },
+    {
+      matchDatasources: ["helm"],
+      commitMessageTopic: "chart {{depName}}",
+    },
+    {
+      matchManagers: ["github-actions"],
+      groupName: "github-actions",
+    },
+    {
+      description: "Kubernetes Core & Talos (Critical - No Automerge)",
+      matchPackageNames: [
+        "kubernetes",
+        "kubelet",
+        "kubectl",
+        "rancher/system-upgrade-controller",
+        "ghcr.io/siderolabs/{/,}**",
+        "siderolabs/{/,}**",
+        "talos{/,}**",
+      ],
+      groupName: "kubernetes-core",
+      automerge: false,
+    },
+    {
+      description: "ArgoCD",
+      groupName: "argocd",
+      matchPackageNames: ["quay.io/argoproj/{/,}**", "argoproj/{/,}**"],
+    },
+    {
+      description: "Monitoring Stack",
+      matchPackageNames: [
+        "kube-prometheus-stack",
+        "prometheus-operator",
+        "victoria-metrics-k8s-stack",
+        "prometheus{/,}**",
+        "grafana{/,}**",
+        "victoria-metrics{/,}**",
+      ],
+      groupName: "monitoring",
+    },
+    {
+      description: "Cert Manager",
+      matchPackageNames: ["cert-manager", "jetstack/cert-manager"],
+      groupName: "cert-manager",
+    },
+    {
+      description: "Networking",
+      matchPackageNames: [
+        "cilium",
+        "external-dns",
+        "cloudflared",
+        "cloudflare/cloudflared",
+      ],
+      groupName: "networking",
+    },
     {
       description: "Keep selected docker updates separate",
       matchPackageNames: [
@@ -38,13 +168,17 @@
       groupSlug: null,
     },
     {
-      description: "Disable broad automerge for non-GitHub-Actions updates",
+      description: "Keep deployment updates manual",
       matchUpdateTypes: ["minor", "patch", "pin", "digest"],
       matchManagers: [
         "argocd",
         "dockerfile",
+        "helmv3",
         "helm-values",
         "kubernetes",
+        "kustomize",
+        "pre-commit",
+        "terraform",
         "custom.regex",
       ],
       automerge: false,
@@ -55,7 +189,7 @@
       matchUpdateTypes: ["minor", "patch", "pin", "digest"],
       automerge: true,
       automergeType: "branch",
-      ignoreTests: true,
+      minimumReleaseAge: "3 days",
     },
     {
       matchPackageNames: ["homebridge/homebridge"],
@@ -63,7 +197,7 @@
     },
     {
       description: "Process Talos and Kubelet updates immediately",
-      matchPackageNames: ["/siderolabs/.*/"],
+      matchPackageNames: ["siderolabs/talos", "ghcr.io/siderolabs/kubelet"],
       minimumReleaseAge: "0 days",
     },
   ],
