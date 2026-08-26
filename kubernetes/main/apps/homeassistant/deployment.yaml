@@ -5,7 +5,7 @@ metadata:
   labels:
     alerts.nidr0x.win/enabled: "true"
   annotations:
-    configmap.reloader.stakater.com/reload: homeassistant-configmap,homeassistant-health-package
+    configmap.reloader.stakater.com/reload: homeassistant-configmap,homeassistant-energy-package,homeassistant-aemet-package,homeassistant-health-package
 spec:
   replicas: 1
   revisionHistoryLimit: 3
