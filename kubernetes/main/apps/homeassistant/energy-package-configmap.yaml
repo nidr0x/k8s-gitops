@@ -15,7 +15,7 @@ data:
             state_class: total_increasing
             availability: "{{ is_number(states('sensor.es0021000043017330yj_accumulated_consumption')) }}"
             state: "{{ states('sensor.es0021000043017330yj_accumulated_consumption') | float(0) }}"
-          - name: "Energía circuito Shelly acumulada"
+          - name: "Energía luz piscina acumulada"
             unique_id: everest_energia_circuito_shelly_acumulada
             default_entity_id: sensor.energia_circuito_shelly_acumulada
             unit_of_measurement: "kWh"
@@ -23,6 +23,14 @@ data:
             state_class: total_increasing
             availability: "{{ is_number(states('sensor.shelly1pmminig4_e4b06360bdc0_energy')) }}"
             state: "{{ states('sensor.shelly1pmminig4_e4b06360bdc0_energy') | float(0) }}"
+          - name: "Energía coche Tesla acumulada"
+            unique_id: everest_energia_coche_tesla_acumulada
+            default_entity_id: sensor.energia_coche_tesla_acumulada
+            unit_of_measurement: "kWh"
+            device_class: energy
+            state_class: total_increasing
+            availability: "{{ is_number(states('sensor.tesla_wall_connector_energy')) }}"
+            state: "{{ states('sensor.tesla_wall_connector_energy') | float(0) }}"
           - name: "Energía nevera acumulada"
             unique_id: everest_energia_nevera_acumulada
             default_entity_id: sensor.energia_nevera_acumulada
@@ -78,4 +86,16 @@ data:
         cycle: daily
       energia_red_ide_mensual:
         source: sensor.energia_red_ide_acumulada
+        cycle: monthly
+      energia_luz_piscina_diaria:
+        source: sensor.energia_circuito_shelly_acumulada
+        cycle: daily
+      energia_luz_piscina_mensual:
+        source: sensor.energia_circuito_shelly_acumulada
+        cycle: monthly
+      energia_coche_tesla_diaria:
+        source: sensor.energia_coche_tesla_acumulada
+        cycle: daily
+      energia_coche_tesla_mensual:
+        source: sensor.energia_coche_tesla_acumulada
         cycle: monthly
