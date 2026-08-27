@@ -99,9 +99,6 @@ spec:
           volumeMounts:
             - name: homeassistant-config
               mountPath: /config
-            - name: homeassistant-tesla-assets
-              mountPath: /config/www/tesla-model-3-highland-white.png
-              subPath: tesla-model-3-highland-white.png
             - name: homeassistant-config-file
               mountPath: /config/configuration.yaml
               subPath: configuration.yaml
@@ -144,6 +141,9 @@ spec:
           volumeMounts:
             - name: homeassistant-config
               mountPath: /config
+            - name: homeassistant-tesla-assets
+              mountPath: /config/www/tesla-model-3-highland-white.png
+              subPath: tesla-model-3-highland-white.png
             - name: homeassistant-config-file
               mountPath: /config/configuration.yaml
               subPath: configuration.yaml
