@@ -3,11 +3,11 @@
 version: "3"
 
 vars:
-  TALHELPER_CLUSTER_DIR: "{{.ROOT_DIR}}/talos/clusterconfig"
-  TALHELPER_CONFIG_FILE: "{{.ROOT_DIR}}/talos/talconfig.yaml"
-  TALHELPER_SECRET_FILE: "{{.ROOT_DIR}}/talos/talsecret.yaml"
-  TALOSCONFIG: "{{.TALHELPER_CLUSTER_DIR}}/talosconfig"
-  KUBECONFIG: "{{.TALHELPER_CLUSTER_DIR}}/kubeconfig"
+  TOPF_CONFIG_FILE: "{{.ROOT_DIR}}/talos/topf.yaml"
+  TOPF_RENDER_DIR: "{{.ROOT_DIR}}/talos/clusterconfig/topf"
+  TOPF_SECRETS_FILE: "{{.ROOT_DIR}}/talos/talsecret.yaml"
+  TALOSCONFIG: "{{.ROOT_DIR}}/talos/talosconfig"
+  KUBECONFIG: "{{.ROOT_DIR}}/talos/kubeconfig"
 
 env:
   TALOSCONFIG: "{{.TALOSCONFIG}}"
@@ -19,7 +19,7 @@ tasks:
     vars:
       BOOTSTRAP_NODE: '{{.BOOTSTRAP_NODE | default "controlplane-01"}}'
       BOOTSTRAP_IP:
-        sh: yq '.nodes[] | select(.hostname == "{{.BOOTSTRAP_NODE}}") | .ipAddress' {{.TALHELPER_CONFIG_FILE}}
+        sh: yq '.nodes[] | select(.host == "{{.BOOTSTRAP_NODE}}") | .ip' {{.TOPF_CONFIG_FILE}}
     preconditions:
       - test -f {{.TALOSCONFIG}}
       - talosctl --nodes {{.BOOTSTRAP_IP}} get machineconfig
@@ -27,29 +27,25 @@ tasks:
 
   kubeconfig:
     desc: Download kubeconfig from one Talos control-plane node [BOOTSTRAP_NODE=controlplane-01]
-    cmd: talosctl kubeconfig {{.KUBECONFIG}} --nodes {{.BOOTSTRAP_IP}} --endpoints {{.BOOTSTRAP_IP}} --force --merge=false
+    cmd: |
+      talosctl kubeconfig {{.KUBECONFIG}} --nodes {{.BOOTSTRAP_IP}} --endpoints {{.BOOTSTRAP_IP}} --force --merge=false
+      chmod 600 {{.KUBECONFIG}}
     vars:
       BOOTSTRAP_NODE: '{{.BOOTSTRAP_NODE | default "controlplane-01"}}'
       BOOTSTRAP_IP:
-        sh: yq '.nodes[] | select(.hostname == "{{.BOOTSTRAP_NODE}}") | .ipAddress' {{.TALHELPER_CONFIG_FILE}}
+        sh: yq -r '.nodes[] | select(.host == "{{.BOOTSTRAP_NODE}}") | .ip' {{.TOPF_CONFIG_FILE}}
     preconditions:
       - test -f {{.TALOSCONFIG}}
-      - talosctl --nodes {{.BOOTSTRAP_IP}} get machineconfig
-      - which talosctl yq
+      - which talosctl
+      - which yq
 
   apply-all-bootstrap:
     desc: Apply generated Talos configs to all nodes for a fresh bootstrap
-    cmds:
-      - |
-        CLUSTER_NAME=$(yq '.clusterName' {{.TALHELPER_CONFIG_FILE}})
-        yq -r '.nodes[].hostname' {{.TALHELPER_CONFIG_FILE}} | while read -r hostname; do
-          ip=$(yq -r '.nodes[] | select(.hostname == "'"${hostname}"'") | .ipAddress' {{.TALHELPER_CONFIG_FILE}})
-          echo "Applying Talos config to ${hostname} (${ip})"
-          talosctl --nodes "${ip}" apply-config --mode=auto --file {{.TALHELPER_CLUSTER_DIR}}/${CLUSTER_NAME}-${hostname}.yaml
-        done
+    cmd: topf --topfconfig {{.TOPF_CONFIG_FILE}} apply --auto-bootstrap --max-parallel=1
     preconditions:
-      - test -f {{.TALOSCONFIG}}
-      - which talosctl yq
+      - test -f {{.TOPF_CONFIG_FILE}}
+      - test -f {{.TOPF_SECRETS_FILE}}
+      - which topf
 
   reset-node:
     desc: Reset Talos on a single node [CLUSTER=main] [HOSTNAME=required]
@@ -62,39 +58,42 @@ tasks:
       - talosctl config info
 
   generate-config:
-    desc: Generate Talos configuration
-    cmd: talhelper genconfig --config-file {{.TALHELPER_CONFIG_FILE}} --secret-file {{.TALHELPER_SECRET_FILE}} --out-dir {{.TALHELPER_CLUSTER_DIR}}
+    desc: Render Talos machine configurations with TOPF
+    cmd: topf --topfconfig {{.TOPF_CONFIG_FILE}} render --output {{.TOPF_RENDER_DIR}}
     preconditions:
-      - test -f {{.TALHELPER_CONFIG_FILE}}
+      - test -f {{.TOPF_CONFIG_FILE}}
+      - test -f {{.TOPF_SECRETS_FILE}}
       - test -f {{.SOPS_CONFIG_FILE}}
-      - test -f {{.SOPS_AGE_KEY_FILE}}
-      - which talhelper
+      - which topf sops
+
+  generate-talosconfig:
+    desc: Generate the Talos client configuration with TOPF
+    cmd: |
+      topf --topfconfig {{.TOPF_CONFIG_FILE}} talosconfig > {{.TALOSCONFIG}}
+      chmod 600 {{.TALOSCONFIG}}
+    preconditions:
+      - test -f {{.TOPF_CONFIG_FILE}}
+      - test -f {{.TOPF_SECRETS_FILE}}
+      - test -f {{.SOPS_CONFIG_FILE}}
+      - which topf sops
 
   apply-node:
     desc: Apply Talos config to a node [HOSTNAME=required]
-    cmds:
-      - talosctl --nodes {{.IP}} apply-config --mode={{.MODE}} --file {{.TALHELPER_CLUSTER_DIR}}/{{.CLUSTER_NAME}}-{{.HOSTNAME}}.yaml
-      - talosctl --nodes {{.IP}} health --wait-timeout=10m --server=false
+    cmd: topf --topfconfig {{.TOPF_CONFIG_FILE}} --nodes-filter '^{{.HOSTNAME}}$' apply --mode={{.MODE}} --max-parallel=1
     vars:
-      CLUSTER_NAME:
-        sh: yq '.clusterName' {{.TALHELPER_CONFIG_FILE}}
       MODE: '{{.MODE | default "auto"}}'
-      IP:
-        sh: yq '.nodes[] | select(.hostname == "{{.HOSTNAME}}") | .ipAddress' {{.TALHELPER_CONFIG_FILE}}
     requires:
       vars: [HOSTNAME]
     preconditions:
-      - talosctl --nodes {{.IP}} get machineconfig
-      - talosctl config info
-      - test -f {{.TALHELPER_CLUSTER_DIR}}/{{.CLUSTER_NAME}}-{{.HOSTNAME}}.yaml
-      - test -f {{.TALOSCONFIG}}
-      - which talosctl yq
+      - test -f {{.TOPF_CONFIG_FILE}}
+      - test -f {{.TOPF_SECRETS_FILE}}
+      - which topf
 
   upgrade-node:
     desc: Upgrade Talos on a single node [IP=required]
     cmds:
       - |
-        TALOS_VERSION=$(yq '.talosVersion' {{.TALHELPER_CONFIG_FILE}})
+        TALOS_VERSION=$(yq '.talosVersion' {{.TOPF_CONFIG_FILE}})
         NODE_NAME=$(kubectl get nodes -o jsonpath='{range .items[*]}{@.status.addresses[?(@.type=="InternalIP")].address}{"\t"}{@.metadata.name}{"\n"}{end}' | grep "^{{.IP}}" | cut -f2)
         TALOS_SCHEMATIC_ID=$(kubectl get node ${NODE_NAME} --output=jsonpath='{.metadata.annotations.extensions\.talos\.dev/schematic}')
         TALOS_SECUREBOOT=$(talosctl --nodes {{.IP}} get securitystate --output=jsonpath='{.spec.secureBoot}')
@@ -107,7 +106,7 @@ tasks:
     requires:
       vars: [IP]
     preconditions:
-      - curl -fsSL -o /dev/null --fail https://github.com/siderolabs/talos/releases/tag/v$(yq '.talosVersion' {{.TALHELPER_CONFIG_FILE}} | sed 's/^v//')
+      - curl -fsSL -o /dev/null --fail https://github.com/siderolabs/talos/releases/tag/v$(yq '.talosVersion' {{.TOPF_CONFIG_FILE}} | sed 's/^v//')
       - talosctl --nodes {{.IP}} get machineconfig
       - talosctl config info
       - test -f {{.TALOSCONFIG}}
@@ -120,7 +119,7 @@ tasks:
       KUBERNETES_CONTROLLER:
         sh: talosctl config info --output json | jq --raw-output '.endpoints[]' | shuf -n 1
       KUBERNETES_VERSION:
-        sh: yq '.kubernetesVersion' {{.TALHELPER_CONFIG_FILE}}
+        sh: yq '.kubernetesVersion' {{.TOPF_CONFIG_FILE}}
     preconditions:
       - curl -fsSL -o /dev/null --fail https://github.com/siderolabs/kubelet/releases/tag/{{.KUBERNETES_VERSION}}
       - talosctl --nodes {{.KUBERNETES_CONTROLLER}} get machineconfig
@@ -143,5 +142,5 @@ tasks:
       - talosctl --nodes {{.IP}} get machineconfig
       - talosctl config info
       - test -f {{.CLUSTER_DIR}}/cluster.env
-      - test -f {{.CLUSTER_DIR}}/talosconfig
+      - test -f {{.TALOSCONFIG}}
       - which talosctl

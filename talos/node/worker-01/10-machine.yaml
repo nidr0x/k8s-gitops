@@ -1,0 +1,15 @@
+machine:
+  install:
+    disk: /dev/sda
+  network:
+    interfaces:
+      - deviceSelector:
+          hardwareAddr: bc:24:11:85:fb:fc
+        dhcp: true
+        routes:
+          - network: fd10:556:3013::/64
+            gateway: fd01:4aec:5997:4bbe:2:fd10:556:3013
+            metric: 100
+  nodeLabels:
+    topology.kubernetes.io/region: homelab
+    topology.kubernetes.io/zone: annapurna
