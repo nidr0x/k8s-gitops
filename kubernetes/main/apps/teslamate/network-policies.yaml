@@ -81,3 +81,20 @@ spec:
       ports:
         - protocol: TCP
           port: 1883
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-hostnetwork-to-mqtt
+spec:
+  endpointSelector:
+    matchLabels:
+      app: teslamate-mqtt
+  ingress:
+    - fromEntities:
+        - host
+        - remote-node
+      toPorts:
+        - ports:
+            - port: "1883"
+              protocol: TCP
