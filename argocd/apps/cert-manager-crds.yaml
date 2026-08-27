@@ -11,7 +11,7 @@ spec:
   project: everest
   source:
     repoURL: https://github.com/cert-manager/cert-manager.git
-    targetRevision: v1.20.0
+    targetRevision: v1.21.1
     path: deploy/crds
   syncPolicy:
     syncOptions:
