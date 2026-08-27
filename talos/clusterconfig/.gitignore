@@ -4,4 +4,5 @@ everest-worker-02.yaml
 talosconfig
 everest-controlplane-02.yaml
 everest-worker-03.yaml
+topf/
 everest-controlplane-03.yaml
