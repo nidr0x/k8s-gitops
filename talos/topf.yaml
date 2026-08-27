@@ -1,0 +1,36 @@
+clusterName: everest
+clusterEndpoint: "https://192.168.1.5:6443"
+
+# renovate: datasource=github-releases depName=siderolabs/talos
+talosVersion: v1.13.9
+# renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+kubernetesVersion: v1.36.4
+
+# Keep using the existing encrypted Talos secrets bundle in place.
+secretsPath: talsecret.yaml
+
+nodes:
+  - host: controlplane-01
+    ip: 192.168.1.90
+    role: control-plane
+    schematicId: a2c088eba8bcde14b4a3412f3e7713f793b4fd7e4ca1d7552dc2ea842f69cd2c
+  - host: controlplane-02
+    ip: 192.168.1.91
+    role: control-plane
+    schematicId: a2c088eba8bcde14b4a3412f3e7713f793b4fd7e4ca1d7552dc2ea842f69cd2c
+  - host: controlplane-03
+    ip: 192.168.1.92
+    role: control-plane
+    schematicId: a2c088eba8bcde14b4a3412f3e7713f793b4fd7e4ca1d7552dc2ea842f69cd2c
+  - host: worker-01
+    ip: 192.168.1.100
+    role: worker
+    schematicId: 78ef424b8e33c1c0e66b95a0ed1de2308fa7db781311f79ed4a97688f83bd570
+  - host: worker-02
+    ip: 192.168.1.103
+    role: worker
+    schematicId: 78ef424b8e33c1c0e66b95a0ed1de2308fa7db781311f79ed4a97688f83bd570
+  - host: worker-03
+    ip: 192.168.1.102
+    role: worker
+    schematicId: 78ef424b8e33c1c0e66b95a0ed1de2308fa7db781311f79ed4a97688f83bd570
