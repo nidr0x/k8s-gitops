@@ -79,7 +79,7 @@ spec:
             matchLabels:
               app: homeassistant
         - ipBlock:
-            cidr: 192.168.10.0/24
+            cidr: 192.168.2.0/24
       ports:
         - protocol: TCP
           port: 1883
@@ -101,7 +101,7 @@ spec:
             - port: "1883"
               protocol: TCP
     - fromCIDR:
-        - 192.168.10.0/24
+        - 192.168.2.0/24
       toPorts:
         - ports:
             - port: "1883"
