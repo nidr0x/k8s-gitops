@@ -35,6 +35,8 @@ spec:
               mkdir -p /mosquitto/config/generated &&
               mosquitto_passwd -b -c /mosquitto/config/generated/passwd
               "$MQTT_USERNAME" "$MQTT_PASSWORD" &&
+              mosquitto_passwd -b /mosquitto/config/generated/passwd
+              "$FREEKIOSK_MQTT_USERNAME" "$FREEKIOSK_MQTT_PASSWORD" &&
               chmod 0640 /mosquitto/config/generated/passwd
           env:
             - name: MQTT_USERNAME
@@ -46,6 +48,16 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: teslamate-mqtt
+                  key: password
+            - name: FREEKIOSK_MQTT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: freekiosk-mqtt
+                  key: username
+            - name: FREEKIOSK_MQTT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: freekiosk-mqtt
                   key: password
           securityContext:
             runAsUser: 1883
@@ -93,6 +105,9 @@ spec:
             - name: generated-config
               mountPath: /mosquitto/config/generated
               readOnly: true
+            - name: mqtt-acl
+              mountPath: /mosquitto/config/acl
+              readOnly: true
             - name: mqtt-data
               mountPath: /mosquitto/data
           startupProbe:
@@ -122,6 +137,9 @@ spec:
             name: teslamate-mqtt-config
         - name: generated-config
           emptyDir: {}
+        - name: mqtt-acl
+          configMap:
+            name: teslamate-mqtt-acl
         - name: mqtt-data
           persistentVolumeClaim:
             claimName: teslamate-mqtt-data

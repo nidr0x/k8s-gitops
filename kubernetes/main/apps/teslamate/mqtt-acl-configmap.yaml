@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: teslamate-mqtt-acl
+data:
+  acl: |
+    # Preserve TeslaMate's existing full access on its existing account.
+    user teslamate
+    topic readwrite #
+
+    # FreeKiosk: device state, commands, HA birth, and this tablet's discovery IDs.
+    user freekiosk-tablet
+    topic write freekiosk/+/availability
+    topic write freekiosk/+/state
+    topic read freekiosk/+/set/#
+    topic read homeassistant/status
+    topic write homeassistant/+/freekiosk_437079c79b08fbe3/+/config
+    topic write homeassistant/+/freekiosk_437079c79b08fbe3/config

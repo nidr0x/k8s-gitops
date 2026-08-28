@@ -5,7 +5,10 @@ resources:
   - service.yaml
   - mqtt-password-generator.yaml
   - mqtt-secret.yaml
+  - freekiosk-mqtt-password-generator.yaml
+  - freekiosk-mqtt-secret.yaml
   - mqtt-configmap.yaml
+  - mqtt-acl-configmap.yaml
   - mqtt-pvc.yaml
   - mqtt-service.yaml
   - mqtt-deployment.yaml
