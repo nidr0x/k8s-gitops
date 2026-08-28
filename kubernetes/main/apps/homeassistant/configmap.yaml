@@ -21,7 +21,7 @@ data:
       db_max_retries: 30
       db_retry_wait: 5
       auto_purge: true
-      purge_keep_days: 14
+      purge_keep_days: 7
       exclude:
         domains:
           # These domains are orchestration/bookkeeping state rather than useful history.
