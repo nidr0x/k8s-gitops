@@ -78,6 +78,8 @@ spec:
           podSelector:
             matchLabels:
               app: homeassistant
+        - ipBlock:
+            cidr: 192.168.10.0/24
       ports:
         - protocol: TCP
           port: 1883
@@ -94,6 +96,12 @@ spec:
     - fromEntities:
         - host
         - remote-node
+      toPorts:
+        - ports:
+            - port: "1883"
+              protocol: TCP
+    - fromCIDR:
+        - 192.168.10.0/24
       toPorts:
         - ports:
             - port: "1883"

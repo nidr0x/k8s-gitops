@@ -4,8 +4,11 @@ metadata:
   name: teslamate-mqtt
   labels:
     app: teslamate-mqtt
+    homelab.nidr0x.dev/l2-announce: "true"
+  annotations:
+    io.cilium/lb-ipam-ips: 192.168.1.242
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - name: mqtt
       protocol: TCP
