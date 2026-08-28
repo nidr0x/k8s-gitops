@@ -37,7 +37,9 @@ spec:
               "$MQTT_USERNAME" "$MQTT_PASSWORD" &&
               mosquitto_passwd -b /mosquitto/config/generated/passwd
               "$FREEKIOSK_MQTT_USERNAME" "$FREEKIOSK_MQTT_PASSWORD" &&
-              chmod 0640 /mosquitto/config/generated/passwd
+              chmod 0640 /mosquitto/config/generated/passwd &&
+              cp /mosquitto/config/input-acl/acl /mosquitto/config/generated/acl &&
+              chmod 0640 /mosquitto/config/generated/acl
           env:
             - name: MQTT_USERNAME
               valueFrom:
@@ -70,6 +72,9 @@ spec:
           volumeMounts:
             - name: generated-config
               mountPath: /mosquitto/config/generated
+            - name: mqtt-acl
+              mountPath: /mosquitto/config/input-acl
+              readOnly: true
       containers:
         - name: mosquitto
           # renovate: datasource=docker depName=eclipse-mosquitto
@@ -104,9 +109,6 @@ spec:
               readOnly: true
             - name: generated-config
               mountPath: /mosquitto/config/generated
-              readOnly: true
-            - name: mqtt-acl
-              mountPath: /mosquitto/config/acl
               readOnly: true
             - name: mqtt-data
               mountPath: /mosquitto/data
