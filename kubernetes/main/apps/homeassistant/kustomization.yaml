@@ -12,10 +12,10 @@ configMapGenerator:
       - install_localthings.py=localthings/install.py
   - name: homeassistant-tesla-cable
     files:
-      - tesla-model-3-highland-white.png=assets/tesla-model-3-highland-white.png
+      - tesla-model-3-highland-white.webp=assets/tesla-model-3-highland-white.webp
   - name: homeassistant-tesla-no-cable
     files:
-      - tesla-model-3-highland-no-cable.png=assets/tesla-model-3-highland-no-cable.png
+      - tesla-model-3-highland-no-cable.webp=assets/tesla-model-3-highland-no-cable.webp
 resources:
   - namespace.yaml
   - energy-package-configmap.yaml
