@@ -35,7 +35,7 @@ nodes:
           ip: 192.168.1.5
     nodeLabels:
       topology.kubernetes.io/region: homelab
-      topology.kubernetes.io/zone: annapurna
+      topology.kubernetes.io/zone: everest
   - hostname: controlplane-02
     ipAddress: 192.168.1.91
     installDisk: /dev/sda
@@ -52,7 +52,7 @@ nodes:
           ip: 192.168.1.5
     nodeLabels:
       topology.kubernetes.io/region: homelab
-      topology.kubernetes.io/zone: annapurna
+      topology.kubernetes.io/zone: everest
   - hostname: controlplane-03
     ipAddress: 192.168.1.92
     installDisk: /dev/sda
@@ -69,7 +69,7 @@ nodes:
           ip: 192.168.1.5
     nodeLabels:
       topology.kubernetes.io/region: homelab
-      topology.kubernetes.io/zone: annapurna
+      topology.kubernetes.io/zone: everest
   - hostname: worker-01
     ipAddress: 192.168.1.100
     installDisk: /dev/sda
@@ -84,7 +84,7 @@ nodes:
             metric: 100
     nodeLabels:
       topology.kubernetes.io/region: homelab
-      topology.kubernetes.io/zone: annapurna
+      topology.kubernetes.io/zone: everest
   - hostname: worker-02
     ipAddress: 192.168.1.103
     installDisk: /dev/sda
@@ -98,7 +98,7 @@ nodes:
             metric: 100
     nodeLabels:
       topology.kubernetes.io/region: homelab
-      topology.kubernetes.io/zone: annapurna
+      topology.kubernetes.io/zone: everest
   - hostname: worker-03
     ipAddress: 192.168.1.102
     installDisk: /dev/sda
@@ -112,7 +112,7 @@ nodes:
             metric: 100
     nodeLabels:
       topology.kubernetes.io/region: homelab
-      topology.kubernetes.io/zone: annapurna
+      topology.kubernetes.io/zone: everest
 
 worker:
   schematic:
