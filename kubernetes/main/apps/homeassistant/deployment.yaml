@@ -35,7 +35,7 @@ spec:
         fsGroupChangePolicy: "OnRootMismatch"
       initContainers:
         - name: install-theme
-          image: homeassistant/home-assistant:2026.8
+          image: homeassistant/home-assistant:2026.9
           imagePullPolicy: IfNotPresent
           command:
             - sh
@@ -59,7 +59,7 @@ spec:
             - name: homeassistant-visionos-theme
               mountPath: /config/visionos-source
         - name: install-localthings
-          image: homeassistant/home-assistant:2026.8
+          image: homeassistant/home-assistant:2026.9
           imagePullPolicy: IfNotPresent
           command:
             - python
@@ -73,7 +73,7 @@ spec:
             - name: homeassistant-localthings-installer
               mountPath: /installer
         - name: check-config
-          image: homeassistant/home-assistant:2026.8
+          image: homeassistant/home-assistant:2026.9
           imagePullPolicy: IfNotPresent
           command:
             - python
@@ -113,7 +113,7 @@ spec:
               subPath: health.yaml
       containers:
         - name: homeassistant
-          image: homeassistant/home-assistant:2026.8
+          image: homeassistant/home-assistant:2026.9
           imagePullPolicy: IfNotPresent
           securityContext:
             privileged: false
