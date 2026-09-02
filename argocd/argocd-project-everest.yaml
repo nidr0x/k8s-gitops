@@ -18,6 +18,8 @@ spec:
       server: https://kubernetes.default.svc
     - namespace: csi-driver-nfs
       server: https://kubernetes.default.svc
+    - namespace: default
+      server: https://kubernetes.default.svc
     - namespace: gateway
       server: https://kubernetes.default.svc
     - namespace: homeassistant
@@ -27,6 +29,8 @@ spec:
     - namespace: kube-monitoring
       server: https://kubernetes.default.svc
     - namespace: kube-system
+      server: https://kubernetes.default.svc
+    - namespace: kubelet-serving-cert-approver
       server: https://kubernetes.default.svc
     - namespace: kyverno
       server: https://kubernetes.default.svc
