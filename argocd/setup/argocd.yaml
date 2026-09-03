@@ -12,7 +12,7 @@ spec:
       targetRevision: master
       ref: nidr0x-k8s-gitops
     - repoURL: https://argoproj.github.io/argo-helm
-      targetRevision: 10.6.0
+      targetRevision: 10.7.1
       chart: argo-cd
       helm:
         valueFiles:
