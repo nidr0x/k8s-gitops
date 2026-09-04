@@ -19,7 +19,6 @@ configMapGenerator:
 resources:
   - namespace.yaml
   - energy-package-configmap.yaml
-  - aemet-package-configmap.yaml
   - health-package-configmap.yaml
   - database.yaml
   - secret.yaml
