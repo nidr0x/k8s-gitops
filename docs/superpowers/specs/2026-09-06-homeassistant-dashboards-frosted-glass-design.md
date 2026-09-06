@@ -54,12 +54,14 @@ porque los estados y la configuración viva pueden haber cambiado.
 
 ### Dashboards visibles
 
-- Crear `inicio` como dashboard principal y mostrarlo en la barra lateral.
+- Crear `inicio-dashboard` como dashboard principal, con título visible
+  `Inicio`, y mostrarlo en la barra lateral.
 - Renombrar la experiencia visible de `casa` a `Casa` y mostrarla en la barra
   lateral, manteniendo sus vistas de habitaciones y sus rutas existentes.
 - Mantener `coche` y `energia` como dashboards especializados, con navegación
   común.
-- Crear `sistema` para reunir seguridad, mantenimiento, mapa e infraestructura.
+- Crear `sistema-dashboard`, con título visible `Sistema`, para reunir
+  seguridad, mantenimiento, mapa e infraestructura.
 
 ### Dashboards antiguos durante la migración
 
@@ -70,8 +72,8 @@ tablet ni controles dependientes. Ocultar estos dashboards reduce la
 navegación visible de siete a cinco sin una operación destructiva irreversible.
 
 Las rutas antiguas se conservarán mientras sea posible, y las nuevas tarjetas
-de navegación usarán rutas explícitas hacia `inicio`, `casa`, `coche`,
-`energia` y `sistema`.
+de navegación usarán rutas explícitas hacia `inicio-dashboard`, `casa`,
+`coche`, `energia` y `sistema-dashboard`.
 
 ## Composición visual y funcional
 

@@ -4,7 +4,7 @@
 
 **Goal:** Convert the live Home Assistant navigation to five visible Frosted Glass dashboards with a compact home overview, today's weather, cameras below it, visible calendar, and preserved domain controls.
 
-**Architecture:** Keep Lovelace dashboards in Storage and use the Home Assistant configuration API. Create `inicio` and `sistema` from verified live entities and existing card configurations, then transform `casa`, `coche`, and `energia` surgically. Hide the four superseded dashboards only after readback and browser verification; keep them available for rollback.
+**Architecture:** Keep Lovelace dashboards in Storage and use the Home Assistant configuration API. Create `inicio-dashboard` and `sistema-dashboard` from verified live entities and existing card configurations, then transform `casa`, `coche`, and `energia` surgically. Hide the four superseded dashboards only after readback and browser verification; keep them available for rollback.
 
 **Tech Stack:** Home Assistant 2026.9.0, Lovelace Storage, `ha_config_get_dashboard`, `ha_config_set_dashboard`, Home Assistant states API, Mushroom, card-mod, navbar-card, atomic-calendar-revive, ha-today-card, vehicle-status-card, Helios, and browser rendering.
 
@@ -16,8 +16,8 @@
 - Write dashboard changes only through `ha_config_set_dashboard`; never edit Home Assistant `.storage` files.
 - Use only entity IDs returned by Home Assistant; never invent sensors, values, routes, or card-resource URLs.
 - Reuse currently registered resources before considering any new dependency.
-- Preserve existing controls and room routes in `casa`, vehicle actions in `coche`, Helios and energy entities in `energia`, and map/security/maintenance content while moving it into `sistema`.
-- Use `python_transform` for existing dashboard edits and a complete `config` only when creating `inicio` or `sistema`.
+- Preserve existing controls and room routes in `casa`, vehicle actions in `coche`, Helios and energy entities in `energia`, and map/security/maintenance content while moving it into `sistema-dashboard`.
+- Use `python_transform` for existing dashboard edits and a complete `config` only when creating `inicio-dashboard` or `sistema-dashboard`.
 - Treat the four old dashboards as rollback sources: set `show_in_sidebar=false`, do not delete them in this implementation.
 - Verify every write by reading the dashboard back, checking entity/card references, and rendering the result in mobile/tablet and desktop browser sizes.
 - Keep the repository changes limited to this plan and the already committed design document; the effective dashboard changes are remote Home Assistant state.
@@ -86,47 +86,47 @@
 ### Task 2: Create the compact `Inicio` dashboard
 
 **Files:**
-- Modify: live Storage dashboard `inicio` through `ha_config_set_dashboard`.
+- Modify: live Storage dashboard `inicio-dashboard` through `ha_config_set_dashboard`.
 - Read: live `casa` calendar card, live resource list, and live entity states from Task 1.
 
 **Interfaces:**
 - Consumes: Task 1 inventory and exact resource/theme keys.
-- Produces: a new `inicio` dashboard with a vertical order of header, compact today weather, cameras immediately below, calendar, attention summary, and navigation.
+- Produces: a new `inicio-dashboard` dashboard with a vertical order of header, compact today weather, cameras immediately below, calendar, attention summary, and navigation.
 
 - [ ] **Step 1: Assemble the configuration from verified entities.**
 
-  Create `inicio` with `url_path="inicio"`, title `Inicio`, icon `mdi:home-variant-outline`, and `show_in_sidebar=true`. Use a `sections` view with these sections in order:
+  Create `inicio-dashboard` with `url_path="inicio-dashboard"`, title `Inicio`, icon `mdi:home-variant-outline`, and `show_in_sidebar=true`. Use a `sections` view with these sections in order:
 
   1. A compact header using existing Mushroom/status cards and the verified presence entity.
   2. One weather block for `weather.everest`, using the installed `ha-today-card` only if its registered schema or an existing live config proves its fields; otherwise use the native weather card with only current/today information.
   3. A two-column responsive camera grid containing the exact entry and garage cameras. The unavailable garage entity must remain visibly unavailable rather than being replaced by a fake image.
   4. The existing working `custom:atomic-calendar-revive` configuration for `calendar.casa` and `calendar.trabajo`, retaining the verified colours, Spanish language, all-day events, seven-day limit, and compact glass styling. Include the monthly portion only if the installed card exposes that option in its current schema.
   5. Attention tiles for the verified lock, alarm, garage camera availability, and only other entities that Task 1 shows as actionable.
-  6. Navigation cards linking to `casa`, `coche`, `energia`, and `sistema`.
+  6. Navigation cards linking to `casa`, `coche`, `energia`, and `sistema-dashboard`.
 
   Apply a shared Frosted Glass style to the new section surfaces: translucent background, blur with an opaque fallback, consistent radius, restrained border/shadow, and readable text. Do not use a hard-coded sensor value.
 
 - [ ] **Step 2: Create the dashboard through the API.**
 
-  Call `ha_config_set_dashboard(url_path="inicio", title="Inicio", icon="mdi:home-variant-outline", show_in_sidebar=true, config=<the six-section sections config>)`. Do not write a `.storage` file or add a resource.
+  Call `ha_config_set_dashboard(url_path="inicio-dashboard", title="Inicio", icon="mdi:home-variant-outline", show_in_sidebar=true, config=<the six-section sections config>)`. Do not write a `.storage` file or add a resource.
 
 - [ ] **Step 3: Read the new dashboard back.**
 
-  Call `ha_config_get_dashboard(url_path="inicio", force_reload=true)` and assert that the view order is weather → camera grid → calendar, that both camera entities and both calendar entities are present, and that all navigation targets are exactly `casa`, `coche`, `energia`, and `sistema`.
+  Call `ha_config_get_dashboard(url_path="inicio-dashboard", force_reload=true)` and assert that the view order is weather → camera grid → calendar, that both camera entities and both calendar entities are present, and that all navigation targets are exactly `casa`, `coche`, `energia`, and `sistema-dashboard`.
 
 - [ ] **Step 4: Render `Inicio` in both target sizes.**
 
-  Open `/lovelace/inicio` in the browser at tablet/mobile width and desktop width. Verify that the weather block is visibly smaller than the camera area, cameras are below it, the calendar is visible without a broken custom card, and no entity card reports an invalid configuration.
+  Open `/lovelace/inicio-dashboard` in the browser at tablet/mobile width and desktop width. Verify that the weather block is visibly smaller than the camera area, cameras are below it, the calendar is visible without a broken custom card, and no entity card reports an invalid configuration.
 
 ### Task 3: Create the consolidated `Sistema` dashboard
 
 **Files:**
-- Modify: live Storage dashboard `sistema` through `ha_config_set_dashboard`.
+- Modify: live Storage dashboard `sistema-dashboard` through `ha_config_set_dashboard`.
 - Read: live configs of `map`, `seguridad`, and `mantenimiento` from Task 1.
 
 **Interfaces:**
 - Consumes: the exact working cards, views, map configuration, security controls, maintenance entities, and routes from the three source dashboards.
-- Produces: one `sistema` dashboard with security, infrastructure, maintenance, and map/cameras views; no energy or room-control duplication.
+- Produces: one `sistema-dashboard` dashboard with security, infrastructure, maintenance, and map/cameras views; no energy or room-control duplication.
 
 - [ ] **Step 1: Select source cards without inventing replacements.**
 
@@ -134,15 +134,15 @@
 
 - [ ] **Step 2: Build the four `sistema` views.**
 
-  Create a `sections` dashboard titled `Sistema` with paths `seguridad`, `infraestructura`, `mantenimiento`, and `mapa`. Keep the security actions and camera access from `seguridad`, infrastructure health cards from `mantenimiento`, and the existing map/camera composition from `map`. Add the shared Frosted Glass navigation to every view without duplicating the energy or room dashboards.
+  Create a `sections` dashboard at `url_path="sistema-dashboard"` titled `Sistema` with paths `seguridad`, `infraestructura`, `mantenimiento`, and `mapa`. Keep the security actions and camera access from `seguridad`, infrastructure health cards from `mantenimiento`, and the existing map/camera composition from `map`. Add the shared Frosted Glass navigation to every view without duplicating the energy or room dashboards.
 
 - [ ] **Step 3: Create and structurally verify the dashboard.**
 
-  Call `ha_config_set_dashboard(url_path="sistema", title="Sistema", icon="mdi:server-security", show_in_sidebar=true, config=<the four-view sections config>)`, then call `ha_config_get_dashboard(url_path="sistema", force_reload=true)`. Verify all critical source entities and each view path are present.
+  Call `ha_config_set_dashboard(url_path="sistema-dashboard", title="Sistema", icon="mdi:server-security", show_in_sidebar=true, config=<the four-view sections config>)`, then call `ha_config_get_dashboard(url_path="sistema-dashboard", force_reload=true)`. Verify all critical source entities and each view path are present.
 
 - [ ] **Step 4: Render the consolidated system views.**
 
-  Open `/lovelace/sistema/seguridad`, `/lovelace/sistema/infraestructura`, `/lovelace/sistema/mantenimiento`, and `/lovelace/sistema/mapa` at tablet and desktop widths. Verify that map and camera cards load, unavailable devices are labelled clearly, and no card is silently empty.
+  Open `/lovelace/sistema-dashboard/seguridad`, `/lovelace/sistema-dashboard/infraestructura`, `/lovelace/sistema-dashboard/mantenimiento`, and `/lovelace/sistema-dashboard/mapa` at tablet and desktop widths. Verify that map and camera cards load, unavailable devices are labelled clearly, and no card is silently empty.
 
 ### Task 4: Redesign `Casa`, `Coche`, and `Energía` in place
 
@@ -173,7 +173,7 @@
 ### Task 5: Reduce visible navigation reversibly
 
 **Files:**
-- Modify: metadata of live dashboards `casa`, `coche`, `energia`, `inicio`, `sistema`, `map`, `seguridad`, `mantenimiento`, and `panel-comedor` through `ha_config_set_dashboard`.
+- Modify: metadata of live dashboards `casa`, `coche`, `energia`, `inicio-dashboard`, `sistema-dashboard`, `map`, `seguridad`, `mantenimiento`, and `panel-comedor` through `ha_config_set_dashboard`.
 
 **Interfaces:**
 - Consumes: successful structural and visual checks from Tasks 2–4.
@@ -181,15 +181,15 @@
 
 - [ ] **Step 1: Re-read all nine dashboard metadata records.**
 
-  Call `ha_config_get_dashboard(list_only=true)` and confirm the new dashboards exist and the source dashboards are still present. Do not hide anything if `inicio` or `sistema` failed a previous check.
+  Call `ha_config_get_dashboard(list_only=true)` and confirm the new dashboards exist and the source dashboards are still present. Do not hide anything if `inicio-dashboard` or `sistema-dashboard` failed a previous check.
 
 - [ ] **Step 2: Hide only the superseded dashboards.**
 
-  For `map`, `seguridad`, `mantenimiento`, and `panel-comedor`, re-read the full config hash and call `ha_config_set_dashboard(url_path=<path>, config_hash=<fresh hash>, show_in_sidebar=false)`. Keep their configs and paths unchanged. Set `show_in_sidebar=true` for `inicio`, `casa`, `coche`, `energia`, and `sistema` using fresh metadata or hashes.
+  For `map`, `seguridad`, `mantenimiento`, and `panel-comedor`, re-read the full config hash and call `ha_config_set_dashboard(url_path=<path>, config_hash=<fresh hash>, show_in_sidebar=false)`. Keep their configs and paths unchanged. Set `show_in_sidebar=true` for `inicio-dashboard`, `casa`, `coche`, `energia`, and `sistema-dashboard` using fresh metadata or hashes.
 
 - [ ] **Step 3: Verify sidebar count and navigation links.**
 
-  Call `ha_config_get_dashboard(list_only=true)` again. Assert that the five visible entries are exactly `inicio`, `casa`, `coche`, `energia`, and `sistema`, while the four old entries still exist with `show_in_sidebar=false`. Click each shared navigation target in the browser and confirm it resolves.
+  Call `ha_config_get_dashboard(list_only=true)` again. Assert that the five visible entries are exactly `inicio-dashboard`, `casa`, `coche`, `energia`, and `sistema-dashboard`, while the four old entries still exist with `show_in_sidebar=false`. Click each shared navigation target in the browser and confirm it resolves.
 
 ### Task 6: Cross-dashboard acceptance and rollback evidence
 
