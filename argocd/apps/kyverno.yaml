@@ -15,7 +15,7 @@ spec:
       targetRevision: master
       path: kubernetes/main/apps/kyverno/
     - repoURL: https://kyverno.github.io/kyverno/
-      targetRevision: 3.9.0
+      targetRevision: 3.9.1
       chart: kyverno
       helm:
         valueFiles:
