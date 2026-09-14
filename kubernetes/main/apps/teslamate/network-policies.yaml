@@ -80,6 +80,8 @@ spec:
               app: homeassistant
         - ipBlock:
             cidr: 192.168.2.0/24
+        - ipBlock:
+            cidr: 192.168.10.0/24
       ports:
         - protocol: TCP
           port: 1883
@@ -102,6 +104,7 @@ spec:
               protocol: TCP
     - fromCIDR:
         - 192.168.2.0/24
+        - 192.168.10.0/24
       toPorts:
         - ports:
             - port: "1883"
