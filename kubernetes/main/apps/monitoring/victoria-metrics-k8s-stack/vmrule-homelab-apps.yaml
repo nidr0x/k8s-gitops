@@ -6,6 +6,106 @@ spec:
   groups:
     - name: homelab-apps
       rules:
+        - alert: HomeAssistantConfigBackupMissing
+          annotations:
+            description: The Home Assistant configuration CronJob has not completed successfully in the last 26 hours.
+            summary: Home Assistant configuration backup is stale or missing.
+          expr: |
+            absent(
+              kube_cronjob_status_last_successful_time{
+                job="kube-state-metrics",
+                namespace="homeassistant",
+                cronjob="homeassistant-config-backup"
+              }
+            )
+            or
+            time() - kube_cronjob_status_last_successful_time{
+              job="kube-state-metrics",
+              namespace="homeassistant",
+              cronjob="homeassistant-config-backup"
+            } > 26 * 3600
+          for: 15m
+          labels:
+            severity: critical
+            scope: homelab-apps
+        - alert: HomeAssistantConfigBackupFailed
+          annotations:
+            description: A recent Home Assistant configuration backup Job has failed and has not been followed by a successful run yet.
+            summary: Home Assistant configuration backup failed.
+          expr: |
+            (
+              max by (namespace, job_name) (
+                kube_job_status_failed{
+                  job="kube-state-metrics",
+                  namespace="homeassistant",
+                  job_name=~"homeassistant-config-backup-.*"
+                }
+              ) > 0
+            )
+            and on (namespace, job_name)
+            (
+              time() - kube_job_created{
+                job="kube-state-metrics",
+                namespace="homeassistant",
+                job_name=~"homeassistant-config-backup-.*"
+              } < 26 * 3600
+            )
+            and on (namespace, job_name)
+            (
+              kube_job_complete{
+                job="kube-state-metrics",
+                namespace="homeassistant",
+                job_name=~"homeassistant-config-backup-.*",
+                condition="true"
+              } == 0
+            )
+          for: 5m
+          labels:
+            severity: warning
+            scope: homelab-apps
+        - alert: HomeAssistantCNPGBackupMissing
+          annotations:
+            description: No completed CNPG backup for the Home Assistant database has been recorded in the last 26 hours.
+            summary: Home Assistant CNPG backup is stale or missing.
+          expr: |
+            absent(
+              cnpg_backup_status_stopped_at{
+                namespace="homeassistant",
+                cluster="homeassistant-database"
+              }
+            )
+            or
+            time() - max by (namespace, cluster) (
+              cnpg_backup_status_stopped_at{
+                namespace="homeassistant",
+                cluster="homeassistant-database"
+              }
+            ) > 26 * 3600
+          for: 15m
+          labels:
+            severity: critical
+            scope: homelab-apps
+        - alert: HomeAssistantCNPGBackupFailed
+          annotations:
+            description: A recent CNPG backup for the Home Assistant database has entered the failed phase.
+            summary: Home Assistant CNPG backup failed.
+          expr: |
+            cnpg_backup_status_phase{
+              namespace="homeassistant",
+              cluster="homeassistant-database",
+              phase="failed"
+            } == 1
+            and on (namespace, name, cluster)
+            (
+              time() - cnpg_backup_metadata_created{
+                namespace="homeassistant",
+                cluster="homeassistant-database"
+              } < 26 * 3600
+            )
+          for: 5m
+          labels:
+            severity: warning
+            scope: homelab-apps
         - alert: HomeAssistantContainerOOMKilled
           record: ""
           annotations:
