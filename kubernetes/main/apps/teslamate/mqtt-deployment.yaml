@@ -33,6 +33,7 @@ spec:
             - -ec
             - >-
               mkdir -p /mosquitto/config/generated &&
+              rm -f /mosquitto/config/generated/passwd &&
               mosquitto_passwd -b -c /mosquitto/config/generated/passwd
               "$MQTT_USERNAME" "$MQTT_PASSWORD" &&
               mosquitto_passwd -b /mosquitto/config/generated/passwd
