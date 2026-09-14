@@ -23,18 +23,7 @@ data:
             state: "{{ now().isoformat() }}"
 
       - binary_sensor:
-          - name: "Backup automático obsoleto"
-            unique_id: everest_backup_automatico_obsoleto
-            device_class: problem
-            state: >-
-              {% set value = states('sensor.backup_last_successful_automatic_backup') %}
-              {% if value in ['unknown', 'unavailable', ''] %}
-                true
-              {% else %}
-                {{ (as_timestamp(now()) - as_timestamp(value)) > 86400 }}
-              {% endif %}
-
-          - name: "Cámaras no disponibles"
+              - name: "Cámaras no disponibles"
             unique_id: everest_camaras_no_disponibles
             device_class: problem
             state: >-
@@ -143,22 +132,6 @@ data:
                    (as_timestamp(now()) - as_timestamp(startup, 0)) < 600 }}
 
     automation:
-      - id: homeassistant_health_backup_obsoleto
-        alias: Mantenimiento - Aviso de backup obsoleto
-        description: Avisa si no hay un backup automático correcto en las últimas 24 horas.
-        triggers:
-          - trigger: state
-            entity_id: binary_sensor.backup_automatico_obsoleto
-            to: "on"
-            for: "00:05:00"
-        actions:
-          - action: persistent_notification.create
-            data:
-              title: Mantenimiento - Backup obsoleto
-              message: Home Assistant no tiene un backup automático correcto en las últimas 24 horas.
-              notification_id: homeassistant_backup_obsoleto
-        mode: single
-
       - id: homeassistant_health_camaras_no_disponibles
         alias: Mantenimiento - Cámara no disponible
         description: Avisa si una cámara permanece sin estado durante cinco minutos.
