@@ -7,6 +7,7 @@ spec:
     - name: homelab-apps
       rules:
         - alert: HomeAssistantConfigBackupMissing
+          record: ""
           annotations:
             description: The Home Assistant configuration CronJob has not completed successfully in the last 26 hours.
             summary: Home Assistant configuration backup is stale or missing.
@@ -29,6 +30,7 @@ spec:
             severity: critical
             scope: homelab-apps
         - alert: HomeAssistantConfigBackupFailed
+          record: ""
           annotations:
             description: A recent Home Assistant configuration backup Job has failed and has not been followed by a successful run yet.
             summary: Home Assistant configuration backup failed.
@@ -64,6 +66,7 @@ spec:
             severity: warning
             scope: homelab-apps
         - alert: HomeAssistantCNPGBackupMissing
+          record: ""
           annotations:
             description: No completed CNPG backup for the Home Assistant database has been recorded in the last 26 hours.
             summary: Home Assistant CNPG backup is stale or missing.
@@ -86,6 +89,7 @@ spec:
             severity: critical
             scope: homelab-apps
         - alert: HomeAssistantCNPGBackupFailed
+          record: ""
           annotations:
             description: A recent CNPG backup for the Home Assistant database has entered the failed phase.
             summary: Home Assistant CNPG backup failed.
