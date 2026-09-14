@@ -366,6 +366,63 @@ kubeStateMetrics:
 kube-state-metrics:
   metricLabelsAllowlist:
     - pods=[alerts.nidr0x.win/enabled,app,app.kubernetes.io/name]
+  # CNPG plugin backups need their Backup resources monitored directly.
+  customResourceState:
+    enabled: true
+    config:
+      kind: CustomResourceStateMetrics
+      spec:
+        resources:
+          - groupVersionKind:
+              group: postgresql.cnpg.io
+              version: v1
+              kind: Backup
+            metricNamePrefix: cnpg
+            labelsFromPath:
+              name: [metadata, name]
+              namespace: [metadata, namespace]
+              cluster: [spec, cluster, name]
+            metrics:
+              - name: backup_metadata_created
+                help: Creation timestamp of a CloudNativePG Backup resource.
+                each:
+                  type: Gauge
+                  gauge:
+                    path: [metadata, creationTimestamp]
+              - name: backup_status_phase
+                help: Current phase of a CloudNativePG Backup resource.
+                each:
+                  type: StateSet
+                  stateSet:
+                    path: [status, phase]
+                    labelName: phase
+                    list:
+                      - pending
+                      - running
+                      - completed
+                      - failed
+              - name: backup_status_stopped_at
+                help: Completion timestamp of a CloudNativePG Backup resource.
+                each:
+                  type: Gauge
+                  gauge:
+                    path: [status, stoppedAt]
+  rbac:
+    extraRules:
+      - apiGroups:
+          - postgresql.cnpg.io
+        resources:
+          - backups
+        verbs:
+          - list
+          - watch
+      - apiGroups:
+          - apiextensions.k8s.io
+        resources:
+          - customresourcedefinitions
+        verbs:
+          - list
+          - watch
 
 kubelet:
   enabled: true
