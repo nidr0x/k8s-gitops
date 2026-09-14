@@ -23,7 +23,7 @@ data:
             state: "{{ now().isoformat() }}"
 
       - binary_sensor:
-              - name: "Cámaras no disponibles"
+          - name: "Cámaras no disponibles"
             unique_id: everest_camaras_no_disponibles
             device_class: problem
             state: >-
