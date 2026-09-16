@@ -8,6 +8,7 @@ spec:
     - name: TZ
       value: UTC
   instances: 1
+  enablePDB: false
   imageName: ghcr.io/cloudnative-pg/postgresql:18.4-standard-bookworm
 
   postgresql:

@@ -17,4 +17,3 @@ resources:
   - secret.yaml
   - deployment.yaml
   - database.yaml
-  - pdb.yaml
