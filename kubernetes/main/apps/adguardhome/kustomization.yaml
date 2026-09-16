@@ -13,4 +13,3 @@ resources:
   - network-policies.yaml
   - service.yaml
   - secret.yaml
-  - pdb.yaml

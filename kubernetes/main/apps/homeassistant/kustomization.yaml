@@ -30,5 +30,4 @@ resources:
   - network-policies.yaml
   - policy-exception.yaml
   - service.yaml
-  - pdb.yaml
   - configmap.yaml
