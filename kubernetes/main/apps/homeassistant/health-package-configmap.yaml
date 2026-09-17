@@ -41,12 +41,6 @@ data:
             state: >-
               {{ states.update | selectattr('state', 'eq', 'on') | list | count > 0 }}
 
-          - name: "i-DE histórico sin datos"
-            unique_id: everest_ide_historico_sin_datos
-            device_class: problem
-            state: >-
-              {{ states('sensor.es0021000043017330yj_historical_consumption') in ['unknown', 'unavailable', ''] }}
-
           - name: "Home Assistant reinicio reciente"
             unique_id: everest_home_assistant_reinicio_reciente
             device_class: problem
@@ -71,7 +65,6 @@ data:
                 'lock.aqara_smart_lock_u200',
                 'camera.entrada_joan_fuster_5_high_resolution_channel',
                 'camera.g5_turret_ultra_high_resolution_channel',
-                'sensor.energia_red_ide_acumulada',
                 'sensor.energia_circuito_shelly_acumulada',
                 'sensor.energia_coche_tesla_acumulada',
                 'sensor.potencia_circuito_shelly',
@@ -92,7 +85,6 @@ data:
                   'lock.aqara_smart_lock_u200',
                   'camera.entrada_joan_fuster_5_high_resolution_channel',
                   'camera.g5_turret_ultra_high_resolution_channel',
-                  'sensor.energia_red_ide_acumulada',
                   'sensor.energia_circuito_shelly_acumulada',
                   'sensor.energia_coche_tesla_acumulada',
                   'sensor.potencia_circuito_shelly',
@@ -112,7 +104,6 @@ data:
                   'lock.aqara_smart_lock_u200',
                   'camera.entrada_joan_fuster_5_high_resolution_channel',
                   'camera.g5_turret_ultra_high_resolution_channel',
-                  'sensor.energia_red_ide_acumulada',
                   'sensor.energia_circuito_shelly_acumulada',
                   'sensor.energia_coche_tesla_acumulada',
                   'sensor.potencia_circuito_shelly',
@@ -182,20 +173,4 @@ data:
                 Falta o no está disponible una entidad necesaria para seguridad o energía.
                 Revisa el dashboard Mantenimiento y la configuración de dispositivos.
               notification_id: homeassistant_entidades_obligatorias_no_disponibles
-        mode: single
-
-      - id: homeassistant_health_ide_historico_sin_datos
-        alias: Mantenimiento - i-DE histórico sin datos
-        description: Avisa si el sensor histórico de i-DE no tiene estados disponibles.
-        triggers:
-          - trigger: state
-            entity_id: binary_sensor.i_de_historico_sin_datos
-            to: "on"
-            for: "00:05:00"
-        actions:
-          - action: persistent_notification.create
-            data:
-              title: Mantenimiento - i-DE histórico
-              message: El sensor histórico de i-DE no tiene estados disponibles.
-              notification_id: homeassistant_ide_historico_sin_datos
         mode: single
