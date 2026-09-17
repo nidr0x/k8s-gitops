@@ -1,1 +1,6 @@
 nameOverride: "node-problem-detector"
+
+settings:
+  # Talos uses containerd and does not provide /var/log/journal.
+  log_monitors:
+    - /config/kernel-monitor.json
