@@ -7,14 +7,6 @@ data:
   energy.yaml: |
     template:
       - sensor:
-          - name: "Energía red i-DE acumulada"
-            unique_id: everest_energia_red_ide_acumulada
-            default_entity_id: sensor.energia_red_ide_acumulada
-            unit_of_measurement: "kWh"
-            device_class: energy
-            state_class: total_increasing
-            availability: "{{ is_number(states('sensor.es0021000043017330yj_accumulated_consumption')) }}"
-            state: "{{ states('sensor.es0021000043017330yj_accumulated_consumption') | float(0) }}"
           - name: "Energía luz piscina acumulada"
             unique_id: everest_energia_circuito_shelly_acumulada
             default_entity_id: sensor.energia_circuito_shelly_acumulada
@@ -81,12 +73,6 @@ data:
             state: "{{ states('sensor.samsung_refrigerator_tp1x_ref_25k_power') | float(0) }}"
 
     utility_meter:
-      energia_red_ide_diaria:
-        source: sensor.energia_red_ide_acumulada
-        cycle: daily
-      energia_red_ide_mensual:
-        source: sensor.energia_red_ide_acumulada
-        cycle: monthly
       energia_luz_piscina_diaria:
         source: sensor.energia_circuito_shelly_acumulada
         cycle: daily
