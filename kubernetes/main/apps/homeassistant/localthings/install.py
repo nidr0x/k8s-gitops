@@ -14,7 +14,7 @@ from urllib.request import urlopen
 COMMIT = "73e40827d77ed36bf8e29c1eca9d3325cd240eed"
 ARCHIVE_URL = f"https://github.com/mbillow/localthings/archive/{COMMIT}.tar.gz"
 # renovate: datasource=pypi depName=smartthings-local
-DEPENDENCY = "smartthings-local==0.1.16"
+DEPENDENCY = "smartthings-local==0.1.17"
 
 # Home Assistant 2026.8.3 provides these versions.  thinqconnect==1.0.13
 # still uses OpenSSL.crypto.X509Req, which was removed in pyOpenSSL 26.3.
