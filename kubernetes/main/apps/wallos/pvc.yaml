@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: wallos-data
 spec:
-  storageClassName: proxmox-k8s-lvm
+  storageClassName: proxmox-k2-zfs
   accessModes:
     - ReadWriteOnce
   resources:
