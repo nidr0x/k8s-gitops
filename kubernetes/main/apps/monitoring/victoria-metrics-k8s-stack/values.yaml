@@ -318,7 +318,7 @@ vmsingle:
       limits:
         memory: 2Gi
     storage:
-      storageClassName: "proxmox-k8s-lvm"
+      storageClassName: "proxmox-k2-zfs"
       resources:
         requests:
           storage: 10Gi
