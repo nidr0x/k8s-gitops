@@ -20,12 +20,24 @@ spec:
       checkpoint_completion_target: "0.9"
       wal_keep_size: "256MB"
 
+  bootstrap:
+    recovery:
+      source: teslamate-database-origin
+
+  externalClusters:
+    - name: teslamate-database-origin
+      plugin:
+        name: barman-cloud.cloudnative-pg.io
+        parameters:
+          barmanObjectName: teslamate-database
+          serverName: teslamate-database-pg18
+
   plugins:
     - name: barman-cloud.cloudnative-pg.io
       isWALArchiver: true
       parameters:
-        barmanObjectName: teslamate-database
-        serverName: teslamate-database-pg18
+        barmanObjectName: teslamate-database-k2
+        serverName: teslamate-database-k2
 
   enableSuperuserAccess: true
   superuserSecret:
@@ -39,7 +51,7 @@ spec:
       resources:
         requests:
           storage: 5Gi
-      storageClassName: proxmox-k8s-lvm
+      storageClassName: proxmox-k2-zfs
 
   walStorage:
     pvcTemplate:
@@ -48,7 +60,7 @@ spec:
       resources:
         requests:
           storage: 2Gi
-      storageClassName: proxmox-k8s-lvm
+      storageClassName: proxmox-k2-zfs
 
   monitoring:
     disableDefaultQueries: false
@@ -66,6 +78,31 @@ apiVersion: barmancloud.cnpg.io/v1
 kind: ObjectStore
 metadata:
   name: teslamate-database
+  namespace: teslamate
+spec:
+  configuration:
+    destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
+    endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
+    s3Credentials:
+      accessKeyId:
+        name: teslamate
+        key: ACCESS_KEY_ID
+      secretAccessKey:
+        name: teslamate
+        key: SECRET_ACCESS_KEY
+    data:
+      compression: bzip2
+      encryption: AES256
+    wal:
+      compression: bzip2
+      maxParallel: 4
+      encryption: AES256
+  retentionPolicy: "7d"
+---
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: teslamate-database-k2
   namespace: teslamate
 spec:
   configuration:
