@@ -21,9 +21,18 @@ spec:
       wal_keep_size: "256MB"
 
   bootstrap:
-    initdb:
+    recovery:
       database: miniflux
       owner: miniflux
+      source: miniflux-database-origin
+
+  externalClusters:
+    - name: miniflux-database-origin
+      plugin:
+        name: barman-cloud.cloudnative-pg.io
+        parameters:
+          barmanObjectName: miniflux-database
+          serverName: miniflux-database-pg18
 
   logLevel: info
 
@@ -31,8 +40,8 @@ spec:
     - name: barman-cloud.cloudnative-pg.io
       isWALArchiver: true
       parameters:
-        barmanObjectName: miniflux-database
-        serverName: miniflux-database-pg18
+        barmanObjectName: miniflux-database-k2
+        serverName: miniflux-database-k2
 
   primaryUpdateStrategy: unsupervised
 
@@ -43,7 +52,7 @@ spec:
       resources:
         requests:
           storage: 2Gi
-      storageClassName: proxmox-k8s-lvm
+      storageClassName: proxmox-k2-zfs
 
   walStorage:
     pvcTemplate:
@@ -52,7 +61,7 @@ spec:
       resources:
         requests:
           storage: 2Gi
-      storageClassName: proxmox-k8s-lvm
+      storageClassName: proxmox-k2-zfs
 
   monitoring:
     enablePodMonitor: true
@@ -68,6 +77,31 @@ apiVersion: barmancloud.cnpg.io/v1
 kind: ObjectStore
 metadata:
   name: miniflux-database
+  namespace: miniflux
+spec:
+  configuration:
+    destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
+    endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
+    s3Credentials:
+      accessKeyId:
+        name: miniflux
+        key: ACCESS_KEY_ID
+      secretAccessKey:
+        name: miniflux
+        key: SECRET_ACCESS_KEY
+    data:
+      compression: bzip2
+      encryption: AES256
+    wal:
+      compression: bzip2
+      maxParallel: 4
+      encryption: AES256
+  retentionPolicy: "7d"
+---
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: miniflux-database-k2
   namespace: miniflux
 spec:
   configuration:
