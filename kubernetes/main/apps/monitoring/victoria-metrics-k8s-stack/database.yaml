@@ -17,6 +17,8 @@ spec:
   externalClusters:
     - name: grafana-database-origin
       plugin:
+        enabled: true
+        isWALArchiver: false
         name: barman-cloud.cloudnative-pg.io
         parameters:
           barmanObjectName: grafana-database
