@@ -1,0 +1,22 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: proxmox-k2-zfs
+provisioner: csi.proxmox.sinextra.dev
+parameters:
+  storage: local-zfs
+  cache: writethrough
+  fstype: ext4
+  ssd: "true"
+reclaimPolicy: Retain
+volumeBindingMode: WaitForFirstConsumer
+allowedTopologies:
+  - matchLabelExpressions:
+      - key: topology.kubernetes.io/region
+        values:
+          - homelab
+      - key: topology.kubernetes.io/zone
+        values:
+          - k2
+mountOptions:
+  - noatime

@@ -35,7 +35,7 @@ main:
 
   persistence:
     enabled: true
-    storageClass: proxmox-k8s-lvm
+    storageClass: proxmox-k2-zfs
     size: 2Gi
 
   extraEnvVars:
