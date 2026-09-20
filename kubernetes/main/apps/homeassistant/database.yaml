@@ -29,6 +29,8 @@ spec:
   externalClusters:
     - name: homeassistant-database-origin
       plugin:
+        enabled: true
+        isWALArchiver: false
         name: barman-cloud.cloudnative-pg.io
         parameters:
           barmanObjectName: homeassistant-database
