@@ -9,9 +9,18 @@ spec:
   imageName: ghcr.io/cloudnative-pg/postgresql:18.4-standard-bookworm
 
   bootstrap:
-    initdb:
+    recovery:
       database: grafana
       owner: grafana
+      source: grafana-database-origin
+
+  externalClusters:
+    - name: grafana-database-origin
+      plugin:
+        name: barman-cloud.cloudnative-pg.io
+        parameters:
+          barmanObjectName: grafana-database
+          serverName: grafana-database-pg18
 
   postgresql:
     parameters:
@@ -26,8 +35,8 @@ spec:
     - name: barman-cloud.cloudnative-pg.io
       isWALArchiver: true
       parameters:
-        barmanObjectName: grafana-database
-        serverName: grafana-database-pg18
+        barmanObjectName: grafana-database-k2
+        serverName: grafana-database-k2
 
   logLevel: info
   primaryUpdateStrategy: unsupervised
@@ -39,7 +48,7 @@ spec:
       resources:
         requests:
           storage: 27Gi
-      storageClassName: proxmox-k8s-lvm
+      storageClassName: proxmox-k2-zfs
 
   walStorage:
     pvcTemplate:
@@ -48,7 +57,7 @@ spec:
       resources:
         requests:
           storage: 12Gi
-      storageClassName: proxmox-k8s-lvm
+      storageClassName: proxmox-k2-zfs
 
   monitoring:
     enablePodMonitor: true
@@ -64,6 +73,31 @@ apiVersion: barmancloud.cnpg.io/v1
 kind: ObjectStore
 metadata:
   name: grafana-database
+  namespace: kube-monitoring
+spec:
+  configuration:
+    destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
+    endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
+    s3Credentials:
+      accessKeyId:
+        name: victoriametricsstack-oauth2
+        key: ACCESS_KEY_ID
+      secretAccessKey:
+        name: victoriametricsstack-oauth2
+        key: SECRET_ACCESS_KEY
+    data:
+      compression: bzip2
+      encryption: AES256
+    wal:
+      compression: bzip2
+      maxParallel: 4
+      encryption: AES256
+  retentionPolicy: "3d"
+---
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: grafana-database-k2
   namespace: kube-monitoring
 spec:
   configuration:
