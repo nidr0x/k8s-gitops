@@ -11,7 +11,7 @@ from pathlib import Path
 from urllib.request import urlopen
 
 # renovate: datasource=git-refs depName=mbillow/localthings
-COMMIT = "73e40827d77ed36bf8e29c1eca9d3325cd240eed"
+COMMIT = "bcc74336f1875649435413c517bee72cce929c1b"
 ARCHIVE_URL = f"https://github.com/mbillow/localthings/archive/{COMMIT}.tar.gz"
 # renovate: datasource=pypi depName=smartthings-local
 DEPENDENCY = "smartthings-local==0.1.18"
