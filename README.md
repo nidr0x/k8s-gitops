@@ -16,11 +16,12 @@ The primary goal of this repository, beyond self-hosting services on my own infr
 ## ⚙️ Application list
 
 - [Adguard Home](https://github.com/AdguardTeam/AdGuardHome)
+- [aMule](https://github.com/amule-project/amule)
 - [ArgoCD](https://github.com/argoproj/argo-cd)
 - [Cert-manager](https://github.com/cert-manager/cert-manager)
 - [Cilium](https://cilium.io/)
 - [Cloudflared](https://github.com/cloudflare/cloudflared)
-- [Cloudnative-PG](https://github.com/cloudnative-pg/cloudnative-pg)
+- [Cloudnative-PG](https://github.com/cloudnative-pg/cloudnative-pg) (with [Barman Cloud plugin](https://github.com/cloudnative-pg/plugin-barman-cloud))
 - [CSI Driver NFS](https://github.com/kubernetes-csi/csi-driver-nfs)
 - [External DNS](https://github.com/kubernetes-sigs/external-dns)
 - [External Secrets](https://github.com/external-secrets/external-secrets)
@@ -29,19 +30,20 @@ The primary goal of this repository, beyond self-hosting services on my own infr
 - [Home Assistant](https://github.com/home-assistant/docker)
 - [Homebridge](https://homebridge.io/)
 - [Kubelet Serving Cert Approver](https://github.com/alex1989hu/kubelet-serving-cert-approver)
-- [Kubernetes Reflector](https.com/emberstack/kubernetes-reflector)
+- [Kyverno](https://github.com/kyverno/kyverno)
 - [Metrics Server](https://github.com/kubernetes-sigs/metrics-server)
+- [n8n](https://github.com/n8n-io/n8n)
 - [Node Local DNS](https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/)
 - [Node Problem Detector](https://github.com/kubernetes/node-problem-detector)
-- [Open WebUI](https://github.com/open-webui/open-webui)
 - [Proxmox CSI Plugin](https://github.com/sergelogvinov/proxmox-csi-plugin)
 - [Secret Reloader](https://github.com/stakater/Reloader)
-- [Spegel](https://github.com/spegel-sd/spegel)
+- [Spegel](https://github.com/spegel-org/spegel)
+- [Talos Backup](https://github.com/siderolabs/talos-backup)
 - [Teslamate](https://github.com/teslamate-org/teslamate)
 - [Transmission](https://github.com/transmission/transmission)
-- [Uptime Kuma](https://github.com/louislam/uptime-kuma)
 - [Victoria Metrics K8s Stack](https://github.com/VictoriaMetrics/helm-charts/tree/master/charts/victoria-metrics-k8s-stack)
 - [Victorialogs](https://github.com/VictoriaMetrics/VictoriaMetrics/tree/master/app/victorialogs)
+- [Wallos](https://github.com/ellite/Wallos)
 
 ## 🛠️ Changelog
 

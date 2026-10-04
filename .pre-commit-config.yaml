@@ -25,3 +25,13 @@ repos:
       - id: remove-crlf
       - id: remove-tabs
         types: [yaml]
+
+  - repo: local
+    hooks:
+      - id: check-unencrypted-secrets
+        name: Block Kubernetes Secrets without SOPS encryption
+        entry: .pre-commit-hooks/check-unencrypted-secrets.py
+        language: script
+        types: [yaml]
+        # Upstream release manifest; its empty Secret is intentional.
+        exclude: ^kubernetes/main/apps/cloudnative-pg/barman-cloud-plugin\.yaml$
