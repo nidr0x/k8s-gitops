@@ -30,7 +30,7 @@ repos:
     hooks:
       - id: check-unencrypted-secrets
         name: Block Kubernetes Secrets without SOPS encryption
-        entry: .pre-commit-hooks/check-unencrypted-secrets.py
+        entry: .pre-commit-hooks/check_unencrypted_secrets.py
         language: script
         types: [yaml]
         # Upstream release manifest; its empty Secret is intentional.

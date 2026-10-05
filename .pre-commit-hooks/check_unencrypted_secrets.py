@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Fail when a YAML document with `kind: Secret` carries no SOPS-encrypted values."""
+
 import re
 import sys
 
@@ -8,6 +9,7 @@ DOC_SEPARATOR = re.compile(r"^---\s*$", re.MULTILINE)
 
 
 def plain_secret_documents(text: str) -> int:
+    """Count Secret documents in `text` that contain no `ENC[` value."""
     return sum(
         1
         for doc in DOC_SEPARATOR.split(text)
@@ -16,6 +18,7 @@ def plain_secret_documents(text: str) -> int:
 
 
 def main(paths: list[str]) -> int:
+    """Return 1 and report every file that holds an unencrypted Secret."""
     failed = False
     for path in paths:
         with open(path, encoding="utf-8") as handle:
