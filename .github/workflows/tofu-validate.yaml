@@ -1,0 +1,64 @@
+---
+name: OpenTofu validation
+
+on: # yamllint disable-line rule:truthy
+  push:
+    paths:
+      - ".github/workflows/tofu-validate.yaml"
+      - "tofu/**"
+  pull_request:
+    paths:
+      - ".github/workflows/tofu-validate.yaml"
+      - "tofu/**"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: tofu-validate-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate ${{ matrix.module }}
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        module:
+          - cloudflare
+          - proxmox
+
+    defaults:
+      run:
+        working-directory: tofu/${{ matrix.module }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Set up OpenTofu
+        uses: opentofu/setup-opentofu@a1320f892987e89d278cc92dc5adc984fb93aca4 # v2
+        with:
+          tofu_wrapper: false
+
+      - name: Check formatting
+        run: tofu fmt -check -recursive -diff
+
+      - name: Initialise without backend
+        run: tofu init -backend=false -input=false
+
+      - name: Validate configuration
+        run: tofu validate
+
+      - name: Set up TFLint
+        uses: terraform-linters/setup-tflint@6ffdbaa3be476b3431f7275c26966ef32ff60337 # v6
+
+      - name: Lint configuration
+        run: tflint
