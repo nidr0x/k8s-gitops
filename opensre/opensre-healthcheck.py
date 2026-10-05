@@ -45,9 +45,8 @@ def main() -> int:
         failures.append("opensre-alertmanager.service is not active")
 
     try:
-        with urlopen(  # noqa: S310 - URL is local configuration
-            f"{ALERTMANAGER_URL}/-/ready", timeout=5
-        ) as response:
+        # The URL points to the locally configured Alertmanager service.
+        with urlopen(f"{ALERTMANAGER_URL}/-/ready", timeout=5) as response:
             if response.status != 200:
                 failures.append(
                     f"Alertmanager readiness returned HTTP {response.status}"

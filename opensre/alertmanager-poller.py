@@ -58,7 +58,7 @@ def active_alerts() -> list[dict]:
     """Return active alerts matching the configured severities."""
     request = Request(f"{ALERTMANAGER_URL}/api/v2/alerts?active=true")
     # Alertmanager URL is local service configuration.
-    with urlopen(request, timeout=10) as response:  # noqa: S310
+    with urlopen(request, timeout=10) as response:
         payload = json.load(response)
     return [
         alert
@@ -314,7 +314,9 @@ def run_once() -> None:
             running = state["running"].pop(fingerprint, {})
             try:
                 report = future.result()
-            except Exception as error:  # pylint: disable=broad-exception-caught
+            # Persist one worker failure without interrupting other alerts.
+            # pylint: disable=broad-exception-caught
+            except Exception as error:  # noqa: BLE001
                 attempts = int(running.get("attempt", 1))
                 failure = {
                     "attempts": attempts,
@@ -352,7 +354,7 @@ def run_once() -> None:
 class WebhookHandler(BaseHTTPRequestHandler):
     """Accept authenticated Alertmanager wake-up notifications."""
 
-    def do_POST(self) -> None:  # noqa: N802 - stdlib HTTP handler API
+    def do_POST(self) -> None:
         """Validate a webhook request and wake the polling loop."""
         if self.path != WEBHOOK_PATH:
             self.send_error(404)
@@ -418,7 +420,9 @@ def main() -> None:
     while True:
         try:
             run_once()
-        except Exception as error:  # pylint: disable=broad-exception-caught
+        # Keep the service alive and publish the poll failure in health state.
+        # pylint: disable=broad-exception-caught
+        except Exception as error:  # noqa: BLE001
             print(f"alertmanager poll failed: {error}", flush=True)
             write_health(
                 poll_status="error",
