@@ -46,9 +46,7 @@ def main() -> int:
 
     try:
         # The URL points to the locally configured Alertmanager service.
-        with urlopen(
-            f"{ALERTMANAGER_URL}/-/ready", timeout=5
-        ) as response:
+        with urlopen(f"{ALERTMANAGER_URL}/-/ready", timeout=5) as response:
             if response.status != 200:
                 failures.append(
                     f"Alertmanager readiness returned HTTP {response.status}"

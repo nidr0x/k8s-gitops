@@ -315,7 +315,8 @@ def run_once() -> None:
             try:
                 report = future.result()
             # Persist one worker failure without interrupting other alerts.
-            except Exception as error:  # noqa: BLE001  # pylint: disable=broad-exception-caught
+            # pylint: disable=broad-exception-caught
+            except Exception as error:  # noqa: BLE001
                 attempts = int(running.get("attempt", 1))
                 failure = {
                     "attempts": attempts,
@@ -420,7 +421,8 @@ def main() -> None:
         try:
             run_once()
         # Keep the service alive and publish the poll failure in health state.
-        except Exception as error:  # noqa: BLE001  # pylint: disable=broad-exception-caught
+        # pylint: disable=broad-exception-caught
+        except Exception as error:  # noqa: BLE001
             print(f"alertmanager poll failed: {error}", flush=True)
             write_health(
                 poll_status="error",
