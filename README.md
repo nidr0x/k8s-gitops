@@ -15,34 +15,36 @@ The primary goal of this repository, beyond self-hosting services on my own infr
 
 ## ⚙️ Application list
 
-- [Adguard Home](https://github.com/AdguardTeam/AdGuardHome)
-- [aMule](https://github.com/amule-project/amule)
-- [ArgoCD](https://github.com/argoproj/argo-cd)
-- [Cert-manager](https://github.com/cert-manager/cert-manager)
+This inventory follows the application definitions in [`argocd/apps/`](argocd/apps/). Argo CD itself is bootstrapped from [`argocd/`](argocd/).
+
+- [AdGuard Home](https://github.com/AdguardTeam/AdGuardHome)
+- [Argo CD](https://github.com/argoproj/argo-cd)
+- [cert-manager](https://github.com/cert-manager/cert-manager)
 - [Cilium](https://cilium.io/)
-- [Cloudflared](https://github.com/cloudflare/cloudflared)
-- [Cloudnative-PG](https://github.com/cloudnative-pg/cloudnative-pg) (with [Barman Cloud plugin](https://github.com/cloudnative-pg/plugin-barman-cloud))
+- [cloudflared](https://github.com/cloudflare/cloudflared)
+- [CloudNativePG](https://github.com/cloudnative-pg/cloudnative-pg) (with [Barman Cloud plugin](https://github.com/cloudnative-pg/plugin-barman-cloud))
 - [CSI Driver NFS](https://github.com/kubernetes-csi/csi-driver-nfs)
 - [External DNS](https://github.com/kubernetes-sigs/external-dns)
 - [External Secrets](https://github.com/external-secrets/external-secrets)
+- [Gateway API](https://gateway-api.sigs.k8s.io/)
 - [Miniflux](https://miniflux.app/)
 - [Nextflux](https://github.com/electh/nextflux)
 - [Home Assistant](https://github.com/home-assistant/docker)
 - [Homebridge](https://homebridge.io/)
 - [Kubelet Serving Cert Approver](https://github.com/alex1989hu/kubelet-serving-cert-approver)
-- [Kyverno](https://github.com/kyverno/kyverno)
+- [Kyverno](https://kyverno.io/)
 - [Metrics Server](https://github.com/kubernetes-sigs/metrics-server)
-- [n8n](https://github.com/n8n-io/n8n)
+- [n8n](https://n8n.io/)
 - [Node Local DNS](https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/)
 - [Node Problem Detector](https://github.com/kubernetes/node-problem-detector)
 - [Proxmox CSI Plugin](https://github.com/sergelogvinov/proxmox-csi-plugin)
 - [Secret Reloader](https://github.com/stakater/Reloader)
 - [Spegel](https://github.com/spegel-org/spegel)
 - [Talos Backup](https://github.com/siderolabs/talos-backup)
-- [Teslamate](https://github.com/teslamate-org/teslamate)
+- [TeslaMate](https://github.com/teslamate-org/teslamate)
 - [Transmission](https://github.com/transmission/transmission)
 - [Victoria Metrics K8s Stack](https://github.com/VictoriaMetrics/helm-charts/tree/master/charts/victoria-metrics-k8s-stack)
-- [Victorialogs](https://github.com/VictoriaMetrics/VictoriaMetrics/tree/master/app/victorialogs)
+- [VictoriaLogs](https://github.com/VictoriaMetrics/VictoriaMetrics/tree/master/app/victorialogs)
 - [Wallos](https://github.com/ellite/Wallos)
 
 ## 🛠️ Changelog
@@ -81,6 +83,8 @@ It is powered by [AdGuard Home](https://github.com/AdguardTeam/AdGuardHome) + [C
 flowchart LR
     U["Users / Clients"] --> CF["Cloudflare (DNS, Tunnel, R2, Zero Trust)"]
     GH["GitHub Repository"] --> ARGO["Argo CD"]
+    ARGO --> ROOT["App-of-apps<br/>argocd/argocd-apps.yaml"]
+    ROOT --> CHILD["Child Applications<br/>argocd/apps/"]
     REN["Renovate + GitHub Actions"] --> GH
     CF --> CFLT["cloudflared"]
 
@@ -88,11 +92,11 @@ flowchart LR
       PVE["Proxmox Nodes"] --> TAL["Talos Kubernetes Cluster"]
     end
 
-    ARGO --> TAL
-    CFLT --> ING["Ingress + Cilium"]
+    CHILD --> TAL
+    CFLT --> GW["Gateway API + Cilium"]
 
     subgraph PLATFORM["Core Platform Services"]
-      ING
+      GW
       CERT["cert-manager"]
       EXTDNS["external-dns"]
       EXTS["external-secrets"]
@@ -116,8 +120,11 @@ flowchart LR
 
 ## TO-DO
 
-- [ ] Move to a dedicated VLAN
-- [ ] Improve observability stack
-- [ ] Refactor ArgoCD setup
-- [ ] Define and implement Network Policies
+- [ ] Move data-center workloads to VLAN 3 while keeping infrastructure management and Corosync on Trusted.
+- [x] Establish the VictoriaMetrics, VictoriaLogs, and Grafana observability stack with dashboards and alerts.
+- [ ] Expand observability coverage with service-specific dashboards and alerts.
+- [x] Converge Argo CD application management on this repository's app-of-apps.
+- [ ] Simplify the Argo CD bootstrap and sync/drift configuration.
+- [x] Define and deploy baseline app-scoped NetworkPolicies.
+- [ ] Extend NetworkPolicy coverage to remaining workloads and validate required traffic paths.
 - [x] Create an architecture diagram
