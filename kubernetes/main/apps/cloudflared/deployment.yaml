@@ -28,7 +28,7 @@ spec:
       priorityClassName: system-cluster-critical
       containers:
         - name: cloudflared
-          image: cloudflare/cloudflared:2026.10.2
+          image: cloudflare/cloudflared:2026.10.3
           imagePullPolicy: IfNotPresent
           args:
             - tunnel
