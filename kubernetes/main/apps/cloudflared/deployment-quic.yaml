@@ -1,0 +1,104 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudflared-quic
+  namespace: kube-system
+  labels:
+    app: cloudflared-quic
+    alerts.nidr0x.win/enabled: "true"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cloudflared-quic
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: cloudflared-quic
+        alerts.nidr0x.win/enabled: "true"
+    spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "2"
+      priorityClassName: system-cluster-critical
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        seccompProfile:
+          type: RuntimeDefault
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - worker-02
+                      - worker-03
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: cloudflared-quic
+              topologyKey: kubernetes.io/hostname
+      containers:
+        - name: cloudflared
+          image: cloudflare/cloudflared:2026.10.3
+          imagePullPolicy: IfNotPresent
+          args:
+            - tunnel
+            - --protocol
+            - quic
+            - --ha-connections
+            - "1"
+            - --metrics
+            - 127.0.0.1:29999
+            - --config
+            - /etc/cloudflared/config/config.yaml
+            - run
+          readinessProbe:
+            httpGet:
+              host: 127.0.0.1
+              path: /ready
+              port: 29999
+            initialDelaySeconds: 10
+            failureThreshold: 2
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              host: 127.0.0.1
+              path: /ready
+              port: 29999
+            initialDelaySeconds: 60
+            failureThreshold: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            limits:
+              memory: 128Mi
+          volumeMounts:
+            - name: config
+              mountPath: /etc/cloudflared/config/config.yaml
+              subPath: config.yaml
+              readOnly: true
+            - name: credentials
+              mountPath: /etc/cloudflared/credentials
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: config
+          configMap:
+            name: config
+        - name: credentials
+          secret:
+            secretName: tunnel-credentials
