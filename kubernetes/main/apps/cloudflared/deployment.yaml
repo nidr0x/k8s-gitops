@@ -33,7 +33,7 @@ spec:
           args:
             - tunnel
             - --protocol
-            - http2
+            - quic
             - --config
             - /etc/cloudflared/config/config.yaml
             - run
