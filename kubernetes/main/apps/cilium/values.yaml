@@ -1,5 +1,6 @@
 k8sServiceHost: localhost
 k8sServicePort: 7445
+MTU: 1500
 
 kubeProxyReplacement: true
 
