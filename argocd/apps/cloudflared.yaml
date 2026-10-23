@@ -11,7 +11,3 @@ spec:
     - repoURL: https://github.com/nidr0x/k8s-gitops
       targetRevision: master
       path: kubernetes/main/apps/cloudflared/
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
