@@ -10,6 +10,7 @@ configMapGenerator:
 
 resources:
   - deployment.yaml
+  - deployment-quic.yaml
   - pdb.yaml
   - secret.yaml
   - service.yaml
