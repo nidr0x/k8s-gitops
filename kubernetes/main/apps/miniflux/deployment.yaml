@@ -24,7 +24,7 @@ spec:
             value: "2"
       containers:
         - name: miniflux
-          image: miniflux/miniflux:2.3.4
+          image: miniflux/miniflux:2.3.5
           imagePullPolicy: IfNotPresent
           resources:
             requests:
