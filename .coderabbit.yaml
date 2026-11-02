@@ -1,0 +1,25 @@
+language: en-US
+
+reviews:
+  profile: quiet
+  path_filters:
+    - "!argocd/charts/**"
+    - "!talos/clusterconfig/**"
+    - "!talos/db/**"
+    - "!**/*.dec"
+  path_instructions:
+    - path: "argocd/apps/**"
+      instructions: |
+        For Renovate version-only changes, verify that the chart repository, chart name, and targetRevision still identify the same artifact, and that referenced values files still resolve. Report compatibility risks only when supported by the diff or repository context. Do not request tests or suggest style-only changes for a version-only bump.
+    - path: "kubernetes/**/*.yaml"
+      instructions: |
+        Treat these files as Kubernetes desired state. Prioritize concrete security, availability, RBAC, secret-handling, networking, resource, probe, and selector risks. Follow the repository's SOPS policy: never suggest plaintext secrets. Do not flag omitted defaults unless they violate repository policy or create a material risk.
+    - path: "talos/**/*.yaml"
+      instructions: |
+        Treat these files as high-impact cluster configuration. Focus on boot, networking, storage, API compatibility, and node-recovery risks. Base findings on concrete compatibility evidence; do not assume a value is wrong only because it differs from a generic default.
+    - path: "tofu/**/*.tf"
+      instructions: |
+        Focus on destructive replacements, privilege boundaries, network exposure, secret handling, and provider-backed runtime behavior. Cite the affected resource or expression and its consequence. Do not claim an operation is destructive without evidence.
+    - path: "renovate.json5"
+      instructions: |
+        This file uses JSON5. Check rule ordering, manager and package scopes, and automerge effects. Preserve the repository's conservative automerge policy for deployment updates; do not recommend broad automerge.
