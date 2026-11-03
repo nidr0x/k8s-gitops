@@ -316,6 +316,13 @@ vmagent:
             app.kubernetes.io/instance: victoria-metrics-k8s-stack
             app.kubernetes.io/name: vmagent
 
+# Keep Grafana out of this VictoriaMetrics process-restart alert.
+defaultRules:
+  rules:
+    TooManyRestarts:
+      spec:
+        expr: 'changes(process_start_time_seconds{job=~".*(vmselect|vminsert|vmstorage|vmagent|vmalert|vmsingle|vmalertmanager|vmauth).*"}[15m]) > 2'
+
 vmsingle:
   enabled: true
   spec:
