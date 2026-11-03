@@ -1,0 +1,41 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: blackbox-exporter
+spec:
+  endpointSelector:
+    matchLabels:
+      k8s:app.kubernetes.io/instance: blackbox-exporter
+      k8s:app.kubernetes.io/name: prometheus-blackbox-exporter
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-monitoring
+            k8s:app.kubernetes.io/component: monitoring
+            k8s:app.kubernetes.io/instance: victoria-metrics-k8s-stack
+            k8s:app.kubernetes.io/name: vmagent
+            k8s:managed-by: vm-operator
+      toPorts:
+        - ports:
+            - port: "9115"
+              protocol: TCP
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+            - port: "53"
+              protocol: TCP
+          rules:
+            dns:
+              - matchName: monitoring.nidr0x.win
+    - toFQDNs:
+        - matchName: monitoring.nidr0x.win
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP

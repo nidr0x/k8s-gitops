@@ -1,0 +1,22 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMPodScrape
+metadata:
+  name: cnpg-databases
+spec:
+  jobLabel: cnpg.io/cluster
+  namespaceSelector:
+    matchNames:
+      - kube-monitoring
+      - miniflux
+      - n8n
+  selector:
+    matchExpressions:
+      - key: cnpg.io/cluster
+        operator: In
+        values:
+          - grafana-database
+          - miniflux-database
+          - n8n-database
+  podMetricsEndpoints:
+    - port: metrics
+      interval: 60s

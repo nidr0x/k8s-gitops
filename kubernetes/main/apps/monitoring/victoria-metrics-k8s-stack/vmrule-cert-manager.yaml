@@ -1,0 +1,59 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMRule
+metadata:
+  name: cert-manager
+spec:
+  groups:
+    - name: cert-manager
+      rules:
+        - alert: CertManagerAbsent
+          expr: absent(up{job="cert-manager"})
+          for: 15m
+          labels:
+            severity: critical
+            scope: cert-manager
+          annotations:
+            description: New certificates cannot be minted or renewed while cert-manager is unavailable.
+            runbook_url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/blob/master/RUNBOOK.md#certmanagerabsent
+            summary: Cert Manager has disappeared from service discovery.
+    - name: certificates
+      rules:
+        - alert: CertManagerCertExpirySoon
+          expr: |
+            avg by (exported_namespace, namespace, name) (
+              certmanager_certificate_expiration_timestamp_seconds - time()
+            ) < (21 * 24 * 3600)
+          for: 15m
+          labels:
+            severity: warning
+            scope: cert-manager
+          annotations:
+            description: The certificate will expire in {{ $value | humanizeDuration }}.
+            runbook_url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/blob/master/RUNBOOK.md#certmanagercertexpirysoon
+            summary: Certificate {{ $labels.name }} is approaching expiry.
+        - alert: CertManagerCertNotReady
+          expr: |
+            max by (name, exported_namespace, namespace, condition) (
+              certmanager_certificate_ready_status{condition!="True"} == 1
+            )
+          for: 15m
+          labels:
+            severity: critical
+            scope: cert-manager
+          annotations:
+            description: Certificate {{ $labels.name }} has not been ready to serve traffic for at least 15 minutes.
+            runbook_url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/blob/master/RUNBOOK.md#certmanagercertnotready
+            summary: Certificate {{ $labels.name }} is not ready to serve traffic.
+        - alert: CertManagerHittingRateLimits
+          expr: |
+            sum by (host) (
+              rate(certmanager_http_acme_client_request_count{status="429"}[5m])
+            ) > 0
+          for: 15m
+          labels:
+            severity: critical
+            scope: cert-manager
+          annotations:
+            description: cert-manager is receiving ACME rate-limit responses.
+            runbook_url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/blob/master/RUNBOOK.md#certmanagerhittingratelimits
+            summary: cert-manager is hitting ACME rate limits.

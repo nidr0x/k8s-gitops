@@ -1,0 +1,36 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMProbe
+metadata:
+  name: monitoring-public-health
+spec:
+  jobName: monitoring-public-health
+  interval: 60s
+  scrapeTimeout: 10s
+  module: http_2xx
+  vmProberSpec:
+    url: blackbox-exporter-prometheus-blackbox-exporter.kube-monitoring.svc:9115
+  targets:
+    static:
+      targets:
+        - https://monitoring.nidr0x.win/grafana/api/health
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMRule
+metadata:
+  name: monitoring-public-health
+spec:
+  groups:
+    - name: monitoring-public-health
+      rules:
+        - alert: MonitoringPublicEndpointUnavailable
+          expr: |
+            absent(probe_success{job="monitoring-public-health"})
+            or
+            min(probe_success{job="monitoring-public-health"}) == 0
+          for: 5m
+          labels:
+            severity: warning
+            scope: observability
+          annotations:
+            description: Grafana's public health endpoint has failed HTTP probes for at least five minutes.
+            summary: The public monitoring endpoint is unavailable.
