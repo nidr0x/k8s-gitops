@@ -51,7 +51,7 @@ spec:
   endpoints:
     - port: http
       interval: 60s
-      path: /metrics
+      path: /victorialogs/metrics
 ---
 apiVersion: operator.victoriametrics.com/v1beta1
 kind: VMServiceScrape
