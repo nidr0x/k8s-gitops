@@ -3,6 +3,8 @@ kind: VMAlertmanagerConfig
 metadata:
   name: opensre
   namespace: kube-monitoring
+  labels:
+    alerts.nidr0x.win/alertmanager: primary
 spec:
   route:
     receiver: opensre-webhook

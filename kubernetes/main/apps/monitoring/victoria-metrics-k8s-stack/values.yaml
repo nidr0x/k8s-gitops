@@ -265,7 +265,7 @@ grafana:
       serve_from_sub_path: true
     users:
       allow_sign_up: false
-      auto_assign_org_role: Admin
+      auto_assign_org_role: Viewer
     auth:
       disable_login_form: true
     security:
@@ -285,25 +285,45 @@ grafana:
       api_url: https://openidconnect.googleapis.com/v1/userinfo
       allowed_domains: gmail.com
       use_pkce: true
-      role_attribute_path: email=='nidr0x@gmail.com' && 'Admin'
+      role_attribute_path: email=='nidr0x@gmail.com' && 'Admin' || 'Viewer'
+      role_attribute_strict: true
       allow_assign_grafana_admin: true
       skip_org_role_sync: false
 
 vmagent:
   enabled: true
   spec:
+    replicaCount: 2
+    externalLabelName: vmagent_ha
     externalLabels:
       cluster: everest
     scrapeInterval: 60s
-  resources:
-    requests:
-      cpu: 50m
-      memory: 128Mi
-    limits:
-      memory: 256Mi
-  persistentVolume:
-    storageClass: proxmox-k8s-lvm
-    size: 10Gi
+    statefulMode: true
+    statefulStorage:
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          storageClassName: proxmox-k2-zfs
+          resources:
+            requests:
+              storage: 5Gi
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        memory: 256Mi
+    podDisruptionBudget:
+      minAvailable: 1
+    topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/instance: victoria-metrics-k8s-stack
+            app.kubernetes.io/name: vmagent
 
 vmsingle:
   enabled: true
@@ -327,32 +347,62 @@ vmsingle:
 
 vmalert:
   enabled: true
-  resources:
-    requests:
-      cpu: 20m
-      memory: 64Mi
-    limits:
-      memory: 128Mi
-  persistentVolume:
-    storageClass: proxmox-k8s-lvm
-    size: 1Gi
+  spec:
+    replicaCount: 2
+    resources:
+      requests:
+        cpu: 20m
+        memory: 64Mi
+      limits:
+        memory: 128Mi
+    podDisruptionBudget:
+      minAvailable: 1
+    topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/instance: victoria-metrics-k8s-stack
+            app.kubernetes.io/name: vmalert
 
 alertmanager:
   enabled: true
-  replicaCount: 2
-  topologySpreadConstraints:
-    - maxSkew: 1
-      topologyKey: kubernetes.io/hostname
-      whenUnsatisfiable: ScheduleAnyway
-      labelSelector:
-        matchLabels:
-          app.kubernetes.io/name: alertmanager
-  resources:
-    requests:
-      cpu: 20m
-      memory: 64Mi
-    limits:
-      memory: 128Mi
+  spec:
+    replicaCount: 2
+    selectAllByDefault: false
+    configSelector:
+      matchLabels:
+        alerts.nidr0x.win/alertmanager: primary
+    configNamespaceSelector:
+      matchLabels:
+        kubernetes.io/metadata.name: kube-monitoring
+    disableNamespaceMatcher: true
+    storage:
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          storageClassName: proxmox-k2-zfs
+          resources:
+            requests:
+              storage: 1Gi
+    resources:
+      requests:
+        cpu: 20m
+        memory: 64Mi
+      limits:
+        memory: 128Mi
+    podDisruptionBudget:
+      minAvailable: 1
+    topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/instance: victoria-metrics-k8s-stack
+            app.kubernetes.io/name: vmalertmanager
 
 # Enable default dashboards (including vmstat)
 dashboard:
@@ -366,6 +416,7 @@ kubeStateMetrics:
 kube-state-metrics:
   metricLabelsAllowlist:
     - pods=[alerts.nidr0x.win/enabled,app,app.kubernetes.io/name]
+    - deployments=[alerts.nidr0x.win/enabled,app,app.kubernetes.io/name]
   # CNPG plugin backups need their Backup resources monitored directly.
   customResourceState:
     enabled: true
@@ -437,6 +488,15 @@ kubelet:
 
 kubeApiserver:
   enabled: true
+
+kubeControllerManager:
+  enabled: false
+
+kubeEtcd:
+  enabled: false
+
+kubeScheduler:
+  enabled: false
 
 defaultDashboardsEnabled: true
 experimentalDashboardsEnabled: true

@@ -5,4 +5,3 @@ resources:
   - zerossl-prod.yaml
   - secret.yaml
   - wildcard-certificate.yaml
-#- prometheus-rule.yaml

@@ -65,7 +65,7 @@ spec:
       storageClassName: proxmox-k2-zfs
 
   monitoring:
-    enablePodMonitor: true
+    enablePodMonitor: false
 
   resources:
     requests:

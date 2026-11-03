@@ -68,6 +68,10 @@ spec:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: kube-monitoring
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/instance: victoria-metrics-k8s-stack
+              app.kubernetes.io/name: vmagent
       ports:
         - protocol: TCP
           port: 9187

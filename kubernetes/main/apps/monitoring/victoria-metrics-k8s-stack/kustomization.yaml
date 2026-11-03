@@ -10,3 +10,8 @@ resources:
   - vmrule-controlplane-storage.yaml
   - vmservicescrape.yaml
   - vmrule-homelab-apps.yaml
+  - vmrule-cert-manager.yaml
+  - vmrule-logs.yaml
+  - vmservicescrape-integrations.yaml
+  - vmpodscrape-cnpg.yaml
+  - vmprobe-monitoring.yaml

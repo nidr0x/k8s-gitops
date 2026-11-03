@@ -25,8 +25,8 @@ server:
       - hosts:
           - monitoring.nidr0x.win
 vector:
-  # Temporarily pause log ingestion while the Proxmox storage path is degraded.
-  enabled: false
+  enabled: true
+  role: Agent
   resources:
     requests:
       memory: 256Mi
@@ -43,3 +43,12 @@ vector:
         # Namespace metadata is not needed by the current VictoriaLogs queries.
         insert_namespace_fields: false
         use_apiserver_cache: true
+  service:
+    enabled: true
+    ports:
+      - name: prom-exporter
+        port: 9090
+        targetPort: prom-exporter
+        protocol: TCP
+  serviceHeadless:
+    enabled: false

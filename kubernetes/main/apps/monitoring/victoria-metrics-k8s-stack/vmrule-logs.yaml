@@ -1,0 +1,29 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMRule
+metadata:
+  name: log-ingestion
+spec:
+  groups:
+    - name: log-ingestion
+      rules:
+        - alert: VectorUnavailable
+          expr: absent(up{job="vector"}) or min(up{job="vector"}) == 0
+          for: 5m
+          labels:
+            severity: warning
+            scope: observability
+          annotations:
+            description: Vector's metrics service has no healthy targets.
+            summary: Vector log ingestion is unavailable.
+        - alert: VictoriaLogsNoIngestion
+          expr: |
+            absent(vl_rows_ingested_total)
+            or
+            sum(increase(vl_rows_ingested_total[15m])) < 1
+          for: 15m
+          labels:
+            severity: warning
+            scope: observability
+          annotations:
+            description: VictoriaLogs has accepted no log rows during the last 15 minutes.
+            summary: VictoriaLogs log ingestion has stopped.
