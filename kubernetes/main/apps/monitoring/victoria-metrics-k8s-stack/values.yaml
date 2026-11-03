@@ -298,16 +298,7 @@ vmagent:
     externalLabels:
       cluster: everest
     scrapeInterval: 60s
-    statefulMode: true
-    statefulStorage:
-      volumeClaimTemplate:
-        spec:
-          accessModes:
-            - ReadWriteOnce
-          storageClassName: proxmox-k2-zfs
-          resources:
-            requests:
-              storage: 5Gi
+    # shortcut: remote-write queues are ephemeral, enable stateful mode when Proxmox CSI can provision this class.
     resources:
       requests:
         cpu: 50m
@@ -378,15 +369,6 @@ alertmanager:
       matchLabels:
         kubernetes.io/metadata.name: kube-monitoring
     disableNamespaceMatcher: true
-    storage:
-      volumeClaimTemplate:
-        spec:
-          accessModes:
-            - ReadWriteOnce
-          storageClassName: proxmox-k2-zfs
-          resources:
-            requests:
-              storage: 1Gi
     resources:
       requests:
         cpu: 20m
