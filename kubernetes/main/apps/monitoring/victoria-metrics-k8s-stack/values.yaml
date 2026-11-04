@@ -379,6 +379,8 @@ alertmanager:
   enabled: true
   spec:
     replicaCount: 2
+    extraArgs:
+      cluster.reconnect-timeout: "5m"
     selectAllByDefault: false
     configSelector:
       matchLabels:
