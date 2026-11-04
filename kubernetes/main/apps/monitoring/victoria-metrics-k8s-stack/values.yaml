@@ -309,7 +309,7 @@ vmagent:
             requests:
               storage: 5Gi
     nodeSelector:
-      topology.kubernetes.io/zone: everest
+      kubernetes.io/hostname: worker-01
     resources:
       requests:
         cpu: 50m
@@ -397,7 +397,7 @@ alertmanager:
             requests:
               storage: 1Gi
     nodeSelector:
-      topology.kubernetes.io/zone: everest
+      kubernetes.io/hostname: worker-01
     resources:
       requests:
         cpu: 20m
