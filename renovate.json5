@@ -33,6 +33,7 @@
         "ghcr.io/cloudnative-pg/plugin-barman-cloud",
         "ghcr.io/sergelogvinov/charts/proxmox-csi-plugin",
         "ghcr.io/spegel-org/helm-charts/spegel",
+        "homeassistant/home-assistant",
       ],
       groupName: null,
       groupSlug: null,
