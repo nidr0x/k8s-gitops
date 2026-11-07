@@ -177,3 +177,22 @@ spec:
     - ports:
         - protocol: TCP
           port: 443
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-numa-dns-from-world
+spec:
+  endpointSelector:
+    matchLabels:
+      app: numa-dns
+  # shortcut: Cilium sees SNATed LoadBalancer clients as world; revisit if source preservation changes.
+  ingress:
+    - fromEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: TCP
+            - port: "53"
+              protocol: UDP
