@@ -68,7 +68,7 @@ dns:
   use_dns64: false
   dns64_prefixes: []
   serve_http3: true
-  use_http3_upstreams: false
+  use_http3_upstreams: true
   serve_plain_dns: true
   hostsfile_enabled: true
 tls:

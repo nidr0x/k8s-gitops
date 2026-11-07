@@ -68,3 +68,5 @@ spec:
           port: 53
         - protocol: TCP
           port: 443
+        - protocol: UDP
+          port: 443
