@@ -3,35 +3,8 @@ name: Lint
 
 on: # yamllint disable-line rule:truthy
   push:
-    paths:
-      - ".github/workflows/**"
-      - ".pre-commit-config.yaml"
-      - ".pre-commit-hooks/**"
-      - ".taskfiles/**"
-      - ".sops.yaml"
-      - "Taskfile.yaml"
-      - "argocd/**"
-      - "kubernetes/**"
-      - "opensre/**"
-      - "renovate.json5"
-      - "talos/**"
-      - "terraform/**"
-      - "tofu/**"
+    branches: [master]
   pull_request:
-    paths:
-      - ".github/workflows/**"
-      - ".pre-commit-config.yaml"
-      - ".pre-commit-hooks/**"
-      - ".taskfiles/**"
-      - ".sops.yaml"
-      - "Taskfile.yaml"
-      - "argocd/**"
-      - "kubernetes/**"
-      - "opensre/**"
-      - "renovate.json5"
-      - "talos/**"
-      - "terraform/**"
-      - "tofu/**"
 permissions: {}
 
 concurrency:
@@ -53,6 +26,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set up Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
+        with:
+          python-version: "3.12"
+
       - name: Super-linter
         uses: super-linter/super-linter/slim@2da136927bd4a73596db63044b504547c62cb854 # v9
         env:
@@ -71,3 +49,11 @@ jobs:
           VALIDATE_SPELL_CODESPELL: false
           # Black is the canonical Python formatter in this repository.
           VALIDATE_PYTHON_RUFF_FORMAT: false
+
+      - name: Check Kubernetes Secrets use SOPS
+        uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd # v3.0.1
+        with:
+          extra_args: check-unencrypted-secrets --all-files
+
+      - name: Test OpenSRE Alertmanager poller
+        run: python -m unittest opensre.test_alertmanager_poller

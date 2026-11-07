@@ -3,13 +3,8 @@ name: OpenTofu validation
 
 on: # yamllint disable-line rule:truthy
   push:
-    paths:
-      - ".github/workflows/tofu-validate.yaml"
-      - "tofu/**"
+    branches: [master]
   pull_request:
-    paths:
-      - ".github/workflows/tofu-validate.yaml"
-      - "tofu/**"
   workflow_dispatch:
 
 permissions: {}
