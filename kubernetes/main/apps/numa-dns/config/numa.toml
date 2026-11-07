@@ -14,7 +14,7 @@ allow_from = [
 
 [upstream]
 mode = "forward"
-# IP-based DoH avoids bootstrapping provider hostnames through cluster DNS.
+# shortcut: Numa 0.25.0 bootstraps IP-based DoH over UDP/TCP 53 to Quad9 and Cloudflare; use bootstrap DoH if supported.
 address = [
     "https://1.1.1.1/dns-query",
     "https://9.9.9.9/dns-query",

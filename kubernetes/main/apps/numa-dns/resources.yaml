@@ -164,6 +164,16 @@ spec:
           port: 53
         - protocol: UDP
           port: 53
+    - to:
+        - ipBlock:
+            cidr: 1.1.1.1/32
+        - ipBlock:
+            cidr: 9.9.9.9/32
+      ports:
+        - protocol: TCP
+          port: 53
+        - protocol: UDP
+          port: 53
     - ports:
         - protocol: TCP
           port: 443
