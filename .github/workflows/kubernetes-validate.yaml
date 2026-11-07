@@ -68,5 +68,5 @@ jobs:
             rendered.yaml
 
       - name: Fail if any Helm source could not render
-        if: steps.render.outcome == 'failure'
+        if: always() && steps.render.outcome == 'failure'
         run: exit 1
