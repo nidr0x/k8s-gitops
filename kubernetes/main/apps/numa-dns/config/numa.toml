@@ -1,7 +1,7 @@
 [server]
 bind_addr = "0.0.0.0:53"
 api_port = 5380
-api_bind_addr = "127.0.0.1"
+api_bind_addr = "0.0.0.0"
 data_dir = "/var/lib/numa"
 allow_from = [
     "10.244.0.0/16",
@@ -45,7 +45,13 @@ max_ttl = 84600
 # Forward mode does not validate DNSSEC; enable recursive mode before cutover if preserving AdGuard's DNSSEC validation is required.
 
 [proxy]
-enabled = false
+enabled = true
+port = 80
+tls_port = 443
+tld = "dns.nidr0x.win"
+bind_addr = "0.0.0.0"
+cert_path = "/etc/numa-tls/tls.crt"
+key_path = "/etc/numa-tls/tls.key"
 
 [dot]
 enabled = false

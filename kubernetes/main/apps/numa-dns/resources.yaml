@@ -4,6 +4,8 @@ metadata:
   name: numa-dns
   labels:
     app: numa-dns
+  annotations:
+    secret.reloader.stakater.com/reload: numa-doh-tls
 spec:
   replicas: 1
   selector:
@@ -58,18 +60,33 @@ spec:
             - name: dns-udp
               containerPort: 53
               protocol: UDP
+            - name: api-http
+              containerPort: 5380
+              protocol: TCP
+            - name: doh-tls
+              containerPort: 443
+              protocol: TCP
           volumeMounts:
             - name: config
               mountPath: /etc/numa-config
               readOnly: true
             - name: data
               mountPath: /var/lib/numa
+            - name: tls
+              mountPath: /etc/numa-tls
+              readOnly: true
       volumes:
         - name: config
           configMap:
             name: numa-config
         - name: data
           emptyDir: {}
+        - name: tls
+          secret:
+            secretName: numa-doh-tls
+            # Keep DNS53 available while cert-manager issues the first certificate.
+            optional: true
+            defaultMode: 0440
 ---
 apiVersion: v1
 kind: Service
@@ -88,6 +105,14 @@ spec:
       port: 53
       protocol: UDP
       targetPort: dns-udp
+    - name: api-http
+      port: 5380
+      protocol: TCP
+      targetPort: api-http
+    - name: doh-tls
+      port: 443
+      protocol: TCP
+      targetPort: doh-tls
   selector:
     app: numa-dns
 ---
@@ -151,6 +176,16 @@ spec:
           port: 53
         - protocol: UDP
           port: 53
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              app: cloudflared
+      ports:
+        - protocol: TCP
+          port: 443
   egress:
     - to:
         - namespaceSelector:
@@ -196,3 +231,41 @@ spec:
               protocol: TCP
             - port: "53"
               protocol: UDP
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-numa-dashboard-and-doh
+spec:
+  endpointSelector:
+    matchLabels:
+      app: numa-dns
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:app: cloudflared
+            k8s:io.kubernetes.pod.namespace: kube-system
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+    - fromEntities:
+        - ingress
+      toPorts:
+        - ports:
+            - port: "5380"
+              protocol: TCP
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: numa-doh
+spec:
+  secretName: numa-doh-tls
+  issuerRef:
+    kind: ClusterIssuer
+    name: zerossl-prod
+  duration: 2160h0m0s
+  renewBefore: 720h0m0s
+  dnsNames:
+    - dns.nidr0x.win
