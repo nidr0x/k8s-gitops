@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Render repository Kustomize sources and Argo CD Helm chart sources."""
 
 from __future__ import annotations
@@ -20,6 +19,7 @@ KUSTOMIZE_ROOTS = (ROOT / "kubernetes/main/apps", ROOT / "argocd")
 
 
 def kubernetes_version() -> str:
+    """Read the pinned Kubernetes version from Talos configuration."""
     config = ROOT / "talos/topf.yaml"
     try:
         talos = yaml.safe_load(config.read_text(encoding="utf-8"))
@@ -34,11 +34,13 @@ def kubernetes_version() -> str:
 
 
 def repository_source(source: dict[str, Any]) -> bool:
+    """Return whether an Argo source points at this Git repository."""
     url = str(source.get("repoURL", "")).rstrip("/").removesuffix(".git")
     return url == REPOSITORY_URL
 
 
 def application_sources(spec: dict[str, Any]) -> list[dict[str, Any]]:
+    """Return the single or multiple sources declared by an Argo Application."""
     sources = spec.get("sources")
     if isinstance(sources, list):
         return [source for source in sources if isinstance(source, dict)]
@@ -52,6 +54,7 @@ def resolve_value_file(
     ref_sources: dict[str, dict[str, Any]],
     value_file: str,
 ) -> Path:
+    """Resolve a local values file without allowing it to escape the checkout."""
     if value_file.startswith("$"):
         match = re.fullmatch(r"\$([^/]+)/(.+)", value_file)
         if not match:
@@ -80,6 +83,7 @@ def resolve_value_file(
 
 
 def is_sops_document(document: Any) -> bool:
+    """Recognize encrypted SOPS documents without decrypting them."""
     if not isinstance(document, dict):
         return False
     if "sops" in document:
@@ -91,6 +95,7 @@ def is_sops_document(document: Any) -> bool:
 
 
 def run(command: list[str], description: str) -> str:
+    """Run a command while keeping its output out of CI logs."""
     result = subprocess.run(
         command, cwd=ROOT, capture_output=True, text=True, check=False
     )
@@ -100,6 +105,7 @@ def run(command: list[str], description: str) -> str:
 
 
 def add_yaml_documents(source: str, origin: str, rendered: list[dict[str, Any]]) -> int:
+    """Parse rendered YAML into Kubernetes resources and count encrypted files."""
     skipped = 0
     try:
         documents = yaml.safe_load_all(source)
@@ -124,6 +130,7 @@ def add_yaml_documents(source: str, origin: str, rendered: list[dict[str, Any]])
 
 
 def render_kustomize(version: str, rendered: list[dict[str, Any]]) -> tuple[int, int]:
+    """Build each Kustomize root and collect its rendered resources."""
     count = 0
     skipped = 0
     directories = sorted(
@@ -155,6 +162,7 @@ def render_kustomize(version: str, rendered: list[dict[str, Any]]) -> tuple[int,
 
 
 def helm_repository(repo_url: str, app_name: str, repo_cache: dict[str, str]) -> str:
+    """Add an HTTP Helm repository once or normalize an OCI repository URL."""
     if repo_url.startswith("oci://") or not repo_url.startswith(
         ("https://", "http://")
     ):
@@ -172,35 +180,41 @@ def helm_repository(repo_url: str, app_name: str, repo_cache: dict[str, str]) ->
     return repo_name
 
 
-def render_helm_chart(
-    root: Path,
-    app_name: str,
-    namespace: str,
+def helm_template_command(
+    application: dict[str, Any],
     source: dict[str, Any],
-    ref_sources: dict[str, dict[str, Any]],
     version: str,
     repo_cache: dict[str, str],
-    rendered: list[dict[str, Any]],
-) -> int:
+) -> tuple[str, str, list[str]]:
+    """Build Helm template arguments from an Argo Application source."""
+    name = str((application.get("metadata") or {}).get("name") or "application")
+    spec = application.get("spec") or {}
+    namespace = str((spec.get("destination") or {}).get("namespace") or "default")
     chart = source.get("chart")
-    chart_version = source.get("targetRevision")
-    repo_url = source.get("repoURL")
-    if not all(
-        isinstance(value, str) and value for value in (chart, chart_version, repo_url)
-    ):
+    if not isinstance(chart, str) or not chart:
         raise RuntimeError(
-            f"Argo CD Helm source for {app_name} must pin repoURL, chart, and targetRevision"
+            f"Argo CD Helm source for {name} must pin repoURL, chart, and targetRevision"
+        )
+    chart_version = source.get("targetRevision")
+    if not isinstance(chart_version, str) or not chart_version:
+        raise RuntimeError(
+            f"Argo CD Helm source for {name} must pin repoURL, chart, and targetRevision"
+        )
+    repo_url = source.get("repoURL")
+    if not isinstance(repo_url, str) or not repo_url:
+        raise RuntimeError(
+            f"Argo CD Helm source for {name} must pin repoURL, chart, and targetRevision"
         )
 
     helm = source.get("helm") or {}
     if not isinstance(helm, dict):
-        raise RuntimeError(f"Argo CD Helm settings for {app_name} must be a mapping")
-    repository = helm_repository(repo_url, app_name, repo_cache)
+        raise TypeError(f"Argo CD Helm settings for {name} must be a mapping")
+    repository = helm_repository(repo_url, name, repo_cache)
     chart_ref = f"{repository}/{chart}"
     command = [
         "helm",
         "template",
-        str(helm.get("releaseName") or app_name),
+        str(helm.get("releaseName") or name),
         chart_ref,
         "--version",
         chart_version,
@@ -215,107 +229,154 @@ def render_helm_chart(
     command.append("--skip-schema-validation")
     for api_version in helm.get("apiVersions", []):
         command.extend(("--api-versions", str(api_version)))
+    return name, chart, command
 
-    with tempfile.TemporaryDirectory(prefix="k8s-gitops-helm-") as temp_dir:
-        temp_root = Path(temp_dir)
-        value_files = helm.get("valueFiles", [])
-        if not isinstance(value_files, list):
-            raise RuntimeError(f"Argo CD valueFiles for {app_name} must be a list")
-        for value_file in value_files:
-            resolved = resolve_value_file(root, source, ref_sources, str(value_file))
-            command.extend(("--values", str(resolved)))
 
-        values = helm.get("values")
-        if isinstance(values, str) and values.strip():
-            values_path = temp_root / "values.yaml"
-            values_path.write_text(values, encoding="utf-8")
-            command.extend(("--values", str(values_path)))
-        values_object = helm.get("valuesObject")
-        if isinstance(values_object, dict):
-            values_path = temp_root / "values-object.yaml"
-            values_path.write_text(
-                yaml.safe_dump(values_object, sort_keys=False), encoding="utf-8"
+def append_helm_values(
+    command: list[str],
+    application: dict[str, Any],
+    source: dict[str, Any],
+    temp_root: Path,
+) -> None:
+    """Apply Argo CD Helm values files, values, parameters, and file parameters."""
+    spec = application.get("spec") or {}
+    references = {
+        str(item["ref"]): item
+        for item in application_sources(spec)
+        if isinstance(item.get("ref"), str)
+    }
+    helm = source.get("helm") or {}
+    value_files = helm.get("valueFiles", [])
+    if not isinstance(value_files, list):
+        raise TypeError("Argo CD valueFiles must be a list")
+    for value_file in value_files:
+        command.extend(
+            (
+                "--values",
+                str(resolve_value_file(ROOT, source, references, str(value_file))),
             )
-            command.extend(("--values", str(values_path)))
+        )
 
-        for parameter in helm.get("parameters", []):
-            if (
-                not isinstance(parameter, dict)
-                or not parameter.get("name")
-                or "value" not in parameter
-            ):
-                raise RuntimeError(
-                    f"Invalid Helm parameter in Argo CD application {app_name}"
-                )
-            option = "--set-string" if parameter.get("forceString", False) else "--set"
-            command.extend((option, f"{parameter['name']}={parameter['value']}"))
+    values = helm.get("values")
+    if isinstance(values, str) and values.strip():
+        path = temp_root / "values.yaml"
+        path.write_text(values, encoding="utf-8")
+        command.extend(("--values", str(path)))
 
-        for parameter in helm.get("fileParameters", []):
-            if (
-                not isinstance(parameter, dict)
-                or not parameter.get("name")
-                or not parameter.get("path")
-            ):
-                raise RuntimeError(
-                    f"Invalid Helm fileParameter in Argo CD application {app_name}"
-                )
-            path = resolve_value_file(root, source, ref_sources, str(parameter["path"]))
-            command.extend(("--set-file", f"{parameter['name']}={path}"))
+    values_object = helm.get("valuesObject")
+    if isinstance(values_object, dict):
+        path = temp_root / "values-object.yaml"
+        path.write_text(
+            yaml.safe_dump(values_object, sort_keys=False), encoding="utf-8"
+        )
+        command.extend(("--values", str(path)))
 
-        output = run(command, f"Helm render for {app_name}/{chart}@{chart_version}")
-    return add_yaml_documents(output, f"{app_name}/{chart}", rendered)
+    for parameter in helm.get("parameters", []):
+        if (
+            not isinstance(parameter, dict)
+            or not parameter.get("name")
+            or "value" not in parameter
+        ):
+            raise RuntimeError("Invalid Helm parameter in Argo CD application")
+        command.extend(
+            (
+                "--set-string" if parameter.get("forceString", False) else "--set",
+                f"{parameter['name']}={parameter['value']}",
+            )
+        )
+
+    for parameter in helm.get("fileParameters", []):
+        if (
+            not isinstance(parameter, dict)
+            or not parameter.get("name")
+            or not parameter.get("path")
+        ):
+            raise RuntimeError("Invalid Helm fileParameter in Argo CD application")
+        path = resolve_value_file(ROOT, source, references, str(parameter["path"]))
+        command.extend(
+            (
+                "--set-file",
+                f"{parameter['name']}={path}",
+            )
+        )
+
+
+def render_helm_chart(
+    application: dict[str, Any],
+    source: dict[str, Any],
+    version: str,
+    repo_cache: dict[str, str],
+    rendered: list[dict[str, Any]],
+) -> int:
+    """Render one Argo CD Helm chart and collect its Kubernetes resources."""
+    name, chart, command = helm_template_command(
+        application, source, version, repo_cache
+    )
+    with tempfile.TemporaryDirectory(prefix="k8s-gitops-helm-") as temp_dir:
+        append_helm_values(command, application, source, Path(temp_dir))
+        output = run(
+            command,
+            f"Helm render for {name}/{chart}@{source.get('targetRevision')}",
+        )
+    return add_yaml_documents(output, f"{name}/{chart}", rendered)
+
+
+def render_helm_application(
+    app_path: Path,
+    version: str,
+    repo_cache: dict[str, str],
+    rendered: list[dict[str, Any]],
+) -> tuple[int, int, list[str]]:
+    """Render chart sources for one Argo CD Application."""
+    try:
+        app = yaml.safe_load(app_path.read_text(encoding="utf-8"))
+    except (OSError, yaml.YAMLError) as error:
+        raise RuntimeError(
+            f"Could not read Argo CD application {app_path.relative_to(ROOT)}"
+        ) from error
+    if not isinstance(app, dict) or app.get("kind") != "Application":
+        return 0, 0, []
+
+    name = str((app.get("metadata") or {}).get("name") or app_path.stem)
+    app["metadata"] = {"name": name}
+    rendered_count = 0
+    skipped = 0
+    failures: list[str] = []
+    for source in application_sources(app.get("spec") or {}):
+        if "chart" not in source:
+            continue
+        before = len(rendered)
+        try:
+            skipped += render_helm_chart(app, source, version, repo_cache, rendered)
+        except (OSError, RuntimeError, TypeError, ValueError, yaml.YAMLError):
+            failures.append(
+                f"{name}/{source.get('chart')}@{source.get('targetRevision')}"
+            )
+            continue
+        rendered_count += len(rendered) - before
+    return rendered_count, skipped, failures
 
 
 def render_helm_sources(
     version: str, rendered: list[dict[str, Any]]
 ) -> tuple[int, int, list[str]]:
+    """Render chart sources declared by every Argo CD Application."""
     rendered_count = 0
     skipped = 0
     failures: list[str] = []
     repo_cache: dict[str, str] = {}
     for app_path in sorted((ROOT / "argocd/apps").glob("*.yaml")):
-        try:
-            app = yaml.safe_load(app_path.read_text(encoding="utf-8"))
-        except (OSError, yaml.YAMLError) as error:
-            raise RuntimeError(
-                f"Could not read Argo CD application {app_path.relative_to(ROOT)}"
-            ) from error
-        if not isinstance(app, dict) or app.get("kind") != "Application":
-            continue
-        spec = app.get("spec") or {}
-        sources = application_sources(spec)
-        references = {
-            str(source["ref"]): source
-            for source in sources
-            if isinstance(source.get("ref"), str)
-        }
-        namespace = str((spec.get("destination") or {}).get("namespace") or "default")
-        name = str((app.get("metadata") or {}).get("name") or app_path.stem)
-        for source in sources:
-            if "chart" not in source:
-                continue
-            before = len(rendered)
-            chart = source.get("chart")
-            revision = source.get("targetRevision")
-            try:
-                skipped += render_helm_chart(
-                    ROOT,
-                    name,
-                    namespace,
-                    source,
-                    references,
-                    version,
-                    repo_cache,
-                    rendered,
-                )
-            except (OSError, RuntimeError, ValueError, yaml.YAMLError):
-                failures.append(f"{name}/{chart}@{revision}")
-                continue
-            rendered_count += len(rendered) - before
+        count, encrypted, app_failures = render_helm_application(
+            app_path, version, repo_cache, rendered
+        )
+        rendered_count += count
+        skipped += encrypted
+        failures.extend(app_failures)
     return rendered_count, skipped, failures
 
 
 def render_argocd_manifests(rendered: list[dict[str, Any]]) -> int:
+    """Collect raw Argo CD Application and setup manifests."""
     skipped = 0
     paths = [
         *(ROOT / "argocd/apps").glob("*.yaml"),
@@ -333,6 +394,7 @@ def render_argocd_manifests(rendered: list[dict[str, Any]]) -> int:
 
 
 def main() -> int:
+    """Render repository Kubernetes sources to a single YAML stream."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--github-output", type=Path)
@@ -359,7 +421,8 @@ def main() -> int:
                 output.write(f"kubernetes_version={version}\n")
         print(
             f"Rendered {kustomize_count} Kustomize and {helm_count} Helm resources; "
-            f"excluded {encrypted_kustomize + encrypted_helm + encrypted_argocd} SOPS-encrypted documents."
+            "excluded "
+            f"{encrypted_kustomize + encrypted_helm + encrypted_argocd} SOPS-encrypted documents."
         )
         if helm_failures:
             print(

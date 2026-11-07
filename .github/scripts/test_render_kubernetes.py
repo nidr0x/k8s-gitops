@@ -5,60 +5,69 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
+import render_kubernetes
 import yaml
-
-from render_kubernetes import (
-    REPOSITORY_URL,
-    application_sources,
-    is_sops_document,
-    render_helm_sources,
-    resolve_value_file,
-)
 
 
 class RenderKubernetesTest(unittest.TestCase):
+    """Cover source parsing, local paths, SOPS detection, and chart failures."""
+
     def test_application_sources_supports_single_and_multi_source_apps(self):
+        """Read both source forms used by Argo CD Applications."""
         self.assertEqual(
-            application_sources({"source": {"chart": "cilium"}}), [{"chart": "cilium"}]
+            render_kubernetes.application_sources({"source": {"chart": "cilium"}}),
+            [{"chart": "cilium"}],
         )
         self.assertEqual(
-            application_sources({"sources": [{"chart": "cilium"}]}),
+            render_kubernetes.application_sources({"sources": [{"chart": "cilium"}]}),
             [{"chart": "cilium"}],
         )
 
     def test_resolves_value_files_from_local_source_ref(self):
+        """Resolve a value file from a local repository source ref."""
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             values = root / "kubernetes/main/apps/cilium/values.yaml"
             values.parent.mkdir(parents=True)
             values.write_text("routingMode: native\n", encoding="utf-8")
             chart = {"repoURL": "https://helm.cilium.io"}
-            refs = {"repo": {"repoURL": REPOSITORY_URL}}
+            refs = {"repo": {"repoURL": render_kubernetes.REPOSITORY_URL}}
 
             self.assertEqual(
-                resolve_value_file(
+                render_kubernetes.resolve_value_file(
                     root, chart, refs, "$repo/kubernetes/main/apps/cilium/values.yaml"
                 ),
                 values.resolve(),
             )
 
     def test_rejects_value_files_that_escape_repository(self):
+        """Reject value file paths that leave the checkout."""
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory).resolve()
             chart = {"repoURL": "https://helm.cilium.io"}
-            refs = {"repo": {"repoURL": REPOSITORY_URL}}
+            refs = {"repo": {"repoURL": render_kubernetes.REPOSITORY_URL}}
 
             with self.assertRaises(ValueError):
-                resolve_value_file(root, chart, refs, "$repo/../../outside.yaml")
+                render_kubernetes.resolve_value_file(
+                    root, chart, refs, "$repo/../../outside.yaml"
+                )
 
     def test_detects_sops_documents_without_printing_values(self):
-        self.assertTrue(is_sops_document({"sops": {"mac": "ENC[redacted]"}}))
+        """Identify encrypted documents while leaving plaintext Secrets valid."""
         self.assertTrue(
-            is_sops_document({"apiVersion": "ENC[redacted]", "kind": "ENC[redacted]"})
+            render_kubernetes.is_sops_document({"sops": {"mac": "ENC[redacted]"}})
         )
-        self.assertFalse(is_sops_document({"apiVersion": "v1", "kind": "Secret"}))
+        self.assertTrue(
+            render_kubernetes.is_sops_document(
+                {"apiVersion": "ENC[redacted]", "kind": "ENC[redacted]"}
+            )
+        )
+        self.assertFalse(
+            render_kubernetes.is_sops_document({"apiVersion": "v1", "kind": "Secret"})
+        )
 
     def test_helm_render_failure_does_not_skip_later_sources(self):
+        """Continue attempting later Argo CD charts after a render failure."""
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             apps = root / "argocd/apps"
@@ -89,7 +98,7 @@ class RenderKubernetesTest(unittest.TestCase):
                 ) as render_chart,
             ):
                 self.assertEqual(
-                    render_helm_sources("1.37.2", []),
+                    render_kubernetes.render_helm_sources("1.37.2", []),
                     (0, 0, ["first/broken@1.0.0"]),
                 )
             self.assertEqual(render_chart.call_count, 2)
