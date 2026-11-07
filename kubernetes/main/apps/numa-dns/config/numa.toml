@@ -1,0 +1,72 @@
+[server]
+bind_addr = "0.0.0.0:53"
+api_port = 5380
+api_bind_addr = "127.0.0.1"
+data_dir = "/var/lib/numa"
+allow_from = [
+    "10.244.0.0/16",
+    "192.168.1.0/24",
+    "192.168.2.0/24",
+    "192.168.5.0/24",
+    "192.168.10.0/24",
+    "192.168.20.0/24",
+]
+
+[upstream]
+mode = "forward"
+# IP-based DoH avoids bootstrapping provider hostnames through cluster DNS.
+address = [
+    "https://1.1.1.1/dns-query",
+    "https://9.9.9.9/dns-query",
+]
+timeout_ms = 10000
+
+[blocking]
+enabled = true
+refresh_hours = 24
+# shortcut: Numa drops @@ exceptions inside blocklist feeds; audit feed behavior before cutover if exact parity is required.
+lists = [
+    "https://adguardteam.github.io/HostlistsRegistry/assets/filter_27.txt",
+    "https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt",
+    "https://raw.githubusercontent.com/LanikSJ/ubo-filters/main/filters/getadmiral-domains.txt",
+    "https://secure.fanboy.co.nz/fanboy-cookiemonster.txt",
+    "/etc/numa-config/user-blocklist.txt",
+]
+allowlist = [
+    "https://raw.githubusercontent.com/anudeepND/whitelist/master/domains/whitelist.txt",
+    "https://raw.githubusercontent.com/Ultimate-Hosts-Blacklist/whitelist/master/domains.list",
+    "/etc/numa-config/user-allowlist.txt",
+]
+
+[cache]
+min_ttl = 600
+max_ttl = 84600
+
+# Forward mode does not validate DNSSEC; enable recursive mode before cutover if preserving AdGuard's DNSSEC validation is required.
+
+[proxy]
+enabled = false
+
+[dot]
+enabled = false
+
+[mobile]
+enabled = false
+
+[[zones]]
+domain = "unifi"
+record_type = "A"
+value = "192.168.1.1"
+ttl = 60
+
+[[zones]]
+domain = "truenas"
+record_type = "A"
+value = "192.168.1.10"
+ttl = 60
+
+[[zones]]
+domain = "everest"
+record_type = "A"
+value = "192.168.1.11"
+ttl = 60
