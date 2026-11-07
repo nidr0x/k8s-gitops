@@ -3,13 +3,8 @@ name: Argo CD validation
 
 on: # yamllint disable-line rule:truthy
   push:
-    paths:
-      - ".github/workflows/argocd-validate.yaml"
-      - "argocd/**"
+    branches: [master]
   pull_request:
-    paths:
-      - ".github/workflows/argocd-validate.yaml"
-      - "argocd/**"
   workflow_dispatch:
 
 permissions: {}
@@ -23,9 +18,14 @@ jobs:
     name: Validate Argo CD manifests
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
 
       - name: Validate Kubernetes object syntax
         run: |
@@ -35,14 +35,16 @@ jobs:
             ghcr.io/yannh/kubeconform:v0.6.7 \
             -strict \
             -summary \
-            -ignore-missing-schemas \
+            -kubernetes-version 1.37.2 \
+            -schema-location default \
+            -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/c86448cbf1a840ca62d119259864863897c8748a/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' \
             argocd/apps \
-            argocd/route \
-            argocd/setup \
+            argocd/setup/argocd.yaml \
             argocd/argocd-apps.yaml \
             argocd/argocd-project-everest.yaml \
             argocd/argocd-setup.yaml \
-            argocd/namespace.yaml
+            argocd/namespace.yaml \
+            argocd/route/http-route.yaml
 
       - name: Check Argo CD source of truth
         run: |
