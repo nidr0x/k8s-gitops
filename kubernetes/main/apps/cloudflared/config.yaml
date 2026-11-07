@@ -14,13 +14,6 @@ ingress:
     service: "http://homeassistant.homeassistant.svc.cluster.local:8123"
     originRequest:
       http2Origin: false
-  - hostname: "dns.nidr0x.win"
-    path: "^/dns-query$"
-    service: "https://numa-dns.adguardhome.svc.cluster.local:443"
-    originRequest:
-      http2Origin: false
-      httpHostHeader: "dns.nidr0x.win"
-      originServerName: "dns.nidr0x.win"
   - hostname: "*.nidr0x.win"
     service: "https://cilium-gateway-internal.gateway.svc.cluster.local:443"
     originRequest:
