@@ -40,4 +40,4 @@ spec:
       protocol: UDP
       targetPort: dns-udp
   selector:
-    app: numa-dns
+    app: adguardhome

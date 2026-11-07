@@ -1,3 +1,0 @@
-# shortcut: Query-type modifiers cannot be represented; the raw.githubusercontent.com non-A rule is omitted to avoid blocking A lookups. Add type-aware filtering before strict parity is required.
-# shortcut: $important precedence is unavailable; current allowlist feeds do not cover awmdm.com, recheck if they change before cutover.
-awmdm.com
