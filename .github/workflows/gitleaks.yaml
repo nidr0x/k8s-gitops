@@ -3,13 +3,8 @@ name: gitleaks
 
 on:
   pull_request:
-    paths-ignore:
-      - "**/*.md"
-      - "docs/**"
   push:
-    paths-ignore:
-      - "**/*.md"
-      - "docs/**"
+    branches: [master]
   workflow_dispatch:
   schedule:
     - cron: "0 0 * * *"
