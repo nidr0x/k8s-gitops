@@ -29,7 +29,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
-          python-version: "3.12"
+          python-version: "3.15"
 
       - name: Super-linter
         uses: super-linter/super-linter/slim@2da136927bd4a73596db63044b504547c62cb854 # v9
