@@ -61,7 +61,8 @@
       matchManagers: ["github-actions"],
       matchUpdateTypes: ["minor", "patch", "pin", "digest"],
       automerge: true,
-      automergeType: "branch",
+      automergeType: "pr",
+      platformAutomerge: false,
     },
     {
       matchPackageNames: ["homebridge/homebridge"],
