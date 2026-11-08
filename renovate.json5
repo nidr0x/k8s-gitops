@@ -39,6 +39,12 @@
       groupSlug: null,
     },
     {
+      description: "Use SemVer for AdGuard Home beta image tags",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["adguard/adguardhome"],
+      versioning: "semver-extended",
+    },
+    {
       description: "Disable broad automerge for non-GitHub-Actions updates",
       matchUpdateTypes: ["minor", "patch", "pin", "digest"],
       matchManagers: [
