@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pocket-id
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+spec:
+  destination:
+    namespace: pocket-id
+    server: https://kubernetes.default.svc
+  project: everest
+  source:
+    path: kubernetes/main/apps/pocket-id/
+    repoURL: https://github.com/nidr0x/k8s-gitops
+    targetRevision: master
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true

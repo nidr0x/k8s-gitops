@@ -1,0 +1,75 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: pocket-id-database
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.4-standard-bookworm
+  bootstrap:
+    initdb:
+      database: pocketid
+      owner: pocketid
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: pocket-id-database
+        serverName: pocket-id-database-pg18
+  storage:
+    pvcTemplate:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 2Gi
+      storageClassName: proxmox-k8s-lvm
+  walStorage:
+    pvcTemplate:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 2Gi
+      storageClassName: proxmox-k8s-lvm
+  monitoring:
+    enablePodMonitor: true
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 128m
+    limits:
+      memory: 768Mi
+---
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: pocket-id-database
+spec:
+  configuration:
+    destinationPath: s3://nidr0x-homelab-backups/cloudnative-pg
+    endpointURL: https://de6356c843cfe00a0c3ff3b669892ca9.r2.cloudflarestorage.com
+    s3Credentials:
+      accessKeyId:
+        name: pocket-id
+        key: ACCESS_KEY_ID
+      secretAccessKey:
+        name: pocket-id
+        key: SECRET_ACCESS_KEY
+    data:
+      compression: bzip2
+      encryption: AES256
+    wal:
+      compression: bzip2
+      maxParallel: 4
+      encryption: AES256
+  retentionPolicy: "7d"
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: pocket-id-backup
+spec:
+  schedule: "0 0 0 * * *"
+  backupOwnerReference: self
+  cluster:
+    name: pocket-id-database

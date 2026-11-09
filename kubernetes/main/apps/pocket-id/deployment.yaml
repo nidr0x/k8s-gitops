@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pocket-id
+  labels:
+    app: pocket-id
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: pocket-id
+  template:
+    metadata:
+      labels:
+        app: pocket-id
+    spec:
+      serviceAccountName: pocket-id
+      automountServiceAccountToken: false
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: pocket-id
+          image: ghcr.io/pocket-id/pocket-id:v2.19.2-distroless
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 1411
+              protocol: TCP
+          env:
+            - name: APP_URL
+              value: https://id.nidr0x.win
+            - name: PORT
+              value: "1411"
+            - name: DB_CONNECTION_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: pocket-id-database-app
+                  key: uri
+            - name: ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: pocket-id
+                  key: ENCRYPTION_KEY
+            - name: FILE_BACKEND
+              value: database
+            - name: ALLOW_INSECURE_CALLBACK_URLS
+              value: "false"
+            - name: ALLOW_USER_SIGNUPS
+              value: disabled
+            - name: WEBAUTHN_USER_VERIFICATION
+              value: required
+            - name: DISABLE_RATE_LIMITING
+              value: "false"
+          resources:
+            requests:
+              cpu: 25m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsGroup: 1000
+            runAsNonRoot: true
+            runAsUser: 1000
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+      volumes:
+        - name: data
+          emptyDir: {}

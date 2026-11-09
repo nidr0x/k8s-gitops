@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pocket-id
+  labels:
+    app: pocket-id
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 1411
+      targetPort: http
+  selector:
+    app: pocket-id
