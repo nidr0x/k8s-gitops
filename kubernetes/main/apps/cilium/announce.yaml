@@ -10,3 +10,14 @@ spec:
   serviceSelector:
     matchLabels:
       homelab.nidr0x.dev/l2-announce: "true"
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: internal-gateway-l2-announcement-policy
+  namespace: kube-system
+spec:
+  loadBalancerIPs: true
+  serviceSelector:
+    matchLabels:
+      io.cilium.gateway/owning-gateway: internal
