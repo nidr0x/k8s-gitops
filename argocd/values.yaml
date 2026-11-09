@@ -188,9 +188,9 @@ configs:
     controller.operation.processors: 5
   rbac:
     policy.default: ""
-    scopes: "[email, group]"
+    scopes: "[email, groups]"
     policy.csv: |
-      g, nidr0x@gmail.com, role:admin
+      g, argocd-admins, role:admin
   cm:
     admin.enabled: false
     url: https://argocd.nidr0x.win
@@ -202,16 +202,15 @@ configs:
           - CiliumIdentity
         clusters:
           - "*"
-    dex.config: |
-      connectors:
-        - type: oidc
-          id: google
-          name: Google
-          config:
-            issuer: https://accounts.google.com
-            clientID: $sso:dex.google.clientID
-            clientSecret: $sso:dex.google.clientSecret
-
+    oidc.config: |
+      name: Pocket ID
+      issuer: https://id.nidr0x.win
+      clientID: $pocketid-oidc:clientID
+      clientSecret: $pocketid-oidc:clientSecret
+      allowedAudiences: ["$pocketid-oidc:clientID"]
+      requestedScopes: ["openid", "profile", "email", "groups", "offline_access"]
+      enablePKCEAuthentication: true
+      refreshTokenThreshold: 30m
     # Adding Applications health check
     resource.customizations.health.argoproj.io_Application: |
       hs = {}

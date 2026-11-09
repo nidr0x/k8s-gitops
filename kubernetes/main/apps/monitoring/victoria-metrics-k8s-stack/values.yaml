@@ -273,19 +273,25 @@ grafana:
       disable_initial_admin_creation: false
       login_attempt_limit: 0
       login_maximum_inactive_lifetime_days: 7
-    auth.google:
+    auth.generic_oauth:
       enabled: true
+      name: Pocket ID
       allow_sign_up: true
       auto_login: true
-      client_id: $__env{GF_AUTH_GOOGLE_CLIENT_ID}
-      client_secret: $__env{GF_AUTH_GOOGLE_CLIENT_SECRET}
-      scopes: openid email profile
-      auth_url: https://accounts.google.com/o/oauth2/v2/auth
-      token_url: https://oauth2.googleapis.com/token
-      api_url: https://openidconnect.googleapis.com/v1/userinfo
-      allowed_domains: gmail.com
+      client_id: $__env{GF_AUTH_GENERIC_OAUTH_CLIENT_ID}
+      client_secret: $__env{GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET}
+      scopes: openid profile email groups offline_access
+      auth_url: https://id.nidr0x.win/authorize
+      token_url: https://id.nidr0x.win/api/oidc/token
+      api_url: https://id.nidr0x.win/api/oidc/userinfo
+      login_attribute_path: email
+      email_attribute_path: email
+      name_attribute_path: name
+      groups_attribute_path: groups
+      allowed_groups: grafana-admins grafana-viewers
       use_pkce: true
-      role_attribute_path: email=='nidr0x@gmail.com' && 'Admin' || 'Viewer'
+      use_refresh_token: true
+      role_attribute_path: "contains(groups[*], 'grafana-admins') && 'GrafanaAdmin' || contains(groups[*], 'grafana-viewers') && 'Viewer' || 'None'"
       role_attribute_strict: true
       allow_assign_grafana_admin: true
       skip_org_role_sync: false
