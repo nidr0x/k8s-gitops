@@ -268,6 +268,7 @@ grafana:
       auto_assign_org_role: Viewer
     auth:
       disable_login_form: true
+      oauth_allow_insecure_email_lookup: true
     security:
       angular_support_enabled: false
       disable_initial_admin_creation: false
