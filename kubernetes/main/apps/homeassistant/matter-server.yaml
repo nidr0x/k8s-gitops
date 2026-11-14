@@ -25,7 +25,7 @@ spec:
       containers:
         - name: matter-server
           # renovate: datasource=docker depName=ghcr.io/matter-js/matterjs-server
-          image: ghcr.io/matter-js/matterjs-server:stable@sha256:ee149c7c67eff0e90f131e8f0d628f7b099591ec58473c8cda1209e8ae4df66e
+          image: ghcr.io/matter-js/matterjs-server:stable@sha256:9eb98c839d0b4b07f9230b96ad52de570f7f2a7c286c5992b4c04b6b26c08a3f
           imagePullPolicy: IfNotPresent
           args:
             - --primary-interface
