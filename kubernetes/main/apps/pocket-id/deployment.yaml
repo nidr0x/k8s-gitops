@@ -27,7 +27,7 @@ spec:
           type: RuntimeDefault
       containers:
         - name: pocket-id
-          image: ghcr.io/pocket-id/pocket-id:v2.19.2-distroless
+          image: ghcr.io/pocket-id/pocket-id:v2.19.3-distroless
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
