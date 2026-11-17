@@ -26,7 +26,7 @@ spec:
           type: RuntimeDefault
       initContainers:
         - name: create-password-file
-          image: eclipse-mosquitto:2.1.2-alpine
+          image: eclipse-mosquitto:2.1.4-alpine
           imagePullPolicy: IfNotPresent
           command:
             - sh
@@ -79,7 +79,7 @@ spec:
       containers:
         - name: mosquitto
           # renovate: datasource=docker depName=eclipse-mosquitto
-          image: eclipse-mosquitto:2.1.2-alpine
+          image: eclipse-mosquitto:2.1.4-alpine
           imagePullPolicy: IfNotPresent
           command:
             - mosquitto
