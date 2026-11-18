@@ -1,4 +1,11 @@
-replicaCount: 2
+# The chart allows a single replica: concurrent instances would submit
+# duplicate record changes to the provider.
+replicaCount: 1
+
+# Upsert-only keeps DNS records that are no longer rendered by a source.
+# Deleting them automatically is a separate decision, so do not use "sync"
+# until every record in the zone is known to be owned by external-dns.
+policy: upsert-only
 
 commonLabels:
   alerts.nidr0x.win/enabled: "true"

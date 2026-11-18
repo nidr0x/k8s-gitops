@@ -3,6 +3,12 @@ kind: Gateway
 metadata:
   name: internal
   namespace: gateway
+  annotations:
+    # The gateway-httproute source derives record targets from the parent
+    # Gateway, not from the HTTPRoute. Without this override every hostname
+    # attached here resolves to the private 192.168.1.221 address, which
+    # Cloudflare rejects for proxied records.
+    external-dns.alpha.kubernetes.io/target: ip.nidr0x.win
 spec:
   gatewayClassName: cilium
   addresses:
