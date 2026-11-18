@@ -73,3 +73,6 @@ spec:
   backupOwnerReference: self
   cluster:
     name: pocket-id-database
+  method: plugin
+  pluginConfiguration:
+    name: barman-cloud.cloudnative-pg.io
