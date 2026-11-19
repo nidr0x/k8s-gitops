@@ -1,14 +1,6 @@
 # The cluster runs Kyverno 1.20, where kyverno.io legacy policy types are not
-# executed at all. The four legacy resources this repository shipped are gone
-# in this change: the certificate is read from cert-manager through a
-# ReferenceGrant, and the remaining policies are CEL policies.
-#
-# The chart's upgrade hook still runs before the manifests that prune those
-# objects, so acknowledge the gate for this sync. Remove this setting in a
-# follow-up now that no legacy resource remains.
-upgrade:
-  acknowledgeLegacyPoliciesNotEnforced: true
-
+# executed. The last legacy resources were migrated to policies.kyverno.io, so
+# the chart's upgrade check runs again and blocks the release if one returns.
 admissionController:
   replicas: 3
   podDisruptionBudget:
