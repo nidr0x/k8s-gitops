@@ -317,12 +317,15 @@ vmagent:
               storage: 5Gi
     nodeSelector:
       kubernetes.io/hostname: worker-01
+    # The apiserver /metrics response is ~18 MiB, above the 16 MiB default.
+    extraArgs:
+      promscrape.maxScrapeSize: "67108864"
     resources:
       requests:
         cpu: 50m
-        memory: 128Mi
+        memory: 192Mi
       limits:
-        memory: 256Mi
+        memory: 512Mi
     podDisruptionBudget:
       minAvailable: 1
     topologySpreadConstraints:
