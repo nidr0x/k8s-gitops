@@ -4,6 +4,7 @@ metadata:
   name: pocket-id
   labels:
     app: pocket-id
+    alerts.nidr0x.win/enabled: "true"
 spec:
   replicas: 1
   strategy:
@@ -15,6 +16,7 @@ spec:
     metadata:
       labels:
         app: pocket-id
+        alerts.nidr0x.win/enabled: "true"
     spec:
       serviceAccountName: pocket-id
       automountServiceAccountToken: false
