@@ -1,5 +1,5 @@
 resource "proxmox_network_linux_bridge" "vmbr0" {
-  node_name = "annapurna"
+  node_name = "everest"
   name      = "vmbr0"
 
   address   = "192.168.1.11/24"

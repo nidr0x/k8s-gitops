@@ -1,6 +1,6 @@
 import {
   to = proxmox_network_linux_bridge.vmbr0
-  id = "annapurna:vmbr0"
+  id = "everest:vmbr0"
 }
 
 import {
@@ -14,8 +14,8 @@ import {
 }
 
 import {
-  to = proxmox_node_config.annapurna
-  id = "annapurna"
+  to = proxmox_node_config.everest
+  id = "everest"
 }
 
 import {
@@ -25,40 +25,35 @@ import {
 
 import {
   to = proxmox_virtual_environment_vm.controlplane_01
-  id = "annapurna/100"
+  id = "everest/100"
 }
 
 import {
   to = proxmox_virtual_environment_vm.worker_01
-  id = "annapurna/101"
-}
-
-import {
-  to = proxmox_virtual_environment_vm.debian_12_template
-  id = "annapurna/102"
+  id = "everest/101"
 }
 
 import {
   to = proxmox_virtual_environment_vm.controlplane_02
-  id = "annapurna/103"
+  id = "everest/103"
 }
 
 import {
   to = proxmox_virtual_environment_vm.worker_03
-  id = "annapurna/104"
+  id = "k2/104"
 }
 
 import {
   to = proxmox_virtual_environment_vm.worker_02
-  id = "annapurna/105"
+  id = "k2/105"
 }
 
 import {
   to = proxmox_virtual_environment_vm.controlplane_03
-  id = "annapurna/106"
+  id = "k2/106"
 }
 
 import {
   to = proxmox_virtual_environment_vm.opensre
-  id = "annapurna/107"
+  id = "everest/107"
 }

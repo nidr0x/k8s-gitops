@@ -40,8 +40,8 @@ variable "proxmox_ssh_agent" {
   default     = true
 }
 
-variable "annapurna_ssh_address" {
-  description = "SSH-reachable address for the annapurna Proxmox node."
+variable "proxmox_ssh_address" {
+  description = "SSH-reachable address for the primary Proxmox node (everest)."
   type        = string
   default     = null
   nullable    = true

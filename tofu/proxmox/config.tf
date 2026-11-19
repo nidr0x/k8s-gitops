@@ -1,5 +1,5 @@
-resource "proxmox_node_config" "annapurna" {
-  node_name = "annapurna"
+resource "proxmox_node_config" "everest" {
+  node_name = "everest"
 
   lifecycle {
     prevent_destroy = true

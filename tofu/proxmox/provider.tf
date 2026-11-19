@@ -9,10 +9,10 @@ provider "proxmox" {
     private_key = var.proxmox_ssh_private_key
 
     dynamic "node" {
-      for_each = var.annapurna_ssh_address == null ? [] : [var.annapurna_ssh_address]
+      for_each = var.proxmox_ssh_address == null ? [] : [var.proxmox_ssh_address]
 
       content {
-        name    = "annapurna"
+        name    = "everest"
         address = node.value
       }
     }
