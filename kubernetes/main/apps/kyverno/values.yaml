@@ -1,9 +1,11 @@
-# Kyverno 1.19.2 still evaluates the kyverno.io/v1 policies in this directory
-# (the certificate clone keeps syncing), but the chart's upgrade hook refuses
-# to finish the release until those resources move to policies.kyverno.io.
-# Acknowledge the gate so Argo CD can complete the sync; the CEL migration of
-# disallow-latest-tag, unique-ingress-host and sync-gateway-secret is tracked
-# as separate work.
+# The cluster runs Kyverno 1.20, where kyverno.io legacy policy types are not
+# executed at all. The four legacy resources this repository shipped are gone
+# in this change: the certificate is read from cert-manager through a
+# ReferenceGrant, and the remaining policies are CEL policies.
+#
+# The chart's upgrade hook still runs before the manifests that prune those
+# objects, so acknowledge the gate for this sync. Remove this setting in a
+# follow-up now that no legacy resource remains.
 upgrade:
   acknowledgeLegacyPoliciesNotEnforced: true
 

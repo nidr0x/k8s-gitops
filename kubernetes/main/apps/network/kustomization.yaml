@@ -3,5 +3,6 @@ kind: Kustomization
 
 resources:
   - gatewayclass.yaml
+  - reference-grant.yaml
   - gw-external.yaml
   - gw-internal.yaml

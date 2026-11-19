@@ -21,8 +21,12 @@ spec:
       hostname: "*.nidr0x.win"
       tls:
         certificateRefs:
+          # Read the certificate where cert-manager writes it. Cilium resolves
+          # cross-namespace Secret references when a ReferenceGrant allows it,
+          # so no copy has to be kept in sync in this namespace.
           - kind: Secret
             name: prod-cert-zerossl
+            namespace: cert-manager
       allowedRoutes:
         namespaces:
           from: All
@@ -32,8 +36,12 @@ spec:
       hostname: nidr0x.win
       tls:
         certificateRefs:
+          # Read the certificate where cert-manager writes it. Cilium resolves
+          # cross-namespace Secret references when a ReferenceGrant allows it,
+          # so no copy has to be kept in sync in this namespace.
           - kind: Secret
             name: prod-cert-zerossl
+            namespace: cert-manager
       allowedRoutes:
         namespaces:
           from: All
