@@ -12,4 +12,4 @@ machine:
             metric: 100
   nodeLabels:
     topology.kubernetes.io/region: homelab
-    topology.kubernetes.io/zone: annapurna
+    topology.kubernetes.io/zone: k2
