@@ -37,6 +37,13 @@ provider: cloudflare
 
 extraArgs:
   - --cloudflare-proxied
+  # external-dns 0.23 moved its annotations to the external-dns.kubernetes.io
+  # prefix and only reads the legacy external-dns.alpha.kubernetes.io prefix
+  # when this flag is set. Every route and gateway in this repository still
+  # uses the legacy prefix, so without it the target annotation is ignored and
+  # records fall back to the private gateway addresses, which Cloudflare
+  # rejects for proxied records (error 9003).
+  - --enable-legacy-annotation-prefix
   - --annotation-filter=external-dns.alpha.kubernetes.io/target
 
 env:
