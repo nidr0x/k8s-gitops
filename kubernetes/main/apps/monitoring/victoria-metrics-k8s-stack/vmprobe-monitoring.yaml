@@ -13,6 +13,15 @@ spec:
     static:
       targets:
         - https://monitoring.nidr0x.win/grafana/api/health
+        - https://id.nidr0x.win/healthz
+        - https://ha.nidr0x.win/
+        - https://dns.nidr0x.win/
+        - https://rss.nidr0x.win/
+        - https://n8n.nidr0x.win/
+        - https://tesla.nidr0x.win/
+        - https://homebridge.nidr0x.win/
+        - https://wallos.nidr0x.win/
+        - https://argocd.nidr0x.win/
 ---
 apiVersion: operator.victoriametrics.com/v1beta1
 kind: VMRule
@@ -26,11 +35,11 @@ spec:
           expr: |
             absent(probe_success{job="monitoring-public-health"})
             or
-            min(probe_success{job="monitoring-public-health"}) == 0
+            min by (instance) (probe_success{job="monitoring-public-health"}) == 0
           for: 5m
           labels:
             severity: warning
             scope: observability
           annotations:
-            description: Grafana's public health endpoint has failed HTTP probes for at least five minutes.
-            summary: The public monitoring endpoint is unavailable.
+            description: Public endpoint {{ $labels.instance }} has failed HTTP probes for at least five minutes.
+            summary: A public service endpoint is unavailable.
