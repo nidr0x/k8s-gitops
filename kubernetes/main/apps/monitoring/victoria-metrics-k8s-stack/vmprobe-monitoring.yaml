@@ -13,15 +13,6 @@ spec:
     static:
       targets:
         - https://monitoring.nidr0x.win/grafana/api/health
-        - https://id.nidr0x.win/healthz
-        - https://ha.nidr0x.win/
-        - https://dns.nidr0x.win/
-        - https://rss.nidr0x.win/
-        - https://n8n.nidr0x.win/
-        - https://tesla.nidr0x.win/
-        - https://homebridge.nidr0x.win/
-        - https://wallos.nidr0x.win/
-        - https://argocd.nidr0x.win/
 ---
 apiVersion: operator.victoriametrics.com/v1beta1
 kind: VMRule
