@@ -27,6 +27,10 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Resolve Kubernetes version
+        run: |
+          echo "KUBERNETES_VERSION=$(yq -r '.kubernetesVersion' talos/topf.yaml | sed 's/^v//')" >> "$GITHUB_ENV"
+
       - name: Validate Kubernetes object syntax
         run: |
           docker run --rm \
@@ -35,7 +39,7 @@ jobs:
             ghcr.io/yannh/kubeconform:v0.6.7 \
             -strict \
             -summary \
-            -kubernetes-version 1.37.2 \
+            -kubernetes-version "$KUBERNETES_VERSION" \
             -schema-location default \
             -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/c86448cbf1a840ca62d119259864863897c8748a/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' \
             argocd/apps \
@@ -68,6 +72,10 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Resolve Kubernetes version
+        run: |
+          echo "KUBERNETES_VERSION=$(yq -r '.kubernetesVersion' talos/topf.yaml | sed 's/^v//')" >> "$GITHUB_ENV"
+
       - name: Install kustomize
         run: |
           curl -sSL \
@@ -98,7 +106,7 @@ jobs:
             -summary \
             -ignore-missing-schemas \
             -skip VMProbe \
-            -kubernetes-version 1.37.2 \
+            -kubernetes-version "$KUBERNETES_VERSION" \
             -schema-location default \
             -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/c86448cbf1a840ca62d119259864863897c8748a/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' \
             rendered-manifests.yaml
