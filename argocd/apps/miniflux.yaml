@@ -3,7 +3,7 @@ kind: Application
 metadata:
   name: miniflux
   annotations:
-    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-wave: "6"
 spec:
   destination:
     namespace: miniflux
