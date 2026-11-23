@@ -3,6 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: homeassistant-config-pvc
 spec:
+  volumeName: homeassistant-config-nfs4
   storageClassName: nfs
   accessModes:
     - ReadWriteMany

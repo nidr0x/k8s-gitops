@@ -23,6 +23,7 @@ resources:
   - database.yaml
   - secret.yaml
   - pv.yaml
+  - pv-nfs4.yaml
   - pvc.yaml
   - deployment.yaml
   - matter-server.yaml

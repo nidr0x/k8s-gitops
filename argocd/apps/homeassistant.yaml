@@ -25,6 +25,11 @@ spec:
       jsonPointers:
         - /spec/claimRef
     - group: ""
+      kind: PersistentVolume
+      name: homeassistant-config-nfs4
+      jsonPointers:
+        - /spec/claimRef
+    - group: ""
       kind: PersistentVolumeClaim
       name: homeassistant-config-pvc
       namespace: homeassistant
