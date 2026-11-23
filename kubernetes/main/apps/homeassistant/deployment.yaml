@@ -53,6 +53,7 @@ spec:
           volumeMounts:
             - name: homeassistant-config
               mountPath: /config
+              subPath: homeassistant
             - name: homeassistant-config-file
               mountPath: /config/theme-source/everest.yaml
               subPath: everest.yaml
@@ -70,6 +71,7 @@ spec:
           volumeMounts:
             - name: homeassistant-config
               mountPath: /config
+              subPath: homeassistant
             - name: homeassistant-localthings-installer
               mountPath: /installer
         - name: check-config
@@ -99,6 +101,7 @@ spec:
           volumeMounts:
             - name: homeassistant-config
               mountPath: /config
+              subPath: homeassistant
             - name: homeassistant-config-file
               mountPath: /config/configuration.yaml
               subPath: configuration.yaml
@@ -138,6 +141,7 @@ spec:
           volumeMounts:
             - name: homeassistant-config
               mountPath: /config
+              subPath: homeassistant
             - name: homeassistant-tesla-cable
               mountPath: /config/www/tesla-model-3-highland-white.webp
               subPath: tesla-model-3-highland-white.webp

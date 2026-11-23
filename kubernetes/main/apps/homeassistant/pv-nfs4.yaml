@@ -18,4 +18,4 @@ spec:
     volumeHandle: homeassistant-config-nfs4
     volumeAttributes:
       server: 192.168.1.10
-      share: /var/nfs/shared/homelab/homeassistant
+      share: /var/nfs/shared/homelab
