@@ -15,3 +15,11 @@ storageClass:
     ssd: true
     mountOptions:
       - noatime
+    allowedTopologies:
+      - matchLabelExpressions:
+          - key: topology.kubernetes.io/region
+            values:
+              - homelab
+          - key: topology.kubernetes.io/zone
+            values:
+              - everest
