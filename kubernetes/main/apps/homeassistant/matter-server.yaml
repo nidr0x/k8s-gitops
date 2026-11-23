@@ -45,7 +45,7 @@ spec:
           volumeMounts:
             - name: homeassistant-config
               mountPath: /data
-              subPath: matter-server
+              subPath: homeassistant/matter-server
           startupProbe:
             tcpSocket:
               port: websocket
