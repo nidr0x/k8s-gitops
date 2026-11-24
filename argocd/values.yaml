@@ -33,6 +33,11 @@ repoServer:
     maxReplicas: 3
     targetCPUUtilizationPercentage: 85
     targetMemoryUtilizationPercentage: 85
+  # maxUnavailable keeps the node drain possible at one replica while
+  # preserving the remaining ones once the HPA scales up.
+  pdb:
+    enabled: true
+    maxUnavailable: 1
   resources:
     requests:
       cpu: 100m
@@ -69,6 +74,9 @@ controller:
         matchLabels:
           app.kubernetes.io/name: argocd-application-controller
   replicas: 2
+  pdb:
+    enabled: true
+    maxUnavailable: 1
   resources:
     requests:
       cpu: 100m
@@ -114,6 +122,9 @@ server:
     minReplicas: 2
     targetCPUUtilizationPercentage: 65
     targetMemoryUtilizationPercentage: 65
+  pdb:
+    enabled: true
+    maxUnavailable: 1
   resources:
     requests:
       cpu: 100m
