@@ -1,0 +1,55 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMRule
+metadata:
+  name: argocd
+spec:
+  groups:
+    - name: argocd
+      rules:
+        - alert: ArgoCDApplicationSyncStuck
+          record: ""
+          annotations:
+            description: Application {{ $labels.name }} has kept a sync operation in phase {{ $labels.phase }} for more than 15 minutes. New changes under the affected paths cannot be reconciled meanwhile.
+            summary: Argo CD sync operation is not finishing.
+          expr: |
+            argocd_app_info{phase="Running"} == 1
+          for: 15m
+          labels:
+            severity: critical
+            scope: argocd
+        - alert: ArgoCDApplicationOutOfSync
+          record: ""
+          annotations:
+            description: Application {{ $labels.name }} has been OutOfSync for more than 30 minutes while automated sync is enabled, so it is failing to reconcile.
+            summary: Argo CD application is not reconciling.
+          expr: |
+            argocd_app_info{
+              sync_status="OutOfSync",
+              autosync_enabled="true"
+            } == 1
+          for: 30m
+          labels:
+            severity: critical
+            scope: argocd
+        - alert: ArgoCDApplicationDegraded
+          record: ""
+          annotations:
+            description: Application {{ $labels.name }} reports health status Degraded for more than 15 minutes.
+            summary: Argo CD application is degraded.
+          expr: |
+            argocd_app_info{health_status="Degraded"} == 1
+          for: 15m
+          labels:
+            severity: critical
+            scope: argocd
+        - alert: ArgoCDMetricsMissing
+          record: ""
+          annotations:
+            description: The application controller metrics have not been scraped for more than 10 minutes, so the Argo CD alerts above cannot fire.
+            summary: Argo CD metrics are not being collected.
+          expr: |
+            absent(argocd_app_info)
+          for: 10m
+          labels:
+            severity: critical
+            scope: argocd

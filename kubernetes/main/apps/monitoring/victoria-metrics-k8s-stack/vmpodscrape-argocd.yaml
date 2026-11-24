@@ -1,0 +1,24 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMPodScrape
+metadata:
+  name: argocd
+spec:
+  namespaceSelector:
+    matchNames:
+      - argocd
+  selector:
+    matchLabels:
+      app.kubernetes.io/part-of: argocd
+    matchExpressions:
+      # Redis only exposes its service port and Dex declares a metrics port
+      # without serving it, so neither has anything to scrape.
+      - key: app.kubernetes.io/component
+        operator: NotIn
+        values:
+          - redis
+          - dex-server
+  podMetricsEndpoints:
+    - port: metrics
+      path: /metrics
+      scheme: http
+      interval: 60s
