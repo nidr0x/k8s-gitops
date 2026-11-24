@@ -3,6 +3,8 @@ kind: Kustomization
 namespace: miniflux
 resources:
   - deployment.yaml
+  - web-deployment.yaml
+  - pdb.yaml
   - http-route.yaml
   - network-policies.yaml
   - service.yaml

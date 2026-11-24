@@ -14,7 +14,7 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app: miniflux
+      app.kubernetes.io/name: miniflux
   policyTypes:
     - Ingress
   ingress:
@@ -51,7 +51,7 @@ spec:
     - from:
         - podSelector:
             matchLabels:
-              app: miniflux
+              app.kubernetes.io/name: miniflux
       ports:
         - protocol: TCP
           port: 5432
