@@ -3,6 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: homebridge-config-pvc
 spec:
+  volumeName: homebridge-config-nfs4
   storageClassName: nfs
   accessModes:
     - ReadWriteMany
