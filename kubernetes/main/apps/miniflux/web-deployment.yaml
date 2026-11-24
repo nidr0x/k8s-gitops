@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: miniflux-web
+  labels:
+    alerts.nidr0x.win/enabled: "true"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: miniflux
+      component: web
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: miniflux
+        component: web
+        alerts.nidr0x.win/enabled: "true"
+    spec:
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "2"
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: miniflux
+      containers:
+        - name: miniflux
+          image: miniflux/miniflux:2.3.5
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 256Mi
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: TZ
+              value: UTC
+            - name: POLLING_PARSING_ERROR_LIMIT
+              value: "0"
+            - name: LISTEN_ADDR
+              value: 0.0.0.0:8080
+            - name: BASE_URL
+              value: https://rss.nidr0x.win/miniflux/
+            - name: AUTH_PROXY_HEADER
+              value: Cf-Access-Authenticated-User-Email
+            - name: AUTH_PROXY_USER_CREATION
+              value: "1"
+            - name: DISABLE_LOCAL_AUTH
+              value: "1"
+            - name: TRUSTED_REVERSE_PROXY_NETWORKS
+              value: 0.0.0.0/0
+            # The scheduler and the migrations stay on the single miniflux
+            # replica so that feeds are polled once and migrations never run
+            # concurrently from two pods.
+            - name: DISABLE_SCHEDULER_SERVICE
+              value: "1"
+            - name: RUN_MIGRATIONS
+              value: "0"
+            - name: CREATE_ADMIN
+              value: "0"
+            - name: DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: miniflux-database-app
+                  key: username
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: miniflux-database-app
+                  key: password
+            - name: DATABASE_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: miniflux-database-app
+                  key: host
+            - name: DATABASE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: miniflux-database-app
+                  key: dbname
+            - name: DATABASE_URL
+              value: >-
+                user=$(DATABASE_USER) password=$(DATABASE_PASSWORD)
+                host=$(DATABASE_HOST) dbname=$(DATABASE_NAME) sslmode=disable
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+      restartPolicy: Always

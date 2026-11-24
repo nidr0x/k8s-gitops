@@ -12,7 +12,7 @@ spec:
       port: 8080
       targetPort: http
   selector:
-    app: miniflux
+    app.kubernetes.io/name: miniflux
 ---
 apiVersion: v1
 kind: Service

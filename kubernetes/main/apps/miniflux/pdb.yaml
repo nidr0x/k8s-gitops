@@ -1,0 +1,21 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: miniflux-pdb
+spec:
+  # One scheduler pod plus two web pods. A drain may take one at a time and
+  # the service keeps answering through the remaining replicas.
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: miniflux
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: nextflux-pdb
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: nextflux

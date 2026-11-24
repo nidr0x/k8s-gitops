@@ -16,6 +16,7 @@ spec:
     metadata:
       labels:
         app: miniflux
+        app.kubernetes.io/name: miniflux
         alerts.nidr0x.win/enabled: "true"
     spec:
       dnsConfig:
@@ -112,7 +113,7 @@ metadata:
   labels:
     alerts.nidr0x.win/enabled: "true"
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: nextflux
@@ -126,6 +127,13 @@ spec:
         options:
           - name: ndots
             value: "2"
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: nextflux
       containers:
         - name: nextflux
           image: electh/nextflux:sha-a9f97de654d00f62cbbad877d583fae7cd76ec59
