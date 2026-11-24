@@ -9,6 +9,7 @@ resources:
   - freekiosk-mqtt-secret.yaml
   - mqtt-configmap.yaml
   - mqtt-acl-configmap.yaml
+  - mqtt-pv.yaml
   - mqtt-pvc.yaml
   - mqtt-service.yaml
   - mqtt-deployment.yaml

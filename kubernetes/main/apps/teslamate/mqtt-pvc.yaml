@@ -3,6 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: teslamate-mqtt-data
 spec:
+  volumeName: teslamate-mqtt-data-nfs4
   storageClassName: nfs
   accessModes:
     - ReadWriteOnce
