@@ -31,8 +31,8 @@ spec:
         isWALArchiver: false
         name: barman-cloud.cloudnative-pg.io
         parameters:
-          barmanObjectName: teslamate-database
-          serverName: teslamate-database-pg18
+          barmanObjectName: teslamate-database-k2
+          serverName: teslamate-database-k2
 
   plugins:
     - name: barman-cloud.cloudnative-pg.io

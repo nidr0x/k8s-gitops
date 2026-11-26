@@ -33,8 +33,8 @@ spec:
         isWALArchiver: false
         name: barman-cloud.cloudnative-pg.io
         parameters:
-          barmanObjectName: miniflux-database
-          serverName: miniflux-database-pg18
+          barmanObjectName: miniflux-database-k2
+          serverName: miniflux-database-k2
 
   logLevel: info
 

@@ -53,3 +53,7 @@ task bootstrap:summary
 Talos nodes using `cni: none` remain `NotReady` until Cilium is installed. The bootstrap label and Argo CD control-plane tolerations give Argo CD a narrow escape hatch so it can reconcile `cilium` without making the rest of the cluster permanently schedulable on control planes.
 
 After the label is removed, `task bootstrap:rebalance-argocd` restarts the Argo CD core workloads so they are re-evaluated by the scheduler against the normal worker pool instead of simply staying where they first landed.
+
+## Restoring data
+
+Before bootstrapping over existing backups, follow [database restore](database-restore.md#restore-after-losing-the-whole-cluster).
