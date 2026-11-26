@@ -110,3 +110,113 @@ jobs:
             -schema-location default \
             -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/c86448cbf1a840ca62d119259864863897c8748a/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' \
             rendered-manifests.yaml
+
+  helm:
+    name: Validate Helm applications
+    # Argo CD renders the Helm sources below with the chart version, value files
+    # and parameters declared in each Application. Rendering them here catches
+    # invalid values and chart regressions before a sync does.
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Resolve Kubernetes version
+        run: |
+          echo "KUBERNETES_VERSION=$(yq -r '.kubernetesVersion' talos/topf.yaml | sed 's/^v//')" >> "$GITHUB_ENV"
+
+      - name: Install Helm
+        # Pin Helm so a runner image update cannot change rendering behaviour.
+        run: |
+          curl -sSL \
+            "https://get.helm.sh/helm-v3.22.1-linux-amd64.tar.gz" \
+            | tar -xz -C /tmp linux-amd64/helm
+          install -m 0755 /tmp/linux-amd64/helm /usr/local/bin/helm
+
+      - name: Render applications
+        run: |
+          set -euo pipefail
+          : > rendered-helm.yaml
+          rendered=0
+
+          while IFS= read -r -d '' file; do
+            if [[ "$(yq -r '.kind // ""' "$file")" != "Application" ]]; then
+              continue
+            fi
+
+            app="$(yq -r '.metadata.name' "$file")"
+            namespace="$(yq -r '.spec.destination.namespace // "default"' "$file")"
+
+            while IFS=$'\t' read -r repository chart version value_files parameters; do
+              if [[ "$repository" == http* ]]; then
+                args=(template "$app" "$chart" --repo "$repository" --version "$version" --namespace "$namespace")
+              else
+                # OCI registries are addressed by their full chart reference.
+                args=(template "$app" "oci://${repository#oci://}/$chart" --version "$version" --namespace "$namespace")
+              fi
+
+              if [[ -n "$value_files" ]]; then
+                IFS=',' read -r -a files <<< "$value_files"
+                for value_file in "${files[@]}"; do
+                  if [[ "$value_file" == \$* ]]; then
+                    value_file="${value_file#*/}"
+                  fi
+                  args+=(-f "$value_file")
+                done
+              fi
+
+              if [[ -n "$parameters" ]]; then
+                IFS=',' read -r -a overrides <<< "$parameters"
+                for override in "${overrides[@]}"; do
+                  args+=(--set "$override")
+                done
+              fi
+
+              printf -- '---\n' >> rendered-helm.yaml
+              if ! helm "${args[@]}" >> rendered-helm.yaml; then
+                echo "::error::Failed to render $app ($chart $version)"
+                exit 1
+              fi
+              echo "Rendered $app ($chart $version)"
+              rendered=$((rendered + 1))
+            done < <(yq -r '
+              (.spec.sources // (if .spec.source then [.spec.source] else [] end))
+              | map(select(.chart != null))
+              | map([
+                  .repoURL,
+                  .chart,
+                  .targetRevision,
+                  ((.helm.valueFiles // []) | join(",")),
+                  ((.helm.parameters // []) | map("\(.name)=\(.value)") | join(","))
+                ])
+              | .[]
+              | @tsv
+            ' "$file")
+          done < <(find argocd -name '*.yaml' -print0 | sort -z)
+
+          if ((rendered == 0)); then
+            echo "::error::No Helm applications were rendered."
+            exit 1
+          fi
+
+          echo "Rendered $rendered Helm applications."
+
+      - name: Validate Kubernetes object syntax
+        run: |
+          docker run --rm \
+            --volume "$GITHUB_WORKSPACE:/work:ro" \
+            --workdir /work \
+            ghcr.io/yannh/kubeconform:v0.6.7 \
+            -strict \
+            -summary \
+            -ignore-missing-schemas \
+            -kubernetes-version "$KUBERNETES_VERSION" \
+            -schema-location default \
+            -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/c86448cbf1a840ca62d119259864863897c8748a/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' \
+            rendered-helm.yaml
