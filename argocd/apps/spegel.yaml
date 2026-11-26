@@ -17,7 +17,7 @@ spec:
       targetRevision: master
       path: kubernetes/main/apps/spegel/
     - repoURL: ghcr.io/spegel-org/helm-charts
-      targetRevision: 0.8.1
+      targetRevision: 0.8.2
       chart: spegel
       helm:
         parameters:
