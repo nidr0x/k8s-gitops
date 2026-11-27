@@ -33,8 +33,8 @@ spec:
         isWALArchiver: false
         name: barman-cloud.cloudnative-pg.io
         parameters:
-          barmanObjectName: n8n-database
-          serverName: n8n-database-v1
+          barmanObjectName: n8n-database-k2
+          serverName: n8n-database-k2
 
   plugins:
     - name: barman-cloud.cloudnative-pg.io

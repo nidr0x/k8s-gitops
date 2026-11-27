@@ -6,9 +6,19 @@ spec:
   instances: 1
   imageName: ghcr.io/cloudnative-pg/postgresql:18.4-standard-bookworm
   bootstrap:
-    initdb:
+    recovery:
       database: pocketid
       owner: pocketid
+      source: pocket-id-database-origin
+  externalClusters:
+    - name: pocket-id-database-origin
+      plugin:
+        enabled: true
+        isWALArchiver: false
+        name: barman-cloud.cloudnative-pg.io
+        parameters:
+          barmanObjectName: pocket-id-database
+          serverName: pocket-id-database-pg18
   plugins:
     - name: barman-cloud.cloudnative-pg.io
       isWALArchiver: true
